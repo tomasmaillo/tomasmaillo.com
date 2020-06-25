@@ -1,0 +1,43 @@
+@media only screen and (max-width: 1000px) {
+	.middle {
+		margin: 0px;
+	}
+    
+
+    .square-img{
+        width: 100px;
+        height: 100px;
+        object-fit:cover;
+        float: left;
+		
+    }
+
+    .rotate {
+        animation: rotation 10s infinite linear;
+        border-radius: 50%;
+      }
+
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+    }
+    
+    h1 {
+        margin-top: 20px;
+        margin-bottom: 0px;
+        
+        width: 90%;
+
+    }
+
+    .at {
+        margin-left: 120px;
+        font-size: 10em;
+        width:auto;
+        font-style: oblique;
+    }
+}
