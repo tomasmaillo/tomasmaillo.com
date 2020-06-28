@@ -1,4 +1,9 @@
-@media all and (min-width:321px) and (max-width: 480px) {
+@media all and (min-width:481px) {
+    
+    body {
+        padding: 1rm;
+    }
+    
     #navbar {
         width: 100%;
         height: 80px;
@@ -22,13 +27,22 @@
     }
 }
 
-@media all and (min-width:481px) {
+@media all and (min-width:0px) and (max-width: 480px) {
+    
+    body{
+        padding: 20px;
+    }
+    
+    #nav-holder{
+        min-height: 100px;
+    }
+    
     #navbar {
-        width: 100%;
+        width: auto;
         height: 100px;
         margin-left: auto;
         margin-right: auto;
-        max-width: 1000px;
+        position: fixed;
     }
     #at {
         margin: 0px;
@@ -66,8 +80,6 @@ body {
     color: white;
     font-family: monospace;
     margin: 0;
-    margin-left: 1rem;
-    margin-top: 1rem;
     font-size: 14px;
 }
 
@@ -75,7 +87,7 @@ body {
     max-width: 1000px;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 3%;
+    margin-top: 120px;;
     margin-bottom: 0;
     padding: 50px;
     padding-top: 1px;
@@ -83,53 +95,68 @@ body {
     transition-duration: 1.5s;
 }
 
-p {
-    margin: 0px;
-    font-size: 1rem;
-}
 
-.post h2 {
-    font-size: clamp(20px, 4vw, 40px);
-}
 
-p.centered {
-    width: 100%;
-    text-align: center;
-}
-
-.introText {
-    margin-left: 0px;
-    margin-top: 20px;
-}
 
 #footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+    text-align: center;
 }
 
 iframe {
     border: none;
     width: 100%;
     height: 50%;
+    margin: 0;
     margin-left: auto;
     margin-right: auto;
 }
 
-h2 {
-    margin-top: 10px;
-    margin-bottom: 0px;
-    font-size: 50px;
-    width: 90%;
+
+
+
+@media all and (min-width:0px) and (max-width: 480px) {
+    
+    .post h2 {
+        margin: 0px;
+        margin-top: 200px;
+        width: 100%;
+        font-size: 10vw;
+    }
+
+    .post {
+        margin-top: 50px;
+        font-size: clamp(20px, 4vw, 80px);
+    }
 }
 
-.post {
-    margin-top: 50px;
-    font-size: 1rem;
+@media all and (min-width:481px) {
+    
+    .post h2 {
+        margin-top: 10px;
+        margin-bottom: 0px;
+        
+        width: 100%;
+        font-size: clamp(50px, 4vw, 40px);
+    }
+
+    .post {
+        margin-top: 50px;
+        font-size: clamp(20px, 4vw, 80px);
+    }
 }
+
+
+
+
+
+
+
 
 a {
-    color: white;
+    color: #FFD3CA;
     transition: 0.2s;
 }
 
