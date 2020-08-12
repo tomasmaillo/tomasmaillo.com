@@ -3,7 +3,7 @@
 $("#change-theme-btn").click(function () {
     $("body").toggleClass("dark");
     if ($('body').hasClass('dark')) {
-        $("#change-theme-btn").text("🌞")
+        $("#change-theme-btn").text("🌞");
     } else {
         $("#change-theme-btn").text("🌘");
     }
@@ -14,11 +14,11 @@ $("#change-theme-btn").click(function () {
 console.log(Date.now().toString());
 
 if ((new Date().getHours() <= 7) || (20 <= new Date().getHours())) {
-    console.log("night")
-    
+    $("#change-theme-btn").text("🌞");
+    $("body").addClass("dark");
 } else {
-    console.log("day")
-    $("body").toggleClass("dark");
+    $("#change-theme-btn").text("🌘");
+    $("body").removeClass("dark");
 }
 
 
