@@ -14,11 +14,11 @@ $("#change-theme-btn").click(function () {
 console.log(Date.now().toString());
 
 if ((new Date().getHours() <= 7) || (20 <= new Date().getHours())) {
-    console.log("night")
-    
+    console.log("night");
+    $("body").addClass("dark");
 } else {
-    console.log("day")
-    $("body").toggleClass("dark");
+    console.log("day");
+    $("body").removeClass("dark");
 }
 
 
