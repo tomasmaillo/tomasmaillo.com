@@ -7,10 +7,14 @@ body {
     padding: 0;
     padding-top: 3vh;
     box-sizing: border-box;
+
+    
+    --font-h: 'Lato', sans-serif;
     --font-serif: 'Times N', sans-serif;
     --font-mono: 'Menlo', 'Monaco', monospace;
     /* default light-mode colors */
-    --foreground-default: #222;
+    
+    
     --foreground-light: #778;
     --background-default: #f8f8f8;
     --background-block: #eee;
@@ -29,27 +33,19 @@ body {
     --a-hover: rgba(235, 175, 175, 0.75);
 }
 
-.dark {
-    --foreground-default: #eee;
-    --foreground-light: #778;
-    --background-default: #333;
-    --background-block: #eee;
-    --background-hero: #222;
-    --accent: #333333;
-    --accent-transparent: rgba(10, 182, 165, .2);
-    --shadow: rgba(255, 255, 255, 0.14);
-    --project-card-outline: #555;
-}
 
 html {
+    --bbackground: gray;
+    --foreground-default: #222;
     /* adjust rem for page */
     font-size: 18px;
 }
 
 body {
+    
     font-family: var(--font-serif);
-    color: var(--foreground-default);
-    background: var(--background-default);
+    
+    background-color: var(--bbackground);
     display: flex;
     flex-direction: column;
 }
@@ -81,26 +77,26 @@ main {
 h1,
 h2,
 h3 {
+    font-family: var(--font-h);
     font-weight: normal;
     line-height: 1.325em;
     color: var(--foreground-default);
     margin-top: 1em;
-    margin-bottom: 1em;
-    border-bottom: 1px solid var(--foreground-light);
+    margin-bottom: 0.8em;
     display: inline-block;
     transition: 0.2s
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
 }
 
 h2 {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
 }
 
 h3 {
-    font-size: 1.25rem;
+    font-size: 1.75rem;
 }
 
 p,
@@ -122,7 +118,7 @@ li {
     h2,
     h3 {
         margin-top: 0.5em;
-        margin-bottom: .5em;
+        margin-bottom: 0.3em;
     }
     .desktop {
         display: initial !important;
@@ -132,6 +128,10 @@ li {
     }
 }
 
+::selection {
+    background-color: #2226;
+    color: white;
+}
 
 /* LINKS */
 
@@ -139,9 +139,8 @@ a {
     text-decoration: none;
     padding: 0 3px;
     border-radius: 3px;
-    color: var(--foreground-default);
+    color: black;
     transition: 0.4s;
-    border-bottom: 1px solid var(--project-card-outline);
     background: var(--a);
 }
 
@@ -184,8 +183,12 @@ a:hover {
     cursor: pointer;
     border-bottom: 0px;
     margin-right: 1rem;
+    color: #fffa;
 }
 
+#change-theme-btn:hover{
+    color: #ffff;
+}
 
 /* PROJECTS */
 
@@ -241,24 +244,25 @@ span.broken {
 }
 
 .key-holder.done {
-    background: linear-gradient(90deg, var(--done) 0%, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(90deg, var(--done) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.5) 100%);
 }
 
 .key-holder.working {
-    background: linear-gradient(90deg, var(--working) 0%, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(90deg, var(--working) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.5) 100%);
 }
 
 .key-holder.broken {
-    background: linear-gradient(90deg, var(--broken) 0%, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(90deg, var(--broken) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.5) 100%);
 }
 
 .project-holder {
+    background-color: #fff;
     margin-left: 0.8rem;
     margin-right: 0.8rem;
     margin-bottom: 0.8rem;
     padding: 0.8rem;
     border: 1px solid var(--project-card-outline);
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
 .project-holder:hover {
@@ -288,15 +292,16 @@ span.broken {
 }
 
 .project-holder.done {
-    background: linear-gradient(150deg, var(--done) 0%, rgba(255, 255, 255, 0) 15%, rgba(255, 255, 255, 0) 100%);
+    background:red;
+    background: linear-gradient(150deg, var(--done) 0%, rgba(255, 255, 255, 0.5) 15%, rgba(255, 255, 255, 0.5) 100%);
 }
 
 .project-holder.working {
-    background: linear-gradient(150deg, var(--working) 0%, rgba(255, 255, 255, 0) 15%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(150deg, var(--working) 0%, rgba(255, 255, 255, 0.5) 15%, rgba(255, 255, 255, 0.5) 100%);
 }
 
 .project-holder.broken {
-    background: linear-gradient(150deg, var(--broken) 0%, rgba(255, 255, 255, 0) 15%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(150deg, var(--broken) 0%, rgba(255, 255, 255, 0.5) 15%, rgba(255, 255, 255, 0.5) 100%);
 }
 
 /* PROJECT STORY */

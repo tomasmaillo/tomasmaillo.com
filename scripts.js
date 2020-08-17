@@ -1,39 +1,32 @@
-// Toggle dark - light theme
-
-$("#change-theme-btn").click(function () {
-    $("body").toggleClass("dark");
-    if ($('body').hasClass('dark')) {
-        $("#change-theme-btn").text("🌞");
-    } else {
-        $("#change-theme-btn").text("🌘");
-    }
+$(document).ready(function() {
+    updateTheme();
 });
 
 
-// Theme depending on client local time
-console.log(Date.now().toString());
+// Coloful theme 
 
-if ((new Date().getHours() <= 7) || (20 <= new Date().getHours())) {
-    console.log("night");
-    $("body").addClass("dark");
-} else {
-    console.log("day");
-    $("body").removeClass("dark");
+$("#change-theme-btn").click(function () {
+    updateTheme();
+});
+
+
+function updateTheme(){
+    let color = getRandomColor();
+    document.documentElement.style.setProperty("--bbackground", color + "22");
+    document.documentElement.style.setProperty("--foreground-default", color + "ff");
 }
 
 
-// Show project story
-/*
-$(".project-holder").click(function () {
-    if ($(this).attr('id') !== undefined) {
-        $(this).append("<iframe src='" + $(this).attr('id') + ".html'></iframe>");
-        $(this).removeAttr('id');
-    }
-    else {
-        $(this).append("<p class='project-description'>No story behind this one sorry</p>");
-    }
-});
-*/
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+
 
 // Toggle project filters
 
