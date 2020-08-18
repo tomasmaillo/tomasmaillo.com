@@ -2,7 +2,7 @@
 
 html,
 body {
-    transition: 0.4s;
+    transition: 0.2s;
     margin: 0;
     padding: 0;
     padding-top: 3vh;
@@ -196,8 +196,9 @@ a:hover {
     padding: 0.2rem;
     border: 1px solid var(--project-card-outline);
     border-radius: 4px;
-    transition: 0.5s;
+    transition: 0.3s;
     vertical-align: middle;
+    height: 1.15rem;
 }
 
 .key-holder i {
@@ -262,7 +263,7 @@ span.broken {
 
 .project-holder:hover {
     box-shadow: 0 10px 12px 0 var(--shadow), 0 17px 50px 0 rgba(0, 0, 0, 0.10);
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .project-title {
@@ -282,6 +283,7 @@ span.broken {
 }
 
 .project-links a {
+    margin-left: 5px;
     font-size: 0.8rem;
     cursor: pointer;
 }
