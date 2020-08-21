@@ -240,15 +240,15 @@ span.broken {
 }
 
 .key-holder.done {
-    background: linear-gradient(90deg, var(--done) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.5) 100%);
+    background: linear-gradient(90deg, var(--done) 0%, rgba(255, 255, 255, 1) 55%, rgba(255, 255, 255, 1) 100%);
 }
 
 .key-holder.working {
-    background: linear-gradient(90deg, var(--working) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.5) 100%);
+    background: linear-gradient(90deg, var(--working) 0%, rgba(255, 255, 255, 1) 55%, rgba(255, 255, 255, 1) 100%);
 }
 
 .key-holder.broken {
-    background: linear-gradient(90deg, var(--broken) 0%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.5) 100%);
+    background: linear-gradient(90deg, var(--broken) 0%, rgba(255, 255, 255, 1) 55%, rgba(255, 255, 255, 1) 100%);
 }
 
 .project-holder {
@@ -290,15 +290,15 @@ span.broken {
 
 .project-holder.done {
     background: red;
-    background: linear-gradient(150deg, var(--done) 0%, rgba(255, 255, 255, 0.5) 15%, rgba(255, 255, 255, 0.5) 100%);
+    background: linear-gradient(150deg, var(--done) 0%, rgba(255, 255, 255, 1) 15%, rgba(255, 255, 255, 1) 100%);
 }
 
 .project-holder.working {
-    background: linear-gradient(150deg, var(--working) 0%, rgba(255, 255, 255, 0.5) 15%, rgba(255, 255, 255, 0.5) 100%);
+    background: linear-gradient(150deg, var(--working) 0%, rgba(255, 255, 255, 1) 15%, rgba(255, 255, 255, 1) 100%);
 }
 
 .project-holder.broken {
-    background: linear-gradient(150deg, var(--broken) 0%, rgba(255, 255, 255, 0.5) 15%, rgba(255, 255, 255, 0.5) 100%);
+    background: linear-gradient(150deg, var(--broken) 0%, rgba(255, 255, 255, 1) 15%, rgba(255, 255, 255, 1) 100%);
 }
 
 

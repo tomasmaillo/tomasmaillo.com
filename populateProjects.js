@@ -1,7 +1,7 @@
 $.get("https://api.thingspeak.com/channels/1118584/feeds.json", function(data) {
 
     data["feeds"].forEach(element => {
-        //console.log(element);
+
         let newProject = "";
 
         newProject += `

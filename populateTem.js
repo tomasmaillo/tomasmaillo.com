@@ -4,8 +4,8 @@ $.get("https://api.thingspeak.com/channels/676492/feeds.json?results=1", functio
 
         $("#current-temp").text(element["field1"] + "°C");
         $("#current-hum").text(element["field2"] + "%");
-        console.log(new Date(element["created_at"]))
-        $("#temp-updated-time").text(dateToNiceString(new Date(element["created_at"])));
+
+        $("#temp-updated-time").text("Last update: " + dateToNiceString(new Date(element["created_at"])));
     });
 });
 
