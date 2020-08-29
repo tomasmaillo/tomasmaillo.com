@@ -11,7 +11,7 @@ $.get("https://api.thingspeak.com/channels/1118584/feeds.json", function(data) {
             <div class="project-links">`;
 
         newProject += element["field4"] != null ? `<a target="_blank" href="` + element["field4"] + `"><i class="fa fa-github"></i>GitHub</a>` : ``;
-        newProject += element["field5"] != null ? `<a target="_blank" href="` + element["field5"] + `"><i class="fa fa-chain"></i>GitHub</a>` : ``;
+        newProject += element["field5"] != null ? `<a target="_blank" href="` + element["field5"] + `"><i class="fa fa-chain"></i>Site</a>` : ``;
         newProject += element["field6"] != null ? `<a href="` + element["field6"] + `"><i class="fa fa-eye"></i>The story behind</a>` : ``;
 
         $("#projects-list").append(newProject);
