@@ -1,5 +1,6 @@
 $.get("https://api.thingspeak.com/channels/1118584/feeds.json", function(data) {
 
+    $("#projects-last-update").text(dateToNiceString(new Date(data["channel"]["updated_at"])))
     data["feeds"].forEach(element => {
 
         let newProject = "";
