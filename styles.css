@@ -25,12 +25,12 @@ body {
     --broken-light: rgba(255, 71, 60, 0.1);
     --shadow: rgba(0, 0, 0, 0.14);
     --project-card-outline: #dbdbdb;
-    --a: rgba(235, 175, 175, 0.45);
-    --a-hover: rgba(235, 175, 175, 0.75);
 }
 
 html {
-    --bbackground: white;
+    --a: rgba(235, 175, 175, 0.45);
+    --a-hover: rgba(235, 175, 175, 0.75);
+    --background: white;
     --foreground-default: #222;
     /* adjust rem for page */
     font-size: 18px;
@@ -38,7 +38,7 @@ html {
 
 body {
     font-family: var(--font-serif);
-    background-color: var(--bbackground);
+    background-color: var(--background);
     display: flex;
     flex-direction: column;
 }
