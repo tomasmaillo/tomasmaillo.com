@@ -1,62 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<title>Not a blog</title>
+		<meta property="og:image" content="thumbnail.jpg" />
+		<link rel="shortcut icon" type="image/x-icon" src="favicon.png" />
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=UA-171713862-1"
+		></script>
+		<meta
+			name="description"
+			content="I'm Tomas, 17 y/o programming enthusiast. I'm documenting my progess on this site."
+		/>
+		<script>
+			window.dataLayer = window.dataLayer || [];
 
-<head>
-    <title>Not a blog</title>
-    <meta property="og:image" content="thumbnail.jpg" />
-    <link rel="shortcut icon" type="image/x-icon" src="favicon.png" />
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171713862-1"></script>
-    <meta name="description" content="I'm Tomas, 17 y/o programming enthusiast. I'm documenting my progess on this site." />
-    <script>
-        window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag("js", new Date());
+			gtag("config", "UA-171713862-1");
+		</script>
 
-        gtag("config", "UA-171713862-1");
-    </script>
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
 
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap"
+			rel="stylesheet"
+		/>
 
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="styles.css" />
+	</head>
 
-    <link rel="stylesheet" href="styles.css" />
-</head>
+	<body>
+		<main>
+			<div class="overlay">
+				<img class="profile" src="me.jpg" alt="" />
+				<h1>Hi :D</h1>
 
-<body>
-    <main>
-        <div class="overlay">
-            <img class="profile" src="me.jpg" alt="">
-            <h1>Hi :D</h1>
+				<p style="margin-top: 0px">
+					<i>I'm Tomas, 18 y/o programming enthusiast</i>
+				</p>
 
-            <p style="margin-top: 0px">
-                <i>I'm Tomas, 18 y/o programming enthusiast</i>
-            </p>
-            <p>
-                Just some filler text till I decide whats gonna go here
-            </p>
+				<div id="general-links">
+					<a target="_blank" href="https://github.com/Tomasroma64">
+						<i class="fa fa-github"></i>GitHub
+					</a>
+					<a target="_blank" href="https://twitch.tv/tomasmaillo">
+						<i class="fa fa-twitch" style></i>Twitch
+					</a>
+					<a target="_blank" href="https://twitter.com/tomascodes">
+						<!-- no fa fa icon for tikto :( -->
+						<img
+							src="tiktokicon.png"
+							alt="Something"
+							height="20"
+							width="20"
+							style="
+								margin: 0px;
+								display: inline;
+								position: relative;
+								top: 3px;
+							"
+						/>Tiktok
+					</a>
+					<a
+						target="_blank"
+						href="https://www.instagram.com/tomasmaillo/"
+						><i class="fa fa-instagram"></i>Instagram</a
+					>
+				</div>
+			</div>
 
-            <div id="general-links">
-                <a target="_blank" href="https://github.com/Tomasroma64"><i class="fa fa-github"></i>GitHub</a
-          >
-          <a target="_blank" href="https://twitter.com/tomascodes"
-            ><i class="fa fa-twitter"></i>Twitter</a
-          >
-          <a target="_blank" href="https://www.instagram.com/tomasmaillo/"
-            ><i class="fa fa-instagram"></i>Instagram</a
-          >
-        </div>
-      </div>
-
-      
-	  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-      <script src="scripts.js"></script>
-      <!-- <script src="populateProjects.js"></script> -->
-      <script src="populateTemp.js"></script>
-    </main>
-  </body>
+			<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+			<script src="scripts.js"></script>
+			<!-- <script src="populateProjects.js"></script> -->
+			<script src="populateTemp.js"></script>
+		</main>
+	</body>
 </html>
