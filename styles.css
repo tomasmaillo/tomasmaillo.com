@@ -145,8 +145,7 @@ li {
 
 a {
 	text-decoration: none;
-	padding: 0 3px;
-	border-radius: 3px;
+	border-radius: 50%;
 	color: black;
 	transition: 1.5s;
 	background: var(--a);
@@ -159,15 +158,16 @@ a:hover {
 }
 
 #general-links {
-	margin: auto;
+	margin-top: 2rem;
 	display: flex;
-	justify-content: center;
 }
 
 #general-links a {
-	padding-top: 2px;
-	margin: 10px;
-	margin-bottom: 0px;
-	justify-content: center; /* horizontal */
-	align-items: center; /* vertical */
+	height: 2.5rem;
+	width: 2.5rem;
+	font-size: 1.3rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 0.8em;
 }
