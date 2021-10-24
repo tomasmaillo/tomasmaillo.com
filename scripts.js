@@ -2,11 +2,11 @@ function updateTheme() {
     let color = getRandomColor();
     document.documentElement.style.setProperty("--background", color + "22");
     document.documentElement.style.setProperty("--foreground-default", color + "ff");
-    document.documentElement.style.setProperty("--a", color + "44");
+    document.documentElement.style.setProperty("--a", color + "22");
 }
 
 updateTheme();
-setInterval(updateTheme, 1500)
+setInterval(updateTheme, 2000)
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
