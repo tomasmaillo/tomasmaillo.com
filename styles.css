@@ -38,7 +38,7 @@ body {
 	font-family: var(--font-serif);
 	display: flex;
 	flex-direction: column;
-	transition: 2.5s;
+	transition: background-color 2s;
 	background-color: var(--background) !important;
 }
 
@@ -51,7 +51,7 @@ body::-webkit-scrollbar {
 
 .overlay {
 	background-color: var(--background);
-	transition: 1.5s;
+	transition: background-color 1.5s;
 	margin: 1em;
 	max-width: unset;
 	width: calc(90% - 32px);
@@ -70,7 +70,6 @@ img {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	transition: 1.5s;
 }
 
 .profile {
@@ -91,7 +90,7 @@ h3 {
 	margin-top: 0em;
 	margin-bottom: 0em;
 	display: inline-block;
-	transition: 1.5s;
+	transition: color 1.5s;
 }
 
 h1 {
@@ -167,7 +166,7 @@ details[open] > summary::before {
 	text-decoration: none !important;
 	border-radius: 50%;
 	color: black !important;
-	transition: 1.5s;
+	transition: background-color 1.5s;
 	background: var(--a);
 }
 
@@ -177,7 +176,7 @@ a{
 	padding-left: 4px;
 	padding-right: 4px;
 	color: black !important;
-	transition: 1.5s;
+	transition: background-color 1.5s;
 	background: var(--a);
 }
 
