@@ -166,8 +166,8 @@ details[open] > summary::before {
 	text-decoration: none !important;
 	border-radius: 50%;
 	color: black !important;
-	transition: background-color 1.5s;
-	background: var(--a);
+	transition: background-color 1.5s, box-shadow 1.5s;
+	background-color: var(--a);
 }
 
 a{
@@ -176,12 +176,12 @@ a{
 	padding-left: 4px;
 	padding-right: 4px;
 	color: black !important;
-	transition: background-color 1.5s;
-	background: var(--a);
+	transition: background-color 1.5s, box-shadow 1.5s;
+	background-color: var(--a);
 }
 
 a:hover {
-	background: var(--a-hover);
+	background-color: var(--a-hover);
 	cursor: pointer;
 	box-shadow: 0 10px 12px 0 var(--shadow), 0 17px 50px 0 rgba(0, 0, 0, 0.1);
 }
