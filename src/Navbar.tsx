@@ -5,7 +5,6 @@ const StyledNavbar = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem;
   background-color: #fffaeb;
   border-bottom: 0.5px solid black;
   position: absolute;
@@ -15,9 +14,20 @@ const StyledNavbar = styled.div`
 
 const StyledNavbarItem = styled.a`
   color: black;
-  margin: 0.5rem;
+  padding: 16px;
   text-decoration: none;
+  margin: 0px 8px 0px 8px;
+  transition: 0.5s;
+  background: #fffaeb;
+
   &:hover {
+    background: hsla(185, 90%, 51%, 1);
+
+    background: radial-gradient(
+      circle,
+      hsla(185, 90%, 51%, 1) 0%,
+      hsla(45, 100%, 96%, 1) 53%
+    );
     text-decoration: underline;
   }
 `;
