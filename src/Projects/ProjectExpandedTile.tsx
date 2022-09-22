@@ -4,6 +4,7 @@ import { Project } from "./Project";
 
 import {
   TileContainer,
+  SubTitleContainer,
   CardContentContainer,
   Overlay,
   ContentContainer,
@@ -19,20 +20,25 @@ interface ProjectExpandedTileProps extends Project {
 const ProjectExpandedTile: FC<ProjectExpandedTileProps> = ({
   id,
   title,
+  subtitle,
   description,
   images,
   clearProjectSelection,
 }) => {
+  const isSmallDisplay = window.innerWidth < 700;
+
   return (
     <>
-      <Overlay
-        onClick={() => clearProjectSelection()}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0, transition: { duration: 0.15 } }}
-        transition={{ duration: 0.2, delay: 0.15 }}
-        style={{ pointerEvents: "auto" }}
-      />
+      {!isSmallDisplay && (
+        <Overlay
+          onClick={() => clearProjectSelection()}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, transition: { duration: 0.15 } }}
+          transition={{ duration: 0.2, delay: 0.15 }}
+          style={{ pointerEvents: "auto" }}
+        />
+      )}
       <CardContentContainer className="expanded">
         <CardContent className="expanded" layoutId={`card-container-${id}`}>
           <CardImageContainer
@@ -46,17 +52,17 @@ const ProjectExpandedTile: FC<ProjectExpandedTileProps> = ({
               draggable={false}
             />
           </CardImageContainer>
-          <TileContainer
-            className="expanded"
-            layoutId={`title-container-${id}`}
-          >
+          <TileContainer layoutId={`title-container-${id}`}>
             <h2>{title}</h2>
+            <SubTitleContainer>{subtitle}</SubTitleContainer>
+            <ContentContainer animate>{description}</ContentContainer>
           </TileContainer>
-          <ContentContainer animate>{description}</ContentContainer>
 
-          <TileCloseButton onClick={() => clearProjectSelection()}>
-            X helloooo
-          </TileCloseButton>
+          {isSmallDisplay && (
+            <TileCloseButton onClick={() => clearProjectSelection()}>
+              X helloooo
+            </TileCloseButton>
+          )}
         </CardContent>
       </CardContentContainer>
     </>

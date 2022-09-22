@@ -4,23 +4,21 @@ const projects: Project[] = [
   {
     id: "spotify",
     title: "Spotify",
-    description: (
-      <>
-        this is the description <br /> something else{" "}
-        <a style={{ color: "red" }}> jaksdflk</a>
-      </>
-    ),
-    images: ["./spotify.jpg"],
+    subtitle: "Summer of 2022: June - September",
+    description: <>Worked on a team of 3 to deliver a</>,
+    images: ["./spotify.gif"],
   },
   {
-    id: "hdsfi",
-    title: "ttl",
-    description: "dfsdf",
-    images: ["./pic.png"],
+    id: "btcglobe",
+    title: "BTC Globe",
+    subtitle: "2021",
+    description: "hiii",
+    images: ["./btcglobe.gif"],
   },
   {
     id: "ellu",
     title: "ttl",
+    subtitle: "Summer of 2022: June - September",
     description: "dfsdf",
     images: ["./pic.png"],
   },

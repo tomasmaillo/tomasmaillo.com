@@ -18,8 +18,8 @@ export const CardContentContainer = styled.div`
   height: 100%;
   position: relative;
   display: block;
-  pointer-events: none;
   border-radius: 20px;
+  border-collapse: separate;
 
   &.expanded {
     z-index: 2;
@@ -42,11 +42,10 @@ export const CardContent = styled(motion.div)`
   position: block;
   width: auto;
   border-radius: 20px;
+  border-collapse: separate;
   background: #ffffff;
   overflow: hidden;
   height: 10rem;
-
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.9);
 
   &.expanded {
     height: 100vh;
@@ -73,6 +72,15 @@ export const TileContainer = styled(motion.div)`
   color: black;
   position: relative;
   z-index: 2;
+  padding-left: 1rem;
+
+  > h2 {
+    margin-bottom: 8px;
+  }
+`;
+
+export const SubTitleContainer = styled.div`
+  font-style: italic;
 `;
 
 export const ContentContainer = styled(motion.div)`

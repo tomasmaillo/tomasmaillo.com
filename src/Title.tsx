@@ -22,7 +22,7 @@ const Title = (props: { text: string }) => {
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#FFFAEB";
 
-    const blockSpaces = isSmallDisplay ? 4 : 8;
+    const blockSpaces = isSmallDisplay ? 3 : 5;
     for (let i = 0; i < width; i += blockSpaces) {
       for (let j = 0; j < height; j += blockSpaces) {
         if (Math.random() > 0) {
@@ -43,8 +43,7 @@ const Title = (props: { text: string }) => {
     };
 
     ctx.font = `${fontSize}px 'Inconsolata'`;
-    ctx.fillStyle = "#223F8B";
-
+    ctx.fillStyle = "#4466ba";
     ctx.globalCompositeOperation = "source-atop";
     ctx.fillText(
       text,
@@ -52,6 +51,7 @@ const Title = (props: { text: string }) => {
       marginSize.y + shadowOffset.y + mousePos.y / 10
     );
 
+    ctx.fillStyle = "#4466ba";
     ctx.globalCompositeOperation = "source-over";
     ctx.fillText(
       text,
@@ -59,7 +59,9 @@ const Title = (props: { text: string }) => {
       marginSize.y + mousePos.y / 50
     );
 
-    ctx.font = `1em 'Inconsolata'`;
+    ctx.fillStyle = "#ba4477";
+
+    ctx.font = `1.2em 'Inconsolata'`;
     const descriptionText = isSmallDisplay
       ? "CS and AI student"
       : "Computer Science and Artificial Intelligence student";

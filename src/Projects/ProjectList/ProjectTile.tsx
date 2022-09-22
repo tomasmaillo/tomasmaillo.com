@@ -18,9 +18,6 @@ const ProjectTile: FC<Project> = ({ id, title, images }) => {
       <CardImageContainer layoutId={`card-image-container-${id}`}>
         <img className="card-image" src={images[0]} alt="" draggable={false} />
       </CardImageContainer>
-      <TileContainer layoutId={`title-container-${id}`}>
-        <h2>{title}</h2>
-      </TileContainer>
     </CardContent>
   );
 };
