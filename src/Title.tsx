@@ -1,11 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-
-const StyledCanvas = styled.canvas`
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
 
 const lerp = (a: number, b: number, t: number) => {
   return a + (b - a) * t;
@@ -110,9 +103,9 @@ const Title = (props: { text: string }) => {
   }, [draw]);
 
   return (
-    <StyledCanvas
+    <canvas
       width={window.innerWidth}
-      height={window.innerHeight}
+      height={window.innerHeight - 100}
       ref={canvasRef}
     />
   );

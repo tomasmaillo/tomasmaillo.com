@@ -1,10 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { OrbitControls, Float, Text, CatmullRomLine } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import {
+  OrbitControls,
+  Float,
+  Text,
+  CatmullRomLine,
+  SpotLight,
+} from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Vector3 } from "three";
 
 import styled from "styled-components";
-import Tomas from "./Tomas";
+
+import TomasSmol from "./TomasSmol";
 
 const BubbleTextVariants = [
   "Hi there! Thanks for checking my site out :D",
@@ -63,7 +71,7 @@ const BubbleText = () => {
       color={"black"}
       textAlign={"center"}
       fontSize={0.06}
-      maxWidth={0.6}
+      maxWidth={0.5}
       lineHeight={1}
       letterSpacing={0.02}
       anchorX="center"
@@ -83,7 +91,7 @@ const BubbleText = () => {
 
 const SpeechBubble = () => {
   return (
-    <group position={[0.6, 3, -0.3]} rotation={[0, Math.PI / 4, 0]}>
+    <group position={[0.5, 2.9, -0.2]} rotation={[0, Math.PI / 4, 0]}>
       <BubbleOutline />
       <BubbleText />
     </group>
@@ -92,13 +100,14 @@ const SpeechBubble = () => {
 
 const AvatarHolder = styled.div`
   position: absolute;
-  bottom: -40%;
   right: 0;
+  top: 0;
   width: 50%;
-  height: 60rem;
+  height: 200vh;
   /* background-color: #ffffff77; */
 
   @media (max-width: 768px) {
+    top: 25%;
     width: 100%;
   }
 `;
@@ -122,22 +131,61 @@ const DraggableIndicator = (props) => {
   );
 };
 
+function MovingLight({ vec = new Vector3(), ...props }) {
+  const light = useRef();
+  const viewport = useThree((state) => state.viewport);
+  useFrame((state) => {
+    light.current.target.position.lerp(
+      vec.set(
+        (state.mouse.x * viewport.width) / 2,
+        (state.mouse.y * viewport.height) / 2,
+        0
+      ),
+      0.1
+    );
+    light.current.target.updateMatrixWorld();
+  });
+  return (
+    <SpotLight
+      castShadow
+      ref={light}
+      penumbra={1}
+      distance={6}
+      angle={0.1}
+      attenuation={5}
+      anglePower={4}
+      intensity={10}
+      {...props}
+    />
+  );
+}
+
 const Avatar = () => {
   return (
     <AvatarHolder>
-      <Canvas camera={{ position: [2.5, 1.4, 2.5] }}>
-        <ambientLight />
+      {/* camera looking at avatar */}
+      <Canvas camera={{ position: [2.5, 1.4, 2.5], fov: 60 }}>
+        <MovingLight position={[3, 1, 2]} color="#0c8cbf" />
+        <MovingLight position={[4, 2, 3]} color="#b00c3f" />
+        <ambientLight intensity={0.1} />
         <axesHelper />
-        <OrbitControls dampingFactor={0.05} enableZoom={false} />
+        {window.innerWidth > 700 && (
+          <OrbitControls
+            dampingFactor={0.05}
+            enableZoom={false}
+            maxPolarAngle={(2 * Math.PI) / 3}
+            minPolarAngle={Math.PI / 4}
+          />
+        )}
         <Float
           speed={1} // Animation speed, defaults to 1
-          rotationIntensity={0.4} // XYZ rotation intensity, defaults to 1
+          rotationIntensity={0.2} // XYZ rotation intensity, defaults to 1
           floatIntensity={0.7} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-          floatingRange={[-2, -1.5]}
+          floatingRange={[-2.2, -2]}
         >
           <SpeechBubble />
           <DraggableIndicator>
-            <Tomas />
+            <TomasSmol />
           </DraggableIndicator>
         </Float>
       </Canvas>

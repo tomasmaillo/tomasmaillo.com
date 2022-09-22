@@ -7,16 +7,21 @@ import Title from "./Title";
 import Grain from "./Grain";
 import Navbar from "./Navbar";
 import Avatar from "./Avatar";
+import { Projects } from "./Projects";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Navbar />
-    <Title text="Tomas" />
     <Grain />
+    <Navbar />
+
+    <Title text="Tomas" />
     <Avatar />
+
+    <Projects />
+
     <Loader />
   </React.StrictMode>
 );

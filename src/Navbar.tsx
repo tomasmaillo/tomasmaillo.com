@@ -9,7 +9,7 @@ const StyledNavbar = styled.div`
   border-bottom: 0.5px solid black;
   position: absolute;
   width: 100%;
-  z-index: 100;
+  z-index: 1;
 `;
 
 const StyledNavbarItem = styled.a`
