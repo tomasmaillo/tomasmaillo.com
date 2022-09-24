@@ -15,7 +15,7 @@ const Title = (props: { text: string }) => {
     const width = ctx.canvas.width;
     const height = ctx.canvas.height;
 
-    const isSmallDisplay = window.innerWidth < 700;
+    const isSmallDisplay = window.innerWidth < 768;
 
     ctx.clearRect(0, 0, width, height);
 

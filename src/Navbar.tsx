@@ -6,10 +6,16 @@ const StyledNavbar = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #fffaeb;
-  border-bottom: 0.5px solid black;
   position: absolute;
   width: 100%;
   z-index: 1;
+
+  box-sizing: content-box;
+  border-width: 0px 0px 2px 0px;
+
+  border-style: solid;
+  border-image: linear-gradient(to right, #435cec, #a053df);
+  border-image-slice: 1;
 `;
 
 const StyledNavbarItem = styled.a`
@@ -32,21 +38,26 @@ const StyledNavbarItem = styled.a`
   }
 `;
 
+type Link = {
+  text: string;
+  url: string;
+};
+
+const links: Link[] = [
+  { text: "GitHub", url: "https://github.com/Tomasroma64" },
+  { text: "Instagram", url: "https://instagram.com/tomasmaillo" },
+  { text: "Twitch", url: "https://twitch.tv/tomasmaillo" },
+  { text: "TikTok", url: "https://www.tiktok.com/@tomascodes" },
+];
+
 const Navbar = () => {
   return (
     <StyledNavbar>
-      <StyledNavbarItem href="https://github.com/Tomasroma64">
-        GitHub
-      </StyledNavbarItem>
-      <StyledNavbarItem href="https://instagram.com/tomasmaillo">
-        Instagram
-      </StyledNavbarItem>
-      <StyledNavbarItem href="https://www.twitch.tv/tomasmaillo">
-        Twitch
-      </StyledNavbarItem>
-      <StyledNavbarItem href="https://www.tiktok.com/@tomascodes">
-        TikTok
-      </StyledNavbarItem>
+      {links.map(({ text, url }) => (
+        <StyledNavbarItem href={url} target="_blank">
+          {text}
+        </StyledNavbarItem>
+      ))}
     </StyledNavbar>
   );
 };

@@ -12,7 +12,7 @@ const Grain = () => {
 
   return (
     <GrainWrapper
-      viewBox={`0 0 ${window.innerWidth * 2} ${window.innerHeight * 3}`}
+      viewBox={`0 0 ${window.innerWidth * 2} ${window.innerHeight * 2}`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <filter id="noiseFilter">

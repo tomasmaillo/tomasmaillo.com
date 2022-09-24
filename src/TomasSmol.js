@@ -10,13 +10,8 @@ import * as THREE from "three";
 export default function Model(props) {
   const { nodes, materials } = useGLTF("/models/tomas-smol.glb");
   return (
-    <group
-      {...props}
-      dispose={null}
-      scale={2.5}
-      rotation={[0, (2 * Math.PI) / 3, 0]}
-      position={[0.2, 1.2, 0]}
-    >
+    <group {...props} dispose={null} scale={2.5} rotation={[0, Math.PI / 4, 0]}>
+      {props.children}
       <mesh
         geometry={nodes.mesh_0.geometry}
         material={new THREE.MeshNormalMaterial()}

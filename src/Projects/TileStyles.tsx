@@ -8,29 +8,25 @@ export const Overlay = styled(motion.div)`
   will-change: opacity;
   top: 0;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
 `;
 
 export const CardContentContainer = styled.div`
   width: 100%;
   height: 100%;
-  position: relative;
-  display: block;
   border-radius: 20px;
-  border-collapse: separate;
 
   &.expanded {
     z-index: 2;
     position: fixed;
     top: 0;
     bottom: 0;
-    max-width: 700px;
+    max-width: 768px;
     overflow: hidden;
     pointer-events: none;
 
-    @media (min-width: 700px) {
+    @media (min-width: 768px) {
       left: 50%;
       transform: translateX(-50%);
     }

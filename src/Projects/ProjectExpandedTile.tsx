@@ -25,7 +25,7 @@ const ProjectExpandedTile: FC<ProjectExpandedTileProps> = ({
   images,
   clearProjectSelection,
 }) => {
-  const isSmallDisplay = window.innerWidth < 700;
+  const isSmallDisplay = window.innerWidth < 768;
 
   return (
     <>

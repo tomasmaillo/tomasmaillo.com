@@ -4,5 +4,6 @@ body{
     font-family: "Inconsolata", monospace;
     color: #223F8B;
     margin: 0px;
+    overflow: hidden;
 }
 

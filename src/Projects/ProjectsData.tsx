@@ -16,7 +16,21 @@ const projects: Project[] = [
     images: ["./btcglobe.gif"],
   },
   {
-    id: "ellu",
+    id: "eldflyuu",
+    title: "ttl",
+    subtitle: "Summer of 2022: June - September",
+    description: "dfsdf",
+    images: ["./pic.png"],
+  },
+  {
+    id: "eldflu",
+    title: "ttl",
+    subtitle: "Summer of 2022: June - September",
+    description: "dfsdf",
+    images: ["./pic.png"],
+  },
+  {
+    id: "elldfu",
     title: "ttl",
     subtitle: "Summer of 2022: June - September",
     description: "dfsdf",

@@ -1,25 +1,40 @@
+import { motion } from "framer-motion";
 import { FC } from "react";
 import styled from "styled-components";
 // TODO: Type are similar to values
 import { Project } from "../Project";
 import ProjectTile from "./ProjectTile";
 
-const ProjectListWrapper = styled.div`
-  padding-top: 32px;
+const ProjectListWrapper = styled(motion.div)`
   max-width: 768px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 2rem;
-  padding: 64px;
+  padding: 32px;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
 `;
 
-const ProjectTileWrapper = styled.div`
+const ProjectTileWrapper = styled(motion.div)`
   cursor: pointer;
 `;
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1 },
+};
 
 interface ProjectListProps {
   projects: Project[];
@@ -27,9 +42,12 @@ interface ProjectListProps {
 }
 const ProjectList: FC<ProjectListProps> = ({ projects, setSelectedTile }) => {
   return (
-    <ProjectListWrapper>
+    <ProjectListWrapper variants={container} initial="hidden" animate="show">
       {projects.map((project) => (
-        <ProjectTileWrapper onClick={() => setSelectedTile(project)}>
+        <ProjectTileWrapper
+          variants={item}
+          onClick={() => setSelectedTile(project)}
+        >
           <ProjectTile key={project.id} {...project} />
         </ProjectTileWrapper>
       ))}
