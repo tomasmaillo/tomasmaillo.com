@@ -7,6 +7,7 @@ import {
   ScrollControls,
   Scroll,
   Text3D,
+  useProgress,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 
@@ -14,9 +15,9 @@ import styled from "styled-components";
 
 import { useScreenSize } from "../helpers";
 
-import TomasSmol from "../TomasSmol";
+import TomasSmol from "./TomasSmol";
 import { Projects } from "../Projects";
-import SpeechBubble from "../SpeechBubble";
+import SpeechBubble from "./SpeechBubble";
 import Navbar from "../Navbar";
 import Gap from "../common/Gap";
 import DraggableIndicator from "../common/DraggableIndicator";
@@ -54,14 +55,21 @@ import Title3D from "./Title3D";
 // };
 
 const Composition = () => {
+  const { progress } = useProgress();
   const scroll = useScroll();
   const [isSmallScreen] = useScreenSize();
-  const [showHtml, setShowHtml] = useState(true);
+  const [showHtml, setShowHtml] = useState(false);
 
   useFrame((state) => {
     const offset = 1 - scroll.offset;
     state.camera.position.set(0, offset * 2, 1);
   });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowHtml(true);
+    }, 500);
+  }, [progress]);
 
   const avatarPosition = isSmallScreen ? [0.2, 1.2, 0] : [0.8, 1.2, 0.2];
 
