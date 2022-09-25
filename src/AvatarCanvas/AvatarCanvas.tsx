@@ -18,7 +18,7 @@ import { useScreenSize } from "../helpers";
 import TomasSmol from "./TomasSmol";
 import { Projects } from "../Projects";
 import SpeechBubble from "./SpeechBubble";
-import Navbar from "../Navbar";
+import Navbar from "../Navbar/Navbar";
 import Gap from "../common/Gap";
 import DraggableIndicator from "../common/DraggableIndicator";
 import Title3D from "./Title3D";

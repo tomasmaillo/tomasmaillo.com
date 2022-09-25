@@ -1,6 +1,8 @@
 import { Project } from "./Project";
 
-const projects: Project[] = [
+export const imageSrc = "./projectImages/";
+
+export const projects: Project[] = [
   {
     id: "spotify",
     title: "Spotify",
@@ -37,5 +39,3 @@ const projects: Project[] = [
     images: ["./pic.png"],
   },
 ];
-
-export default projects;

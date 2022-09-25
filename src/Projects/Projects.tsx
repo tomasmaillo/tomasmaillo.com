@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Project } from "./Project";
 import ProjectExpandedTile from "./ProjectExpandedTile";
 import { ProjectList } from "./ProjectList";
-import ProjectsData from "./ProjectsData";
+import { projects } from "./projectsData";
 
 const Projects: FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project>();
@@ -25,10 +25,7 @@ const Projects: FC = () => {
           clearProjectSelection={clearSelectedProject}
         />
       )}
-      <ProjectList
-        projects={ProjectsData}
-        setSelectedTile={setSelectedProject}
-      />
+      <ProjectList projects={projects} setSelectedTile={setSelectedProject} />
     </>
   );
 };

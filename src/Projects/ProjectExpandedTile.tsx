@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Project } from "./Project";
 
 import {
-  TileContainer,
+  ContentWrapper,
   SubTitleContainer,
   CardContentContainer,
   Overlay,
@@ -11,7 +11,10 @@ import {
   CardContent,
   CardImageContainer,
   TileCloseButton,
-} from "./TileStyles";
+  TitleContainer,
+} from "./styles";
+import { useScreenSize } from "../helpers";
+import { imageSrc } from "./projectsData";
 
 interface ProjectExpandedTileProps extends Project {
   clearProjectSelection: () => void;
@@ -25,20 +28,18 @@ const ProjectExpandedTile: FC<ProjectExpandedTileProps> = ({
   images,
   clearProjectSelection,
 }) => {
-  const isSmallDisplay = window.innerWidth < 768;
+  const [isSmallScreen] = useScreenSize();
 
   return (
     <>
-      {!isSmallDisplay && (
-        <Overlay
-          onClick={() => clearProjectSelection()}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.15 } }}
-          transition={{ duration: 0.2, delay: 0.15 }}
-          style={{ pointerEvents: "auto" }}
-        />
-      )}
+      <Overlay
+        onClick={() => clearProjectSelection()}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0, transition: { duration: 0.15 } }}
+        transition={{ duration: 0.2, delay: 0.15 }}
+        style={{ pointerEvents: "auto" }}
+      />
       <CardContentContainer className="expanded">
         <CardContent className="expanded" layoutId={`card-container-${id}`}>
           <CardImageContainer
@@ -47,21 +48,20 @@ const ProjectExpandedTile: FC<ProjectExpandedTileProps> = ({
           >
             <img
               className="card-image"
-              src={images[0]}
+              src={imageSrc + images[0]}
               alt=""
               draggable={false}
             />
           </CardImageContainer>
-          <TileContainer layoutId={`title-container-${id}`}>
-            <h2>{title}</h2>
+
+          <ContentWrapper layoutId={`title-container-${id}`}>
+            <TitleContainer>{title}</TitleContainer>
             <SubTitleContainer>{subtitle}</SubTitleContainer>
             <ContentContainer animate>{description}</ContentContainer>
-          </TileContainer>
+          </ContentWrapper>
 
-          {isSmallDisplay && (
-            <TileCloseButton onClick={() => clearProjectSelection()}>
-              X helloooo
-            </TileCloseButton>
+          {isSmallScreen && (
+            <TileCloseButton onClick={() => clearProjectSelection()} />
           )}
         </CardContent>
       </CardContentContainer>

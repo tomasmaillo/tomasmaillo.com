@@ -4,31 +4,32 @@ import { motion } from "framer-motion";
 export const Overlay = styled(motion.div)`
   z-index: 1;
   position: fixed;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
   will-change: opacity;
   top: 0;
   bottom: 0;
   width: 100vw;
   height: 100vh;
 `;
-
-export const CardContentContainer = styled.div`
+export const CardContentContainer = styled(motion.div)`
   width: 100%;
-  height: 100%;
+  height: 90%;
   border-radius: 20px;
 
   &.expanded {
     z-index: 2;
-    position: fixed;
-    top: 0;
-    bottom: 0;
+    position: absolute;
     max-width: 768px;
     overflow: hidden;
-    pointer-events: none;
 
     @media (min-width: 768px) {
       left: 50%;
-      transform: translateX(-50%);
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @media (max-width: 768px) {
+      bottom: 0;
     }
   }
 `;
@@ -44,7 +45,7 @@ export const CardContent = styled(motion.div)`
   height: 10rem;
 
   &.expanded {
-    height: 100vh;
+    height: 100%;
   }
 `;
 
@@ -53,6 +54,7 @@ export const CardImageContainer = styled(motion.div)`
   overflow: hidden;
   object-fit: contain;
 
+  /* really thin screen iamge support */
   > img {
     width: inherit;
     position: relative;
@@ -64,15 +66,15 @@ export const CardImageContainer = styled(motion.div)`
   }
 `;
 
-export const TileContainer = styled(motion.div)`
+export const ContentWrapper = styled(motion.div)`
   color: black;
   position: relative;
   z-index: 2;
   padding-left: 1rem;
+`;
 
-  > h2 {
-    margin-bottom: 8px;
-  }
+export const TitleContainer = styled.h2`
+  margin-bottom: 8px;
 `;
 
 export const SubTitleContainer = styled.div`
@@ -85,8 +87,13 @@ export const ContentContainer = styled(motion.div)`
   z-index: 2;
 `;
 
-export const TileCloseButton = styled.button`
+export const TileCloseButton = styled.div`
   position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 50%;
   top: 10px;
   right: 10px;
 `;
