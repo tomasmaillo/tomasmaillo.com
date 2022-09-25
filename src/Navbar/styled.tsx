@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-const StyledNavbar = styled.div`
+export const StyledNavbar = styled(motion.div)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -18,7 +19,7 @@ const StyledNavbar = styled.div`
   border-image-slice: 1;
 `;
 
-const StyledNavbarItem = styled.a`
+export const StyledNavbarItem = styled(motion.a)`
   color: black;
   padding: 16px;
   text-decoration: none;
@@ -37,28 +38,3 @@ const StyledNavbarItem = styled.a`
     text-decoration: underline;
   }
 `;
-
-type Link = {
-  text: string;
-  url: string;
-};
-
-const links: Link[] = [
-  { text: "GitHub", url: "https://github.com/Tomasroma64" },
-  { text: "Instagram", url: "https://instagram.com/tomasmaillo" },
-  { text: "Twitch", url: "https://twitch.tv/tomasmaillo" },
-  { text: "TikTok", url: "https://www.tiktok.com/@tomascodes" },
-];
-
-const Navbar = () => {
-  return (
-    <StyledNavbar>
-      {links.map(({ text, url }) => (
-        <StyledNavbarItem href={url} target="_blank">
-          {text}
-        </StyledNavbarItem>
-      ))}
-    </StyledNavbar>
-  );
-};
-export default Navbar;
