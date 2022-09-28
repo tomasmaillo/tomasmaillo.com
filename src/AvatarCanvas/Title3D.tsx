@@ -2,12 +2,16 @@ import { Float, Text3D, useProgress } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useState, useRef, useEffect } from "react";
 import { lerp, lerp2 } from "../helpers";
+import useFlipboardText from "./useFlipboardText";
+import ScrollingText from "./useFlipboardText";
 
 const Title3D = () => {
   const [mouseHover, setMouseHover] = useState(false);
   const [animationEnabled, setAnimationEnabled] = useState(false);
   const [initialAnimationOffset, setInitialAnimationOffset] = useState(0.0);
   const { progress } = useProgress();
+
+  const text = useFlipboardText("Hello world! :D");
 
   const textRef = useRef<any>();
 
@@ -62,24 +66,24 @@ const Title3D = () => {
   });
 
   return (
-    <Float
-      floatIntensity={initialAnimationOffset / 100}
-      floatingRange={[0.00001, -0.00001]}
-      speed={1}
+    // <Float
+    //   floatIntensity={initialAnimationOffset / 100}
+    //   floatingRange={[0.0000001, -0.0000001]}
+    //   speed={1}
+    // >
+    <Text3D
+      ref={textRef}
+      font={"/SpaceMono_Bold.json"}
+      size={0.05}
+      height={0.1}
+      rotation={[-Math.PI / 5, 0, 0]}
+      onPointerOver={() => setMouseHover(true)}
+      onPointerLeave={() => setMouseHover(false)}
     >
-      <Text3D
-        ref={textRef}
-        font={"/helvetiker_regular.typeface.json"}
-        size={0.05}
-        height={0.1}
-        rotation={[-Math.PI / 5, 0, 0]}
-        onPointerOver={() => setMouseHover(true)}
-        onPointerLeave={() => setMouseHover(false)}
-      >
-        :DDD
-        <meshNormalMaterial />
-      </Text3D>
-    </Float>
+      {text}
+      <meshNormalMaterial />
+    </Text3D>
+    // </Float>
   );
 };
 

@@ -18,12 +18,13 @@ const item = {
 };
 
 const Navbar = () => {
-  const isSmallScreen = useScreenSize();
+  const [isSmallScreen] = useScreenSize();
+
   return (
     <StyledNavbar variants={container} initial="hidden" animate="show">
       {links.map(({ text, url }) => (
         <StyledNavbarItem variants={item} href={url} target="_blank">
-          {isSmallScreen ? text.default : text.small}
+          {isSmallScreen ? text.small : text.default}
         </StyledNavbarItem>
       ))}
     </StyledNavbar>
