@@ -59,19 +59,35 @@ const Composition = () => {
   const scroll = useScroll();
   const [isSmallScreen] = useScreenSize();
   const [showHtml, setShowHtml] = useState(false);
+  const [showModel, setShowModel] = useState(false);
+  const modelOffsetRef = useRef<any>();
+
+  const avatarPosition = isSmallScreen
+    ? new THREE.Vector3(0.2, 1.2, 0)
+    : new THREE.Vector3(0.8, 1.2, 0.2);
+
+  useEffect(() => {
+    if (!modelOffsetRef.current) return;
+    modelOffsetRef.current.position.set(1, -5, 1);
+  }, []);
 
   useFrame((state) => {
-    const offset = 1 - scroll.offset;
-    state.camera.position.set(0, offset * 2, 1);
+    state.camera.position.set(0, (1 - scroll.offset) * 2, 1);
+
+    if (!showModel) return;
+    console.log({ avatarPosition });
+    modelOffsetRef.current.position.lerp(avatarPosition, 0.01);
   });
 
   useEffect(() => {
+    // TODO: there must be a better way
+    setTimeout(() => {
+      setShowModel(true);
+    }, 3000);
     setTimeout(() => {
       setShowHtml(true);
     }, 5000);
   }, [progress]);
-
-  const avatarPosition = isSmallScreen ? [0.2, 1.2, 0] : [0.8, 1.2, 0.2];
 
   return (
     <>
@@ -105,11 +121,9 @@ const Composition = () => {
         floatingRange={[-2.2, -2]}
       >
         <DraggableIndicator>
-          {showHtml && (
-            <TomasSmol position={avatarPosition}>
-              <SpeechBubble />
-            </TomasSmol>
-          )}
+          <group ref={modelOffsetRef}>
+            <TomasSmol>{/* <SpeechBubble /> */}</TomasSmol>
+          </group>
         </DraggableIndicator>
       </Float>
     </>
@@ -129,7 +143,6 @@ const AvatarCanvas = () => {
     <CanvasWrapper>
       <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
         <ambientLight intensity={0.1} />
-        <axesHelper />
         <ScrollControls pages={2}>
           <Composition />
         </ScrollControls>

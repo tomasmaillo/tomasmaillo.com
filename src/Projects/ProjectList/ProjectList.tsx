@@ -7,7 +7,7 @@ import { Project } from "../Project";
 import ProjectTile from "./ProjectTile";
 
 const ProjectListWrapper = styled(motion.div)`
-  max-width: ${SMALL_SCREEN_WIDTH_PX};
+  max-width: 762px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 2rem;
