@@ -68,7 +68,7 @@ const Composition = () => {
   useEffect(() => {
     setTimeout(() => {
       setShowHtml(true);
-    }, 500);
+    }, 5000);
   }, [progress]);
 
   const avatarPosition = isSmallScreen ? [0.2, 1.2, 0] : [0.8, 1.2, 0.2];
@@ -104,9 +104,11 @@ const Composition = () => {
         floatingRange={[-2.2, -2]}
       >
         <DraggableIndicator>
-          <TomasSmol position={avatarPosition}>
-            <SpeechBubble />
-          </TomasSmol>
+          {showHtml && (
+            <TomasSmol position={avatarPosition}>
+              <SpeechBubble />
+            </TomasSmol>
+          )}
         </DraggableIndicator>
       </Float>
     </>
