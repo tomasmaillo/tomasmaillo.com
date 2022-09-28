@@ -2,16 +2,18 @@ import { Float, Text3D, useProgress } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
-import { lerp, lerp2 } from "../helpers";
+import { lerp, lerp2, useScreenSize } from "../helpers";
 import useFlipboardText from "./useFlipboardText";
 
 const Title3D = () => {
   const [mouseHover, setMouseHover] = useState(false);
   const [animationEnabled, setAnimationEnabled] = useState(false);
   const { progress } = useProgress();
+  const [isSmallScreen] = useScreenSize();
 
-  const [flippingText, flipProgress, flipRestart] =
-    useFlipboardText("TomasMaillo.com");
+  const [flippingText, flipProgress, flipRestart] = useFlipboardText(
+    isSmallScreen ? "Tomas\nMaillo\n.com" : "TomasMaillo.com"
+  );
 
   const textRef = useRef<any>();
 
@@ -55,20 +57,22 @@ const Title3D = () => {
   });
 
   return (
-    <Text3D
-      ref={textRef}
-      font={"/SpaceMono_Bold.json"}
-      size={0.05}
-      height={0.1}
-      rotation={[-Math.PI / 5, 0, 0]}
-      position={animation.start.position}
-      // onPointerOver={() => setMouseHover(true)}
-      // onPointerLeave={() => setMouseHover(false)}
-      // onClick={() => flipRestart()}
-    >
-      {flippingText}
-      <meshNormalMaterial />
-    </Text3D>
+    <group position={isSmallScreen ? [0.2, 0, 0] : [0, 0, 0]}>
+      <Text3D
+        ref={textRef}
+        font={"/SpaceMono_Bold.json"}
+        size={0.04}
+        height={0.1}
+        rotation={[-Math.PI / 5, 0, 0]}
+        position={animation.start.position}
+        // onPointerOver={() => setMouseHover(true)}
+        // onPointerLeave={() => setMouseHover(false)}
+        // onClick={() => flipRestart()}
+      >
+        {flippingText}
+        <meshNormalMaterial />
+      </Text3D>
+    </group>
   );
 };
 

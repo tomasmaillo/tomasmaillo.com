@@ -79,13 +79,14 @@ const Composition = () => {
         <Scroll html>
           <div style={{ width: "100vw" }}>
             <Navbar />
-            <Gap height="30vh" />
+            <Gap height={isSmallScreen ? "70vh" : "30vh"} />
             <Projects />
           </div>
           <h1 style={{ position: "absolute", top: "100vh" }}>Second page :D</h1>
         </Scroll>
       )}
 
+      {/* TODO decide when this should happen */}
       {false && (
         <OrbitControls
           dampingFactor={0.05}

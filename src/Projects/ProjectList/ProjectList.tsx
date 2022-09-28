@@ -1,18 +1,19 @@
 import { motion } from "framer-motion";
 import { FC } from "react";
 import styled from "styled-components";
+import { SMALL_SCREEN_WIDTH_PX } from "../../helpers";
 // TODO: Type are similar to values
 import { Project } from "../Project";
 import ProjectTile from "./ProjectTile";
 
 const ProjectListWrapper = styled(motion.div)`
-  max-width: 768px;
+  max-width: ${SMALL_SCREEN_WIDTH_PX};
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 2rem;
   padding: 32px;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
     grid-template-columns: 1fr;
   }
 `;

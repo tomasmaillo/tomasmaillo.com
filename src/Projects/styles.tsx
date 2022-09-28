@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { SMALL_SCREEN_WIDTH_PX } from "../helpers";
 
 export const Overlay = styled(motion.div)`
   z-index: 1;
@@ -19,16 +20,16 @@ export const CardContentContainer = styled(motion.div)`
   &.expanded {
     z-index: 2;
     position: absolute;
-    max-width: 768px;
+    max-width: ${SMALL_SCREEN_WIDTH_PX};
     overflow: hidden;
 
-    @media (min-width: 768px) {
+    @media (min-width: ${SMALL_SCREEN_WIDTH_PX}) {
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
       bottom: 0;
     }
   }
