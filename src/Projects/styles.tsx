@@ -10,7 +10,7 @@ export const Overlay = styled(motion.div)`
   top: 0;
   bottom: 0;
   width: 100vw;
-  height: 100vh;
+  height: 500vh;
 `;
 export const CardContentContainer = styled(motion.div)`
   width: 100%;

@@ -95,10 +95,10 @@ const Composition = () => {
         <Scroll html>
           <div style={{ width: "100vw" }}>
             <Navbar />
-            <Gap height={isSmallScreen ? "70vh" : "30vh"} />
+            <Gap height={isSmallScreen ? "70vh" : "40vh"} />
             <Projects />
           </div>
-          <h1 style={{ position: "absolute", top: "100vh" }}>Second page :D</h1>
+          {/* <h1 style={{ position: "absolute", top: "100vh" }}>Second page :D</h1> */}
         </Scroll>
       )}
 

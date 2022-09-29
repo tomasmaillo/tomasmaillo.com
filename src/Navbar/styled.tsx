@@ -19,22 +19,42 @@ export const StyledNavbar = styled(motion.div)`
   border-image-slice: 1;
 `;
 
-export const StyledNavbarItem = styled(motion.a)`
+export const StyledNavbarItem = styled(motion.div)`
   color: black;
   padding: 16px;
   text-decoration: none;
   margin: 0px 8px 0px 8px;
   transition: 0.5s;
   background: #fffaeb;
+`;
 
+export const StyledLinkPreview = styled(motion.div)`
+  position: fixed;
+  top: 50px;
+
+  transform: translateX(-100px);
+  overflow: hidden;
+
+  > img {
+    max-width: 30vw;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  > video {
+    width: 100%;
+    max-width: 30vw;
+    max-height: 40vh;
+    object-fit: cover;
+  }
+`;
+
+export const StyledNavbarLink = styled(motion.a)`
+  color: black;
+  text-decoration: none;
+  margin: 0px 8px 0px 8px;
+  transition: 0.5s;
   &:hover {
-    background: hsla(185, 90%, 51%, 1);
-
-    background: radial-gradient(
-      circle,
-      hsla(185, 90%, 51%, 1) 0%,
-      hsla(45, 100%, 96%, 1) 53%
-    );
     text-decoration: underline;
   }
 `;

@@ -23,9 +23,9 @@ const Title3D = () => {
       scaleZ: 0.0001,
     },
     end: {
-      position: new THREE.Vector3(-0.3, 1.799, 0.5),
+      position: new THREE.Vector3(-0.3, 1.79, 0.5),
       floatForce: 0.0,
-      scaleZ: 0.5,
+      scaleZ: 0.3,
     },
   };
 
