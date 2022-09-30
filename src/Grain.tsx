@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const GrainWrapper = styled.svg`
@@ -10,9 +10,21 @@ const GrainWrapper = styled.svg`
 const Grain = () => {
   // TODO: adjust grain on resize
 
+  const [screenSize, setScreenSize] = useState<any>({ x: 100, y: 100 });
+
+  useEffect(() => {
+    function handleResize() {
+      setScreenSize({ x: window.innerWidth, y: window.innerHeight });
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [window.innerWidth]);
+
   return (
     <GrainWrapper
-      viewBox={`0 0 ${window.innerWidth * 2} ${window.innerHeight * 2}`}
+      viewBox={`0 0 ${screenSize.x * 2} ${screenSize.y * 2}`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <filter id="noiseFilter">

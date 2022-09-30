@@ -8,8 +8,9 @@ import {
   Scroll,
   Text3D,
   useProgress,
+  Cloud,
 } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 
 import styled from "styled-components";
 
@@ -61,6 +62,7 @@ const Composition = () => {
   const [showHtml, setShowHtml] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const modelOffsetRef = useRef<any>();
+  const { viewport } = useThree();
 
   const avatarPosition = isSmallScreen
     ? new THREE.Vector3(0.2, 1.2, 0)
@@ -75,7 +77,6 @@ const Composition = () => {
     state.camera.position.set(0, (1 - scroll.offset) * 2, 1);
 
     if (!showModel) return;
-    console.log({ avatarPosition });
     modelOffsetRef.current.position.lerp(avatarPosition, 0.01);
   });
 
@@ -114,17 +115,24 @@ const Composition = () => {
 
       <Title3D />
 
+      {/* <Cloud
+        color="purple"
+        opacity={0.1}
+        speed={0.1} // Rotation speed
+        width={10} // Width of the full cloud
+        depth={5.5} // Z-dir depth
+        segments={20} // Number of particles
+      /> */}
+
       <Float
         speed={1}
         rotationIntensity={0.2}
         floatIntensity={0.7}
         floatingRange={[-2.2, -2]}
       >
-        <DraggableIndicator>
-          <group ref={modelOffsetRef}>
-            <TomasSmol>{/* <SpeechBubble /> */}</TomasSmol>
-          </group>
-        </DraggableIndicator>
+        <group ref={modelOffsetRef}>
+          <TomasSmol>{/* <SpeechBubble /> */}</TomasSmol>
+        </group>
       </Float>
     </>
   );

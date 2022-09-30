@@ -42,4 +42,11 @@ export const links: Link[] = [
     },
     url: "https://www.tiktok.com/@tomascodes",
   },
+  {
+    text: { default: "CV", small: "CV" },
+    preview: {
+      url: "/linkPreviewMedia/CV.jpg",
+    },
+    url: "/TomasMailloCV.pdf",
+  },
 ];

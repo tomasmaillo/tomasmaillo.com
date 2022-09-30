@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import { SMALL_SCREEN_WIDTH_PX } from "../helpers";
 
 export const StyledNavbar = styled(motion.div)`
   display: flex;
@@ -26,6 +27,10 @@ export const StyledNavbarItem = styled(motion.div)`
   margin: 0px 8px 0px 8px;
   transition: 0.5s;
   background: #fffaeb;
+
+  @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
+    margin: 0px 4px 0px 4px;
+  }
 `;
 
 export const StyledLinkPreview = styled(motion.div)`
@@ -38,6 +43,7 @@ export const StyledLinkPreview = styled(motion.div)`
   > img {
     max-width: 30vw;
     height: 100%;
+    max-height: 40vh;
     object-fit: cover;
   }
 
