@@ -1,12 +1,13 @@
-import { Float, Text3D, useProgress } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { Text3D, useProgress } from "@react-three/drei";
 import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
-import { lerp, lerp2, useScreenSize } from "../helpers";
+import { useSpring } from "@react-spring/core";
+import { a } from "@react-spring/three";
+
+import { useScreenSize } from "../helpers";
 import useFlipboardText from "./useFlipboardText";
 
 const Title3D = () => {
-  const [animationEnabled, setAnimationEnabled] = useState(false);
   const { progress } = useProgress();
   const [isSmallScreen] = useScreenSize();
 
@@ -14,66 +15,40 @@ const Title3D = () => {
     isSmallScreen ? "Tomas\nMaillo\n.com" : "TomasMaillo.com"
   );
 
-  const textRef = useRef<any>();
+  const [active, setActive] = useState(0);
 
-  const animation = {
-    start: {
-      position: new THREE.Vector3(isSmallScreen ? -0.295 : -0.26, 1.6, 0.5),
-      floatForce: 0.0,
-      scaleZ: 0.0001,
-    },
-    end: {
-      position: new THREE.Vector3(isSmallScreen ? -0.295 : -0.26, 1.79, 0.5),
-      floatForce: 0.0,
-      scaleZ: 0.3,
-    },
-  };
+  const posXOffset = isSmallScreen ? -0.295 : -0.26;
 
-  useEffect(() => {
-    if (!textRef.current) return;
-    textRef.current.scale.z = animation.start.scaleZ;
-    textRef.current.position.set(
-      animation.start.position.x,
-      animation.start.position.y,
-      animation.start.position.z
-    );
-  }, []);
+  const { spring } = useSpring({
+    spring: active,
+    config: {
+      mass: 50,
+      tension: 400,
+      friction: 200,
+      precision: 0.0001,
+    },
+  });
+
+  const posY = spring.to([0, 1], [1.6, 1.79]);
+  const scaleZ = spring.to([0, 1], [0.000001, 0.3]);
 
   useEffect(() => {
     if (progress >= 100)
       setTimeout(() => {
-        setAnimationEnabled(true);
-      }, 100);
+        setActive(Number(!active));
+      }, 3200);
   }, [progress]);
 
-  useFrame(() => {
-    if (!textRef.current) return;
-    if (!animationEnabled) return;
-
-    if (flipProgress < 0.8) return;
-    textRef.current.scale.z = lerp2(
-      animation.end.scaleZ,
-      textRef.current.scale.z,
-      0.99
-    );
-
-    if (flipProgress < 1) return;
-    // TODO: text animation with sigmoid curve (maybe react-spring?)
-    textRef.current.position.lerp(animation.end.position, 0.01);
-  });
-
   return (
-    <group position={isSmallScreen ? [0.2, 0, 0] : [0, 0, 0]}>
-      <Text3D
-        ref={textRef}
-        font={"/SpaceMono_Bold.json"}
-        size={0.04}
-        height={0.1}
-        rotation={[-Math.PI / 5, 0, 0]}
-      >
-        {flippingText}
-        <meshNormalMaterial />
-      </Text3D>
+    <group position={[posXOffset, 0, 0.5]}>
+      <a.group position-y={posY}>
+        <a.mesh scale-z={scaleZ} rotation={[-Math.PI / 5, 0, 0]}>
+          <Text3D font={"/SpaceMono_Bold.json"} size={0.04} height={0.1}>
+            {flippingText}
+            <meshNormalMaterial />
+          </Text3D>
+        </a.mesh>
+      </a.group>
     </group>
   );
 };
