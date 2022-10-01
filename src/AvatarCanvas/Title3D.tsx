@@ -17,7 +17,7 @@ const Title3D = () => {
 
   const [active, setActive] = useState(0);
 
-  const posXOffset = isSmallScreen ? -0.295 : -0.26;
+  const posXOffset = isSmallScreen ? -0.09 : -0.26;
 
   const { spring } = useSpring({
     spring: active,
