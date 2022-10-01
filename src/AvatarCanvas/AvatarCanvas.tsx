@@ -24,37 +24,6 @@ import Gap from "../common/Gap";
 import DraggableIndicator from "../common/DraggableIndicator";
 import Title3D from "./Title3D";
 
-// const ShaderTingz = () => {
-//   const mat = new THREE.ShaderMaterial({
-//     uniforms: {},
-
-//     vertexShader: [
-//       "varying vec2 vUV;",
-//       "varying vec3 vNormal;",
-
-//       "void main() {",
-
-//       "vUV = uv;",
-//       "vNormal = vec3( normal );",
-//       "gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
-
-//       "}",
-//     ].join("\n"),
-
-//     fragmentShader: [
-//       "varying vec2 vUV;",
-//       "varying vec3 vNormal;",
-
-//       "void main() {",
-
-//       "vec4 c = vec4( abs( vNormal ) + vec3( vUV, 0.0 ), 0.0 );",
-//       "gl_FragColor = c;",
-
-//       "}",
-//     ].join("\n"),
-//   });
-// };
-
 const Composition = () => {
   const { progress } = useProgress();
   const scroll = useScroll();
@@ -62,7 +31,7 @@ const Composition = () => {
   const [showHtml, setShowHtml] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const modelOffsetRef = useRef<any>();
-  const { viewport } = useThree();
+  // const navbarOffsetRef = useRef<any>();
 
   const avatarPosition = isSmallScreen
     ? new THREE.Vector3(0.2, 1.2, 0)
@@ -75,6 +44,10 @@ const Composition = () => {
 
   useFrame((state) => {
     state.camera.position.set(0, (1 - scroll.offset) * 2, 1);
+
+    // navbarOffsetRef.current.style.transform = `translateY(${
+    //   scroll.offset * document.documentElement.clientHeight
+    // }px)`;
 
     if (!showModel) return;
     modelOffsetRef.current.position.lerp(avatarPosition, 0.01);
@@ -94,35 +67,26 @@ const Composition = () => {
     <>
       {showHtml && (
         <Scroll html>
+          {/* <div
+            ref={navbarOffsetRef}
+            style={{
+              position: "absolute",
+              left: 0,
+              width: "100%",
+              height: "100%",
+            }}
+          > */}
+          <Navbar />
+          {/* </div> */}
+
           <div style={{ width: "100vw" }}>
-            <Navbar />
             <Gap height={isSmallScreen ? "70vh" : "40vh"} />
             <Projects />
           </div>
-          {/* <h1 style={{ position: "absolute", top: "100vh" }}>Second page :D</h1> */}
         </Scroll>
       )}
 
-      {/* TODO decide when this should happen */}
-      {false && (
-        <OrbitControls
-          dampingFactor={0.05}
-          enableZoom={true}
-          maxPolarAngle={(2 * Math.PI) / 3}
-          minPolarAngle={Math.PI / 4}
-        />
-      )}
-
       <Title3D />
-
-      {/* <Cloud
-        color="purple"
-        opacity={0.1}
-        speed={0.1} // Rotation speed
-        width={10} // Width of the full cloud
-        depth={5.5} // Z-dir depth
-        segments={20} // Number of particles
-      /> */}
 
       <Float
         speed={1}

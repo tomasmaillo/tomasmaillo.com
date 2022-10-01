@@ -1,6 +1,6 @@
 import { Project } from "./Project";
 
-export const imageSrc = "./projectImages/";
+export const imageSrc = "./projectImages";
 
 export const projects: Project[] = [
   {

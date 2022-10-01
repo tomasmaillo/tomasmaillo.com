@@ -18,12 +18,12 @@ const Title3D = () => {
 
   const animation = {
     start: {
-      position: new THREE.Vector3(-0.26, 1.6, 0.5),
+      position: new THREE.Vector3(isSmallScreen ? -0.295 : -0.26, 1.6, 0.5),
       floatForce: 0.0,
       scaleZ: 0.0001,
     },
     end: {
-      position: new THREE.Vector3(-0.26, 1.79, 0.5),
+      position: new THREE.Vector3(isSmallScreen ? -0.295 : -0.26, 1.79, 0.5),
       floatForce: 0.0,
       scaleZ: 0.3,
     },

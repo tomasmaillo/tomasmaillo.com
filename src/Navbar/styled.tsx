@@ -7,36 +7,40 @@ export const StyledNavbar = styled(motion.div)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: #fffaeb;
   position: absolute;
   width: 100%;
   z-index: 1;
 
   box-sizing: content-box;
-  border-width: 0px 0px 2px 0px;
 
-  border-style: solid;
-  border-image: linear-gradient(to right, #435cec, #a053df);
-  border-image-slice: 1;
+  background: rgba(255, 255, 255, 0.01);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-width: 0px 0px 2px 0px;
+  border-top: none;
 `;
 
 export const StyledNavbarItem = styled(motion.div)`
   color: black;
   padding: 16px;
   text-decoration: none;
-  margin: 0px 8px 0px 8px;
+  margin: 0px 4px 0px 4px;
   transition: 0.5s;
-  background: #fffaeb;
 
   @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
-    margin: 0px 4px 0px 4px;
+    padding: 12px;
+    margin: 0px 2px 0px 2px;
+  }
+  &:hover {
+    margin: 0px 12px 0px 12px;
   }
 `;
 
 export const StyledLinkPreview = styled(motion.div)`
   position: fixed;
   top: 50px;
-
   transform: translateX(-100px);
   overflow: hidden;
 

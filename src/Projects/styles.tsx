@@ -56,7 +56,18 @@ export const CardImageContainer = styled(motion.div)`
   object-fit: contain;
 
   /* really thin screen iamge support */
+
+  > h1 {
+    transition: 0.5s;
+    color: black;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    position: fixed;
+    z-index: 2;
+  }
+
   > img {
+    transition: 0.5s;
     width: inherit;
     position: relative;
     object-fit: contain;
