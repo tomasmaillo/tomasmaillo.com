@@ -18,6 +18,7 @@ const Title3D = () => {
   const [active, setActive] = useState(0);
 
   const posXOffset = isSmallScreen ? -0.09 : -0.26;
+  const startPosY = isSmallScreen ? 1.69 : 1.6;
 
   const { spring } = useSpring({
     spring: active,
@@ -29,21 +30,24 @@ const Title3D = () => {
     },
   });
 
-  const posY = spring.to([0, 1], [1.6, 1.79]);
+  const posY = spring.to([0, 1], [startPosY, 1.79]);
   const scaleZ = spring.to([0, 1], [0.000001, 0.3]);
 
   useEffect(() => {
-    if (progress >= 100)
-      setTimeout(() => {
-        setActive(Number(!active));
-      }, 3200);
-  }, [progress]);
+    if (progress >= 100 && flipProgress > 0.95 && !active)
+      setActive(Number(!active));
+  }, [progress, flipProgress]);
 
   return (
     <group position={[posXOffset, 0, 0.5]}>
       <a.group position-y={posY}>
         <a.mesh scale-z={scaleZ} rotation={[-Math.PI / 5, 0, 0]}>
-          <Text3D font={"/SpaceMono_Bold.json"} size={0.04} height={0.1}>
+          <Text3D
+            onClick={() => flipRestart()}
+            font={"/SpaceMono_Bold.json"}
+            size={0.04}
+            height={0.1}
+          >
             {flippingText}
             <meshNormalMaterial />
           </Text3D>

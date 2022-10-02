@@ -23,6 +23,7 @@ import Navbar from "../Navbar/Navbar";
 import Gap from "../common/Gap";
 import DraggableIndicator from "../common/DraggableIndicator";
 import Title3D from "./Title3D";
+import Diagonal from "../Diagonal";
 
 const Composition = () => {
   const { progress } = useProgress();
@@ -83,6 +84,8 @@ const Composition = () => {
             <Gap height={isSmallScreen ? "70vh" : "40vh"} />
             <Projects />
           </div>
+
+          <Diagonal />
         </Scroll>
       )}
 
@@ -111,11 +114,13 @@ const CanvasWrapper = styled.div`
 `;
 
 const AvatarCanvas = () => {
+  // TODO: make page number a calculation of all content
+  const [isSmallScreen] = useScreenSize();
   return (
     <CanvasWrapper>
       <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
         <ambientLight intensity={0.1} />
-        <ScrollControls pages={2}>
+        <ScrollControls pages={isSmallScreen ? 2.5 : 2}>
           <Composition />
         </ScrollControls>
       </Canvas>
