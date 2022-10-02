@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import {
   OrbitControls,
@@ -25,7 +25,10 @@ import DraggableIndicator from "../common/DraggableIndicator";
 import Title3D from "./Title3D";
 import Diagonal from "../Diagonal";
 
-const Composition = () => {
+interface CompositionProps {
+  setShowLogo: (v: boolean) => void;
+}
+const Composition: FC<CompositionProps> = ({ setShowLogo }) => {
   const { progress } = useProgress();
   const scroll = useScroll();
   const [isSmallScreen] = useScreenSize();
@@ -45,6 +48,7 @@ const Composition = () => {
 
   useFrame((state) => {
     state.camera.position.set(0, (1 - scroll.offset) * 2, 1);
+    setShowLogo(scroll.offset > 0.1);
 
     // navbarOffsetRef.current.style.transform = `translateY(${
     //   scroll.offset * document.documentElement.clientHeight
@@ -77,7 +81,6 @@ const Composition = () => {
               height: "100%",
             }}
           > */}
-          <Navbar />
           {/* </div> */}
 
           <div style={{ width: "100vw" }}>
@@ -113,15 +116,20 @@ const CanvasWrapper = styled.div`
   height: 100vh;
 `;
 
-const AvatarCanvas = () => {
+// TODO: Replace with context stuff? no point in passing props down constantly
+interface AvatarCanvasProps {
+  setShowLogo: (v: boolean) => void;
+}
+const AvatarCanvas: FC<AvatarCanvasProps> = ({ setShowLogo }) => {
   // TODO: make page number a calculation of all content
   const [isSmallScreen] = useScreenSize();
+
   return (
     <CanvasWrapper>
       <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
         <ambientLight intensity={0.1} />
-        <ScrollControls pages={isSmallScreen ? 2.5 : 2}>
-          <Composition />
+        <ScrollControls pages={isSmallScreen ? 2.5 : 1.7}>
+          <Composition setShowLogo={setShowLogo} />
         </ScrollControls>
       </Canvas>
     </CanvasWrapper>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const DiagonalBox = styled.div`
   position: relative;
-  height: 20rem;
+  height: 50rem;
 
   &::before {
     content: "";
@@ -22,8 +22,12 @@ const Content = styled.div`
   color: #e4e4e4;
   max-width: 50em;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 5rem 2rem;
   position: relative;
+
+  > h1 {
+    font-size: 3rem;
+  }
 `;
 
 const Diagonal = () => {
