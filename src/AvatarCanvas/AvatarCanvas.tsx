@@ -1,27 +1,19 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import {
-  OrbitControls,
   Float,
   useScroll,
   ScrollControls,
   Scroll,
-  Text3D,
   useProgress,
-  Cloud,
 } from "@react-three/drei";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-
+import { Canvas, useFrame } from "@react-three/fiber";
 import styled from "styled-components";
 
 import { useScreenSize } from "../helpers";
-
 import TomasSmol from "./TomasSmol";
 import { Projects } from "../Projects";
-import SpeechBubble from "./SpeechBubble";
-import Navbar from "../Navbar/Navbar";
 import Gap from "../common/Gap";
-import DraggableIndicator from "../common/DraggableIndicator";
 import Title3D from "./Title3D";
 import Diagonal from "../Diagonal";
 
@@ -35,7 +27,6 @@ const Composition: FC<CompositionProps> = ({ setShowLogo }) => {
   const [showHtml, setShowHtml] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const modelOffsetRef = useRef<any>();
-  // const navbarOffsetRef = useRef<any>();
 
   const avatarPosition = isSmallScreen
     ? new THREE.Vector3(0.2, 1.2, 0)
@@ -50,16 +41,12 @@ const Composition: FC<CompositionProps> = ({ setShowLogo }) => {
     state.camera.position.set(0, (1 - scroll.offset) * 2, 1);
     setShowLogo(scroll.offset > 0.1);
 
-    // navbarOffsetRef.current.style.transform = `translateY(${
-    //   scroll.offset * document.documentElement.clientHeight
-    // }px)`;
-
     if (!showModel) return;
     modelOffsetRef.current.position.lerp(avatarPosition, 0.01);
   });
 
+  // TODO: there must be a better way
   useEffect(() => {
-    // TODO: there must be a better way
     setTimeout(() => {
       setShowModel(true);
     }, 3000);
@@ -72,23 +59,11 @@ const Composition: FC<CompositionProps> = ({ setShowLogo }) => {
     <>
       {showHtml && (
         <Scroll html>
-          {/* <div
-            ref={navbarOffsetRef}
-            style={{
-              position: "absolute",
-              left: 0,
-              width: "100%",
-              height: "100%",
-            }}
-          > */}
-          {/* </div> */}
-
           <div style={{ width: "100vw" }}>
             <Gap height={isSmallScreen ? "70vh" : "40vh"} />
             <Projects />
+            <Diagonal />
           </div>
-
-          <Diagonal />
         </Scroll>
       )}
 

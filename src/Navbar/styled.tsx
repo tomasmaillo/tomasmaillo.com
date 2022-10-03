@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
+
 import { SMALL_SCREEN_WIDTH_PX } from "../helpers";
 
 export const StyledNavbar = styled(motion.div)`
@@ -17,7 +18,6 @@ export const StyledNavbar = styled(motion.div)`
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  border: 0.1px solid rgba(255, 255, 255, 0.3);
   border-top: none;
 `;
 
