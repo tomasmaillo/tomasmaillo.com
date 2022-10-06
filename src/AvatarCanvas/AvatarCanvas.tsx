@@ -15,6 +15,7 @@ import { useScreenSize } from "../helpers";
 import TomasSmol from "./TomasSmol";
 import Title3D from "./Title3D";
 
+const tempVector = new THREE.Vector3(0, 0, 0);
 const Composition: FC = () => {
   const { progress } = useProgress();
   const [isSmallScreen] = useScreenSize();
@@ -32,7 +33,7 @@ const Composition: FC = () => {
 
   useFrame((state) => {
     state.camera.position.lerp(
-      new THREE.Vector3(0, document.documentElement.scrollTop * -0.0005 + 2, 1),
+      tempVector.set(0, document.documentElement.scrollTop * -0.0005 + 2, 1),
       0.08
     );
 

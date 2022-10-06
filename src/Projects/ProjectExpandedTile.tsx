@@ -10,7 +10,6 @@ import {
   ContentContainer,
   CardContent,
   CardImageContainer,
-  TileCloseButton,
   TitleContainer,
 } from "./styles";
 import { useScreenSize } from "../helpers";
