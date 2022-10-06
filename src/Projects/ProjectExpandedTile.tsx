@@ -60,9 +60,9 @@ const ProjectExpandedTile: FC<ProjectExpandedTileProps> = ({
             <ContentContainer animate>{description}</ContentContainer>
           </ContentWrapper>
 
-          {isSmallScreen && (
+          {/* {isSmallScreen && (
             <TileCloseButton onClick={() => clearProjectSelection()} />
-          )}
+          )} */}
         </CardContent>
       </CardContentContainer>
     </>

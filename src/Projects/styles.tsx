@@ -19,7 +19,7 @@ export const CardContentContainer = styled(motion.div)`
 
   &.expanded {
     z-index: 2;
-    position: absolute;
+    position: fixed;
     max-width: ${SMALL_SCREEN_WIDTH_PX};
     overflow: hidden;
 
@@ -108,4 +108,9 @@ export const TileCloseButton = styled.div`
   border-radius: 50%;
   top: 10px;
   right: 10px;
+
+  &:after {
+    display: inline-block;
+    content: "\00d7"; /* This will render the 'X' */
+  }
 `;

@@ -1,6 +1,5 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { FC, useEffect, useState } from "react";
-import { useScreenSize } from "../helpers";
+import { motion } from "framer-motion";
+import { FC } from "react";
 import { links } from "./navbarData";
 import NavbarItem from "./NavbarItem";
 import NavbarLogo from "./NavbarLogo";
@@ -22,29 +21,15 @@ const item = {
 };
 
 interface NavbarProps {}
-const Navbar: FC<NavbarProps> = () => {
-  const [showNavbar, setShowNavbar] = useState(false);
+const Navbar: FC<NavbarProps> = () => (
+  <StyledNavbar variants={container} initial="hidden" animate="show">
+    <NavbarLogo />
 
-  useEffect(() => {
-    setTimeout(() => {
-      setShowNavbar(true);
-    }, 3700);
-  }, []);
-
-  return (
-    <>
-      {showNavbar && (
-        <StyledNavbar variants={container} initial="hidden" animate="show">
-          <NavbarLogo />
-
-          {links.map((link, i) => (
-            <motion.div variants={item}>
-              <NavbarItem key={i} link={link} />
-            </motion.div>
-          ))}
-        </StyledNavbar>
-      )}
-    </>
-  );
-};
+    {links.map((link, i) => (
+      <motion.div variants={item}>
+        <NavbarItem key={i} link={link} />
+      </motion.div>
+    ))}
+  </StyledNavbar>
+);
 export default Navbar;

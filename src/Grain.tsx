@@ -24,7 +24,7 @@ const Grain = () => {
 
   return (
     <GrainWrapper
-      viewBox={`0 0 ${screenSize.x * 2} ${screenSize.y * 4}`}
+      viewBox={`0 0 ${screenSize.x * 2} ${screenSize.y * 3}`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <filter id="noiseFilter">

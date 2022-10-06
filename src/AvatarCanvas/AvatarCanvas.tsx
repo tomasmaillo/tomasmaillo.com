@@ -32,15 +32,14 @@ const Composition: FC = () => {
 
   useFrame((state) => {
     state.camera.position.lerp(
-      new THREE.Vector3(0, document.documentElement.scrollTop * -0.005 + 2, 1),
-      0.05
+      new THREE.Vector3(0, document.documentElement.scrollTop * -0.0005 + 2, 1),
+      0.08
     );
 
     if (!showModel) return;
     modelOffsetRef.current.position.lerp(avatarPosition, 0.01);
   });
 
-  // TODO: there must be a better way
   useEffect(() => {
     setTimeout(() => {
       setShowModel(true);
@@ -50,7 +49,6 @@ const Composition: FC = () => {
   return (
     <>
       <Title3D />
-      {/* <OrbitControls /> */}
       <Float
         speed={1}
         rotationIntensity={0.2}
@@ -73,18 +71,13 @@ const CanvasWrapper = styled.div`
   height: 140vh;
 `;
 
-// TODO: Replace with context stuff? no point in passing props down constantly
-const AvatarCanvas: FC = () => {
-  // TODO: make page number a calculation of all content
-
-  return (
-    <CanvasWrapper>
-      <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
-        <ambientLight intensity={0.1} />
-        <Composition />
-      </Canvas>
-    </CanvasWrapper>
-  );
-};
+const AvatarCanvas: FC = () => (
+  <CanvasWrapper>
+    <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
+      <ambientLight intensity={0.1} />
+      <Composition />
+    </Canvas>
+  </CanvasWrapper>
+);
 
 export default AvatarCanvas;

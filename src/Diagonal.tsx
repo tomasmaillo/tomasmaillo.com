@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import Marquee from "./common/Marquee";
+import { SMALL_SCREEN_WIDTH_PX } from "./helpers";
 
 const DiagonalBox = styled.div`
   position: relative;
-  height: 50rem;
+  height: 30rem;
 
   &::before {
     content: "";
@@ -20,35 +22,51 @@ const DiagonalBox = styled.div`
 
 const Content = styled.div`
   color: #e4e4e4;
+  position: relative;
   max-width: 50em;
   margin: 0 auto;
-  padding: 5rem 2rem;
-  position: relative;
+  padding: 3rem 2rem;
 
-  > h1 {
-    font-size: 3rem;
+  @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
+    padding: 0.5rem 2rem;
   }
 `;
 
+const FakeLink = styled.div`
+  text-decoration: underline;
+  cursor: pointer;
+  margin-bottom: 10px;
+`;
+
 const Diagonal = () => {
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-
-  useEffect(() => {
-    setWidth(window.innerWidth);
-    setHeight(window.innerHeight);
-  }, []);
-
+  const [showFakeLinkExplanation, setShowFakeLinkExplanation] = useState(false);
   return (
     <DiagonalBox>
+      <Marquee
+        text={"CONTACT ME :D REACH OUT & SEND A LIL MSG? I WONT BITE! "}
+      />
       <Content>
-        <h1>Contact me :D</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-          consectetur, nisl nec ultricies lacinia, nisl nisl aliquet nisl, nec
-          tincidunt nisl nisl sit amet nisl. Nulla facilisi. Nulla facilisi.
-          Pellentesque habitant morbi tristique senectus et netus et malesuada
+          Reach out for anything! Ask any questions you may have or tell me what
+          you think about this site. <br />
+          Or uuuuh just say hi :D
         </p>
+
+        <FakeLink onClick={() => setShowFakeLinkExplanation(true)}>
+          Instagram {showFakeLinkExplanation && " not!"}
+        </FakeLink>
+        <FakeLink onClick={() => setShowFakeLinkExplanation(true)}>
+          Email {showFakeLinkExplanation && " not!"}
+        </FakeLink>
+
+        {showFakeLinkExplanation && (
+          <p>
+            Ha! Gottcha <br />
+            These links are fake, they don't do anything :P <br />
+            Jeez im so funny. Anyways, you can use the ones at the top of the
+            page to reach out to me. (please do!)
+          </p>
+        )}
       </Content>
     </DiagonalBox>
   );
