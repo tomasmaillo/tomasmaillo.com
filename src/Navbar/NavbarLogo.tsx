@@ -1,13 +1,24 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { FC } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 
 import { useScreenSize } from "../helpers";
 
-interface NavbarLogoProps {
-  showLogo: boolean;
-}
-const NavbarLogo: FC<NavbarLogoProps> = ({ showLogo }) => {
+const NavbarLogo: FC = () => {
   const [isSmallScreen] = useScreenSize();
+  const [showLogo, setShowLogo] = useState(false);
+
+  useEffect(() => {
+    const onScroll: EventListener = (event: Event) => {
+      const targetDiv: HTMLDocument = event.target as HTMLDocument; // <-- assert DOM-HTMLDocument
+      const scrollTop = targetDiv.documentElement.scrollTop;
+      setShowLogo(scrollTop > 50);
+    };
+
+    const win: Window = window;
+    win.addEventListener("scroll", onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div style={{ position: "relative", paddingRight: 40 }}>

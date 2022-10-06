@@ -6,25 +6,18 @@ import {
   ScrollControls,
   Scroll,
   useProgress,
+  OrbitControls,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import styled from "styled-components";
 
 import { useScreenSize } from "../helpers";
 import TomasSmol from "./TomasSmol";
-import { Projects } from "../Projects";
-import Gap from "../common/Gap";
 import Title3D from "./Title3D";
-import Diagonal from "../Diagonal";
 
-interface CompositionProps {
-  setShowLogo: (v: boolean) => void;
-}
-const Composition: FC<CompositionProps> = ({ setShowLogo }) => {
+const Composition: FC = () => {
   const { progress } = useProgress();
-  const scroll = useScroll();
   const [isSmallScreen] = useScreenSize();
-  const [showHtml, setShowHtml] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const modelOffsetRef = useRef<any>();
 
@@ -38,8 +31,10 @@ const Composition: FC<CompositionProps> = ({ setShowLogo }) => {
   }, []);
 
   useFrame((state) => {
-    state.camera.position.set(0, (1 - scroll.offset) * 2, 1);
-    setShowLogo(scroll.offset > 0.1);
+    state.camera.position.lerp(
+      new THREE.Vector3(0, document.documentElement.scrollTop * -0.005 + 2, 1),
+      0.05
+    );
 
     if (!showModel) return;
     modelOffsetRef.current.position.lerp(avatarPosition, 0.01);
@@ -50,25 +45,12 @@ const Composition: FC<CompositionProps> = ({ setShowLogo }) => {
     setTimeout(() => {
       setShowModel(true);
     }, 3000);
-    setTimeout(() => {
-      setShowHtml(true);
-    }, 5000);
   }, [progress]);
 
   return (
     <>
-      {showHtml && (
-        <Scroll html>
-          <div style={{ width: "100vw" }}>
-            <Gap height={isSmallScreen ? "70vh" : "40vh"} />
-            <Projects />
-            <Diagonal />
-          </div>
-        </Scroll>
-      )}
-
       <Title3D />
-
+      {/* <OrbitControls /> */}
       <Float
         speed={1}
         rotationIntensity={0.2}
@@ -88,24 +70,18 @@ const CanvasWrapper = styled.div`
   right: 0;
   top: 0;
   width: 100vw;
-  height: 100vh;
+  height: 140vh;
 `;
 
 // TODO: Replace with context stuff? no point in passing props down constantly
-interface AvatarCanvasProps {
-  setShowLogo: (v: boolean) => void;
-}
-const AvatarCanvas: FC<AvatarCanvasProps> = ({ setShowLogo }) => {
+const AvatarCanvas: FC = () => {
   // TODO: make page number a calculation of all content
-  const [isSmallScreen] = useScreenSize();
 
   return (
     <CanvasWrapper>
       <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
         <ambientLight intensity={0.1} />
-        <ScrollControls pages={isSmallScreen ? 2.5 : 1.7}>
-          <Composition setShowLogo={setShowLogo} />
-        </ScrollControls>
+        <Composition />
       </Canvas>
     </CanvasWrapper>
   );

@@ -21,10 +21,8 @@ const item = {
   show: { opacity: 1 },
 };
 
-interface NavbarProps {
-  showLogo: boolean;
-}
-const Navbar: FC<NavbarProps> = ({ showLogo }) => {
+interface NavbarProps {}
+const Navbar: FC<NavbarProps> = () => {
   const [showNavbar, setShowNavbar] = useState(false);
 
   useEffect(() => {
@@ -37,7 +35,7 @@ const Navbar: FC<NavbarProps> = ({ showLogo }) => {
     <>
       {showNavbar && (
         <StyledNavbar variants={container} initial="hidden" animate="show">
-          <NavbarLogo showLogo={showLogo} />
+          <NavbarLogo />
 
           {links.map((link, i) => (
             <motion.div variants={item}>

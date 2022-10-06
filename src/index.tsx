@@ -6,14 +6,23 @@ import "./index.css";
 import { AvatarCanvas } from "./AvatarCanvas";
 import Grain from "./Grain";
 import { Navbar } from "./Navbar";
+import { Projects } from "./Projects";
+import Gap from "./common/Gap";
+import Diagonal from "./Diagonal";
 
 const App = () => {
-  const [showLogo, setShowLogo] = React.useState(false);
+  window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+  };
   return (
     <>
-      <Navbar showLogo={showLogo} />
-      <AvatarCanvas setShowLogo={setShowLogo} />
+      <Navbar />
       <Grain />
+      <Gap height="50vh" />
+      <AvatarCanvas />
+      <Projects />
+
+      <Diagonal />
     </>
   );
 };

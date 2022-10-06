@@ -8,7 +8,7 @@ export const StyledNavbar = styled(motion.div)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   width: 100%;
   z-index: 1;
 
