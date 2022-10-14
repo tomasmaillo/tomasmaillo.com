@@ -1,20 +1,35 @@
 import { motion } from "framer-motion";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
-import { SMALL_SCREEN_WIDTH_PX } from "../../helpers";
+import { SMALL_SCREEN_WIDTH_PX, useScreenSize } from "../../helpers";
 // TODO: Type are similar to values
 import { Project } from "../Project";
 import ProjectTile from "./ProjectTile";
 
-const ProjectListWrapper = styled(motion.div)`
-  max-width: 762px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2rem;
+const ProjectListColumns = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 32px;
   padding: 32px;
+  justify-content: start;
 
   @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    margin: 0;
+  }
+`;
+const ProjectListColumn = styled(motion.div)`
+  max-width: 381px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: max-content;
+  align-items: flex-start;
+  grid-gap: 2rem;
+  margin-right: 32px;
+
+  @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
+    margin: 0;
+    margin-bottom: 32px;
   }
 `;
 
@@ -39,20 +54,44 @@ const item = {
 
 interface ProjectListProps {
   projects: Project[];
-  setSelectedTile: (project: Project) => void;
 }
-const ProjectList: FC<ProjectListProps> = ({ projects, setSelectedTile }) => {
+const ProjectList: FC<ProjectListProps> = ({ projects }) => {
+  const [selectedTile, setSelectedTile] = useState<Project | undefined>();
+  const [isSmallScreen] = useScreenSize();
+  const [columnNum, setColumnNum] = useState(2);
+
+  document.addEventListener(
+    "keydown",
+    (e) => (e.key === "Escape" ? setSelectedTile(undefined) : null),
+    false
+  );
+
   return (
-    <ProjectListWrapper variants={container} initial="hidden" animate="show">
-      {projects.map((project) => (
-        <ProjectTileWrapper
-          variants={item}
-          onClick={() => setSelectedTile(project)}
-        >
-          <ProjectTile key={project.id} {...project} />
-        </ProjectTileWrapper>
+    <ProjectListColumns>
+      {[...Array(columnNum)].map((_, columnIndex) => (
+        <ProjectListColumn variants={container} initial="hidden" animate="show">
+          {projects.map((project, projectIndex) => {
+            if (projectIndex % columnNum !== columnIndex) return;
+            return (
+              <ProjectTileWrapper
+                variants={item}
+                onClick={() =>
+                  selectedTile == project
+                    ? setSelectedTile(undefined)
+                    : setSelectedTile(project)
+                }
+              >
+                <ProjectTile
+                  key={project.id}
+                  selected={selectedTile == project}
+                  {...project}
+                />
+              </ProjectTileWrapper>
+            );
+          })}
+        </ProjectListColumn>
       ))}
-    </ProjectListWrapper>
+    </ProjectListColumns>
   );
 };
 

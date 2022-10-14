@@ -18,8 +18,8 @@ const Title3D = () => {
   const [active, setActive] = useState(0);
 
   const posXOffset = isSmallScreen ? -0.1 : -0.26;
-  const startPosY = isSmallScreen ? 1.77 : 1.685;
-  const endPosY = isSmallScreen ? 1.79 : 1.79;
+  const startPosY = isSmallScreen ? 1.78 : 1.7;
+  const endPosY = isSmallScreen ? 1.84 : 1.82;
 
   const { spring } = useSpring({
     spring: active,
@@ -41,7 +41,7 @@ const Title3D = () => {
   }, [progress, flipProgress]);
 
   return (
-    <group position={[posXOffset, 0, 0.4]}>
+    <group position={[posXOffset, 0, 0.6]}>
       <a.group position-y={posY}>
         <a.mesh scale-z={scaleZ} rotation-x={rotationX}>
           <Text3D

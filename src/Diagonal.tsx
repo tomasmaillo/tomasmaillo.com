@@ -5,7 +5,7 @@ import { SMALL_SCREEN_WIDTH_PX } from "./helpers";
 
 const DiagonalBox = styled.div`
   position: relative;
-  height: 30rem;
+  height: 50rem;
 
   &::before {
     content: "";

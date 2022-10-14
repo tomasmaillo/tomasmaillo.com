@@ -14,13 +14,18 @@ import styled from "styled-components";
 import { useScreenSize } from "../helpers";
 import TomasSmol from "./TomasSmol";
 import Title3D from "./Title3D";
+import Gap from "../common/Gap";
+import Diagonal from "../Diagonal";
+import { Projects } from "../Projects";
 
 const tempVector = new THREE.Vector3(0, 0, 0);
 const Composition: FC = () => {
   const { progress } = useProgress();
   const [isSmallScreen] = useScreenSize();
   const [showModel, setShowModel] = useState(false);
+  const [showHtml, setShowHtml] = useState(false);
   const modelOffsetRef = useRef<any>();
+  const scroll = useScroll();
 
   const avatarPosition = isSmallScreen
     ? new THREE.Vector3(0.2, 1.2, 0)
@@ -32,10 +37,7 @@ const Composition: FC = () => {
   }, []);
 
   useFrame((state) => {
-    state.camera.position.lerp(
-      tempVector.set(0, document.documentElement.scrollTop * -0.0005 + 2, 1),
-      0.08
-    );
+    state.camera.position.set(0, (1 - scroll.offset) * 2, 1);
 
     if (!showModel) return;
     modelOffsetRef.current.position.lerp(avatarPosition, 0.01);
@@ -44,11 +46,29 @@ const Composition: FC = () => {
   useEffect(() => {
     setTimeout(() => {
       setShowModel(true);
-    }, 3000);
+    }, 2900);
+    setTimeout(() => {
+      setShowHtml(true);
+    }, 4000);
   }, [progress]);
 
   return (
     <>
+      {showHtml && (
+        <Scroll html>
+          <div style={{ width: "100vw" }}>
+            <Gap height={isSmallScreen ? "70vh" : "40vh"} />
+            <Projects />
+            <Diagonal />
+          </div>
+        </Scroll>
+      )}
+
+      <gridHelper
+        position={[0, -0.5, 0]}
+        args={[100, 100, "hotpink", "hotpink"]}
+      />
+
       <Title3D />
       <Float
         speed={1}
@@ -69,16 +89,21 @@ const CanvasWrapper = styled.div`
   right: 0;
   top: 0;
   width: 100vw;
-  height: 140vh;
+  height: 100vh;
 `;
 
-const AvatarCanvas: FC = () => (
-  <CanvasWrapper>
-    <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
-      <ambientLight intensity={0.1} />
-      <Composition />
-    </Canvas>
-  </CanvasWrapper>
-);
+const AvatarCanvas: FC = () => {
+  const [isSmallScreen] = useScreenSize();
+  return (
+    <CanvasWrapper>
+      <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
+        <ambientLight intensity={0.1} />
+        <ScrollControls pages={isSmallScreen ? 2.75 : 2}>
+          <Composition />
+        </ScrollControls>
+      </Canvas>
+    </CanvasWrapper>
+  );
+};
 
 export default AvatarCanvas;

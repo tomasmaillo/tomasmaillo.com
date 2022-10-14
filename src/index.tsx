@@ -30,14 +30,7 @@ const App = () => {
     <>
       {showNavbar && <Navbar />}
       <Grain />
-      <Gap height={isSmallScreen ? "70vh" : "50vh"} />
       <AvatarCanvas />
-      {showHtml && (
-        <>
-          <Projects />
-          <Diagonal />
-        </>
-      )}
     </>
   );
 };

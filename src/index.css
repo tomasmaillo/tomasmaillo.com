@@ -1,6 +1,7 @@
 body{
     background: #FFFAEB;
-
+    height: 100vh;
+    overflow-y: hidden;
     font-family: "Inconsolata", monospace;
     color: #223F8B;
     margin: 0px;

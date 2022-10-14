@@ -15,7 +15,6 @@ export const Overlay = styled(motion.div)`
 export const CardContentContainer = styled(motion.div)`
   width: 100%;
   height: 90%;
-  border-radius: 20px;
 
   &.expanded {
     z-index: 2;
@@ -35,25 +34,33 @@ export const CardContentContainer = styled(motion.div)`
   }
 `;
 
-export const CardContent = styled(motion.div)`
+export const CardContent = styled.div`
   z-index: 5;
   position: block;
   width: auto;
+
   border-radius: 20px;
   border-collapse: separate;
   background: #ffffff;
   overflow: hidden;
   height: 10rem;
+  transition: 0.3s;
+
+  // Fixes random safari bug with border-radius over canvas
+  transform: translateZ(0);
 
   &.expanded {
-    height: 100%;
+    height: 23rem;
+    transform: scale(1.1);
+    box-shadow: #c6c6c6 2px 0px 10px;
   }
 `;
 
-export const CardImageContainer = styled(motion.div)`
+export const CardImageContainer = styled.div`
   width: 100%;
   overflow: hidden;
   object-fit: contain;
+  max-height: 10rem;
 
   /* really thin screen iamge support */
 
@@ -86,11 +93,12 @@ export const ContentWrapper = styled(motion.div)`
 `;
 
 export const TitleContainer = styled.h2`
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 `;
 
 export const SubTitleContainer = styled.div`
   font-style: italic;
+  margin-bottom: 12px;
 `;
 
 export const ContentContainer = styled(motion.div)`
