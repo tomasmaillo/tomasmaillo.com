@@ -56,15 +56,20 @@ const Composition: FC<{ setShowLogo: (state: boolean) => void }> = ({
 
   return (
     <>
-      {showHtml && (
-        <Scroll html>
-          <div style={{ width: "100vw" }}>
-            <Gap height={isSmallScreen ? "70vh" : "40vh"} />
-            <Projects />
-            <Diagonal />
-          </div>
-        </Scroll>
-      )}
+      <Scroll html>
+        <div
+          style={{
+            width: "100vw",
+            opacity: showHtml ? "100%" : "0%",
+            pointerEvents: showHtml ? "all" : "none",
+            transition: "0.5s",
+          }}
+        >
+          <Gap height={isSmallScreen ? "70vh" : "40vh"} />
+          <Projects />
+          <Diagonal />
+        </div>
+      </Scroll>
 
       <gridHelper
         position={[0, -0.5, 0]}

@@ -12,6 +12,7 @@ const ProjectListColumns = styled.div`
   margin: 32px;
   padding: 32px;
   justify-content: start;
+  user-select: none;
 
   @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
     flex-direction: column;

@@ -15,6 +15,7 @@ const StyledMarquee = styled.div`
   animation: marquee 10s linear infinite;
   color: white;
   font-size: 4rem;
+  user-select: none;
   font-family: "Fugaz One", cursive;
 
   > p {

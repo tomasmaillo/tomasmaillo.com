@@ -11,6 +11,7 @@ export const StyledNavbar = styled(motion.div)`
   position: fixed;
   width: 100%;
   z-index: 1;
+  user-select: none;
 
   box-sizing: content-box;
 

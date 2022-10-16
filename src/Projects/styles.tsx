@@ -90,6 +90,7 @@ export const ContentWrapper = styled(motion.div)`
   position: relative;
   z-index: 2;
   padding-left: 1rem;
+  user-select: text;
 `;
 
 export const TitleContainer = styled.h2`
