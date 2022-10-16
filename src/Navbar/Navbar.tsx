@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FC } from "react";
+import React, { FC } from "react";
 import { links } from "./navbarData";
 import NavbarItem from "./NavbarItem";
 import NavbarLogo from "./NavbarLogo";
@@ -20,16 +20,17 @@ const item = {
   show: { opacity: 1 },
 };
 
-interface NavbarProps {}
-const Navbar: FC<NavbarProps> = () => (
-  <StyledNavbar variants={container} initial="hidden" animate="show">
-    <NavbarLogo />
+const Navbar: FC<{ showLogo: boolean }> = ({ showLogo }) => {
+  return (
+    <StyledNavbar variants={container} initial="hidden" animate="show">
+      <NavbarLogo showLogo={showLogo} />
 
-    {links.map((link, i) => (
-      <motion.div variants={item}>
-        <NavbarItem key={i} link={link} />
-      </motion.div>
-    ))}
-  </StyledNavbar>
-);
+      {links.map((link, i) => (
+        <motion.div variants={item}>
+          <NavbarItem key={i} link={link} />
+        </motion.div>
+      ))}
+    </StyledNavbar>
+  );
+};
 export default Navbar;

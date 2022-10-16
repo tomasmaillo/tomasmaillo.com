@@ -63,6 +63,10 @@ export const StyledNavbarLink = styled(motion.a)`
   text-decoration: none;
   margin: 0px 8px 0px 8px;
   transition: 0.5s;
+
+  > svg {
+    transform: translateY(3px);
+  }
   &:hover {
     text-decoration: underline;
   }

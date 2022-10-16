@@ -6,7 +6,6 @@ import {
   ScrollControls,
   Scroll,
   useProgress,
-  OrbitControls,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import styled from "styled-components";
@@ -18,8 +17,9 @@ import Gap from "../common/Gap";
 import Diagonal from "../Diagonal";
 import { Projects } from "../Projects";
 
-const tempVector = new THREE.Vector3(0, 0, 0);
-const Composition: FC = () => {
+const Composition: FC<{ setShowLogo: (state: boolean) => void }> = ({
+  setShowLogo,
+}) => {
   const { progress } = useProgress();
   const [isSmallScreen] = useScreenSize();
   const [showModel, setShowModel] = useState(false);
@@ -38,6 +38,8 @@ const Composition: FC = () => {
 
   useFrame((state) => {
     state.camera.position.set(0, (1 - scroll.offset) * 2, 1);
+
+    setShowLogo(scroll.offset > 0.1);
 
     if (!showModel) return;
     modelOffsetRef.current.position.lerp(avatarPosition, 0.01);
@@ -92,14 +94,16 @@ const CanvasWrapper = styled.div`
   height: 100vh;
 `;
 
-const AvatarCanvas: FC = () => {
+const AvatarCanvas: FC<{ setShowLogo: (state: boolean) => void }> = ({
+  setShowLogo,
+}) => {
   const [isSmallScreen] = useScreenSize();
   return (
     <CanvasWrapper>
       <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
         <ambientLight intensity={0.1} />
         <ScrollControls pages={isSmallScreen ? 2.75 : 2}>
-          <Composition />
+          <Composition setShowLogo={setShowLogo} />
         </ScrollControls>
       </Canvas>
     </CanvasWrapper>

@@ -26,7 +26,13 @@ const NavbarItem: FC<NavbarItemProps> = ({ link }) => {
         onHoverStart={() => setShowPreview(true)}
         onHoverEnd={() => setShowPreview(false)}
       >
-        {isSmallScreen ? text.small : text.default}
+        {isSmallScreen ? (
+          text.icon
+        ) : (
+          <>
+            {text.icon} {text.default}
+          </>
+        )}
       </StyledNavbarLink>
       <AnimatePresence>
         {showPreview && preview && !isSmallScreen && (
