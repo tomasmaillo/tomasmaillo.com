@@ -30,7 +30,7 @@ const NavbarItem: FC<NavbarItemProps> = ({ link }) => {
           text.icon
         ) : (
           <>
-            {text.icon} {text.default}
+            {text.icon} <span>{text.default}</span>
           </>
         )}
       </StyledNavbarLink>
@@ -43,8 +43,12 @@ const NavbarItem: FC<NavbarItemProps> = ({ link }) => {
             exit={{ opacity: 0, transition: { duration: 0.1 } }}
           >
             {preview.isVideo ? (
-              <video autoPlay loop muted onLoad={() => setMediaLoaded(true)}>
-                <source src={preview.url} type="video/mp4" />
+              <video autoPlay loop muted>
+                <source
+                  src={preview.url}
+                  type="video/mp4"
+                  onLoad={() => setMediaLoaded(true)}
+                />
               </video>
             ) : (
               <img onLoad={() => setMediaLoaded(true)} src={preview.url} />

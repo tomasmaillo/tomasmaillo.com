@@ -50,7 +50,7 @@ export const links: Link[] = [
     url: "https://www.tiktok.com/@tomascodes",
   },
   {
-    text: { default: "", small: "CV", icon: <>{"CV"}</> },
+    text: { default: "", small: "CV", icon: <span>{"CV"}</span> },
     preview: {
       url: "/linkPreviewMedia/CV.jpg",
     },

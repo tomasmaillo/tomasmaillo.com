@@ -68,7 +68,7 @@ export const StyledNavbarLink = styled(motion.a)`
   > svg {
     transform: translateY(3px);
   }
-  &:hover {
+  > span:hover {
     text-decoration: underline;
   }
 `;
