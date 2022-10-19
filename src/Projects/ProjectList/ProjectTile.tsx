@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import { Project } from "../Project";
 import {
   CardContent,
@@ -13,21 +13,23 @@ import { imageSrc } from "../projectsData";
 const ProjectTile: FC<Project & { selected: boolean }> = ({
   title,
   subtitle,
-  images,
+  media,
   description,
   selected,
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState<boolean>(true);
   return (
     <CardContent className={selected ? "expanded" : ""}>
       <CardImageContainer>
-        <h1 style={{ opacity: !imageLoaded ? 1 : 0 }}>{title}</h1>
-        <img
+        <h1 style={{ opacity: imageLoaded ? 0 : 1 }}>{title}</h1>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           style={{ opacity: imageLoaded ? 1 : 0 }}
           className="card-image"
-          src={imageSrc + images[0]}
-          alt=""
-          draggable={false}
+          src={imageSrc + media}
           onLoad={() => setImageLoaded(true)}
         />
       </CardImageContainer>

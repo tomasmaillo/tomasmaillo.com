@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import {
   Float,
@@ -17,19 +17,32 @@ import Gap from "../common/Gap";
 import Diagonal from "../Diagonal";
 import { Projects } from "../Projects";
 
-const Composition: FC<{ setShowLogo: (state: boolean) => void }> = ({
-  setShowLogo,
-}) => {
+const Composition: FC<{
+  setShowLogo: (state: boolean) => void;
+  setScrollHeight: (height: number) => void;
+}> = ({ setShowLogo, setScrollHeight }) => {
   const { progress } = useProgress();
   const [isSmallScreen] = useScreenSize();
   const [showModel, setShowModel] = useState(false);
   const [showHtml, setShowHtml] = useState(false);
   const modelOffsetRef = useRef<any>();
   const scroll = useScroll();
+  const divRef = useRef<HTMLDivElement>(null);
 
   const avatarPosition = isSmallScreen
     ? new THREE.Vector3(0.2, 1.2, 0)
     : new THREE.Vector3(0.8, 1.2, 0.2);
+
+  useLayoutEffect(() => {
+    console.log("useLayoutEffect");
+    function adjustScrollHeight() {
+      if (!divRef.current) return;
+      setScrollHeight(divRef.current.clientHeight / window.innerHeight - 0.06);
+    }
+    window.addEventListener("resize", adjustScrollHeight);
+    adjustScrollHeight();
+    return () => window.removeEventListener("resize", adjustScrollHeight);
+  }, [progress, showHtml]);
 
   useEffect(() => {
     if (!modelOffsetRef.current) return;
@@ -46,18 +59,15 @@ const Composition: FC<{ setShowLogo: (state: boolean) => void }> = ({
   });
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowModel(true);
-    }, 2900);
-    setTimeout(() => {
-      setShowHtml(true);
-    }, 4000);
+    setTimeout(() => setShowModel(true), 2900);
+    setTimeout(() => setShowHtml(true), 4000);
   }, [progress]);
 
   return (
     <>
       <Scroll html>
         <div
+          ref={divRef}
           style={{
             width: "100vw",
             opacity: showHtml ? "100%" : "0%",
@@ -103,12 +113,18 @@ const AvatarCanvas: FC<{ setShowLogo: (state: boolean) => void }> = ({
   setShowLogo,
 }) => {
   const [isSmallScreen] = useScreenSize();
+
+  const [scrollHeight, setScrollHeight] = useState(0);
+
   return (
     <CanvasWrapper>
       <Canvas camera={{ position: [0, 1.5, 2], fov: 60 }}>
         <ambientLight intensity={0.1} />
-        <ScrollControls pages={isSmallScreen ? 2.75 : 2}>
-          <Composition setShowLogo={setShowLogo} />
+        <ScrollControls pages={scrollHeight}>
+          <Composition
+            setShowLogo={setShowLogo}
+            setScrollHeight={setScrollHeight}
+          />
         </ScrollControls>
       </Canvas>
     </CanvasWrapper>

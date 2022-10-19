@@ -62,22 +62,20 @@ export const CardImageContainer = styled.div`
   object-fit: contain;
   max-height: 10rem;
 
-  /* really thin screen iamge support */
-
   > h1 {
     transition: 0.5s;
     color: black;
     font-size: 1.5rem;
     margin-left: 1rem;
     position: fixed;
-    z-index: 2;
+    z-index: 5;
   }
 
-  > img {
-    transition: 0.5s;
-    width: inherit;
-    position: relative;
-    object-fit: contain;
+  > video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 10;
   }
 
   &.expanded {

@@ -4,6 +4,6 @@ export declare type Project = {
   title: string;
   subtitle: string;
   description: ReactElement;
-  images: string[];
+  media: string;
   date?: string;
 }

@@ -8,12 +8,12 @@ import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 export default function Model(props) {
-  const { nodes, materials } = useGLTF("/models/tomas-smol.glb");
+  const { nodes } = useGLTF("/models/tomas-smol.glb");
   return (
     <group {...props} dispose={null} scale={2.5} rotation={[0, Math.PI / 4, 0]}>
       {props.children}
       <mesh
-        geometry={nodes.mesh_0.geometry}
+        geometry={nodes.Mesh_0.geometry}
         material={new THREE.MeshNormalMaterial()}
       />
     </group>

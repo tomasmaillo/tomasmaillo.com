@@ -14,7 +14,7 @@ export const projects: Project[] = [
         Looking forwards for the next one :D
       </>
     ),
-    images: ["/spotify.gif"],
+    media: "/spotify.mp4",
   },
   {
     id: "btcglobe",
@@ -31,7 +31,7 @@ export const projects: Project[] = [
         </a>
       </>
     ),
-    images: ["/btcglobe.gif"],
+    media: "/btcglobe.mp4",
   },
   {
     id: "boat",
@@ -47,7 +47,7 @@ export const projects: Project[] = [
         </a>
       </>
     ),
-    images: ["/boat.gif"],
+    media: "/boat.mp4",
   },
   {
     id: "blankets",
@@ -66,7 +66,7 @@ export const projects: Project[] = [
         </a>{" "}
       </>
     ),
-    images: ["/blankets.gif"],
+    media: "/blankets.mp4",
   },
   {
     id: "students",
@@ -81,6 +81,21 @@ export const projects: Project[] = [
         </a>
       </>
     ),
-    images: ["/students.gif"],
+    media: "/students.mp4",
+  },
+  {
+    id: "students2",
+    title: "Students Archive",
+    subtitle: "2020-2021",
+    description: (
+      <>
+        Made an archive for my school's magazine! (Until they decided not to
+        cover domain name costs :D) <br /> <br />{" "}
+        <a href="https://mag.tomasmaillo.com/" target="_blank">
+          https://mag.tomasmaillo.com/
+        </a>
+      </>
+    ),
+    media: "/students.mp4",
   },
 ];

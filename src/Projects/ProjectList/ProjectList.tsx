@@ -1,18 +1,24 @@
 import { motion } from "framer-motion";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { SMALL_SCREEN_WIDTH_PX, useScreenSize } from "../../helpers";
 // TODO: Type are similar to values
 import { Project } from "../Project";
 import ProjectTile from "./ProjectTile";
 
-const ProjectListColumns = styled.div`
+const ProjectListColumns = styled.div<{
+  projectsNum: number;
+  isSmallScreen: boolean;
+}>`
   display: flex;
   flex-direction: row;
   margin: 32px;
   padding: 32px;
   justify-content: start;
   user-select: none;
+  // prettier-ignore
+  height: calc( ${({ projectsNum, isSmallScreen }) =>
+    isSmallScreen ? projectsNum * 1.8 : projectsNum * 1.05} * 8rem);
 
   @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
     flex-direction: column;
@@ -29,57 +35,48 @@ const ProjectListColumn = styled(motion.div)`
   margin-right: 32px;
 
   @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
-    margin: 0;
+    margin: auto;
     margin-bottom: 32px;
   }
 `;
 
-const ProjectTileWrapper = styled(motion.div)`
-  cursor: pointer;
-`;
+// const container = {
+//   hidden: { opacity: 0 },
+//   show: {
+//     opacity: 1,
+//     transition: {
+//       staggerChildren: 0.05,
+//     },
+//   },
+// };
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.05,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1 },
-};
+// const item = {
+//   hidden: { opacity: 0 },
+//   show: { opacity: 1 },
+// };
 
 interface ProjectListProps {
   projects: Project[];
 }
 const ProjectList: FC<ProjectListProps> = ({ projects }) => {
-  const [selectedTile, setSelectedTile] = useState<Project | undefined>();
+  const [selectedTile, setSelectedTile] = useState<Project>(projects[0]);
+  const columnNum = 2;
   const [isSmallScreen] = useScreenSize();
-  const [columnNum, setColumnNum] = useState(2);
-
-  document.addEventListener(
-    "keydown",
-    (e) => (e.key === "Escape" ? setSelectedTile(undefined) : null),
-    false
-  );
 
   return (
-    <ProjectListColumns>
-      {[...Array(columnNum)].map((_, columnIndex) => (
-        <ProjectListColumn variants={container} initial="hidden" animate="show">
+    <ProjectListColumns
+      projectsNum={projects.length}
+      isSmallScreen={isSmallScreen}
+    >
+      {[...Array(2)].map((_, columnIndex) => (
+        <ProjectListColumn initial="hidden" animate="show">
           {projects.map((project, projectIndex) => {
             if (projectIndex % columnNum !== columnIndex) return;
             return (
-              <ProjectTileWrapper
-                variants={item}
+              <div
+                style={{ cursor: selectedTile != project ? "pointer" : "auto" }}
                 onClick={() =>
-                  selectedTile == project
-                    ? setSelectedTile(undefined)
-                    : setSelectedTile(project)
+                  selectedTile != project && setSelectedTile(project)
                 }
               >
                 <ProjectTile
@@ -87,7 +84,7 @@ const ProjectList: FC<ProjectListProps> = ({ projects }) => {
                   selected={selectedTile == project}
                   {...project}
                 />
-              </ProjectTileWrapper>
+              </div>
             );
           })}
         </ProjectListColumn>
