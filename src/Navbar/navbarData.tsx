@@ -1,7 +1,7 @@
 import React from "react";
 import { ImGithub } from "react-icons/im";
 import { GrInstagram } from "react-icons/gr";
-import { BsTwitter } from "react-icons/bs";
+import { BsTwitch } from "react-icons/bs";
 import { SiTiktok } from "react-icons/si";
 
 export type Link = {
@@ -34,7 +34,7 @@ export const links: Link[] = [
     url: "https://instagram.com/tomasmaillo",
   },
   {
-    text: { default: "Twitch", small: "Tw", icon: <BsTwitter /> },
+    text: { default: "Twitch", small: "Tw", icon: <BsTwitch /> },
     preview: {
       url: "/linkPreviewMedia/twitch.mp4",
       isVideo: true,
