@@ -11,10 +11,33 @@ export const projects: Project[] = [
       <>
         Worked on a team of 3 to deliver an internal web hub to unify teams and
         direct missions <br /> <br /> Overall a stupidly amazing experience!
-        Looking forwards for the next one :D
+        Looking forward for the next one :D
       </>
     ),
     media: "/spotify.mp4",
+  },
+  {
+    id: "tomasmaillo",
+    title: "tomasmaillo.com",
+    subtitle: "Sept 2022",
+    description: (
+      <>
+        The same page you are looking at right now! Built with React and ThreeJS
+        (R3F). Check the{" "}
+        <a
+          href="https://web.archive.org/web/20220000000000*/tomasmaillo.com"
+          target="_blank"
+        >
+          WayBackMachine
+        </a>{" "}
+        to see my skill progress <br /> <br />
+        Inception moment{" "}
+        <a href="https://tomasmaillo.com/" target="_blank">
+          https://tomasmaillo.com/
+        </a>
+      </>
+    ),
+    media: "/tomasmaillo.mp4",
   },
   {
     id: "btcglobe",
@@ -23,7 +46,7 @@ export const projects: Project[] = [
     description: (
       <>
         What if you could see BitCoin transactions on a globe? Realtime(ish)?
-        Thats what I attempted
+        That's what I attempted
         <br />
         <br />{" "}
         <a href="https://btcglobe.tomasmaillo.com/" target="_blank">
@@ -40,7 +63,7 @@ export const projects: Project[] = [
     description: (
       <>
         So I woke up one morning and thought: "What if my portfolio site was a
-        mini game where you would sail and find try to find my projects?" <br />
+        mini game where you could sail and try to find my projects?" <br />
         <br /> Did I finish it? Nope, but some mechanics are here!
         <a href="https://dev3d.netlify.app/" target="_blank">
           https://dev3d.netlify.app/
@@ -52,7 +75,7 @@ export const projects: Project[] = [
   {
     id: "blankets",
     title: "Blankets",
-    subtitle: "I cant remeber when this happened :D",
+    subtitle: "I can't remember when this happened :D",
     description: (
       <>
         This TikToker was posting about these blankets that she would knit with
@@ -70,21 +93,6 @@ export const projects: Project[] = [
   },
   {
     id: "students",
-    title: "Students Archive",
-    subtitle: "2020-2021",
-    description: (
-      <>
-        Made an archive for my school's magazine! (Until they decided not to
-        cover domain name costs :D) <br /> <br />{" "}
-        <a href="https://mag.tomasmaillo.com/" target="_blank">
-          https://mag.tomasmaillo.com/
-        </a>
-      </>
-    ),
-    media: "/students.mp4",
-  },
-  {
-    id: "students2",
     title: "Students Archive",
     subtitle: "2020-2021",
     description: (

@@ -43,7 +43,7 @@ const Diagonal = () => {
   return (
     <DiagonalBox>
       <Marquee
-        text={"CONTACT ME :D REACH OUT & SEND A LIL MSG? I WONT BITE! "}
+        text={"CONTACT ME :D REACH OUT & SEND A LIL MSG? I WON'T BITE! "}
       />
       <Content>
         <p>
@@ -61,7 +61,7 @@ const Diagonal = () => {
 
         {showFakeLinkExplanation && (
           <p>
-            Ha! Gottcha <br />
+            Ha! Gotcha <br />
             These links are fake, they don't do anything :P <br />
             Jeez im so funny. Anyways, you can use the ones at the top of the
             page to reach out to me. (please do!)
