@@ -93,7 +93,7 @@ const Composition: FC<{
         floatingRange={[-2.2, -2]}
       >
         <group ref={modelOffsetRef}>
-          <TomasSmol>{/* <SpeechBubble /> */}</TomasSmol>
+          <TomasSmol />
         </group>
       </Float>
     </>
