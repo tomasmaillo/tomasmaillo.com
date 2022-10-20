@@ -1,0 +1,45 @@
+import React, { FC, useState } from "react";
+import { Project } from "../Project";
+import {
+  CardContent,
+  CardImageContainer,
+  ContentContainer,
+  ContentWrapper,
+  SubTitleContainer,
+  TitleContainer,
+} from "../styles";
+import { imageSrc } from "../projectsData";
+
+const ProjectTile: FC<Project & { selected: boolean }> = ({
+  title,
+  subtitle,
+  media,
+  description,
+  selected,
+}) => {
+  const [imageLoaded, setImageLoaded] = useState<boolean>(true);
+  return (
+    <CardContent className={selected ? "expanded" : ""}>
+      <CardImageContainer>
+        <h1 style={{ opacity: imageLoaded ? 0 : 1 }}>{title}</h1>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{ opacity: imageLoaded ? 1 : 0 }}
+          className="card-image"
+          src={imageSrc + media}
+          onLoad={() => setImageLoaded(true)}
+        />
+      </CardImageContainer>
+      <ContentWrapper>
+        <TitleContainer>{title}</TitleContainer>
+        <SubTitleContainer>{subtitle}</SubTitleContainer>
+        <ContentContainer animate>{description}</ContentContainer>
+      </ContentWrapper>
+    </CardContent>
+  );
+};
+
+export default ProjectTile;
