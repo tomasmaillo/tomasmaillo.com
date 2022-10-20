@@ -24,7 +24,7 @@ export const links: Link[] = [
       url: "/linkPreviewMedia/github.mp4",
       isVideo: true,
     },
-    url: "https://github.com/Tomasroma64",
+    url: "https://github.com/tomasmaillo",
   },
   {
     text: { default: "Instagram", small: "Ig", icon: <GrInstagram /> },
