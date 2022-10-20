@@ -18,12 +18,3 @@ export const useScreenSize = () => {
 
   return [isSmallScreen];
 };
-
-export const lerp = (a: number[], b: number[], n: number) => {
-  return a.map((x, i) => x * (1 - n) + b[i] * n) as [number, number, number];
-};
-
-// TODO: WTF NOT THIS
-export const lerp2 = (a: number, b: number, n: number) => {
-  return a * (1 - n) + b * n;
-};

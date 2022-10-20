@@ -21,7 +21,8 @@ export const links: Link[] = [
   {
     text: { default: "GitHub", small: "GH", icon: <ImGithub /> },
     preview: {
-      url: "/linkPreviewMedia/github.png",
+      url: "/linkPreviewMedia/github.mp4",
+      isVideo: true,
     },
     url: "https://github.com/Tomasroma64",
   },

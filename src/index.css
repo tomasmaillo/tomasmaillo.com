@@ -1,3 +1,8 @@
+html,
+body {
+    overflow: hidden;
+} 
+
 body{
     background: #FFFAEB;
     height: 100vh;
@@ -6,4 +11,3 @@ body{
     color: #223F8B;
     margin: 0px;
 }
-

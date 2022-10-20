@@ -34,10 +34,9 @@ const Composition: FC<{
     : new THREE.Vector3(0.8, 1.2, 0.2);
 
   useLayoutEffect(() => {
-    console.log("useLayoutEffect");
     function adjustScrollHeight() {
       if (!divRef.current) return;
-      setScrollHeight(divRef.current.clientHeight / window.innerHeight - 0.06);
+      setScrollHeight(divRef.current.clientHeight / window.innerHeight - 0.1);
     }
     window.addEventListener("resize", adjustScrollHeight);
     adjustScrollHeight();
@@ -46,7 +45,7 @@ const Composition: FC<{
 
   useEffect(() => {
     if (!modelOffsetRef.current) return;
-    modelOffsetRef.current.position.set(1, -5, 1);
+    modelOffsetRef.current.position.set(1, -10, 1);
   }, []);
 
   useFrame((state) => {
