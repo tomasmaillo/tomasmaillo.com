@@ -6,14 +6,25 @@ import { SMALL_SCREEN_WIDTH_PX, useScreenSize } from "../../helpers";
 import { Project } from "../Project";
 import ProjectTile from "./ProjectTile";
 
+const ProjectListWrapper = styled.div`
+  margin: 32px;
+  padding: 32px;
+
+  > p {
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
+    margin: 0;
+  }
+`;
+
 const ProjectListColumns = styled.div<{
   projectsNum: number;
   isSmallScreen: boolean;
 }>`
   display: flex;
   flex-direction: row;
-  margin: 32px;
-  padding: 32px;
   justify-content: start;
   user-select: none;
   // prettier-ignore
@@ -64,32 +75,37 @@ const ProjectList: FC<ProjectListProps> = ({ projects }) => {
   const [isSmallScreen] = useScreenSize();
 
   return (
-    <ProjectListColumns
-      projectsNum={projects.length}
-      isSmallScreen={isSmallScreen}
-    >
-      {[...Array(2)].map((_, columnIndex) => (
-        <ProjectListColumn initial="hidden" animate="show">
-          {projects.map((project, projectIndex) => {
-            if (projectIndex % columnNum !== columnIndex) return;
-            return (
-              <div
-                style={{ cursor: selectedTile != project ? "pointer" : "auto" }}
-                onClick={() =>
-                  selectedTile != project && setSelectedTile(project)
-                }
-              >
-                <ProjectTile
-                  key={project.id}
-                  selected={selectedTile == project}
-                  {...project}
-                />
-              </div>
-            );
-          })}
-        </ProjectListColumn>
-      ))}
-    </ProjectListColumns>
+    <ProjectListWrapper>
+      <p>Some of my latest achievements:</p>
+      <ProjectListColumns
+        projectsNum={projects.length}
+        isSmallScreen={isSmallScreen}
+      >
+        {[...Array(2)].map((_, columnIndex) => (
+          <ProjectListColumn initial="hidden" animate="show">
+            {projects.map((project, projectIndex) => {
+              if (projectIndex % columnNum !== columnIndex) return;
+              return (
+                <div
+                  style={{
+                    cursor: selectedTile != project ? "pointer" : "auto",
+                  }}
+                  onClick={() =>
+                    selectedTile != project && setSelectedTile(project)
+                  }
+                >
+                  <ProjectTile
+                    key={project.id}
+                    selected={selectedTile == project}
+                    {...project}
+                  />
+                </div>
+              );
+            })}
+          </ProjectListColumn>
+        ))}
+      </ProjectListColumns>
+    </ProjectListWrapper>
   );
 };
 
