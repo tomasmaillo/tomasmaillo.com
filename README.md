@@ -15,17 +15,11 @@ Built with:
 
 This portfolio website has been through so many different variations since 2019... You can even check the [WayBackMachine](https://web.archive.org/web/20220000000000*/tomasmaillo.com)
 
-<video width="420" height="240" autoplay loop muted>
-  <source src="https://i.imgur.com/NErogaz.mp4" type="video/mp4">
-</video>
+https://user-images.githubusercontent.com/38633386/197219414-db059436-3dd1-49b2-b218-3d86425dabc3.mov
 
-<video width="420" height="240" autoplay loop muted>
-  <source src="https://i.imgur.com/cz1OtF4.mp4" type="video/mp4">
-</video>
+https://user-images.githubusercontent.com/38633386/197219431-a69da7d6-40ba-4d84-95c4-6f888e9218f6.mov
 
-<video width="420" height="240" autoplay loop muted>
-  <source src="https://i.imgur.com/UiBTcAo.mp4" type="video/mp4">
-</video>
+https://user-images.githubusercontent.com/38633386/197219448-33c64258-87a3-4ae7-ba24-1422e9931296.mov
 
 <br/>
 
