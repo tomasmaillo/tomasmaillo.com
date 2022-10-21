@@ -53,7 +53,7 @@ export const links: Link[] = [
   {
     text: { default: "", small: "CV", icon: <span>{"CV"}</span> },
     preview: {
-      url: "/linkPreviewMedia/CV.jpg",
+      url: "/linkPreviewMedia/CV.png",
     },
     url: "/TomasMailloCV.pdf",
   },
