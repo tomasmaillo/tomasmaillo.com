@@ -2,16 +2,6 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { SMALL_SCREEN_WIDTH_PX } from "../helpers";
 
-export const Overlay = styled(motion.div)`
-  z-index: 1;
-  position: fixed;
-  background: rgba(0, 0, 0, 0.5);
-  will-change: opacity;
-  top: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 500vh;
-`;
 export const CardContentContainer = styled(motion.div)`
   width: 100%;
   height: 90%;
@@ -62,16 +52,20 @@ export const CardImageContainer = styled.div`
   object-fit: contain;
   max-height: 10rem;
 
-  > h1 {
+  > h3 {
+    position: fixed;
+    font-size: 0.8rem;
     transition: 0.5s;
     color: black;
-    font-size: 1.5rem;
-    margin-left: 1rem;
+    top: 7vh;
+    left: 50%;
+    transform: translateX(-50%);
     position: fixed;
     z-index: 5;
   }
 
   > video {
+    transition: 0.5s;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -83,7 +77,7 @@ export const CardImageContainer = styled.div`
   }
 `;
 
-export const ContentWrapper = styled(motion.div)`
+export const ContentWrapper = styled.div`
   color: black;
   position: relative;
   z-index: 2;
@@ -100,7 +94,7 @@ export const SubTitleContainer = styled.div`
   margin-bottom: 12px;
 `;
 
-export const ContentContainer = styled(motion.div)`
+export const ContentContainer = styled.div`
   color: black;
   position: relative;
   z-index: 2;

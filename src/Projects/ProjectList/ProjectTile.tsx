@@ -17,26 +17,30 @@ const ProjectTile: FC<Project & { selected: boolean }> = ({
   description,
   selected,
 }) => {
-  const [imageLoaded, setImageLoaded] = useState<boolean>(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
+
   return (
     <CardContent className={selected ? "expanded" : ""}>
       <CardImageContainer>
-        <h1 style={{ opacity: imageLoaded ? 0 : 1 }}>{title}</h1>
+        <h3 style={{ opacity: hasLoaded ? "0" : "100" }}>
+          {`<video>${imageSrc + media}</video>`}
+        </h3>
         <video
-          autoPlay
-          loop
+          autoPlay={true}
           muted
+          loop
+          controls={false}
           playsInline
-          style={{ opacity: imageLoaded ? 1 : 0 }}
-          className="card-image"
-          src={imageSrc + media}
-          onLoad={() => setImageLoaded(true)}
-        />
+          style={{ opacity: hasLoaded ? "100" : "0" }}
+          onLoadedData={() => setHasLoaded(true)}
+        >
+          <source src={imageSrc + media} type="video/mp4" />
+        </video>
       </CardImageContainer>
       <ContentWrapper>
         <TitleContainer>{title}</TitleContainer>
         <SubTitleContainer>{subtitle}</SubTitleContainer>
-        <ContentContainer animate>{description}</ContentContainer>
+        <ContentContainer>{description}</ContentContainer>
       </ContentWrapper>
     </CardContent>
   );

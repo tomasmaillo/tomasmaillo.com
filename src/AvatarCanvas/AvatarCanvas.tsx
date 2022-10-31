@@ -40,6 +40,10 @@ const Composition: FC<{
     }
     window.addEventListener("resize", adjustScrollHeight);
     adjustScrollHeight();
+
+    // Re-run slightly later as some html elements take time to create
+    setTimeout(() => adjustScrollHeight(), 100);
+
     return () => window.removeEventListener("resize", adjustScrollHeight);
   }, [progress, showHtml]);
 
@@ -65,19 +69,19 @@ const Composition: FC<{
   return (
     <>
       <Scroll html>
-        <div
-          ref={divRef}
-          style={{
-            width: "100vw",
-            opacity: showHtml ? "100%" : "0%",
-            pointerEvents: showHtml ? "all" : "none",
-            transition: "0.5s",
-          }}
-        >
-          <Gap height={isSmallScreen ? "70vh" : "40vh"} />
-          <Projects />
-          <Diagonal />
-        </div>
+        {showHtml && (
+          <div
+            ref={divRef}
+            style={{
+              width: "100vw",
+              pointerEvents: showHtml ? "all" : "none",
+            }}
+          >
+            <Gap height={isSmallScreen ? "70vh" : "40vh"} />
+            <Projects />
+            <Diagonal />
+          </div>
+        )}
       </Scroll>
 
       <gridHelper
@@ -111,8 +115,6 @@ const CanvasWrapper = styled.div`
 const AvatarCanvas: FC<{ setShowLogo: (state: boolean) => void }> = ({
   setShowLogo,
 }) => {
-  const [isSmallScreen] = useScreenSize();
-
   const [scrollHeight, setScrollHeight] = useState(0);
 
   return (

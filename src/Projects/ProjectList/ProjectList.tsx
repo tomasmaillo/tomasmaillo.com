@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import { SMALL_SCREEN_WIDTH_PX, useScreenSize } from "../../helpers";
 // TODO: Type are similar to values
@@ -36,7 +35,7 @@ const ProjectListColumns = styled.div<{
     margin: 0;
   }
 `;
-const ProjectListColumn = styled(motion.div)`
+const ProjectListColumn = styled.div`
   max-width: 381px;
   display: grid;
   grid-template-columns: 1fr;
@@ -76,13 +75,13 @@ const ProjectList: FC<ProjectListProps> = ({ projects }) => {
 
   return (
     <ProjectListWrapper>
-      <p>Some of my latest achievements:</p>
+      <p>Some of my latest achievements: </p>
       <ProjectListColumns
         projectsNum={projects.length}
         isSmallScreen={isSmallScreen}
       >
         {[...Array(2)].map((_, columnIndex) => (
-          <ProjectListColumn initial="hidden" animate="show">
+          <ProjectListColumn>
             {projects.map((project, projectIndex) => {
               if (projectIndex % columnNum !== columnIndex) return;
               return (
