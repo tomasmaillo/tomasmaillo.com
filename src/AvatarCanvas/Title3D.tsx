@@ -40,6 +40,10 @@ const Title3D = () => {
       setActive(Number(!active));
   }, [progress, flipProgress]);
 
+  useEffect(() => {
+    document.title = flippingText;
+  }, [flippingText]);
+
   return (
     <group position={[posXOffset, 0, 0.6]}>
       <a.group position-y={posY}>
