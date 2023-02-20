@@ -13,6 +13,11 @@ Built with:
 
 ## See my progress on this page 👀
 
+- [2019.tomasmaillo.com](https://2019.tomasmaillo.com/)
+- [2020.tomasmaillo.com](https://2020.tomasmaillo.com/)
+- [2021.tomasmaillo.com](https://2021.tomasmaillo.com/)
+- [2022.tomasmaillo.com](https://2022.tomasmaillo.com/)
+
 This portfolio website has been through so many different variations since 2019... You can even check the [WayBackMachine](https://web.archive.org/web/20220000000000*/tomasmaillo.com)
 
 https://user-images.githubusercontent.com/38633386/197219414-db059436-3dd1-49b2-b218-3d86425dabc3.mov
