@@ -11,6 +11,8 @@ const App = () => {
     window.scrollTo(0, 0);
   };
 
+  navigator.serviceWorker.register("/serviceWorker.js");
+
   // Using React context to pass showLogo down is not possible as
   // R3F and React are using two different render-roots :(
   // https://github.com/pmndrs/react-three-fiber/issues/262
