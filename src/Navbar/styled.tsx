@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
-import { SMALL_SCREEN_WIDTH_PX } from "../helpers";
+import { SMALL_SCREEN_WIDTH_PX } from '../helpers'
 
 export const StyledNavbar = styled(motion.div)`
   display: flex;
@@ -20,7 +20,7 @@ export const StyledNavbar = styled(motion.div)`
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-top: none;
-`;
+`
 
 export const StyledNavbarItem = styled(motion.div)`
   color: black;
@@ -36,7 +36,7 @@ export const StyledNavbarItem = styled(motion.div)`
   &:hover {
     margin: 0px 12px 0px 12px;
   }
-`;
+`
 
 export const StyledLinkPreview = styled(motion.div)`
   position: fixed;
@@ -45,7 +45,7 @@ export const StyledLinkPreview = styled(motion.div)`
   overflow: hidden;
 
   > img {
-    max-width: 30vw;
+    max-width: 15vw;
     height: 100%;
     max-height: 40vh;
     object-fit: cover;
@@ -57,7 +57,7 @@ export const StyledLinkPreview = styled(motion.div)`
     max-height: 40vh;
     object-fit: cover;
   }
-`;
+`
 
 export const StyledNavbarLink = styled(motion.a)`
   color: black;
@@ -71,4 +71,4 @@ export const StyledNavbarLink = styled(motion.a)`
   > span:hover {
     text-decoration: underline;
   }
-`;
+`

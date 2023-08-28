@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
-import styled from "styled-components";
-import { SMALL_SCREEN_WIDTH_PX, useScreenSize } from "../../helpers";
+import { FC, useState } from 'react'
+import styled from 'styled-components'
+import { SMALL_SCREEN_WIDTH_PX, useScreenSize } from '../../helpers'
 // TODO: Type are similar to values
-import { Project } from "../Project";
-import ProjectTile from "./ProjectTile";
+import { Project } from '../Project'
+import ProjectTile from './ProjectTile'
 
 const ProjectListWrapper = styled.div`
   margin: 32px;
@@ -16,11 +16,11 @@ const ProjectListWrapper = styled.div`
   @media (max-width: ${SMALL_SCREEN_WIDTH_PX}) {
     margin: 0;
   }
-`;
+`
 
 const ProjectListColumns = styled.div<{
-  projectsNum: number;
-  isSmallScreen: boolean;
+  projectsNum: number
+  isSmallScreen: boolean
 }>`
   display: flex;
   flex-direction: row;
@@ -34,7 +34,7 @@ const ProjectListColumns = styled.div<{
     flex-direction: column;
     margin: 0;
   }
-`;
+`
 const ProjectListColumn = styled.div`
   max-width: 381px;
   display: grid;
@@ -48,7 +48,7 @@ const ProjectListColumn = styled.div`
     margin: auto;
     margin-bottom: 32px;
   }
-`;
+`
 
 // const container = {
 //   hidden: { opacity: 0 },
@@ -66,46 +66,54 @@ const ProjectListColumn = styled.div`
 // };
 
 interface ProjectListProps {
-  projects: Project[];
+  projects: Project[]
 }
 const ProjectList: FC<ProjectListProps> = ({ projects }) => {
-  const [selectedTile, setSelectedTile] = useState<Project>(projects[0]);
-  const columnNum = 2;
-  const [isSmallScreen] = useScreenSize();
+  const [selectedTile, setSelectedTile] = useState<Project>(projects[0])
+  const columnNum = 2
+  const [isSmallScreen] = useScreenSize()
 
   return (
     <ProjectListWrapper>
       <p>Some of my latest achievements: </p>
       <ProjectListColumns
         projectsNum={projects.length}
-        isSmallScreen={isSmallScreen}
-      >
+        isSmallScreen={isSmallScreen}>
         {[...Array(2)].map((_, columnIndex) => (
           <ProjectListColumn>
             {projects.map((project, projectIndex) => {
-              if (projectIndex % columnNum !== columnIndex) return;
+              if (projectIndex % columnNum !== columnIndex) return
               return (
                 <div
                   style={{
-                    cursor: selectedTile != project ? "pointer" : "auto",
+                    cursor: selectedTile != project ? 'pointer' : 'auto',
                   }}
                   onClick={() =>
                     selectedTile != project && setSelectedTile(project)
-                  }
-                >
+                  }>
                   <ProjectTile
                     key={project.id}
                     selected={selectedTile == project}
                     {...project}
                   />
                 </div>
-              );
+              )
             })}
           </ProjectListColumn>
         ))}
       </ProjectListColumns>
+      <p>
+        {' '}
+        You want more? Im assembling a list of{' '}
+        <a
+          href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d?pvs=4"
+          target="_blank"
+          rel="noreferrer">
+          everything I've ever built
+        </a>
+      </p>
     </ProjectListWrapper>
-  );
-};
+  )
+}
 
-export default ProjectList;
+export default ProjectList
