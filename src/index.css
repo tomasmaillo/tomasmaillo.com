@@ -1,13 +1,42 @@
-html,
-body {
-    overflow: hidden;
-} 
+:root {
+  font-family: Inter, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 
-body{
-    background: #FFFAEB;
-    height: 100vh;
-    overflow-y: hidden;
-    font-family: "Inconsolata", monospace;
-    color: #223F8B;
-    margin: 0px;
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #fcfcfc;
+  color: #0e0e0e;
+}
+
+::selection {
+  background-color: #e7e7e7ac;
+  color: black;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
 }

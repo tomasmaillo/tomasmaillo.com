@@ -1,54 +1,30 @@
 {
   "name": "tomasmaillo.com",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
   "dependencies": {
-    "@react-spring/core": "^9.5.5",
-    "@react-spring/three": "^9.5.5",
-    "@react-spring/web": "^9.5.5",
-    "@react-three/drei": "^9.29.1",
-    "@react-three/fiber": "^8.7.2",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.11.58",
-    "@types/react": "^18.0.19",
-    "@types/react-dom": "^18.0.6",
-    "@types/styled-components": "^5.1.26",
-    "@types/three": "^0.144.0",
-    "framer-motion": "^7.3.5",
+    "framer-motion": "^10.12.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.6.0",
-    "react-scripts": "5.0.1",
-    "styled-components": "^5.3.5",
-    "three": "^0.144.0",
-    "typescript": "^4.8.3",
-    "web-vitals": "^2.1.4"
+    "react-intersection-observer": "^9.5.2",
+    "styled-components": "^6.0.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^8.44.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.0"
   }
 }
