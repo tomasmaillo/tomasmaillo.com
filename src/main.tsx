@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+import App from './CVView/CVView.tsx'
 import './index.css'
 import Links from './Links.tsx'
+import Credits from './Credits.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -61,6 +62,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </div>
 
       <App />
+
+      <Credits />
 
       <div
         style={{
