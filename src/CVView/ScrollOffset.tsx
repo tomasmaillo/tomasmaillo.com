@@ -35,11 +35,19 @@ const ScrollOffset: React.FC<ScrollOffsetProps> = ({ children }) => {
 
   const y = useTransform(
     smoothSelectedVerticalOffset,
-    (value) => -value / 50 + 120
+    (value) => -value / 50 + 25
   )
 
   return (
-    <div>
+    <div
+      style={{
+        zIndex: 100,
+        borderRadius: '10px',
+        backgroundColor: '#ffffff',
+        padding: '2px',
+        backdropFilter: 'blur(3px)',
+        border: '1px solid #ECECEC',
+      }}>
       <StyledScrollOffset style={{ y }}>{children}</StyledScrollOffset>
     </div>
   )

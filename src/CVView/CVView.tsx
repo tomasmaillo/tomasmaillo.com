@@ -61,6 +61,10 @@ const CVView: React.FC = () => {
   return (
     <motion.div className="container">
       <ScrollOffset>
+        <h1 style={{ fontFamily: 'PPMondwest-Regular', fontSize: '5rem' }}>
+          Online ceevee
+        </h1>
+        <a href="/TomasMailloCV.pdf">PDF version</a>
         <TopicDescriptionList
           items={items}
           selectedItems={selectedItems}
@@ -75,86 +79,111 @@ const CVView: React.FC = () => {
           gap: '10rem',
         }}>
         {items.map((item) => (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              width: '100%',
-              height: '70vh',
-              position: 'relative',
-              backgroundColor: '#ffffff',
-            }}
-            key={item.id}
-            ref={itemRefs.current[item.id]}>
-            {item.background && (
-              <img
-                src={item.background}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  borderRadius: '5px',
-                  border: '1px solid #ececec',
-                }}
-              />
-            )}
-            <span
-              style={{
-                color: '#999999',
-                width: '100%',
-              }}>
-              {item.id}
-            </span>
-            <InView
-              as="div"
-              onChange={(inView) => handleInViewChange(inView, item.id)}
-              rootMargin="100px 0px -150px 0px"
-            />
+          <div>
             <div
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: '100%',
-              }}>
+                alignItems: 'flex-start',
+                width: '100%',
+                height: '64vh',
+                position: 'relative',
+                borderRadius: '10px',
+                backgroundColor: '#ffffff',
+              }}
+              key={item.id}
+              ref={itemRefs.current[item.id]}>
+              {item.background && (
+                <img
+                  src={item.background}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    borderRadius: '10px',
+                    border: '1px solid #ececec',
+                  }}
+                />
+              )}
+              <span
+                style={{
+                  color: '#999999',
+                  width: '100%',
+                }}>
+                {item.id}
+              </span>
+              <InView
+                as="div"
+                onChange={(inView) => handleInViewChange(inView, item.id)}
+                rootMargin="100px 0px -450px 0px"
+              />
               <div
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  padding: '2rem',
-                  zIndex: 100,
+                  justifyContent: 'space-between',
+                  height: '100%',
                 }}>
-                <span style={{ fontSize: '2rem', zIndex: 10 }}>
-                  {item.title}
-                </span>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    padding: '2rem',
+                    zIndex: 100,
+                  }}>
+                  <span style={{ fontSize: '2rem', zIndex: 10 }}>
+                    {item.title}
+                  </span>
 
-                {!selectedItems.includes(item.id) && item.description && (
-                  <motion.div
-                    layoutId={`item-${item.id}`}
-                    className="item"
-                    style={{
-                      position: 'relative',
-                      fontSize: '14px',
-                      mixBlendMode: 'difference',
-                    }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 55,
-                      damping: 12,
-                    }}>
-                    {item.description}
-                  </motion.div>
-                )}
+                  {!selectedItems.includes(item.id) && item.description && (
+                    <motion.div
+                      layoutId={`item-${item.id}`}
+                      className="item"
+                      style={{
+                        position: 'relative',
+                        fontSize: '14px',
+                        mixBlendMode: 'multiply',
+                      }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 55,
+                        damping: 12,
+                      }}>
+                      {item.description}
+                    </motion.div>
+                  )}
+                </div>
+
+                <div style={{ padding: '2rem', textAlign: 'left' }}>
+                  <u>Visit</u>
+                </div>
               </div>
-
-              <u style={{ padding: '2rem', bottom: 0, textAlign: 'left' }}>
-                Visit
-              </u>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                padding: '1rem',
+              }}>
+              {item.details?.map((detail) => (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    padding: '1rem',
+                  }}>
+                  <span>{detail.title.toUpperCase()}</span>
+                  <span>{detail.value}</span>
+                </div>
+              ))}
             </div>
           </div>
         ))}

@@ -10,6 +10,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  font-feature-settings: 'cv01', 'cv05', 'cv09';
+
+  margin: 0;
 }
 
 a {
@@ -22,18 +26,30 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #fcfcfc;
   color: #0e0e0e;
+  margin: 0;
 }
 
-::selection {
+/* ::selection {
   background-color: #e7e7e7ac;
-  color: black;
+  color: #0e0e0e;
+} */
+
+/* ::selection {
+  background-color: #d9e2f7ac;
+  color: #181c74;
+} */
+
+::selection {
+  background-color: #272727;
+  color: #ffffff;
+}
+
+html.dark ::selection {
+  background-color: #cccccc;
+  color: #1f1f1f;
 }
 
 h1 {

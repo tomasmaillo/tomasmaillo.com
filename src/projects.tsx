@@ -1,37 +1,76 @@
 import { Item } from './CVView/item.interface'
+import { PeopleLink, STAN_FLINT } from './peopleLinks'
 
 export const PROJECTS: Item[] = [
   {
     id: 1,
     title: <img src="./vibe-checklogo.svg" width={256} />,
     background: './vibe-checkbackground.svg',
-    description:
-      'Co-built vibe-check: an online feedback system to improve lectures at university. Buit with Svelte and Node.js to allow the audience to give real-time feedback to the lecturer and display statistics.',
+    description: (
+      <>
+        Co-built <b>vibe-check</b>: a browser extension to improve lectures at
+        university by giving real-time feedback from the audience to lecturers.
+      </>
+    ),
     topic: 'Experience',
+    details: [
+      {
+        title: 'Team',
+        value: (
+          <>
+            <PeopleLink person={STAN_FLINT} />,{' '}
+            <PeopleLink person={STAN_FLINT} />
+          </>
+        ),
+      },
+      {
+        title: 'Tech',
+        value: <>Svelte, Node.js, MongoDB</>,
+      },
+
+      {
+        title: 'Users',
+        value: <>300</>,
+      },
+    ],
   },
   {
     id: 2,
     title: <img src="./librarylogo.svg" width={256} />,
 
     background: './librarybackground.svg',
-    description:
-      'Description about library. Laborum tempor duis amem amet veniam. Et labore dolor ad minim dolor pariatur fugiat deserunt qui mollit nulla ea.',
+    description: (
+      <>
+        Created <b>Library</b>: a web application to display library occupancy.
+        Used by 300 users during its peack
+      </>
+    ),
     topic: 'Experience',
   },
   {
     id: 3,
     title: <img src="./projectsharelogo.svg" height={96} />,
     background: './projectshare.svg',
-    description:
-      'Laborum tempor duis amet cupiEt labore dolor ad minim dolor pariatunulla ea. Excepteur exercitation officia nulla do nulla amet eu non adipisicing cud non nostrud aliquip esse.',
+    description: (
+      <>
+        Co-founded <b>Project Share</b>, an official society at the University
+        of Edinburgh to help students find present their own projects to other
+        technical people
+      </>
+    ),
     topic: 'Experience',
   },
   {
     id: 4,
     title: <>Title 4</>,
     background: './spotifybackground.svg',
-    description:
-      'Laborum tempor duis dolor ad minim dolor pariatur fugiat deserunt qui mollit nulla ea. Excepteur exercitation officia nulla do nulla amet eu non adipisicing cupidatat magna sit elit laboris. Sint esse esse non nostrud non nostrud aliquip esse.',
+    description: (
+      <>
+        Co-built vibe-check: an online feedback system to improve lectures at
+        university. Buit with Svelte and Node.js to allow the audience to give
+        real-time feedback to the lecturer and display statistics.'
+      </>
+    ),
     topic: 'Work',
   },
 
@@ -39,8 +78,13 @@ export const PROJECTS: Item[] = [
     id: 5,
     title: <>Hundreds of others</>,
     background: './spotifybackground.svg',
-    description:
-      'Laborum tempor duis dolor ad minim dolor pariatur fugiat deserunt qui mollit nulla ea. Excepteur exercitation officia nulla do nulla amet eu non adipisicing cupidatat magna sit elit laboris. Sint esse esse non nostrud non nostrud aliquip esse.',
+    description: (
+      <>
+        Co-built vibe-check: an online feedback system to improve lectures at
+        university. Buit with Svelte and Node.js to allow the audience to give
+        real-time feedback to the lecturer and display statistics.'
+      </>
+    ),
     topic: 'Test',
   },
   {
@@ -48,8 +92,13 @@ export const PROJECTS: Item[] = [
     title: <>Hundreds of others</>,
     background: './spotifybackground.svg',
 
-    description:
-      'Laborum tempor duis dolor ad minim dolor pariatur fugiat deserunt qui mollit nulla ea. Excepteur exercitation officia nulla do nulla amet eu non adipisicing cupidatat magna sit elit laboris. Sint esse esse non nostrud non nostrud aliquip esse.',
+    description: (
+      <>
+        Co-built vibe-check: an online feedback system to improve lectures at
+        university. Buit with Svelte and Node.js to allow the audience to give
+        real-time feedback to the lecturer and display statistics.'
+      </>
+    ),
     topic: 'Experience',
   },
   {
@@ -57,8 +106,13 @@ export const PROJECTS: Item[] = [
     title: <>Hundreds of others</>,
     background: './spotifybackground.svg',
 
-    description:
-      'Laborum tempor duis dolor ad minim dolor pariatur fugiat deserunt qui mollit nulla ea. Excepteur exercitation officia nulla do nulla amet eu non adipisicing cupidatat magna sit elit laboris. Sint esse esse non nostrud non nostrud aliquip esse.',
+    description: (
+      <>
+        Co-built vibe-check: an online feedback system to improve lectures at
+        university. Buit with Svelte and Node.js to allow the audience to give
+        real-time feedback to the lecturer and display statistics.'
+      </>
+    ),
     topic: 'Experience',
   },
 ]

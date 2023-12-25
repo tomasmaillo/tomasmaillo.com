@@ -1,6 +1,6 @@
 const CreditedPeople = [
   {
-    name: 'Ricardo Lopez',
+    name: 'Dorna Moini',
     url: 'https://google.com',
   },
   {
@@ -29,7 +29,7 @@ const Credits = () => {
         left: 0,
         zIndex: 10000,
         borderRadius: '10px',
-        backgroundColor: '#dffffad6',
+        backgroundColor: '#ffffffd5',
         border: '1px solid #ececec',
         padding: '15px',
         backdropFilter: 'blur(3px)',

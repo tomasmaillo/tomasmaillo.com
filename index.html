@@ -4,9 +4,36 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <title>TomasMaillo.com</title>
+
+    <link
+      rel="preload"
+      href="/PPMondwest-Regular.otf"
+      as="font"
+      type="font/otf"
+      crossorigin="anonymous" />
+
+    <script type="module">
+      const darkQuery = window.matchMedia('(prefers-color-scheme: dark)')
+      darkQuery.addEventListener('change', (e) => {
+        document.documentElement.classList.toggle('dark', e.matches)
+      })
+      document.documentElement.classList.toggle('dark', darkQuery.matches)
+    </script>
   </head>
   <body>
+    <style>
+      /* If these styles are updated, they should be updated in src/theme.ts as well */
+      html {
+        color: #333;
+        background-color: #f7f7f7;
+      }
+
+      html.dark {
+        color: #fff;
+        background-color: #333;
+      }
+    </style>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

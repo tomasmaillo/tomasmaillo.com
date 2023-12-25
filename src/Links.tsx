@@ -39,6 +39,7 @@ const ProfileAvatar = styled.img`
   width: 40px;
   border-radius: 50%;
   margin-right: 2px;
+  border: 1px solid #5a5a5a;
 `
 
 const ProfileInfo = styled.div`
@@ -52,12 +53,14 @@ const StyledLink = styled.a`
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: black;
+  color: ${(props) => props.theme.colors.primaryInverse};
   padding: 0px 5px;
   font-size: 14px;
 
+  user-select: none;
+
   &:hover {
-    color: #000000dd;
+    color: ${(props) => props.theme.colors.primaryInverse}dd;
   }
 `
 
@@ -70,7 +73,7 @@ const Avatar = styled.img`
 const Background = styled(motion.div)`
   position: absolute;
   background-color: #cfcfcf43;
-  border-radius: 5px;
+  border-radius: 7px;
   transition: all 0.3s ease;
   z-index: -1;
 `
