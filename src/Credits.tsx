@@ -1,11 +1,7 @@
 const CreditedPeople = [
   {
-    name: 'Dorna Moini',
-    url: 'https://google.com',
-  },
-  {
-    name: 'Ricardo Lopez',
-    url: 'https://google.com',
+    name: 'Cris Maillo',
+    url: 'https://crismaillo.net',
   },
   {
     name: 'Ricardo Lopez',

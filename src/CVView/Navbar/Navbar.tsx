@@ -6,7 +6,7 @@ import styled from 'styled-components'
 const StyledNavbar = styled.div`
   border-radius: 10px;
   background-color: ${(props) => props.theme.colors.cardInverse};
-  border: 1px solid ${(props) => props.theme.colors.border};
+  border: 1px solid ${(props) => props.theme.colors.borderInverse};
   backdrop-filter: blur(3px);
   color: ${(props) => props.theme.colors.primaryInverse};
   transition: 0.3s ease;

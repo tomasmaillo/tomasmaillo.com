@@ -27,10 +27,16 @@ export const PROJECTS: Item[] = [
         title: 'Tech',
         value: <>Svelte, Node.js, MongoDB</>,
       },
-
       {
-        title: 'Users',
-        value: <>300</>,
+        title: 'Summary',
+        value: (
+          <>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a
+            diam lectus. Sed sit amet ipsum mauris. Maecenas congueLorem ipsum
+            dolor sit amet, consectetur adipiscing elit. Donec a diam lectus.
+            Sed sit amet ipsum mauris.
+          </>
+        ),
       },
     ],
   },

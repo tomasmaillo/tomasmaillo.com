@@ -1,6 +1,15 @@
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import styled from 'styled-components'
 
+const StyledScrollOffsetWrapper = styled.div`
+  z-index: 100;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.card};
+  padding: 2px;
+  backdrop-filter: blur(3px);
+  border: 1px solid ${({ theme }) => theme.colors.border};
+`
+
 const StyledScrollOffset = styled(motion.div)`
   position: sticky;
   top: 0;
@@ -39,17 +48,9 @@ const ScrollOffset: React.FC<ScrollOffsetProps> = ({ children }) => {
   )
 
   return (
-    <div
-      style={{
-        zIndex: 100,
-        borderRadius: '10px',
-        backgroundColor: '#ffffff',
-        padding: '2px',
-        backdropFilter: 'blur(3px)',
-        border: '1px solid #ECECEC',
-      }}>
+    <StyledScrollOffsetWrapper>
       <StyledScrollOffset style={{ y }}>{children}</StyledScrollOffset>
-    </div>
+    </StyledScrollOffsetWrapper>
   )
 }
 

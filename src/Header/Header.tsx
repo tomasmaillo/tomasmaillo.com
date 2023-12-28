@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
+import VisitorCounter from './VisitorCounter'
 
 const HeaderWrapper = styled.div`
   height: 100%;
@@ -20,45 +21,58 @@ const Header = () => {
       style={{
         width: '100%',
         height: '80vh',
+        position: 'relative',
       }}>
       <HeaderWrapper>
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            delay: 0.5,
-            duration: 0.75,
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '14px',
+            padding: '0 20px',
+            textAlign: 'left',
+            fontSize: '24px',
           }}>
-          I'm Tomas Maillo
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
-              delay: 1.25,
+              delay: 0.5,
               duration: 0.75,
             }}>
-            , Software Engineer.
+            <b>Tomas Maillo</b>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                delay: 1.25,
+                duration: 0.75,
+              }}>
+              , Software Engineer.
+            </motion.span>
           </motion.span>
-        </motion.span>
 
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            delay: 2.5,
-            duration: 0.75,
-          }}>
-          CS and AI student at The University of Edinburgh.
-        </motion.span>
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            delay: 4.5,
-            duration: 0.75,
-          }}>
-          Previously at Spotify
-        </motion.span>
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              delay: 2.5,
+              duration: 0.75,
+            }}>
+            CS and AI student at The University of Edinburgh.
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              delay: 4.5,
+              duration: 0.75,
+            }}>
+            Previously at Spotify
+          </motion.span>
+        </div>
+
+        <VisitorCounter />
       </HeaderWrapper>
     </div>
   )

@@ -5,6 +5,7 @@ import '../App.css'
 import { PROJECTS } from '../projects'
 import TopicDescriptionList from './TopicDescriptionList/TopicDescriptionList'
 import ScrollOffset from './ScrollOffset'
+import TopicDetails from './TopicDetails'
 
 const CVView: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>([])
@@ -104,7 +105,6 @@ const CVView: React.FC = () => {
                     top: 0,
                     left: 0,
                     borderRadius: '10px',
-                    border: '1px solid #ececec',
                   }}
                 />
               )}
@@ -163,28 +163,7 @@ const CVView: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                gap: '1rem',
-                padding: '1rem',
-              }}>
-              {item.details?.map((detail) => (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    padding: '1rem',
-                  }}>
-                  <span>{detail.title.toUpperCase()}</span>
-                  <span>{detail.value}</span>
-                </div>
-              ))}
-            </div>
+            <TopicDetails item={item} />
           </div>
         ))}
       </div>

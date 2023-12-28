@@ -6,6 +6,7 @@ import Credits from './Credits.tsx'
 import Header from './Header/Header.tsx'
 import Navbar from './CVView/Navbar/Navbar.tsx'
 import DynamicThemeProvider from './DynamicThemeProvider.tsx'
+import Now from './Now.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -22,6 +23,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Header />
 
         <App />
+
+        <Now />
 
         <Credits />
       </div>

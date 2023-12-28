@@ -24,6 +24,7 @@ const StyledWrapper = styled.p`
 
 const StyledLocationLink = styled.a`
   color: ${(props) => props.theme.colors.primaryInverse};
+  text-decoration: none;
 
   &:hover {
     color: ${(props) => props.theme.colors.primaryInverse}dd;
@@ -41,7 +42,7 @@ const LocationAndTime = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setDateTime(new Date().toLocaleTimeString())
-    }, 100)
+    }, 1000)
     setDateTime(new Date().toLocaleTimeString())
     return () => clearInterval(interval)
   }, [])
@@ -51,6 +52,7 @@ const LocationAndTime = () => {
       try {
         const response = await fetch('https://web.tomasmaillo.com/location')
         const data = await response.json()
+        if (!data.city || !data.region) return
         setLocation({ city: data.city, region: data.region })
       } catch (error) {
         console.error('Failed to fetch region', error)
