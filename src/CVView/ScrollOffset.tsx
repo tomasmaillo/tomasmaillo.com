@@ -1,19 +1,16 @@
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import styled from 'styled-components'
 
-const StyledScrollOffsetWrapper = styled.div`
-  z-index: 100;
-  border-radius: 10px;
-  background-color: ${({ theme }) => theme.colors.card};
-  padding: 2px;
-  backdrop-filter: blur(3px);
-  border: 1px solid ${({ theme }) => theme.colors.border};
-`
+const StyledScrollOffsetWrapper = styled.div``
 
 const StyledScrollOffset = styled(motion.div)`
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 2px;
   position: sticky;
-  top: 0;
-  box-sizing: content-box;
+  background-color: ${({ theme }) => theme.colors.card};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  top: 96px;
 `
 
 const ScrollOffset: React.FC<ScrollOffsetProps> = ({ children }) => {
@@ -42,14 +39,19 @@ const ScrollOffset: React.FC<ScrollOffsetProps> = ({ children }) => {
     stiffness: 400,
   })
 
-  const y = useTransform(
-    smoothSelectedVerticalOffset,
-    (value) => -value / 50 + 25
-  )
+  const y = useTransform(smoothSelectedVerticalOffset, (value) => -value / 30)
 
   return (
     <StyledScrollOffsetWrapper>
-      <StyledScrollOffset style={{ y }}>{children}</StyledScrollOffset>
+      <StyledScrollOffset>
+        <motion.div
+          style={{
+            y,
+          }}>
+            
+          {children}
+        </motion.div>
+      </StyledScrollOffset>
     </StyledScrollOffsetWrapper>
   )
 }

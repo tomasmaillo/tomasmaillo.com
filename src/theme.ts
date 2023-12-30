@@ -5,6 +5,8 @@ const FONTS = {
 }
 
 export const LIGHT_THEME = {
+  maxWidth: '1492px',
+
   colors: {
     primary: '#383838',
     primaryInverse: '#FFFFFF',
@@ -21,6 +23,8 @@ export const LIGHT_THEME = {
 }
 
 export const DARK_THEME = {
+  maxWidth: '1492px',
+
   colors: {
     primary: '#EDEDED',
     primaryInverse: '#0E0E0E',

@@ -1,20 +1,8 @@
+import { PeopleLink, STAN_FLINT, CRIS_MAILLO } from './peopleLinks'
+
 const CreditedPeople = [
-  {
-    name: 'Cris Maillo',
-    url: 'https://crismaillo.net',
-  },
-  {
-    name: 'Ricardo Lopez',
-    url: 'https://google.com',
-  },
-  {
-    name: 'Ricardo Lopez',
-    url: 'https://google.com',
-  },
-  {
-    name: 'Ricardo Lopez',
-    url: 'https://google.com',
-  },
+  <PeopleLink person={STAN_FLINT} />,
+  <PeopleLink person={CRIS_MAILLO} />,
 ]
 
 const Credits = () => {
@@ -51,16 +39,11 @@ const Credits = () => {
             justifyContent: 'flex-start',
             gap: '0.5rem',
           }}>
-          {CreditedPeople.map((person) => (
-            <a
-              href={person.url}
-              style={{
-                fontSize: '16px',
-                color: 'black',
-                textDecoration: 'underline',
-              }}>
-              {person.name}
-            </a>
+          {CreditedPeople.map((person, i) => (
+            <span>
+              {person}
+              {i < CreditedPeople.length - 1 && ','}
+            </span>
           ))}
         </div>
       </div>

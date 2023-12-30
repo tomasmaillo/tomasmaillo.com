@@ -22,6 +22,7 @@ const Header = () => {
         width: '100%',
         height: '80vh',
         position: 'relative',
+        
       }}>
       <HeaderWrapper>
         <div
@@ -58,6 +59,9 @@ const Header = () => {
             transition={{
               delay: 2.5,
               duration: 0.75,
+            }}
+            style={{
+              fontSize: '18px',
             }}>
             CS and AI student at The University of Edinburgh.
           </motion.span>
@@ -67,7 +71,11 @@ const Header = () => {
             transition={{
               delay: 4.5,
               duration: 0.75,
-            }}>
+            }}
+            style={{
+              fontSize: '18px',
+            }}
+            >
             Previously at Spotify
           </motion.span>
         </div>

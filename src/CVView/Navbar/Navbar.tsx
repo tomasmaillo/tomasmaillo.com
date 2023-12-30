@@ -3,9 +3,13 @@ import Links from '../../Links'
 import LocationAndTime from './LocationAndTime'
 import styled from 'styled-components'
 
-const StyledNavbar = styled.div`
+const StyledNavbar = styled.div<{ inFocus?: boolean }>`
   border-radius: 10px;
-  background-color: ${(props) => props.theme.colors.cardInverse};
+  background-color: ${(props) =>
+    props.inFocus
+      ? props.theme.colors.cardInverse
+      : props.theme.colors.cardInverse + 'ee'};
+  padding: ${(props) => (props.inFocus ? '8px' : '2px')};
   border: 1px solid ${(props) => props.theme.colors.borderInverse};
   backdrop-filter: blur(3px);
   color: ${(props) => props.theme.colors.primaryInverse};
@@ -41,9 +45,7 @@ const Navbar = () => {
       <StyledNavbar
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style={{
-          padding: `${isScrollAtTop || isHovered ? '8px' : '2px'}`,
-        }}>
+        inFocus={isScrollAtTop || isHovered}>
         <Links
           links={[
             {

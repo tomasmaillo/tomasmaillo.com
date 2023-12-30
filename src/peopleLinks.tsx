@@ -10,9 +10,9 @@ export const STAN_FLINT: Person = {
   link: 'https://stanflint.dev/',
 }
 
-export const ALEXANDERLEE: Person = {
-  name: 'Alexander Lee',
-  link: 'https://www.linkedin.com/in/alexander-lee-1b7a2b1b0/',
+export const CRIS_MAILLO: Person = {
+  name: 'Cris Maillo',
+  link: 'https://crismaillo.net/',
 }
 
 export const PeopleLink = ({ person }: { person: Person }) => {

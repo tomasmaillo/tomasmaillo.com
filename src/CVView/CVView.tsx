@@ -6,9 +6,10 @@ import { PROJECTS } from '../projects'
 import TopicDescriptionList from './TopicDescriptionList/TopicDescriptionList'
 import ScrollOffset from './ScrollOffset'
 import TopicDetails from './TopicDetails'
+import StyledTopicDescription from './StyledTopicDescription'
 
 const CVView: React.FC = () => {
-  const [selectedItems, setSelectedItems] = useState<number[]>([])
+  const [selectedItems, setSelectedItems] = useState<number[]>(PROJECTS.map((item) => item.id))
   const [inViewItems, setInViewItems] = useState<number[]>([])
   const itemRefs = useRef<{ [key: number]: React.RefObject<HTMLDivElement> }>(
     {}
@@ -140,21 +141,15 @@ const CVView: React.FC = () => {
                   </span>
 
                   {!selectedItems.includes(item.id) && item.description && (
-                    <motion.div
+                    <StyledTopicDescription
                       layoutId={`item-${item.id}`}
-                      className="item"
                       style={{
                         position: 'relative',
-                        fontSize: '14px',
-                        mixBlendMode: 'multiply',
                       }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 55,
-                        damping: 12,
-                      }}>
+                      isHidden={false}
+                      >
                       {item.description}
-                    </motion.div>
+                    </StyledTopicDescription>
                   )}
                 </div>
 
