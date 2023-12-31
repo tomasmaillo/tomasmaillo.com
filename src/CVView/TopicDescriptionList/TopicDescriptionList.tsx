@@ -7,7 +7,7 @@ import styled from 'styled-components'
 const StyledTopicDescriptionWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.35rem;
 `
 
 const TopicDescriptionList: React.FC<TopicDescriptionListProps> = ({

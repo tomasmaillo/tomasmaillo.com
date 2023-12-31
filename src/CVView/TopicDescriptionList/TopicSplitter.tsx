@@ -30,6 +30,7 @@ const StyledSplitterWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 0.05rem;
+  padding-left: 0.5rem;
 `
 
 const StyledSplitterText = styled.p`

@@ -8,13 +8,14 @@ import Navbar from './CVView/Navbar/Navbar.tsx'
 import DynamicThemeProvider from './DynamicThemeProvider.tsx'
 import Now from './Now.tsx'
 import styled from 'styled-components'
+import PageProgressIndicator from './PageProgressIndicator.tsx'
 
 const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 0 16px 16px 16px;
-  max-width: ${props => props.theme.maxWidth};
+  max-width: ${(props) => props.theme.maxWidth};
   margin: 0 auto;
 `
 

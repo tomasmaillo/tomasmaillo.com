@@ -9,7 +9,9 @@ import TopicDetails from './TopicDetails'
 import StyledTopicDescription from './StyledTopicDescription'
 
 const CVView: React.FC = () => {
-  const [selectedItems, setSelectedItems] = useState<number[]>(PROJECTS.map((item) => item.id))
+  const [selectedItems, setSelectedItems] = useState<number[]>(
+    PROJECTS.map((item) => item.id)
+  )
   const [inViewItems, setInViewItems] = useState<number[]>([])
   const itemRefs = useRef<{ [key: number]: React.RefObject<HTMLDivElement> }>(
     {}
@@ -63,10 +65,20 @@ const CVView: React.FC = () => {
   return (
     <motion.div className="container">
       <ScrollOffset>
-        <h1 style={{ fontFamily: 'PPMondwest-Regular', fontSize: '5rem' }}>
+        {/* <h1 style={{ fontFamily: 'PPMondwest-Regular', fontSize: '5rem' }}>
           Online ceevee
         </h1>
-        <a href="/TomasMailloCV.pdf">PDF version</a>
+        <a href="/TomasMailloCV.pdf">PDF version</a> */}
+
+        <h3
+          style={{
+            textAlign: 'left',
+            padding: '1rem',
+            paddingTop: '3rem',
+            margin: 0,
+          }}>
+          Paperless ceevee,
+        </h3>
         <TopicDescriptionList
           items={items}
           selectedItems={selectedItems}
@@ -146,9 +158,22 @@ const CVView: React.FC = () => {
                       style={{
                         position: 'relative',
                       }}
-                      isHidden={false}
-                      >
-                      {item.description}
+                      isHidden={false}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}>
+                        <span>
+                          <b>{item.description.title}</b> {' ⋅ '}
+                          <span style={{ opacity: 0.75 }}>
+                            {item.description.role}
+                          </span>
+                        </span>
+                        <b>{item.description.date}</b>
+                      </div>
+                      {item.description.text}
                     </StyledTopicDescription>
                   )}
                 </div>

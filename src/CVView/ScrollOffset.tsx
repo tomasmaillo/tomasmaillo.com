@@ -11,6 +11,7 @@ const StyledScrollOffset = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.card};
   border: 1px solid ${({ theme }) => theme.colors.border};
   top: 96px;
+  height: calc(100vh - 96px);
 `
 
 const ScrollOffset: React.FC<ScrollOffsetProps> = ({ children }) => {
@@ -39,7 +40,7 @@ const ScrollOffset: React.FC<ScrollOffsetProps> = ({ children }) => {
     stiffness: 400,
   })
 
-  const y = useTransform(smoothSelectedVerticalOffset, (value) => -value / 30)
+  const y = useTransform(smoothSelectedVerticalOffset, (value) => -value / 50)
 
   return (
     <StyledScrollOffsetWrapper>

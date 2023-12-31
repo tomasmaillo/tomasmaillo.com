@@ -33,6 +33,10 @@ const StyledTopicDescription = styled(motion.div).attrs({
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
   text-align: left;
   cursor: pointer;
 
