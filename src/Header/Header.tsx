@@ -13,6 +13,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.05);
 `
 
 const Header = () => {
@@ -20,63 +21,68 @@ const Header = () => {
     <div
       style={{
         width: '100%',
-        height: '80vh',
+        height: 'min(78svh, 900px)',
         position: 'relative',
-        
       }}>
       <HeaderWrapper>
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '14px',
             padding: '0 20px',
             textAlign: 'left',
-            fontSize: '24px',
+            fontSize: '20px',
+            gap: '8px',
+            maxWidth: '700px',
           }}>
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
-              delay: 0.5,
               duration: 0.75,
+            }}
+            style={{
+              color: '#A4A4A4',
+              fontSize: '16px',
             }}>
-            <b>Tomas Maillo</b>
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                delay: 1.25,
-                duration: 0.75,
-              }}>
-              , Software Engineer.
-            </motion.span>
+            Software Engineer
           </motion.span>
 
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
-              delay: 2.5,
+              delay: 1,
               duration: 0.75,
             }}
             style={{
               fontSize: '18px',
             }}>
-            CS and AI student at The University of Edinburgh.
+            Crafting tools and experiences for the web. Driven by meaningful
+            projects spanning many technologies.
           </motion.span>
+
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
-              delay: 4.5,
+              delay: 2,
               duration: 0.75,
             }}
             style={{
+              opacity: 0.8,
               fontSize: '18px',
-            }}
-            >
-            Previously at Spotify
+            }}>
+            Student @ The University of Edinburgh, CS and AI.{' '}
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                delay: 2.5,
+                duration: 0.75,
+              }}>
+              Previously at Spotify.
+            </motion.span>
           </motion.span>
         </div>
 

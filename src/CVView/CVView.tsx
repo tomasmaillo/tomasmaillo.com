@@ -16,6 +16,7 @@ const CVView: React.FC = () => {
   const itemRefs = useRef<{ [key: number]: React.RefObject<HTMLDivElement> }>(
     {}
   )
+  const [userProgress, setUserProgress] = useState<number>(0)
 
   const items = PROJECTS
   // Create a ref for each item in the initial render
@@ -47,6 +48,15 @@ const CVView: React.FC = () => {
     }
   }, [inViewItems, scrollVelocity, selectedItems])
 
+  useEffect(() => {
+    const missingItem =
+      items
+        .filter((item) => !selectedItems.includes(item.id))
+        .sort((a, b) => a.id - b.id)[0]?.id || 0
+
+    if (userProgress < missingItem) setUserProgress(missingItem)
+  }, [selectedItems])
+
   const handleInViewChange = (inView: boolean, id: number) => {
     if (inView) {
       setInViewItems((prev) => prev.filter((item) => item !== id))
@@ -64,21 +74,33 @@ const CVView: React.FC = () => {
 
   return (
     <motion.div className="container">
-      <ScrollOffset>
-        {/* <h1 style={{ fontFamily: 'PPMondwest-Regular', fontSize: '5rem' }}>
-          Online ceevee
-        </h1>
-        <a href="/TomasMailloCV.pdf">PDF version</a> */}
-
-        <h3
+      <ScrollOffset
+        fixedFooter={
+          <p
+            style={{
+              position: 'absolute',
+              bottom: '0',
+              padding: '1rem',
+              margin: 0,
+              fontSize: '.75rem',
+              right: 0,
+              mixBlendMode: 'multiply',
+              opacity: userProgress < items.length ? 1 : 0,
+              transition: 'opacity 0.2s ease-in-out',
+            }}>
+            {userProgress}/{items.length}
+          </p>
+        }>
+        <h2
           style={{
-            textAlign: 'left',
             padding: '1rem',
-            paddingTop: '3rem',
+            paddingTop: '4rem',
+            fontSize: '1.5rem',
             margin: 0,
           }}>
-          Paperless ceevee,
-        </h3>
+          Paperless CV
+        </h2>
+        <a href="/TomasMailloCV.pdf">Paperful_CV.pdf</a>
         <TopicDescriptionList
           items={items}
           selectedItems={selectedItems}
@@ -100,16 +122,16 @@ const CVView: React.FC = () => {
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 width: '100%',
-                height: '64vh',
+                height: 'min(64vh, 600px)',
                 position: 'relative',
                 borderRadius: '10px',
                 backgroundColor: '#ffffff',
               }}
               key={item.id}
               ref={itemRefs.current[item.id]}>
-              {item.background && (
+              {item.backgroundImg && (
                 <img
-                  src={item.background}
+                  src={item.backgroundImg}
                   style={{
                     width: '100%',
                     height: '100%',
@@ -121,6 +143,7 @@ const CVView: React.FC = () => {
                   }}
                 />
               )}
+              {item.backgroundElement}
               <span
                 style={{
                   color: '#999999',

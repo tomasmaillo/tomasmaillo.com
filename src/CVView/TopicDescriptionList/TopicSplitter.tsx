@@ -1,9 +1,10 @@
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 const Underline = () => {
+  const theme = useTheme()
   return (
     <svg
-      width="403"
+      width="325"
       height="1"
       viewBox="0 0 403 1"
       fill="none"
@@ -17,8 +18,8 @@ const Underline = () => {
           x2="5.49998"
           y2="0.999985"
           gradientUnits="userSpaceOnUse">
-          <stop stop-opacity="0" />
-          <stop offset="1" stop-color="#999999" />
+          <stop offset="0" stop-color="#ffffff00" />
+          <stop offset="1" stop-color={theme.colors.secondary} />
         </linearGradient>
       </defs>
     </svg>
@@ -37,7 +38,7 @@ const StyledSplitterText = styled.p`
   text-align: left;
   font-size: 16px;
   margin-bottom: 0px;
-  color: #999999;
+  color: ${(props) => props.theme.colors.secondary};
 `
 
 const TopicSplitter: React.FC<TopicSplitterProps> = ({ text }) => {

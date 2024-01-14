@@ -15,9 +15,15 @@ export const CRIS_MAILLO: Person = {
   link: 'https://crismaillo.net/',
 }
 
-export const PeopleLink = ({ person }: { person: Person }) => {
+export const RUSSELL_COOK: Person = {
+  name: 'Russell Maillo',
+  link: 'https://crismaillo.net/',
+}
+
+export const PeopleLink = ({ person, ...props }: { person: Person }) => {
   return (
     <a
+      {...props}
       className="App-link"
       href={person.link}
       target="_blank"

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from 'styled-components'
+import HideOnMobile from './Utility/HideOnMobile'
 
 type Link = {
   url: string
@@ -119,10 +120,12 @@ const Links: React.FC<LinksProps> = ({ links }) => {
           onMouseEnter={(e) => setHoveredLink(e.currentTarget)}
           onMouseLeave={() => setHoveredLink(null)}>
           <ProfileAvatar src="https://unavatar.io/github/tomasmaillo" />
-          <ProfileInfo>
-            <b>TomasMaillo.com</b>
-            <p style={{ margin: 0 }}>Full-stack Eng</p>
-          </ProfileInfo>
+          <HideOnMobile>
+            <ProfileInfo>
+              <b>TomasMaillo.com</b>
+              <p style={{ margin: 0 }}>Full-stack Eng</p>
+            </ProfileInfo>
+          </HideOnMobile>
         </ProfileWrapper>
 
         {links.map((link, index) => (

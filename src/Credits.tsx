@@ -1,53 +1,48 @@
+import React from 'react'
 import { PeopleLink, STAN_FLINT, CRIS_MAILLO } from './peopleLinks'
+import styled from 'styled-components'
 
-const CreditedPeople = [
-  <PeopleLink person={STAN_FLINT} />,
-  <PeopleLink person={CRIS_MAILLO} />,
-]
+const StyledCreditsContainer = styled.div`
+  bottom: 0;
+  left: 0;
+  z-index: 10000;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.colors.card};
+  border: 1px solid ${(props) => props.theme.colors.border};
+  color: ${(props) => props.theme.colors.primary};
+  padding: 15px;
+  backdrop-filter: blur(3px);
+`
+
+const StyledCreditsContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  text-align: left;
+  font-size: 16px;
+`
+
+const people = [STAN_FLINT, CRIS_MAILLO]
 
 const Credits = () => {
+  const renderPeopleLinks = () => {
+    return people.map((person, index) => (
+      <React.Fragment key={index}>
+        <PeopleLink person={person} />
+        {index < people.length - 1 && ', '}
+      </React.Fragment>
+    ))
+  }
+
   return (
-    <div
-      style={{
-        bottom: 0,
-        left: 0,
-        zIndex: 10000,
-        borderRadius: '10px',
-        backgroundColor: '#ffffffd5',
-        border: '1px solid #ececec',
-        padding: '15px',
-        backdropFilter: 'blur(3px)',
-      }}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          justifyContent: 'flex-start',
-          gap: '0.5rem',
-        }}>
-        <span
-          style={{
-            fontSize: '16px',
-          }}>
-          Credit to the people that made this possible:
-        </span>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
-            gap: '0.5rem',
-          }}>
-          {CreditedPeople.map((person, i) => (
-            <span>
-              {person}
-              {i < CreditedPeople.length - 1 && ','}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
+    <StyledCreditsContainer>
+      <StyledCreditsContent>
+        <span>Credit to the people that made this possible:</span>
+        <span>{renderPeopleLinks()}</span>
+      </StyledCreditsContent>
+    </StyledCreditsContainer>
   )
 }
 

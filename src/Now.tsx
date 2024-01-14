@@ -3,10 +3,10 @@ import Signature from './Signature'
 
 const Wrapper = styled.div`
   padding: 20px 32px 32px 32px;
-  width: 550px;
+  max-width: 550px;
   background-color: ${(props) => props.theme.colors.card};
   margin: 64px auto;
-  border-radius: 2px;
+  border-radius: 10px;
 
   border: 1px solid ${(props) => props.theme.colors.border};
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
@@ -14,6 +14,12 @@ const Wrapper = styled.div`
   transform: rotate(0.4deg);
   font-size: 16px;
   color: ${(props) => props.theme.colors.primary};
+
+  @media (max-width: 768px) {
+    padding: 16px 24px 24px 24px;
+    transform: rotate(0deg);
+    margin: auto;
+  }
 `
 
 const SectionTitle = styled.p`

@@ -1,8 +1,6 @@
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import styled from 'styled-components'
 
-const StyledScrollOffsetWrapper = styled.div``
-
 const StyledScrollOffset = styled(motion.div)`
   border-radius: 10px;
   overflow: hidden;
@@ -14,7 +12,10 @@ const StyledScrollOffset = styled(motion.div)`
   height: calc(100vh - 96px);
 `
 
-const ScrollOffset: React.FC<ScrollOffsetProps> = ({ children }) => {
+const ScrollOffset: React.FC<ScrollOffsetProps> = ({
+  fixedFooter,
+  children,
+}) => {
   const { scrollY } = useScroll()
 
   const selectedVerticalOffset = useTransform(
@@ -43,21 +44,20 @@ const ScrollOffset: React.FC<ScrollOffsetProps> = ({ children }) => {
   const y = useTransform(smoothSelectedVerticalOffset, (value) => -value / 50)
 
   return (
-    <StyledScrollOffsetWrapper>
-      <StyledScrollOffset>
-        <motion.div
-          style={{
-            y,
-          }}>
-            
-          {children}
-        </motion.div>
-      </StyledScrollOffset>
-    </StyledScrollOffsetWrapper>
+    <StyledScrollOffset>
+      <motion.div
+        style={{
+          y,
+        }}>
+        {children}
+      </motion.div>
+      {fixedFooter}
+    </StyledScrollOffset>
   )
 }
 
 interface ScrollOffsetProps {
+  fixedFooter: React.ReactNode
   children: React.ReactNode
 }
 

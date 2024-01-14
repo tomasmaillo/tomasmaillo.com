@@ -21,12 +21,11 @@ const StyledTopicDescription = styled(motion.div).attrs({
   transition: transition,
 })<StyledTopicDescriptionProps>`
   font-size: 14px;
-  padding: 8px 8px;
+  padding: 4px 8px;
   margin: 0px 4px;
-  width: calc(min(100vw, ${(props) => props.theme.maxWidth})*0.32);
+  width: calc(min(100vw, ${(props) => props.theme.maxWidth}) * 0.32);
   box-sizing: border-box;
 
-  background: rgba(251, 251, 251, 0.37);
   border: 1px solid #ffffff00;
   border-radius: 7px;
 
@@ -37,6 +36,7 @@ const StyledTopicDescription = styled(motion.div).attrs({
   flex-direction: column;
   gap: 2px;
 
+  color: ${(props) => props.theme.colors.primary};
   text-align: left;
   cursor: pointer;
 
@@ -44,8 +44,32 @@ const StyledTopicDescription = styled(motion.div).attrs({
 
   visibility: ${(props) => (props.isHidden ? 'hidden' : 'visible')};
 
+  mix-blend-mode: difference;
+
   &:hover {
-    border: 1px solid #e3e3e3;
+    &::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 7px;
+
+    border: 1px solid ${(props) => props.theme.colors.borderInverse}33;
+    opacity: 0;
+
+    transform: scale(0.975);
+
+    transition: 0.2s;
   }
 `
 

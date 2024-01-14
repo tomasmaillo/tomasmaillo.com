@@ -5,7 +5,7 @@ const FONTS = {
 }
 
 export const LIGHT_THEME = {
-  maxWidth: '1492px',
+  maxWidth: '1270px',
 
   colors: {
     primary: '#383838',
@@ -23,7 +23,7 @@ export const LIGHT_THEME = {
 }
 
 export const DARK_THEME = {
-  maxWidth: '1492px',
+  maxWidth: '1270px',
 
   colors: {
     primary: '#EDEDED',
@@ -34,7 +34,7 @@ export const DARK_THEME = {
     textSecondary: '#FFFFFF',
     border: '#222222',
     borderInverse: '#ECECEC',
-    card: '#333333',
+    card: '#444',
     cardInverse: '#FFFFFF',
   },
   fonts: FONTS,

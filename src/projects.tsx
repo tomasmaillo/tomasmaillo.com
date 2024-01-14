@@ -1,11 +1,12 @@
 import { Item } from './CVView/item.interface'
+import Card3D from './Card3D'
 import { PeopleLink, STAN_FLINT } from './peopleLinks'
 
 export const PROJECTS: Item[] = [
   {
     id: 1,
     title: <img src="./vibe-checklogo.svg" width={256} />,
-    background: './vibe-checkbackground.svg',
+    backgroundImg: './vibe-checkbackground.svg',
     description: {
       title: 'vibe-check',
       role: 'Co-founder',
@@ -18,7 +19,7 @@ export const PROJECTS: Item[] = [
       ),
     },
 
-    topic: 'Experience',
+    topic: 'Projects',
     details: [
       {
         title: 'Team',
@@ -50,7 +51,7 @@ export const PROJECTS: Item[] = [
     id: 2,
     title: <img src="./librarylogo.svg" width={256} />,
 
-    background: './librarybackground.svg',
+    backgroundImg: './librarybackground.svg',
     description: {
       title: 'Library',
       role: 'Co-founder',
@@ -63,12 +64,12 @@ export const PROJECTS: Item[] = [
       ),
     },
 
-    topic: 'Experience',
+    topic: 'Projects',
   },
   {
     id: 3,
     title: <img src="./projectsharelogo.svg" height={96} />,
-    background: './projectshare.svg',
+    backgroundImg: './projectshare.svg',
     description: {
       title: 'Project Share',
       role: 'Co-founder',
@@ -77,12 +78,12 @@ export const PROJECTS: Item[] = [
         <>Student society to share and collaborate on projects. Built with</>
       ),
     },
-    topic: 'Experience',
+    topic: 'Projects',
   },
   {
     id: 4,
     title: <>Title 4</>,
-    background: './spotifybackground.svg',
+    backgroundImg: './spotifybackground.svg',
     description: {
       title: 'Spotify',
       role: 'Web Engineer Intern',
@@ -95,6 +96,64 @@ export const PROJECTS: Item[] = [
       ),
     },
     topic: 'Work',
+  },
+
+  {
+    id: 5,
+    title: <>Title 4</>,
+    backgroundElement: (
+      <div>
+        <Card3D width="100px" height="200px">
+          <div
+            style={{
+              outline: '5px solid #ac3963',
+              background: '#982e55',
+            }}>
+            <img
+              src="https://unavatar.io/github/tomasmaillo"
+              style={{
+                height: '200px',
+                width: '200px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+              }}
+            />
+            <h2 style={{ margin: 0 }}>Tomas Maillo</h2>
+            <p style={{ margin: 0 }}>Web Egineer Intern</p>
+          </div>
+        </Card3D>
+      </div>
+    ),
+    description: {
+      title: 'Spotify',
+      role: 'Web Engineer Intern',
+      date: 'Sept 2020 - Feb 2020',
+      text: (
+        <>
+          Built the new Spotify for Artists website. Built with React, Redux,
+          GraphQL and Apollo.
+        </>
+      ),
+    },
+    topic: 'Education',
+  },
+
+  {
+    id: 6,
+    title: <>Hack</>,
+
+    description: {
+      title: 'Hack',
+      role: 'Web Engineer Intern',
+      date: 'Sept 2020 - Feb 2020',
+      text: (
+        <>
+          Built the new Spotify for Artists website. Built with React, Redux,
+          GraphQL and Apollo.
+        </>
+      ),
+    },
+    topic: 'Hackathon',
   },
 
   // {

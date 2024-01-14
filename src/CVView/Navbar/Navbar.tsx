@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Links from '../../Links'
 import LocationAndTime from './LocationAndTime'
 import styled from 'styled-components'
+import HideOnMobile from '../../Utility/HideOnMobile'
 
 const StyledNavbar = styled.div<{ inFocus?: boolean }>`
   border-radius: 10px;
@@ -63,13 +64,15 @@ const Navbar = () => {
           ]}
         />
 
-        <span
-          style={{
-            opacity: isScrollAtTop || isHovered ? 0.75 : 0.25,
-            transition: 'opacity 0.3s',
-          }}>
-          <LocationAndTime />
-        </span>
+        <HideOnMobile>
+          <span
+            style={{
+              opacity: isScrollAtTop || isHovered ? 0.75 : 0.25,
+              transition: 'opacity 0.3s',
+            }}>
+            <LocationAndTime />
+          </span>
+        </HideOnMobile>
       </StyledNavbar>
     </div>
   )

@@ -1,4 +1,5 @@
 import { useRef, useEffect, useMemo, useState } from 'react'
+import { useTheme } from 'styled-components'
 
 function useIsInViewport(ref: any) {
   const [isIntersecting, setIsIntersecting] = useState(false)
@@ -26,6 +27,8 @@ const Signature = () => {
   const ref = useRef(null)
   const isInViewport = useIsInViewport(ref)
   const [hasBeenInViewport, setHasBeenInViewport] = useState(false)
+
+  const theme = useTheme()
 
   useEffect(() => {
     if (isInViewport && !hasBeenInViewport) {
@@ -79,7 +82,7 @@ const Signature = () => {
             <>
               <path
                 id="t-top-line"
-                stroke="black"
+                stroke={theme.colors.primary}
                 strokeWidth="5"
                 fill="none"
                 strokeDasharray="1000"
@@ -88,7 +91,7 @@ const Signature = () => {
               />
               <path
                 id="scribble-line"
-                stroke="black"
+                stroke={theme.colors.primary}
                 strokeWidth="5"
                 fill="none"
                 strokeDasharray="1000"

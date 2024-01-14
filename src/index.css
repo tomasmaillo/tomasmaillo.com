@@ -33,6 +33,25 @@ body {
   margin: 0;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+
+  width: 500%;
+  height: 500%;
+
+  background-image: url('/grain.gif');
+  background-color: #7d2020;
+  background-size: 100px 100px;
+  background-repeat: repeat;
+  background-position: center center;
+  filter: brightness(2);
+  opacity: 0.05;
+}
+
 /* import font file */
 @font-face {
   font-family: 'GeistSans';

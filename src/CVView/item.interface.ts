@@ -1,7 +1,8 @@
 export interface Item {
   id: number
   title: JSX.Element
-  background: string
+  backgroundImg?: string
+  backgroundElement?: JSX.Element
   description: {
     title: string
     role?: string

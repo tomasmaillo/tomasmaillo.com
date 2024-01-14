@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import StyledTopicDescription from '../StyledTopicDescription'
 
 const StyledPoint = styled.span`
-  color: #999999;
+  color: ${(props) => props.theme.colors.secondary};
   font-size: 24px;
 
   &::after {

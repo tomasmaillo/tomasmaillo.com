@@ -8,7 +8,7 @@ import Navbar from './CVView/Navbar/Navbar.tsx'
 import DynamicThemeProvider from './DynamicThemeProvider.tsx'
 import Now from './Now.tsx'
 import styled from 'styled-components'
-import PageProgressIndicator from './PageProgressIndicator.tsx'
+import Card3D from './Card3D.tsx'
 
 const StyledMain = styled.main`
   display: flex;
@@ -29,6 +29,24 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <App />
 
         <Now />
+
+        <Card3D width="100%" height="200px">
+          <button
+            style={{
+              width: '100%',
+              height: '100%',
+              margin: '0 auto',
+              borderRadius: '100px',
+              border: 'none',
+              backgroundColor: '#272727',
+              color: '#fff',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+            }}>
+            Contact me
+          </button>
+        </Card3D>
 
         <Credits />
       </StyledMain>
