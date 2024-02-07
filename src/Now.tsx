@@ -28,6 +28,37 @@ const SectionTitle = styled.p`
   margin-top: 24px;
 `
 
+const StyledUpdateNowButton = styled.button`
+  cursor: pointer;
+  border-radius: 25px;
+  border: none;
+
+  color: ${(props) => props.theme.colors.secondary};
+  background-color: transparent;
+  transition: 0.2s ease-in-out;
+  margin-top: 16px;
+
+  max-inline-size: 50ch;
+  text-wrap: balance;
+
+  &:hover {
+    color: ${(props) => props.theme.colors.primary};
+  }
+`
+
+const UpdateNowButton = () => {
+  const HandleClick = () => {
+    console.log('Clicked')
+  }
+
+  return (
+    <StyledUpdateNowButton>
+      Is this out of date? Send a push notification to my phone to pressure me
+      into updating this page
+    </StyledUpdateNowButton>
+  )
+}
+
 const Now = () => {
   return (
     <Wrapper>
@@ -42,32 +73,21 @@ const Now = () => {
         movement. Dual purpose of showing what I am working on and keeping me
         accountable.
       </p>
-      <SectionTitle>Crafting the Canvas</SectionTitle>
-      Yearly Portfolio Rebirth: Each year brings a new wave of creativity as I
-      reconstruct my portfolio website from the ground up. It's a fusion of
-      code, design, and personal evolution.
-      <SectionTitle>Intellectual Adventures</SectionTitle>
-      Brain Gymnastics with CS & AI: In the throes of my third year at the
-      University of Edinburgh, I'm diving deep into challenging courses. It’s a
-      mix of embracing the tough stuff and cherishing the growth that comes with
-      it.
-      <SectionTitle>Beyond Code</SectionTitle>
-      Tech, Ties, and Identity: On a quest to connect with fellow tech
-      enthusiasts who dance in the realms of software, design, and LGBTQ+
-      experiences. Each encounter, a step out of my comfort zone, enriches my
-      journey.
-      <SectionTitle>Slopes & Dreams</SectionTitle>
-      Skiing: My Non-Negotiable Bliss: Skiing isn't just a hobby; it's my soul's
-      retreat. Ensuring my tech career funds this snowy escapade yearly is the
-      dream I chase.
-      <SectionTitle>Life tweaks</SectionTitle>I started gyming during early
-      2023. Discovering the unexpected joy of gym life, paired with an
-      innovative twist: syncing study flashcards with my workout breaks. Fitness
-      for the body and brain alike!
-      <SectionTitle>Life tweaks</SectionTitle>
-      Want to finish university. Discovering the unexpected joy of gym life,
-      paired with an innovative twist: syncing study flashcards with my workout
-      breaks. Fitness for the body and brain alike!
+      <SectionTitle>Re-Crafting the Canvas</SectionTitle>
+      Every year I recreate my portfolio from scratch. With each year I grow as
+      a person and engineer and I want my portfolio to reflect that. This year
+      I'm focusing on a more serious and sleek experience. (Always keeping them
+      at{' '}
+      <code>
+        {'<'}year{'>'}.tomasmaillo.com
+      </code>
+      )<SectionTitle>Brain Gymnastics</SectionTitle>
+      Starting my second semester of my 3rd year at university. I'm taking a
+      course called System Design Project where we're building an AI
+      hand-gesture controlled fan. We'll see how that turns out 🤞
+      <SectionTitle>Life tweaks</SectionTitle>Found the unexpected joy of gym
+      life + going through flashcards during my workout breaks. Thats how to
+      cheat the system.
       <div
         style={{
           display: 'flex',
@@ -82,8 +102,9 @@ const Now = () => {
           style={{
             fontSize: '12px',
           }}>
-          26th Dec 2023
+          6th Feb 2024
         </span>
+        <UpdateNowButton />
       </div>
     </Wrapper>
   )

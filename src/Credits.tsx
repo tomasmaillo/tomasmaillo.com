@@ -1,5 +1,11 @@
 import React from 'react'
-import { PeopleLink, STAN_FLINT, CRIS_MAILLO } from './peopleLinks'
+import {
+  PeopleLink,
+  STAN_FLINT,
+  CRIS_MAILLO,
+  RUSSELL_COOK,
+  PAULINA_GERCHUK,
+} from './peopleLinks'
 import styled from 'styled-components'
 
 const StyledCreditsContainer = styled.div`
@@ -24,7 +30,7 @@ const StyledCreditsContent = styled.div`
   font-size: 16px;
 `
 
-const people = [STAN_FLINT, CRIS_MAILLO]
+const people = [STAN_FLINT, CRIS_MAILLO, RUSSELL_COOK, PAULINA_GERCHUK]
 
 const Credits = () => {
   const renderPeopleLinks = () => {

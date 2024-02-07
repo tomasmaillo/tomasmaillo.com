@@ -16,9 +16,19 @@ export const CRIS_MAILLO: Person = {
 }
 
 export const RUSSELL_COOK: Person = {
-  name: 'Russell Maillo',
-  link: 'https://crismaillo.net/',
+  name: 'Russell Cook',
 }
+
+export const PAULINA_GERCHUK: Person = {
+  name: 'Paulina Gerchuk',
+  link: 'https://paulinagerch.uk/',
+}
+
+export const TOMAS_CUBELLS: Person = {
+  name: 'Tomás Cubells',
+  link: 'https://tomascubells.com/',
+}
+
 
 export const PeopleLink = ({ person, ...props }: { person: Person }) => {
   return (

@@ -7,6 +7,19 @@ import TopicDescriptionList from './TopicDescriptionList/TopicDescriptionList'
 import ScrollOffset from './ScrollOffset'
 import TopicDetails from './TopicDetails'
 import StyledTopicDescription from './StyledTopicDescription'
+import styled from 'styled-components'
+
+const ItemWrapper = styled.div`
+  border: 1px solid ${(props) => props.theme.colors.border};
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  height: min(64vh, 600px);
+  position: relative;
+  border-radius: 10px;
+  background-color: #ffffff;
+`
 
 const CVView: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>(
@@ -16,7 +29,7 @@ const CVView: React.FC = () => {
   const itemRefs = useRef<{ [key: number]: React.RefObject<HTMLDivElement> }>(
     {}
   )
-  const [userProgress, setUserProgress] = useState<number>(0)
+  const [userProgress, setUserProgress] = useState<number>(1)
 
   const items = PROJECTS
   // Create a ref for each item in the initial render
@@ -85,10 +98,10 @@ const CVView: React.FC = () => {
               fontSize: '.75rem',
               right: 0,
               mixBlendMode: 'multiply',
-              opacity: userProgress < items.length ? 1 : 0,
+              opacity: userProgress + 1 < items.length ? 1 : 0,
               transition: 'opacity 0.2s ease-in-out',
             }}>
-            {userProgress}/{items.length}
+            {userProgress + 1}/{items.length}
           </p>
         }>
         <h2
@@ -116,19 +129,7 @@ const CVView: React.FC = () => {
         }}>
         {items.map((item) => (
           <div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                width: '100%',
-                height: 'min(64vh, 600px)',
-                position: 'relative',
-                borderRadius: '10px',
-                backgroundColor: '#ffffff',
-              }}
-              key={item.id}
-              ref={itemRefs.current[item.id]}>
+            <ItemWrapper key={item.id} ref={itemRefs.current[item.id]}>
               {item.backgroundImg && (
                 <img
                   src={item.backgroundImg}
@@ -140,6 +141,7 @@ const CVView: React.FC = () => {
                     top: 0,
                     left: 0,
                     borderRadius: '10px',
+                    pointerEvents: 'none',
                   }}
                 />
               )}
@@ -201,11 +203,24 @@ const CVView: React.FC = () => {
                   )}
                 </div>
 
-                <div style={{ padding: '2rem', textAlign: 'left' }}>
-                  <u>Visit</u>
-                </div>
+                {item.url && (
+                  <div style={{ padding: '2rem', textAlign: 'left' }}>
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        textDecoration: 'underline',
+                        color: '#999999',
+                        zIndex: 999,
+                        pointerEvents: 'all',
+                      }}>
+                      Visit
+                    </a>
+                  </div>
+                )}
               </div>
-            </div>
+            </ItemWrapper>
             <TopicDetails item={item} />
           </div>
         ))}

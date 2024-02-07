@@ -45,7 +45,7 @@ const Header = () => {
               color: '#A4A4A4',
               fontSize: '16px',
             }}>
-            Software Engineer
+            Design Engineer
           </motion.span>
 
           <motion.span
@@ -58,8 +58,7 @@ const Header = () => {
             style={{
               fontSize: '18px',
             }}>
-            Crafting tools and experiences for the web. Driven by meaningful
-            projects spanning many technologies.
+            Crafting tools and experiences for the web.
           </motion.span>
 
           <motion.span
@@ -74,15 +73,19 @@ const Header = () => {
               fontSize: '18px',
             }}>
             Student @ The University of Edinburgh, CS and AI.{' '}
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                delay: 2.5,
-                duration: 0.75,
-              }}>
-              Previously at Spotify.
-            </motion.span>
+          </motion.span>
+
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              delay: 2.5,
+              duration: 0.75,
+            }}
+            style={{
+              fontSize: '18px',
+            }}>
+            Previously at Spotify.
           </motion.span>
         </div>
 

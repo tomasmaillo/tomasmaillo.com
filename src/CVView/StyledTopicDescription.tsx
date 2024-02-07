@@ -29,6 +29,7 @@ const StyledTopicDescription = styled(motion.div).attrs({
   border: 1px solid #ffffff00;
   border-radius: 7px;
 
+  /* background-color: ${(props) => props.theme.colors.secondary}33; */
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 
@@ -44,7 +45,9 @@ const StyledTopicDescription = styled(motion.div).attrs({
 
   visibility: ${(props) => (props.isHidden ? 'hidden' : 'visible')};
 
-  mix-blend-mode: difference;
+  &>* {
+    mix-blend-mode: multiply;
+  }
 
   &:hover {
     &::before {

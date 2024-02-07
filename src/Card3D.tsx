@@ -21,7 +21,6 @@ const CardSide = styled(motion.div)<{ isHovered: boolean }>`
   position: absolute;
   transition: 0.2s box-shadow;
 
-  padding: 1rem;
   box-sizing: border-box;
 `
 

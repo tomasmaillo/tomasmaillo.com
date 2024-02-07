@@ -43,7 +43,7 @@ body::before {
   width: 500%;
   height: 500%;
 
-  background-image: url('/grain.gif');
+  background-image: url('/grain.gif'); /* TODO: Damn I may need to remove this bc Safari things*/
   background-color: #7d2020;
   background-size: 100px 100px;
   background-repeat: repeat;

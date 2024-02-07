@@ -4,7 +4,6 @@ import { PeopleLink, STAN_FLINT } from './peopleLinks'
 
 export const PROJECTS: Item[] = [
   {
-    id: 1,
     title: <img src="./vibe-checklogo.svg" width={256} />,
     backgroundImg: './vibe-checkbackground.svg',
     description: {
@@ -46,28 +45,27 @@ export const PROJECTS: Item[] = [
         ),
       },
     ],
+    url: 'https://vibe-check.app/',
   },
-  {
-    id: 2,
-    title: <img src="./librarylogo.svg" width={256} />,
+  // {
+  //   title: <img src="./librarylogo.svg" width={256} />,
 
-    backgroundImg: './librarybackground.svg',
-    description: {
-      title: 'Library',
-      role: 'Co-founder',
-      date: 'Sept 2020 - Feb 2020',
-      text: (
-        <>
-          Co-built a browser extension to improve lectures at university by
-          giving real-time feedback from the audience to lecturers.
-        </>
-      ),
-    },
+  //   backgroundImg: './librarybackground.svg',
+  //   description: {
+  //     title: 'Library',
+  //     role: 'Co-founder',
+  //     date: 'Sept 2020 - Feb 2020',
+  //     text: (
+  //       <>
+  //         Co-built a browser extension to improve lectures at university by
+  //         giving real-time feedback from the audience to lecturers.
+  //       </>
+  //     ),
+  //   },
 
-    topic: 'Projects',
-  },
+  //   topic: 'Projects',
+  // },
   {
-    id: 3,
     title: <img src="./projectsharelogo.svg" height={96} />,
     backgroundImg: './projectshare.svg',
     description: {
@@ -75,19 +73,19 @@ export const PROJECTS: Item[] = [
       role: 'Co-founder',
       date: 'Sept 2020 - Feb 2020',
       text: (
-        <>Student society to share and collaborate on projects. Built with</>
+        <>Co-founded a student society to share and collaborate on projects</>
       ),
     },
     topic: 'Projects',
+    url: 'https://projectshare.comp-soc.com/',
   },
   {
-    id: 4,
-    title: <>Title 4</>,
-    backgroundImg: './spotifybackground.svg',
+    title: <>Spotify</>,
+    // backgroundImg: './spotifybackground.svg',
     description: {
       title: 'Spotify',
       role: 'Web Engineer Intern',
-      date: 'Sept 2020 - Feb 2020',
+      date: 'Jun 2022 - Sept 2022',
       text: (
         <>
           Built the new Spotify for Artists website. Built with React, Redux,
@@ -99,39 +97,38 @@ export const PROJECTS: Item[] = [
   },
 
   {
-    id: 5,
-    title: <>Title 4</>,
-    backgroundElement: (
-      <div>
-        <Card3D width="100px" height="200px">
-          <div
-            style={{
-              outline: '5px solid #ac3963',
-              background: '#982e55',
-            }}>
-            <img
-              src="https://unavatar.io/github/tomasmaillo"
-              style={{
-                height: '200px',
-                width: '200px',
-                borderRadius: '50%',
-                objectFit: 'cover',
-              }}
-            />
-            <h2 style={{ margin: 0 }}>Tomas Maillo</h2>
-            <p style={{ margin: 0 }}>Web Egineer Intern</p>
-          </div>
-        </Card3D>
-      </div>
-    ),
+    title: <>UoE</>,
+    // backgroundElement: (
+    //   <div>
+    //     <Card3D width="100px" height="200px">
+    //       <div
+    //         style={{
+    //           outline: '5px solid #ac3963',
+    //           background: '#982e55',
+    //         }}>
+    //         <img
+    //           src="https://unavatar.io/github/tomasmaillo"
+    //           style={{
+    //             height: '200px',
+    //             width: '200px',
+    //             borderRadius: '50%',
+    //             objectFit: 'cover',
+    //           }}
+    //         />
+    //         <h2 style={{ margin: 0 }}>Tomas Maillo</h2>
+    //         <p style={{ margin: 0 }}>Web Egineer Intern</p>
+    //       </div>
+    //     </Card3D>
+    //   </div>
+    // ),
     description: {
-      title: 'Spotify',
-      role: 'Web Engineer Intern',
-      date: 'Sept 2020 - Feb 2020',
+      title: 'CS + AI',
+      role: 'Uni of Edinburgh',
+      date: 'Sept 2021 - Jun 2025',
       text: (
         <>
-          Built the new Spotify for Artists website. Built with React, Redux,
-          GraphQL and Apollo.
+          Predicted to graduate with a first class degree. Taken courses in AI
+          reasoning, machine learning, and software engineering.
         </>
       ),
     },
@@ -139,25 +136,35 @@ export const PROJECTS: Item[] = [
   },
 
   {
-    id: 6,
-    title: <>Hack</>,
+    title: <>IC-Hack 23</>,
 
     description: {
-      title: 'Hack',
-      role: 'Web Engineer Intern',
-      date: 'Sept 2020 - Feb 2020',
+      title: 'IC-Hack 23',
+      role: 'Hacker',
+      date: 'Mar 2023',
       text: (
         <>
-          Built the new Spotify for Artists website. Built with React, Redux,
-          GraphQL and Apollo.
+          Runnerup to Marshall Wace prize. Built AI transcription platform to
+          generate real-time educational quizes{' '}
         </>
       ),
     },
     topic: 'Hackathon',
   },
 
+  {
+    title: <>Hack the Burgh</>,
+
+    description: {
+      title: 'Hack the Burgh 23',
+      role: 'Hacker',
+      date: 'Feb 2023',
+      text: <>Winner of GitHub category. </>,
+    },
+    topic: 'Hackathon',
+  },
+
   // {
-  //   id: 5,
   //   title: <>Hundreds of others</>,
   //   background: './spotifybackground.svg',
   //   description: (
@@ -170,7 +177,6 @@ export const PROJECTS: Item[] = [
   //   topic: 'Test',
   // },
   // {
-  //   id: 6,
   //   title: <>Hundreds of others</>,
   //   background: './spotifybackground.svg',
 
@@ -184,7 +190,6 @@ export const PROJECTS: Item[] = [
   //   topic: 'Experience',
   // },
   // {
-  //   id: 7,
   //   title: <>Hundreds of others</>,
   //   background: './spotifybackground.svg',
 
@@ -197,4 +202,5 @@ export const PROJECTS: Item[] = [
   //   ),
   //   topic: 'Experience',
   // },
-]
+].map((item, i) => ({ ...item, id: i }))
+// add id number
