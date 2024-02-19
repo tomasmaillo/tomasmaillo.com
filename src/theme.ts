@@ -26,7 +26,7 @@ export const DARK_THEME = {
   maxWidth: '1270px',
 
   colors: {
-    primary: '#EDEDED',
+    primary: '#FCFCFC',
     primaryInverse: '#0E0E0E',
     secondary: '#FFFFFF',
     background: '#272727',

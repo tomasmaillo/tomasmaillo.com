@@ -12,8 +12,8 @@ interface StyledTopicDescriptionProps {
 
 var transition = {
   type: 'spring',
-  stiffness: 50,
-  damping: 12,
+  stiffness: 100,
+  damping: 18,
   duration: 0.1,
 }
 
@@ -45,7 +45,7 @@ const StyledTopicDescription = styled(motion.div).attrs({
 
   visibility: ${(props) => (props.isHidden ? 'hidden' : 'visible')};
 
-  &>* {
+  & > * {
     mix-blend-mode: multiply;
   }
 

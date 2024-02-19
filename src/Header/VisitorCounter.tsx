@@ -8,7 +8,7 @@ const VisitorCounterWrapper = styled.div`
   right: 20px;
   font-size: 0.8rem;
   user-select: none;
-  color: ${(props) => props.theme.colors.secondary};
+  color: ${(props) => props.theme.colors.secondary}aa;
 `
 
 const VisitorCounter = () => {

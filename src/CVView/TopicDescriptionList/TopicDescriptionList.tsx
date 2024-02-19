@@ -1,8 +1,8 @@
-import React from 'react'
 import TopicDescription from './TopicDescription'
 import TopicSplitter from './TopicSplitter'
 import { Item } from '../item.interface'
 import styled from 'styled-components'
+import { Fragment } from 'react'
 
 const StyledTopicDescriptionWrapper = styled.div`
   display: flex;
@@ -26,14 +26,14 @@ const TopicDescriptionList: React.FC<TopicDescriptionListProps> = ({
     }
 
     return (
-      <React.Fragment key={index}>
+      <Fragment key={index}>
         {isNewTopic && <TopicSplitter text={currentTopic} />}
         <TopicDescription
           item={item}
           selectedItems={selectedItems}
           scrollToItem={scrollToItem}
         />
-      </React.Fragment>
+      </Fragment>
     )
   }
 

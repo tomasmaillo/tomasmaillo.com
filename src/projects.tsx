@@ -1,11 +1,10 @@
 import { Item } from './CVView/item.interface'
-import Card3D from './Card3D'
 import { PeopleLink, STAN_FLINT } from './peopleLinks'
 
 export const PROJECTS: Item[] = [
   {
     title: <img src="./vibe-checklogo.svg" width={256} />,
-    backgroundImg: './vibe-checkbackground.svg',
+    backgroundImg: './vibe-check-background.png',
     description: {
       title: 'vibe-check',
       role: 'Co-founder',
@@ -67,11 +66,11 @@ export const PROJECTS: Item[] = [
   // },
   {
     title: <img src="./projectsharelogo.svg" height={96} />,
-    backgroundImg: './projectshare.svg',
+    backgroundImg: './project-share-background.png',
     description: {
       title: 'Project Share',
       role: 'Co-founder',
-      date: 'Sept 2020 - Feb 2020',
+      date: 'Sept 2022 - Present',
       text: (
         <>Co-founded a student society to share and collaborate on projects</>
       ),
@@ -88,8 +87,8 @@ export const PROJECTS: Item[] = [
       date: 'Jun 2022 - Sept 2022',
       text: (
         <>
-          Built the new Spotify for Artists website. Built with React, Redux,
-          GraphQL and Apollo.
+          One-stop-shop website for everything and everyone Finance-related at
+          Spotify ({'>'}1k people). Built with React, GraphQL and Contentful.
         </>
       ),
     },
@@ -144,7 +143,7 @@ export const PROJECTS: Item[] = [
       date: 'Mar 2023',
       text: (
         <>
-          Runnerup to Marshall Wace prize. Built AI transcription platform to
+          Runner-up to Marshall Wace prize. Built AI transcription platform to
           generate real-time educational quizes{' '}
         </>
       ),

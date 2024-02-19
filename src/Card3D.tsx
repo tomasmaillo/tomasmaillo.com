@@ -28,9 +28,10 @@ interface FlippableCardProps {
   children: React.ReactNode
   width: string
   height: string
+  [key: string]: any
 }
 
-const Card3D = ({ children, width, height }: FlippableCardProps) => {
+const Card3D = ({ children, width, height, ...props }: FlippableCardProps) => {
   const [isHovered, setIsHovered] = useState(false)
 
   const ref = useRef<HTMLDivElement>(null)
@@ -86,7 +87,9 @@ const Card3D = ({ children, width, height }: FlippableCardProps) => {
         perspective: 1200,
         transformStyle: 'preserve-3d',
         zIndex: 10,
-      }}>
+        borderRadius: '100px',
+      }}
+      {...props}>
       <motion.div
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}

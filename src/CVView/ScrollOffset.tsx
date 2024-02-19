@@ -12,10 +12,7 @@ const StyledScrollOffset = styled(motion.div)`
   height: calc(100vh - 96px);
 `
 
-const ScrollOffset: React.FC<ScrollOffsetProps> = ({
-  fixedFooter,
-  children,
-}) => {
+const ScrollOffset: React.FC<ScrollOffsetProps> = ({ children }) => {
   const { scrollY } = useScroll()
 
   const selectedVerticalOffset = useTransform(
@@ -51,13 +48,11 @@ const ScrollOffset: React.FC<ScrollOffsetProps> = ({
         }}>
         {children}
       </motion.div>
-      {fixedFooter}
     </StyledScrollOffset>
   )
 }
 
 interface ScrollOffsetProps {
-  fixedFooter: React.ReactNode
   children: React.ReactNode
 }
 

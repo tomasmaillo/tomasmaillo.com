@@ -1,5 +1,3 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
 import App from './CVView/CVView.tsx'
 import './index.css'
 import Credits from './Credits.tsx'
@@ -10,6 +8,8 @@ import Now from './Now.tsx'
 import styled from 'styled-components'
 import Card3D from './Card3D.tsx'
 import EverythingIveEverBuilt from './EverythingIveEverBuilt.tsx'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom/client'
 
 const StyledMain = styled.main`
   display: flex;
@@ -20,7 +20,7 @@ const StyledMain = styled.main`
   margin: 0 auto;
 `
 
-const StyledContactButton = styled.a`
+const StyledContactButton = styled.a<{ isHovered: boolean }>`
   position: relative;
   width: 100%;
   height: 100%;
@@ -41,26 +41,52 @@ const StyledContactButton = styled.a`
     height: 100%;
     background-color: #eb5d30;
     border-radius: 100px;
+    pointer-events: none;
+    user-select: none;
 
-    transform: scale(0.7);
-    opacity: 0;
+    transform: ${(props) => (props.isHovered ? 'scale(1)' : 'scale(0.8)')};
+    opacity: ${(props) => (props.isHovered ? 1 : 0)};
     transition: 0.3s ease;
   }
 
-  &:hover::after {
-    transform: scale(1);
-    /* TODO: Fix buggy animation */
-    /* opacity: 1; */
-  }
   h1 {
-    text-shadow: 0 0 1px #dedede;
-    transition: 0.3s ease;
-  }
+    text-shadow: 0 0 ${(props) => (props.isHovered ? '10px' : '0')} #dedede;
 
-  &:hover h1 {
-    text-shadow: 0 0 10px #dedede;
+    transition: 0.3s ease;
   }
 `
+
+const ContactButton = () => {
+  const [hover, setHover] = React.useState(false)
+  return (
+    <Card3D
+      width="100%"
+      height="200px"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}>
+      <StyledContactButton
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://twitter.com/tomascodes"
+        isHovered={hover}>
+        <h1
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            margin: 0,
+            zIndex: 5,
+            pointerEvents: 'none',
+            userSelect: 'none',
+            whiteSpace: 'nowrap',
+          }}>
+          Reach me
+        </h1>
+      </StyledContactButton>
+    </Card3D>
+  )
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -72,28 +98,20 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <App />
 
         <EverythingIveEverBuilt />
-
-        <Card3D width="100%" height="200px">
-          <StyledContactButton
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://twitter.com/tomascodes">
-            <h1
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                margin: 0,
-                zIndex: 5,
-                pointerEvents: 'none',
-                userSelect: 'none',
-              }}>
-              Reach me
-            </h1>
-          </StyledContactButton>
-        </Card3D>
-
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 16,
+            borderRadius: 16,
+            padding: 16,
+            backgroundColor: 'white',
+            border: '1px solid #f3f3f3',
+          }}>
+          <h1>More coming soon...</h1>
+          <h2>Stay tuned!</h2>
+        </div>
+        <ContactButton />
         <Now />
 
         <Credits />

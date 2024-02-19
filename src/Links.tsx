@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from 'styled-components'
 import HideOnMobile from './Utility/HideOnMobile'
@@ -117,8 +117,16 @@ const Links: React.FC<LinksProps> = ({ links }) => {
         </AnimatePresence>
 
         <ProfileWrapper
-          onMouseEnter={(e) => setHoveredLink(e.currentTarget)}
-          onMouseLeave={() => setHoveredLink(null)}>
+          onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) =>
+            setHoveredLink(e.currentTarget)
+          }
+          onMouseLeave={() => setHoveredLink(null)}
+          onMouseDown={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth',
+            })
+          }>
           <ProfileAvatar src="https://unavatar.io/github/tomasmaillo" />
           <HideOnMobile>
             <ProfileInfo>
@@ -137,7 +145,9 @@ const Links: React.FC<LinksProps> = ({ links }) => {
             }}>
             <StyledLink
               href={link.url}
-              onMouseEnter={(e) => setHoveredLink(e.currentTarget)}
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) =>
+                setHoveredLink(e.currentTarget)
+              }
               onMouseLeave={() => setHoveredLink(null)}>
               {link.avatar && <Avatar src={link.avatar} />}
               {link.text}

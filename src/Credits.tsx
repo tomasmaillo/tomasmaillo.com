@@ -1,4 +1,4 @@
-import React from 'react'
+import { Fragment } from 'react'
 import {
   PeopleLink,
   STAN_FLINT,
@@ -35,10 +35,10 @@ const people = [STAN_FLINT, CRIS_MAILLO, RUSSELL_COOK, PAULINA_GERCHUK]
 const Credits = () => {
   const renderPeopleLinks = () => {
     return people.map((person, index) => (
-      <React.Fragment key={index}>
+      <Fragment key={index}>
         <PeopleLink person={person} />
         {index < people.length - 1 && ', '}
-      </React.Fragment>
+      </Fragment>
     ))
   }
 

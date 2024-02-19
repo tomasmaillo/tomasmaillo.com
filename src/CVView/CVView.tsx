@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useRef, useState } from 'react'
+import { createRef, useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useVelocity } from 'framer-motion'
 import { InView } from 'react-intersection-observer'
 import '../App.css'
@@ -21,7 +21,22 @@ const ItemWrapper = styled.div`
   background-color: #ffffff;
 `
 
-const CVView: React.FC = () => {
+const CVViewHeader = () => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        padding: '1rem',
+      }}>
+      <h2 style={{ margin: 0 }}>Paperless CV</h2>
+      <a href="/TomasMailloCV.pdf">Paperful_CV.pdf</a>
+    </div>
+  )
+}
+
+const DesktopCVView: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>(
     PROJECTS.map((item) => item.id)
   )
@@ -87,33 +102,8 @@ const CVView: React.FC = () => {
 
   return (
     <motion.div className="container">
-      <ScrollOffset
-        fixedFooter={
-          <p
-            style={{
-              position: 'absolute',
-              bottom: '0',
-              padding: '1rem',
-              margin: 0,
-              fontSize: '.75rem',
-              right: 0,
-              mixBlendMode: 'multiply',
-              opacity: userProgress + 1 < items.length ? 1 : 0,
-              transition: 'opacity 0.2s ease-in-out',
-            }}>
-            {userProgress + 1}/{items.length}
-          </p>
-        }>
-        <h2
-          style={{
-            padding: '1rem',
-            paddingTop: '4rem',
-            fontSize: '1.5rem',
-            margin: 0,
-          }}>
-          Paperless CV
-        </h2>
-        <a href="/TomasMailloCV.pdf">Paperful_CV.pdf</a>
+      <ScrollOffset>
+        <CVViewHeader />
         <TopicDescriptionList
           items={items}
           selectedItems={selectedItems}
@@ -146,16 +136,12 @@ const CVView: React.FC = () => {
                 />
               )}
               {item.backgroundElement}
-              <span
-                style={{
-                  color: '#999999',
-                  width: '100%',
-                }}>
-                {item.id}
-              </span>
+
               <InView
                 as="div"
-                onChange={(inView) => handleInViewChange(inView, item.id)}
+                onChange={(inView: boolean) =>
+                  handleInViewChange(inView, item.id)
+                }
                 rootMargin="100px 0px -450px 0px"
               />
               <div
@@ -173,7 +159,12 @@ const CVView: React.FC = () => {
                     padding: '2rem',
                     zIndex: 100,
                   }}>
-                  <span style={{ fontSize: '2rem', zIndex: 10 }}>
+                  <span
+                    style={{
+                      fontSize: '2rem',
+                      zIndex: 10,
+                      padding: '12px 12px 0px 12px',
+                    }}>
                     {item.title}
                   </span>
 
@@ -202,23 +193,6 @@ const CVView: React.FC = () => {
                     </StyledTopicDescription>
                   )}
                 </div>
-
-                {item.url && (
-                  <div style={{ padding: '2rem', textAlign: 'left' }}>
-                    <a
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        textDecoration: 'underline',
-                        color: '#999999',
-                        zIndex: 999,
-                        pointerEvents: 'all',
-                      }}>
-                      Visit
-                    </a>
-                  </div>
-                )}
               </div>
             </ItemWrapper>
             <TopicDetails item={item} />
@@ -227,6 +201,73 @@ const CVView: React.FC = () => {
       </div>
     </motion.div>
   )
+}
+
+const MobileCVView: React.FC = () => {
+  return (
+    <motion.div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+      }}>
+      <CVViewHeader />
+      {PROJECTS.map((item) => (
+        <motion.div
+          key={item.id}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '1rem',
+            borderRadius: '10px',
+          }}>
+          <span
+            style={{
+              fontSize: '1rem',
+              position: 'absolute',
+              maxWidth: '50vw',
+            }}>
+            {item.title}
+          </span>
+          <img
+            src={item.backgroundImg}
+            style={{
+              width: '100%',
+              borderRadius: '10px',
+              pointerEvents: 'none',
+              backgroundColor: '#ffffff',
+            }}
+          />
+          <span>
+            <b>{item.description.title}</b> {' ⋅ '}
+            <span style={{ opacity: 0.75 }}>{item.description.role}</span>
+          </span>
+          <span>{item.description.date}</span>
+          {item.description.text}
+
+          <TopicDetails item={item} />
+        </motion.div>
+      ))}
+    </motion.div>
+  )
+}
+
+const CVView: React.FC = () => {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  return isDesktop ? <DesktopCVView /> : <MobileCVView />
 }
 
 export default CVView

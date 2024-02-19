@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import Signature from './Signature'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 const Wrapper = styled.div`
   padding: 20px 32px 32px 32px;
@@ -39,7 +41,6 @@ const StyledUpdateNowButton = styled.button`
   margin-top: 16px;
 
   max-inline-size: 50ch;
-  text-wrap: balance;
 
   &:hover {
     color: ${(props) => props.theme.colors.primary};
@@ -47,14 +48,82 @@ const StyledUpdateNowButton = styled.button`
 `
 
 const UpdateNowButton = () => {
-  const HandleClick = () => {
-    console.log('Clicked')
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [isSendingMessage, setIsSendingMessage] = useState(false)
+  const [userName, setUserName] = useState('')
+
+  const handleUpdateNow = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsSendingMessage(true)
+    e.preventDefault()
+
+    try {
+      const response = await fetch(
+        'https://web.tomasmaillo.com/updateNowPage',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name: userName }),
+        }
+      )
+
+      if (!response.ok) throw new Error('Network response was not ok.')
+    } catch (error) {
+      console.error('Failed to fetch region', error)
+    } finally {
+      setIsSendingMessage(false)
+      setIsFormOpen(false) // Close the form after the operation
+      setUserName('') // Clear the input after form submission
+    }
   }
 
   return (
-    <StyledUpdateNowButton>
-      Is this out of date? Send a push notification to my phone to pressure me
-      into updating this page
+    <StyledUpdateNowButton onClick={() => setIsFormOpen(true)}>
+      Send: "Hey Tomas, this is so out of date! Update it"
+      {isFormOpen && (
+        <motion.form
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+          onSubmit={handleUpdateNow}
+          style={{
+            display: 'flex',
+            gap: '8px',
+            alignItems: 'center',
+            justifyContent: 'center',
+
+            marginTop: '8px',
+            opacity: isSendingMessage ? 0.1 : 1,
+            color: isSendingMessage ? '#cc1313' : '#333',
+            userSelect: isSendingMessage ? 'none' : 'auto',
+            pointerEvents: isSendingMessage ? 'none' : 'auto',
+          }}>
+          From:
+          <input
+            type="text"
+            placeholder="your name"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            style={{
+              border: 'none',
+              color: '#333',
+              borderBottom: '1px solid #333',
+            }}
+          />
+          <button
+            type="submit"
+            style={{
+              padding: '4px 8px',
+              borderRadius: '8px',
+              border: 'none',
+              backgroundColor: '#eb5d30',
+              color: 'white',
+            }}>
+            Send
+          </button>
+        </motion.form>
+      )}
     </StyledUpdateNowButton>
   )
 }

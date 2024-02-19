@@ -1,4 +1,3 @@
-import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 // Assuming these theme colors are defined in your theme object
