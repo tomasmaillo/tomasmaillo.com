@@ -8,6 +8,8 @@ import ScrollOffset from './ScrollOffset'
 import TopicDetails from './TopicDetails'
 import StyledTopicDescription from './StyledTopicDescription'
 import styled from 'styled-components'
+import EverythingIveEverBuilt from '../EverythingIveEverBuilt'
+import SideQuests from './Sidequests'
 
 const ItemWrapper = styled.div`
   border: 1px solid ${(props) => props.theme.colors.border};
@@ -267,7 +269,13 @@ const CVView: React.FC = () => {
     }
   }, [])
 
-  return isDesktop ? <DesktopCVView /> : <MobileCVView />
+  return (
+    <>
+      {isDesktop ? <DesktopCVView /> : <MobileCVView />}
+      <SideQuests />
+      <EverythingIveEverBuilt />
+    </>
+  )
 }
 
 export default CVView

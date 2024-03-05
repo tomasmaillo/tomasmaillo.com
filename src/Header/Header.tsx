@@ -13,7 +13,6 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.05);
 `
 
 const Header = () => {

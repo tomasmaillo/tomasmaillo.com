@@ -97,22 +97,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
         <App />
 
-        <EverythingIveEverBuilt />
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 16,
-            borderRadius: 16,
-            padding: 16,
-            backgroundColor: 'white',
-            border: '1px solid #f3f3f3',
-          }}>
-          <h1>More coming soon...</h1>
-          <h2>Stay tuned!</h2>
-        </div>
-        <ContactButton />
         <Now />
+
+        <ContactButton />
 
         <Credits />
       </StyledMain>

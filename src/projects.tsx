@@ -134,35 +134,6 @@ export const PROJECTS: Item[] = [
     topic: 'Education',
   },
 
-  {
-    title: <>IC-Hack 23</>,
-
-    description: {
-      title: 'IC-Hack 23',
-      role: 'Hacker',
-      date: 'Mar 2023',
-      text: (
-        <>
-          Runner-up to Marshall Wace prize. Built AI transcription platform to
-          generate real-time educational quizes{' '}
-        </>
-      ),
-    },
-    topic: 'Hackathon',
-  },
-
-  {
-    title: <>Hack the Burgh</>,
-
-    description: {
-      title: 'Hack the Burgh 23',
-      role: 'Hacker',
-      date: 'Feb 2023',
-      text: <>Winner of GitHub category. </>,
-    },
-    topic: 'Hackathon',
-  },
-
   // {
   //   title: <>Hundreds of others</>,
   //   background: './spotifybackground.svg',

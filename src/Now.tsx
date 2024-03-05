@@ -131,7 +131,9 @@ const UpdateNowButton = () => {
 const Now = () => {
   return (
     <Wrapper>
-      <h3>/Now</h3>
+      <h3>
+        Dear <i>you</i>,
+      </h3>
       <p
         style={{
           color: '#666',
