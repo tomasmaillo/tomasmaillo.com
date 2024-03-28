@@ -139,10 +139,9 @@ const Now = () => {
           color: '#666',
           fontSize: '16px',
         }}>
-        This page is a list of the things I'm currently doing, following the
-        format laid out by the <a href="https://nownownow.com/">/now</a>{' '}
-        movement. Dual purpose of showing what I am working on and keeping me
-        accountable.
+        Following the <a href="https://nownownow.com/">/now</a> movement here is
+        what I'm up to now. Dual purpose of showing what I am working on and
+        keeping me accountable.
       </p>
       <SectionTitle>Re-Crafting the Canvas</SectionTitle>
       Every year I recreate my portfolio from scratch. With each year I grow as

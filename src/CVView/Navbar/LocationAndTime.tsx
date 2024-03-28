@@ -27,7 +27,6 @@ const StyledLocationLink = styled.a`
   text-decoration: none;
 
   &:hover {
-    color: ${(props) => props.theme.colors.primaryInverse}dd;
     text-decoration: underline;
   }
 `

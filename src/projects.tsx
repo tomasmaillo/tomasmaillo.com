@@ -77,6 +77,32 @@ export const PROJECTS: Item[] = [
     },
     topic: 'Projects',
     url: 'https://projectshare.comp-soc.com/',
+    details: [
+      {
+        title: 'Tech',
+        value: <>ReactJS, PixiJS, TypeScript, Figma</>,
+      },
+      {
+        title: 'Summary',
+        value: (
+          <>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a
+            diam lectus. Sed sit amet ipsum mauris. Maecenas congueLorem ipsum
+            dolor sit amet, consectetur adipiscing elit. Donec a diam lectus.
+            Sed sit amet ipsum mauris.
+          </>
+        ),
+      },
+      {
+        title: 'Future',
+        value: (
+          <>
+            We are currently working on a new feature to allow students to share
+            a
+          </>
+        ),
+      },
+    ],
   },
   {
     title: <>Spotify</>,
@@ -93,6 +119,32 @@ export const PROJECTS: Item[] = [
       ),
     },
     topic: 'Work',
+    details: [
+      {
+        title: 'Team',
+        value: (
+          <>
+            <PeopleLink person={STAN_FLINT} />,{' '}
+            <PeopleLink person={STAN_FLINT} />
+          </>
+        ),
+      },
+      {
+        title: 'Tech',
+        value: <>Svelte, Node.js, MongoDB</>,
+      },
+      {
+        title: 'Summary',
+        value: (
+          <>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a
+            diam lectus. Sed sit amet ipsum mauris. Maecenas congueLorem ipsum
+            dolor sit amet, consectetur adipiscing elit. Donec a diam lectus.
+            Sed sit amet ipsum mauris.
+          </>
+        ),
+      },
+    ],
   },
 
   {

@@ -7,7 +7,6 @@ import DynamicThemeProvider from './DynamicThemeProvider.tsx'
 import Now from './Now.tsx'
 import styled from 'styled-components'
 import Card3D from './Card3D.tsx'
-import EverythingIveEverBuilt from './EverythingIveEverBuilt.tsx'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom/client'
 
@@ -67,7 +66,7 @@ const ContactButton = () => {
       <StyledContactButton
         target="_blank"
         rel="noopener noreferrer"
-        href="https://twitter.com/tomascodes"
+        href="mailto:tomas@tomasmaillo.com"
         isHovered={hover}>
         <h1
           style={{

@@ -9,7 +9,7 @@ import TopicDetails from './TopicDetails'
 import StyledTopicDescription from './StyledTopicDescription'
 import styled from 'styled-components'
 import EverythingIveEverBuilt from '../EverythingIveEverBuilt'
-import SideQuests from './Sidequests'
+import SideQuestsList from './SideQuestsList'
 
 const ItemWrapper = styled.div`
   border: 1px solid ${(props) => props.theme.colors.border};
@@ -121,7 +121,11 @@ const DesktopCVView: React.FC = () => {
         }}>
         {items.map((item) => (
           <div>
-            <ItemWrapper key={item.id} ref={itemRefs.current[item.id]}>
+            <ItemWrapper
+              key={item.id}
+              ref={itemRefs.current[item.id]}
+              as={item.url ? 'a' : 'div'}
+              href={item.url || '#'}>
               {item.backgroundImg && (
                 <img
                   src={item.backgroundImg}
@@ -175,6 +179,7 @@ const DesktopCVView: React.FC = () => {
                       layoutId={`item-${item.id}`}
                       style={{
                         position: 'relative',
+                        pointerEvents: 'none',
                       }}
                       isHidden={false}>
                       <div
@@ -272,7 +277,7 @@ const CVView: React.FC = () => {
   return (
     <>
       {isDesktop ? <DesktopCVView /> : <MobileCVView />}
-      <SideQuests />
+      <SideQuestsList />
       <EverythingIveEverBuilt />
     </>
   )
