@@ -11,16 +11,27 @@ import styled from 'styled-components'
 import EverythingIveEverBuilt from '../EverythingIveEverBuilt'
 import SideQuestsList from './SideQuestsList'
 
-const ItemWrapper = styled.div`
-  border: 1px solid ${(props) => props.theme.colors.border};
+const ItemWrapper = styled.div<{ isClickable?: boolean }>`
+  /* border: 1px solid ${(props) => props.theme.colors.border}; */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
   height: min(64vh, 600px);
   position: relative;
-  border-radius: 10px;
+  border-radius: 12px;
   background-color: #ffffff;
+
+  transition: all 0.2s;
+
+  ${(props) =>
+    props.isClickable &&
+    `
+    &:hover {
+      box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.2);
+      outline: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  `}
 `
 
 const CVViewHeader = () => {
@@ -125,6 +136,7 @@ const DesktopCVView: React.FC = () => {
               key={item.id}
               ref={itemRefs.current[item.id]}
               as={item.url ? 'a' : 'div'}
+              isClickable={!!item.url}
               href={item.url || '#'}>
               {item.backgroundImg && (
                 <img

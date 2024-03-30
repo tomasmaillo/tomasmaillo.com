@@ -5,53 +5,43 @@ import { useRef, useState, useEffect } from 'react'
 const SIDE_QUESTS = [
   {
     title: 'IC-Hack 23',
-    date: 'Mar 2024',
+    date: new Date('2023-01-01'),
     description: (
       <>
         Ullamco laboris exercitation <a href="google.com">esse esse</a>. Ipsum
         est sunt mollit veniam sit enim enim reprehenderit. Qui id consequat ad
-        ea ut duis cupidatat dolor. Sunt consectetur elit irure aute cupidatat
-        amet enim ipsum exercitation qui elit. Qui do dolor cillum ipsum
-        commodo. Labore sint deserunt fugiat duis.
+        ea ut duis cupidatat dolor.
+      </>
+    ),
+  },
+  {
+    title: 'ZephyrFan 1.0',
+
+    date: new Date('2024-03-24'),
+
+    description: (
+      <>
+        Built an AI-powered fan with a team of 7. ZephyrFan uses a camera with
+        object-detection and gesture-recognition to adjust the fan speed and
+        modes. Comes with a super stylish companion app!
       </>
     ),
   },
   {
     title: 'Hack the Burgh',
-    date: 'Feb 2023',
+
+    date: new Date('2023-01-01'),
+
     description: 'Winner of GitHub category.',
   },
   {
     title: 'Hack the Burgh',
-    date: 'Feb 2023',
+
+    date: new Date('2023-01-01'),
+
     description: 'Winner of GitHub category.',
   },
-  {
-    title: 'Hack the Burgh',
-    date: 'Feb 2023',
-    description: 'Winner of GitHub category.',
-  },
-  {
-    title: 'Hack the Burgh',
-    date: 'Feb 2023',
-    description: 'Winner of GitHub category.',
-  },
-  {
-    title: 'Hack the Burgh',
-    date: 'Feb 2023',
-    description: 'Winner of GitHub category.',
-  },
-  {
-    title: 'Hack the Burgh',
-    date: 'Feb 2023',
-    description: 'Winner of GitHub category.',
-  },
-  {
-    title: 'Hack the Burgh',
-    date: 'Feb 2023',
-    description: 'Winner of GitHub category.',
-  },
-]
+].sort((a, b) => b.date.getTime() - a.date.getTime())
 
 const StyledSideQuest = styled.div`
   border: 1px solid ${(props) => props.theme.colors.border};
@@ -73,14 +63,20 @@ const SideQuest = ({
   description,
 }: {
   title: string
-  date: string
+  date: Date
   description: React.ReactNode
 }) => {
   if (title && date && description) {
     return (
       <StyledSideQuest>
         <h2 style={{ margin: 0 }}>{title}</h2>
-        <p style={{ margin: 0, fontSize: '14px', color: '#aaa' }}>{date}</p>
+        <p style={{ margin: 0, fontSize: '14px', color: '#aaa' }}>
+          {date.toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </p>
         <p style={{ textAlign: 'left', marginBottom: 0 }}>{description}</p>
       </StyledSideQuest>
     )

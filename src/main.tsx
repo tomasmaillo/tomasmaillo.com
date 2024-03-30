@@ -96,7 +96,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
         <App />
 
-        <Now />
+        {/* <Now /> */}
 
         <ContactButton />
 

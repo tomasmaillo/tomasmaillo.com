@@ -148,7 +148,7 @@ export const PROJECTS: Item[] = [
   },
 
   {
-    title: <>UoE</>,
+    title: <img src="./UoE-logo.png" width={256} />,
     // backgroundElement: (
     //   <div>
     //     <Card3D width="100px" height="200px">
@@ -172,6 +172,8 @@ export const PROJECTS: Item[] = [
     //     </Card3D>
     //   </div>
     // ),
+
+    backgroundImg: './UoE.png',
     description: {
       title: 'CS + AI',
       role: 'Uni of Edinburgh',
