@@ -36,7 +36,7 @@ const StyledSplitterWrapper = styled.div`
 
 const StyledSplitterText = styled.p`
   text-align: left;
-  font-size: 16px;
+  font-size: 12px;
   margin-bottom: 0px;
   color: ${(props) => props.theme.colors.secondary};
 `
@@ -44,7 +44,7 @@ const StyledSplitterText = styled.p`
 const TopicSplitter: React.FC<TopicSplitterProps> = ({ text }) => {
   return (
     <StyledSplitterWrapper>
-      <StyledSplitterText>{text}</StyledSplitterText>
+      <StyledSplitterText>{text.toUpperCase()}</StyledSplitterText>
       <Underline />
     </StyledSplitterWrapper>
   )

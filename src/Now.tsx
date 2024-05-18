@@ -296,20 +296,7 @@ const NowCarousel = () => {
             </CarouselItem>
           ))}
         </CarouselSlider>
-        <div
-          style={{
-            display: 'flex',
-            gap: '16px',
-            justifyContent: 'center',
-            margin: '32px',
-          }}>
-          <Arrow direction="left" onClick={handlePrev}>
-            &lt;
-          </Arrow>
-          <Arrow direction="right" onClick={handleNext}>
-            &gt;
-          </Arrow>
-        </div>
+        
       </CarouselContainer>
     </MainContent>
   )

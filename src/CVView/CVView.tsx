@@ -290,7 +290,7 @@ const CVView: React.FC = () => {
     <>
       {isDesktop ? <DesktopCVView /> : <MobileCVView />}
       <SideQuestsList />
-      <EverythingIveEverBuilt />
+      {/* <EverythingIveEverBuilt /> */}
     </>
   )
 }

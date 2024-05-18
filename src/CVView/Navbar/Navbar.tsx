@@ -13,6 +13,8 @@ const StyledNavbar = styled.div<{ inFocus?: boolean }>`
   padding: ${(props) => (props.inFocus ? '8px' : '2px')};
   border: 1px solid ${(props) => props.theme.colors.borderInverse};
   backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px); /* Add webkit prefix for backdrop-filter */
+  
   color: ${(props) => props.theme.colors.primaryInverse};
   transition: 0.3s ease;
   display: flex;

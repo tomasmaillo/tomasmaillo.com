@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
+import EverythingIveEverBuilt from '../EverythingIveEverBuilt'
 
 const SIDE_QUESTS = [
   {
@@ -128,6 +129,9 @@ const SideQuestsList = () => {
             description={sideQuest.description}
           />
         ))}
+          <EverythingIveEverBuilt />
+        <div>
+        </div>
       </motion.div>
     </StyledHorizontalGrid>
   )

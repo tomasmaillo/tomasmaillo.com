@@ -80,13 +80,13 @@ body::before {
 } */
 
 ::selection {
-  background-color: #eb5d30;
-  color: #ffffff;
+  background-color: #fcefec;
+  color: #eb5d30;
 }
 
 html.dark ::selection {
   background-color: #eb5d30;
-  color: #ffffff;
+  color: #fcefec;
 }
 
 h1 {

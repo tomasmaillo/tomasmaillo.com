@@ -14,77 +14,71 @@ interface StyledContainerProps {
 }
 
 const StyledContainer = styled.div<StyledContainerProps>`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  bottom: 0;
-  left: 0;
-  border-radius: 10px;
-  background-color: ${(props) => props.theme.colors.card};
   border: 1px solid ${(props) => props.theme.colors.border};
-  color: ${(props) => props.theme.colors.primary};
-  backdrop-filter: blur(3px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max(20%, 300px);
+  min-width: 0;
+  flex-shrink: 0;
+  position: relative;
+  border-radius: 10px;
+  background-color: #ffffff;
+  padding: 16px;
+
+  background-color: #99e7ff;
+  background-image: radial-gradient(
+      at 18% 8%,
+      hsla(${Math.floor(Math.random() * 360)}, 69%, 68%, 0.5) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 96% 23%,
+      hsla(${Math.floor(Math.random() * 360)}, 85%, 63%, 0.5) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 19% 61%,
+      hsla(${Math.floor(Math.random() * 360)}, 69%, 60%, 0.5) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 15% 55%,
+      hsla(${Math.floor(Math.random() * 360)}, 88%, 73%, 0.5) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 5% 97%,
+      hsla(${Math.floor(Math.random() * 360)}, 93%, 71%, 0.5) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 66% 56%,
+      hsla(${Math.floor(Math.random() * 360)}, 66%, 74%, 0.5) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 79% 65%,
+      hsla(${Math.floor(Math.random() * 360)}, 84%, 76%, 0.5) 0px,
+      transparent 50%
+    );
+  background-color: ${(props) => props.theme.colors.card};
+
+  & * {
+    margin: 0;
+  }
 `
 
 const EverythingIveEverBuilt: React.FC = () => {
-  // const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  // useEffect(() => {
-  //   const canvas = canvasRef.current
-  //   if (!canvas) return
-
-  //   const ctx = canvas.getContext('2d')
-  //   if (!ctx) return
-
-  //   const resizeCanvas = () => {
-  //     if (canvas.parentElement) {
-  //       canvas.width = canvas.parentElement.offsetWidth
-  //       canvas.height = canvas.parentElement.offsetHeight
-  //     }
-  //   }
-
-  //   window.addEventListener('resize', resizeCanvas)
-  //   resizeCanvas()
-
-  //   let angle = 0
-  //   const draw = () => {
-  //     const width = canvas.width
-  //     const height = canvas.height
-  //     ctx.clearRect(0, 0, width, height)
-
-  //     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
-  //     ctx.fillRect(0, 0, width, height)
-
-  //     const centerX = width / 2
-  //     const centerY = height / 2
-  //     const radius = Math.min(width, height) / 4
-
-  //     ctx.beginPath()
-  //     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, false)
-  //     ctx.closePath()
-
-  //     ctx.fillStyle = `hsl(${angle}, 100%, 50%)`
-  //     ctx.fill()
-
-  //     angle = (angle + 1) % 360
-
-  //     requestAnimationFrame(draw)
-  //   }
-
-  //   draw()
-
-  //   return () => window.removeEventListener('resize', resizeCanvas)
-  // }, [])
-
   return (
     <StyledContainer>
-      {/* <canvas ref={canvasRef}></canvas> */}
+      <h3>Looking for even more?</h3>
       <code>
-        Slowly assembling an{' '}
+        I'm buildin an{' '}
         <a
           href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d?pvs=4"
           target="_blank"
+          style={{ textDecoration: 'underline' }}
           rel="noopener noreferrer">
           archive
         </a>{' '}

@@ -95,9 +95,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Header />
 
         <App />
-
-        {/* <Now /> */}
-
+        {/* </StyledMain>
+      <Now />
+      <StyledMain> */}
         <ContactButton />
 
         <Credits />
