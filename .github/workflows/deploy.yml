@@ -1,4 +1,4 @@
-name: Build and Deploy to GitHub Pages
+name: Deploy
 
 on:
   push:
@@ -6,46 +6,46 @@ on:
       - main
 
 jobs:
-  # Build job
   build:
-    # Specify runner + build step
+    name: Build
     runs-on: ubuntu-latest
-    steps:
-      # Setup the project in a NodeJS environment
-      - name: Checkout 🛎️
-        uses: actions/checkout@v3
 
-      # Run the project build command which outputs to 'dist'
-      - name: Install and Build 🔧
-        run: |
-          npm ci
-          npm run build
-        env:
-          CI: false
-      # Upload the 'dist' directory to be used in the deploy job
-      - name: Upload pages artifact 📦
-        uses: actions/upload-pages-artifact@v1.0.4
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
         with:
-          path: build/
+          node-version: 16
 
-  # Deploy job
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v2
+        with:
+          name: production-files
+          path: ./dist
+
   deploy:
-    # Add a dependency to the build job
+    name: Deploy
     needs: build
-
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
-
-    # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    # Specify runner + deployment step
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: production-files
+          path: ./dist
+
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

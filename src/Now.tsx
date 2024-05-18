@@ -246,29 +246,8 @@ const CarouselItem = styled.div`
   transition: opacity 0.5s ease, filter 0.5s ease;
 `
 
-const Arrow = styled.div<{ direction: 'left' | 'right' }>`
-  cursor: pointer;
-  z-index: 10;
-  font-size: 2rem;
-  color: red;
-
-  @media (max-width: 768px) {
-    position: relative;
-    top: 0;
-    transform: none;
-    font-size: 1.5rem;
-  }
-`
 const NowCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % NOWS.length)
-  }
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + NOWS.length) % NOWS.length)
-  }
 
   // Use a custom spring animation for the slide transition
   const spring = {
@@ -296,7 +275,6 @@ const NowCarousel = () => {
             </CarouselItem>
           ))}
         </CarouselSlider>
-        
       </CarouselContainer>
     </MainContent>
   )

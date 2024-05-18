@@ -8,7 +8,6 @@ import ScrollOffset from './ScrollOffset'
 import TopicDetails from './TopicDetails'
 import StyledTopicDescription from './StyledTopicDescription'
 import styled from 'styled-components'
-import EverythingIveEverBuilt from '../EverythingIveEverBuilt'
 import SideQuestsList from './SideQuestsList'
 
 const ItemWrapper = styled.div<{ isClickable?: boolean }>`
