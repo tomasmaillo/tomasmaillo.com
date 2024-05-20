@@ -1,19 +1,42 @@
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import VisitorCounter from './VisitorCounter'
+import { ArrowUpRight, Check, Copy, Iconoir } from 'iconoir-react'
+import { useState } from 'react'
 
 const HeaderWrapper = styled.div`
   height: 100%;
   flex-direction: column;
   border-radius: 10px;
+  max-width: 600px;
+  margin: auto;
   gap: 14px;
-  background-color: ${(props) => props.theme.colors.card};
-  border: 1px solid ${(props) => props.theme.colors.border};
   color: ${(props) => props.theme.colors.primary};
   display: flex;
   justify-content: center;
   align-items: center;
 `
+
+const StyledLink = styled.a`
+  color: ${(props) => props.theme.colors.primary};
+  text-decoration: none;
+  border: 1px solid #a4a4a4;
+  padding: 2px 8px;
+  border-radius: 100px;
+  width: fit-content;
+  display: inline-block;
+  position: relative;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+
+  &:active {
+    transform: scale(0.98);
+  }
+`
+
 type AnimatedTextProps = {
   text: string
   delay?: number
@@ -22,7 +45,7 @@ type AnimatedTextProps = {
 const AnimatedText: React.FC<AnimatedTextProps> = ({ text, delay = 0 }) => {
   const words = text.split(' ')
 
-  const animationScale = 1.8
+  const animationScale = 2
 
   return (
     <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
@@ -72,12 +95,72 @@ const AnimatedText: React.FC<AnimatedTextProps> = ({ text, delay = 0 }) => {
   )
 }
 
+const EmailLink = () => {
+  const [hasCopied, setHasCopied] = useState(false)
+
+  const handleCopy = () => {
+    const emailParts = ['tomas', 'tomasmaillo.com']
+    const emailString = `${emailParts[0]}@${emailParts[1]}`
+    navigator.clipboard.writeText(emailString)
+
+    setHasCopied(true)
+
+    setTimeout(() => {
+      setHasCopied(false)
+    }, 2000)
+  }
+
+  return (
+    <StyledLink
+      target="_blank"
+      onClick={() => handleCopy()}
+      style={{ cursor: 'pointer' }}>
+      Msg me
+      {hasCopied ? (
+        <Check height={16} width={16} />
+      ) : (
+        <Copy height={16} width={16} />
+      )}
+    </StyledLink>
+  )
+}
+
+const Links = () => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        gap: '10px',
+        marginTop: '10px',
+      }}>
+      <StyledLink href="/TomasMailloCV.pdf" target="_blank">
+        CV
+      </StyledLink>
+      <EmailLink />
+      <StyledLink
+        href="https://github.com/tomasmaillo"
+        target="_blank"
+        rel="noopener noreferrer">
+        GitHub
+        <ArrowUpRight height={16} width={16} />
+      </StyledLink>
+      <StyledLink
+        href="https://www.linkedin.com/in/tomas-maillo/"
+        target="_blank"
+        rel="noopener noreferrer">
+        LinkedIn
+        <ArrowUpRight height={16} width={16} />
+      </StyledLink>
+    </div>
+  )
+}
+
 const Header = () => {
   return (
     <div
       style={{
         width: '100%',
-        height: 'min(78svh, 900px)',
+        height: 'min(58svh, 500px)',
         position: 'relative',
       }}>
       <HeaderWrapper>
@@ -88,28 +171,34 @@ const Header = () => {
             padding: '20px',
             textAlign: 'left',
             fontSize: '16px',
-            gap: '8px',
+            gap: '4px',
             margin: 'auto',
           }}>
+          <h1
+            style={{
+              fontFamily: 'PPEditorialNew',
+              margin: 0,
+            }}>
+            Crafting for the Web<span style={{ color: '#EB5D30' }}>.</span>
+          </h1>
           <span
             style={{
               color: '#A4A4A4',
+              fontSize: '0.8rem',
             }}>
-            <AnimatedText text="Design Engineer" delay={0} />
+            <VisitorCounter />
           </span>
-
-          <AnimatedText
-            text="Crafting tools and experiences for the web."
-            delay={1.7}
-          />
-          <AnimatedText
-            text="Student @ The University of Edinburgh, CS and AI."
-            delay={3}
-          />
-          <AnimatedText text="Previously at Spotify." delay={5} />
+          <div
+            style={{
+              margin: '16px 0px',
+            }}>
+            I'm a design engineer and this is my little corner of the internet.
+            I share and list what I've built and learned. Currently a Computer
+            Science and Artificial Intelligence student at the University of
+            Edinburgh. Previously at Spotify.
+          </div>
+          <Links />
         </div>
-
-        <VisitorCounter />
       </HeaderWrapper>
     </div>
   )

@@ -129,9 +129,8 @@ const SideQuestsList = () => {
             description={sideQuest.description}
           />
         ))}
-          <EverythingIveEverBuilt />
-        <div>
-        </div>
+        <EverythingIveEverBuilt />
+        <div></div>
       </motion.div>
     </StyledHorizontalGrid>
   )

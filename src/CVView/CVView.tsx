@@ -42,8 +42,6 @@ const CVViewHeader = () => {
         gap: '1rem',
         padding: '1rem',
       }}>
-      <h2 style={{ margin: 0 }}>Paperless CV</h2>
-      <a href="/TomasMailloCV.pdf">Paperful_CV.pdf</a>
     </div>
   )
 }

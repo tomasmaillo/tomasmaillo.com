@@ -131,7 +131,7 @@ const Links: React.FC<LinksProps> = ({ links }) => {
           <HideOnMobile>
             <ProfileInfo>
               <b>TomasMaillo.com</b>
-              <p style={{ margin: 0 }}>Full-stack Eng</p>
+              <p style={{ margin: 0 }}>Design Engineer</p>
             </ProfileInfo>
           </HideOnMobile>
         </ProfileWrapper>
