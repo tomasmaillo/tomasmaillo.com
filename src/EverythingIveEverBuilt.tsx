@@ -17,7 +17,8 @@ const StyledContainer = styled.div<StyledContainerProps>`
   border: 1px solid ${(props) => props.theme.colors.border};
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   width: max(20%, 300px);
   min-width: 0;
   flex-shrink: 0;
@@ -72,9 +73,9 @@ const StyledContainer = styled.div<StyledContainerProps>`
 const EverythingIveEverBuilt: React.FC = () => {
   return (
     <StyledContainer>
-      <h3>Looking for even more?</h3>
+      <h3>Looking for even more?!</h3>
       <code>
-        I'm buildin an{' '}
+        Check my{' '}
         <a
           href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d?pvs=4"
           target="_blank"
@@ -82,7 +83,7 @@ const EverythingIveEverBuilt: React.FC = () => {
           rel="noopener noreferrer">
           archive
         </a>{' '}
-        everything I've ever built.
+        on everything I've ever built.
       </code>
     </StyledContainer>
   )

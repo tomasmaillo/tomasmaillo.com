@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import VisitorCounter from './VisitorCounter'
-import { ArrowUpRight, Check, Copy, Iconoir } from 'iconoir-react'
+import { ArrowUpRight, Check, Copy } from 'iconoir-react'
 import { useState } from 'react'
 
 const HeaderWrapper = styled.div`
@@ -31,6 +31,8 @@ const StyledLink = styled.a`
   align-items: center;
   gap: 4px;
   user-select: none;
+  align-items: center;
+  justify-content: center;
 
   &:active {
     transform: scale(0.98);
