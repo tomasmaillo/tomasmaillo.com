@@ -10,7 +10,7 @@ export interface Item {
     text: JSX.Element
   }
   topic: string
-  details?: {
+  details: {
     title: string
     value: JSX.Element
   }[]

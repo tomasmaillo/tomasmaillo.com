@@ -172,7 +172,7 @@ export const PROJECTS: Item[] = [
     //     </Card3D>
     //   </div>
     // ),
-
+    details: [],
     backgroundImg: './UoE.png',
     description: {
       title: 'CS + AI',

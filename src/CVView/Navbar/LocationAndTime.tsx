@@ -16,7 +16,7 @@ const LoadAnimation = {
 
 const StyledWrapper = styled.p`
   font-size: 0.8rem;
-  padding: 0px 20px;
+
   margin: 0;
   color: ${(props) => props.theme.colors.primaryInverse};
   font-variant-numeric: tabular-nums;
@@ -38,12 +38,18 @@ const LocationAndTime = () => {
     region: string
   } | null>(null)
   const [timezone, setTimezone] = useState<string | null>(null)
+  const [locationTimestamp, setLocationTimestamp] = useState<number | null>(
+    null
+  )
 
   useEffect(() => {
     const fetchRegion = async () => {
       try {
         const response = await fetch('https://web.tomasmaillo.com/location')
         const data = await response.json()
+        if (data.time) {
+          setLocationTimestamp(data.time)
+        }
         if (data.timeInZoneISO && data.timezone) {
           setTimezone(data.timezone) // Save the timezone
           setDateTime(formatTime(data.timeInZoneISO, data.timezone))
@@ -78,7 +84,8 @@ const LocationAndTime = () => {
   }
 
   return (
-    <StyledWrapper>
+    <StyledWrapper
+      title={`Location updates from my phone automatically every morning.`}>
       {location && (
         <motion.span {...LoadAnimation}>
           <StyledLocationLink

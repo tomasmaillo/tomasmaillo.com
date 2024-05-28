@@ -2,13 +2,12 @@ import App from './CVView/CVView.tsx'
 import './index.css'
 import Credits from './Credits.tsx'
 import Header from './Header/Header.tsx'
-import Navbar from './CVView/Navbar/Navbar.tsx'
 import DynamicThemeProvider from './DynamicThemeProvider.tsx'
 import styled from 'styled-components'
 import Card3D from './Card3D.tsx'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom/client'
-import LeftTableOfContents from './LeftTableOfContents.tsx'
+import About from './About.tsx'
 
 const StyledMain = styled.main`
   display: flex;
@@ -90,12 +89,12 @@ const ContactButton = () => {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <DynamicThemeProvider>
-      <LeftTableOfContents>
+      <About>
         <StyledMain>
           {/* <Navbar /> */}
           <Header />
 
-          <App />
+          {/* <App /> */}
           {/* </StyledMain>
       <Now />
       <StyledMain> */}
@@ -103,7 +102,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
           <Credits />
         </StyledMain>
-      </LeftTableOfContents>
+      </About>
     </DynamicThemeProvider>
   </React.StrictMode>
 )

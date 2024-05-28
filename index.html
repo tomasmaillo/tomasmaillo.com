@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TomasMaillo.com</title>
 
+    <meta name="theme-color" content="#F5F5F5" />
+
     <link
       rel="preload"
       href="/fonts/Geist-Regular.otf"
@@ -54,6 +56,16 @@
         src: url('fonts/PPEditorialNew-Regular.otf') format('opentype');
         font-weight: normal;
         font-style: normal;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      /* Edge, Firefox */
+      body,
+      html {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
       }
     </style>
     <div id="root"></div>

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import VisitorCounter from './VisitorCounter'
 import { ArrowUpRight, Check, Copy } from 'iconoir-react'
 import { useState } from 'react'
+import { useAbout } from '../AboutContext'
 
 const HeaderWrapper = styled.div`
   height: 100%;
@@ -44,68 +45,36 @@ type AnimatedTextProps = {
   delay?: number
 }
 
-const AnimatedText: React.FC<AnimatedTextProps> = ({ text, delay = 0 }) => {
-  const words = text.split(' ')
-
-  const animationScale = 2
-
-  return (
-    <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
-      {words.map((word, i) => (
-        <span>
-          {word.split('').map((char, j) => {
-            const animDelay = Math.random() * 0.5 + delay + j * 0.04 + i * 0.12
-            const blur = Math.random() * 5 * animationScale
-            const skew = (Math.random() * 20 - 10) * animationScale
-            const y = (Math.random() * 20 - 10) * animationScale
-            const x = (Math.random() * 10 - 5) * animationScale
-
-            return (
-              <motion.span
-                key={`${i}-${j}`}
-                style={{ display: 'inline-block' }}
-                initial={{
-                  opacity: 0,
-                  y,
-                  x,
-                  filter: `blur(${blur}px)`,
-                  skew: `${skew}deg`,
-                  rotate: `${skew}deg`,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  x: 0,
-                  filter: 'blur(0px)',
-                  skew: '0deg',
-                  rotate: '0deg',
-                }}
-                transition={{
-                  delay: animDelay,
-                  type: 'spring',
-                  stiffness: 100,
-                  mass: 0.5,
-                }}>
-                {char}
-              </motion.span>
-            )
-          })}
-          {i < words.length - 1 && <span>&nbsp;</span>}
-        </span>
-      ))}
-    </div>
-  )
+// Define the interface for a confetti piece
+interface ConfettiPiece {
+  id: number
+  x: number
+  y: number
+  rotate: number
 }
 
-const EmailLink = () => {
+const EmailLink: React.FC = () => {
   const [hasCopied, setHasCopied] = useState(false)
+  const [confetti, setConfetti] = useState<ConfettiPiece[]>([])
 
   const handleCopy = () => {
+
     const emailParts = ['tomas', 'tomasmaillo.com']
     const emailString = `${emailParts[0]}@${emailParts[1]}`
     navigator.clipboard.writeText(emailString)
 
     setHasCopied(true)
+
+    // Generate confetti pieces with their properties
+    setConfetti((prevConfetti) => [
+      ...prevConfetti,
+      {
+        id: prevConfetti.length,
+        x: Math.random() * 50 - 25,
+        y: Math.random() * -30 - 50,
+        rotate: Math.random() * 10 - 5,
+      },
+    ])
 
     setTimeout(() => {
       setHasCopied(false)
@@ -116,16 +85,117 @@ const EmailLink = () => {
     <StyledLink
       target="_blank"
       onClick={() => handleCopy()}
-      style={{ cursor: 'pointer' }}>
-      Msg me
-      {hasCopied ? (
+      style={{
+        cursor:
+          confetti.length > CONFETTI_MESSAGES.length
+            ? 'not-allowed'
+            : 'pointer',
+        position: 'relative',
+        opacity: confetti.length > CONFETTI_MESSAGES.length ? 0.5 : 1,
+        pointerEvents: confetti.length > CONFETTI_MESSAGES.length ? 'none' : 'auto',
+      }}
+      disabled={confetti.length > CONFETTI_MESSAGES.length}>
+      {confetti.map((piece) => (
+        <Confetti key={piece.id} {...piece} />
+      ))}
+      Message me
+      {/* {hasCopied ? (
         <Check height={16} width={16} />
       ) : (
         <Copy height={16} width={16} />
-      )}
+      )} */}
     </StyledLink>
   )
 }
+
+// Define the props for the Confetti component
+interface ConfettiProps {
+  x: number
+  y: number
+  rotate: number
+  id: number
+}
+
+const CONFETTI_MESSAGES = [
+  'email copied',
+  'email copied',
+  'email in clipboard',
+  'copied!',
+  'good to go!',
+  'okay!',
+  'that’s enough!',
+  'trust, it’s there',
+  'omg',
+  'really?',
+  'it’s in your clipboard!!!',
+  'stop clicking!',
+  'seriously, it’s copied!',
+  'do you not believe me?',
+  'I swear it’s there!',
+  'you’re wasting clicks!',
+  'why are you still clicking?',
+  'are you okay?',
+  'enough already!',
+  'it’s not going anywhere!',
+  'seriously, stop it!',
+  'what do you want from me?',
+  'please stop!',
+  'Im tired',
+  'Please I have kids',
+  'I have a family',
+  'Little Timmy needs me',
+  'I have a life',
+  "if you've gotten this far..",
+  'it means you really want to chat!',
+  'send me an email :)',
+  'email me!',
+  "I'm waiting",
+  'Its in your clipboard',
+  'What are you waiting for?',
+  '💖',
+  'ENOUGH FUN!',
+  "I'll lock this so you email me!",
+]
+
+const Confetti: React.FC<ConfettiProps> = ({ x, y, rotate, id }) => {
+  return (
+    <motion.p
+      initial={{ opacity: 1, scale: 1 }}
+      animate={{
+        opacity: [0, 1, 0.9, 0],
+        scale: [0.7, 1.2, 1.1],
+        y: [-30, y],
+        x: [-25, x - 25],
+        rotate,
+      }}
+      transition={{ duration: 1.2, ease: 'easeOut' }}
+      style={{
+        position: 'absolute',
+        top: '50%',
+        userSelect: 'none',
+        pointerEvents: 'none',
+        transform: 'translate(-50%, -50%)',
+        whiteSpace: 'nowrap',
+        width: '0px',
+        fontSize: '12px',
+      }}>
+      {CONFETTI_MESSAGES[id % CONFETTI_MESSAGES.length]}
+    </motion.p>
+  )
+}
+
+const StyledLink2 = styled.a`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  overflow: hidden;
+`
 
 const Links = () => {
   return (
@@ -134,6 +204,7 @@ const Links = () => {
         display: 'flex',
         gap: '10px',
         marginTop: '10px',
+        flexWrap: 'wrap',
       }}>
       <StyledLink href="/TomasMailloCV.pdf" target="_blank">
         CV
@@ -158,6 +229,7 @@ const Links = () => {
 }
 
 const Header = () => {
+  const { openAbout } = useAbout()
   return (
     <div
       style={{
@@ -192,13 +264,27 @@ const Header = () => {
           </span>
           <div
             style={{
-              margin: '16px 0px',
+              margin: '12px 0px',
             }}>
             I'm a design engineer and this is my little corner of the internet.
             I share and list what I've built and learned. Currently a Computer
             Science and Artificial Intelligence student at the University of
             Edinburgh. Previously at Spotify.
+            <span style={{ height: '20px', display: 'block' }}></span>
+            Scroll to see my projects, or read more{' '}
+            <span
+              style={{
+                cursor: 'pointer',
+                textDecoration: 'underline',
+                color: '#EB5D30',
+                userSelect: 'none',
+              }}
+              onClick={openAbout}>
+              about me
+            </span>
           </div>
+          <span style={{ height: '16px', display: 'block' }}></span>
+
           <Links />
         </div>
       </HeaderWrapper>
