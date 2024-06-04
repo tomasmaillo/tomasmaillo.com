@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { AboutProvider, useAbout } from './AboutContext'
 import LocationAndTime from './CVView/Navbar/LocationAndTime'
 
-const WIDTH = 'min(500px, 100vw)'
+const WIDTH = 'min(600px, 100vw)'
 
 const About = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -33,11 +33,14 @@ const AboutContent = ({ children }: { children: React.ReactNode }) => {
           position: 'fixed',
           alignItems: 'left',
           textAlign: 'left',
-          width: shown ? WIDTH : '0px',
+          // width: shown ? WIDTH : '0px',
           overflowX: 'hidden',
-          backgroundColor: shown ? '#EB5D30' : 'transparent',
+          // backgroundColor: shown ? '#EB5D30' : 'transparent',
+          backgroundColor: '#EB5D30',
           transition: '0.3s ease',
-          color: shown ? '#f6f6f6' : '#272727',
+          // color: shown ? '#f6f6f6' : '#272727',
+          color: '#f6f6f6',
+          transform: shown ? `translateX(0)` : `translateX(-600px)`,
           zIndex: 10,
           height: '100vh',
         }}>
@@ -51,29 +54,35 @@ const AboutContent = ({ children }: { children: React.ReactNode }) => {
           }}>
           <div
             style={{
-              margin: '12px',
+              margin: '16px',
             }}>
-            {/* <div onClick={closeAbout}>
-              <svg
-                style={{ cursor: 'pointer' }}
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path
-                  fill={shown ? '#f6f6f6' : '#272727'}
-                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                />
-              </svg>
-            </div> */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '12px',
+              }}>
+              <h3
+                style={{
+                  margin: 0,
+                }}>
+                About
+              </h3>
+
+              <span
+                onClick={closeAbout}
+                style={{
+                  cursor: 'pointer',
+                }}>
+                ✕
+              </span>
+            </div>
             <img
               src="/tomas.png"
               alt="Tomas Maillo"
               style={{ width: '100%', borderRadius: '10px' }}
             />
-            <LocationAndTime />
-            <h3>About</h3>
             <p>
               Hiya, I'm Tomas (he/him).{' '}
               <a
@@ -96,23 +105,21 @@ const AboutContent = ({ children }: { children: React.ReactNode }) => {
                 style={{ textDecoration: 'underline' }}>
                 Edinburgh
               </a>{' '}
-              for my studies.
-            </p>
-            <p>
-              <i>
-                I find writing About sections extremely daunting, but I'll try
-                to summarise my existence in a few paragraphs.
-              </i>
+              for my studies and I hate writing about myself.
             </p>
 
-            writing takes time!!! WIP
+            <p>
+              I can't juggle three balls at once or crack an egg with one hand,
+              but I can...
+            </p>
+
+            <LocationAndTime />
           </div>
         </div>
       </div>
       <div>
         <div
           style={{
-            backgroundColor: '#f5f5f5',
             transform: shown ? `translateX(${WIDTH})` : 'translateX(0px)',
             transition: 'transform 0.3s ease, opacity 0.3s ease',
             opacity: shown ? 0.5 : 1,

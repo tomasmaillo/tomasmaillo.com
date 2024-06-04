@@ -18,12 +18,12 @@ const StyledWrapper = styled.p`
   font-size: 0.8rem;
 
   margin: 0;
-  color: ${(props) => props.theme.colors.primaryInverse};
+  /* color: ${(props) => props.theme.colors.primaryInverse}; */
   font-variant-numeric: tabular-nums;
 `
 
 const StyledLocationLink = styled.a`
-  color: ${(props) => props.theme.colors.primaryInverse};
+  /* color: ${(props) => props.theme.colors.primaryInverse}; */
   text-decoration: none;
 
   &:hover {

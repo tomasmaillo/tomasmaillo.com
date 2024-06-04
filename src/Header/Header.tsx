@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useAbout } from '../AboutContext'
 
 const HeaderWrapper = styled.div`
+  padding: 64px 0px;
   height: 100%;
   flex-direction: column;
   border-radius: 10px;
@@ -58,7 +59,6 @@ const EmailLink: React.FC = () => {
   const [confetti, setConfetti] = useState<ConfettiPiece[]>([])
 
   const handleCopy = () => {
-
     const emailParts = ['tomas', 'tomasmaillo.com']
     const emailString = `${emailParts[0]}@${emailParts[1]}`
     navigator.clipboard.writeText(emailString)
@@ -92,7 +92,8 @@ const EmailLink: React.FC = () => {
             : 'pointer',
         position: 'relative',
         opacity: confetti.length > CONFETTI_MESSAGES.length ? 0.5 : 1,
-        pointerEvents: confetti.length > CONFETTI_MESSAGES.length ? 'none' : 'auto',
+        pointerEvents:
+          confetti.length > CONFETTI_MESSAGES.length ? 'none' : 'auto',
       }}
       disabled={confetti.length > CONFETTI_MESSAGES.length}>
       {confetti.map((piece) => (
@@ -184,19 +185,6 @@ const Confetti: React.FC<ConfettiProps> = ({ x, y, rotate, id }) => {
   )
 }
 
-const StyledLink2 = styled.a`
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  overflow: hidden;
-`
-
 const Links = () => {
   return (
     <div
@@ -210,6 +198,13 @@ const Links = () => {
         CV
       </StyledLink>
       <EmailLink />
+      <StyledLink
+        href="https://x.com/tomascodes"
+        target="_blank"
+        rel="noopener noreferrer">
+        Twitter
+        <ArrowUpRight height={16} width={16} />
+      </StyledLink>
       <StyledLink
         href="https://github.com/tomasmaillo"
         target="_blank"
@@ -234,7 +229,6 @@ const Header = () => {
     <div
       style={{
         width: '100%',
-        height: 'min(58svh, 500px)',
         position: 'relative',
       }}>
       <HeaderWrapper>

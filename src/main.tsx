@@ -98,9 +98,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           {/* </StyledMain>
       <Now />
       <StyledMain> */}
-          <ContactButton />
+          {/* <ContactButton /> */}
 
-          <Credits />
+          {/* <Credits /> */}
         </StyledMain>
       </About>
     </DynamicThemeProvider>
