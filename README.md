@@ -1,35 +1,36 @@
-# [![Title](https://i.imgur.com/RTqH86n.png)](https://tomasmaillo.com/)
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Portfolio site for a web engineer! Trying to show all of the things I've learnt over the years :D.
+## Getting Started
 
-Built with:
+First, run the development server:
 
-- ReactJS
-- ThreeJS
-- react-three-fiber
-- framer-motion
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-<br />
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## See my progress on this page 👀
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-- [2019.tomasmaillo.com](https://2019.tomasmaillo.com/)
-- [2020.tomasmaillo.com](https://2020.tomasmaillo.com/)
-- [2021.tomasmaillo.com](https://2021.tomasmaillo.com/)
-- [2022.tomasmaillo.com](https://2022.tomasmaillo.com/)
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-This portfolio website has been through so many different variations since 2019... You can even check the [WayBackMachine](https://web.archive.org/web/20220000000000*/tomasmaillo.com)
+## Learn More
 
-https://user-images.githubusercontent.com/38633386/197219414-db059436-3dd1-49b2-b218-3d86425dabc3.mov
+To learn more about Next.js, take a look at the following resources:
 
-https://user-images.githubusercontent.com/38633386/197219431-a69da7d6-40ba-4d84-95c4-6f888e9218f6.mov
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-https://user-images.githubusercontent.com/38633386/197219448-33c64258-87a3-4ae7-ba24-1422e9931296.mov
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-<br/>
+## Deploy on Vercel
 
-## Wanna test this on your own?
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-1.  Clone this repo
-2.  `npm i`
-3.  Enjoy :D
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
