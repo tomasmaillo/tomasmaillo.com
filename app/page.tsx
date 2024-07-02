@@ -3,7 +3,7 @@ import Links from '@/components/Links'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col p-8 md:p-24">
+    <main className="flex min-h-screen flex-col  md:p-24 pt-32">
       <h1 className="text-3xl my-4 font-editorialNew">
         Tomas Maillo<span className="text-[#EB5D30]">.</span>
       </h1>

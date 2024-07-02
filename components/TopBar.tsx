@@ -3,7 +3,8 @@ async function getData() {
     fetch('https://web.tomasmaillo.com/location', {
       next: { revalidate: 3600 },
     }),
-    fetch('https://web.tomasmaillo.com/visit'),
+    fetch('https://web.tomasmaillo.com/visit',
+    { cache: 'no-store' }),
   ])
 
   if (!locationRes.ok || !visitorRes.ok) {
