@@ -1,26 +1,23 @@
+import IContactYou from '@/components/IContactYou'
+import Links from '@/components/Links'
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <h1 className="text-xl mb-6 text-center">Tomas Maillo</h1>
-      <a className="hover:opacity-50" href="/TomasMailloCV.pdf">
-        CV
-      </a>
-      <a className="hover:opacity-50" href="https://x.com/tomascodes">
-        Twitter
-      </a>
-      <a className="hover:opacity-50" href="https://github.com/tomasmaillo">
-        GitHub
-      </a>
-      <a
-        className="hover:opacity-50"
-        href="https://www.linkedin.com/in/tomas-maillo/">
-        LinkedIn
-      </a>
-      <a
-        href="mailto:tomas@tomasmaillo.com"
-        className="hover:opacity-50 cursor-pointer">
-        Reach me
-      </a>
+    <main className="flex min-h-screen flex-col p-8 md:p-24">
+      <h1 className="text-3xl my-4 font-editorialNew">
+        Tomas Maillo<span className="text-[#EB5D30]">.</span>
+      </h1>
+
+      <p className="opacity-70 text-sm mb-6">
+        I&apos;m a design engineer and this is my little corner of the internet.
+        I share and list what I&apos;ve built and learned. Currently a Computer
+        Science and Artificial Intelligence student at the University of
+        Edinburgh. Previously at Spotify.
+      </p>
+
+      <Links />
+
+      {/* <IContactYou /> */}
     </main>
   )
 }

@@ -1,10 +1,50 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/react'
+import { cn } from '@/lib/utils'
+import TopBar from '@/components/TopBar'
+import localFont from 'next/font/local'
+import { Toaster } from '@/components/ui/sonner'
 
-const inter = Inter({ subsets: ['latin'] })
+const fontSans = FontSans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
+
+const editorialNew = localFont({
+  src: [
+    {
+      path: '../public/fonts/PPEditorialNew-Regular.otf',
+      weight: '400',
+    },
+    {
+      path: '../public/fonts/PPEditorialNew-Italic.otf',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: '../public/fonts/PPEditorialNew-Ultrabold.otf',
+      weight: '800',
+    },
+    {
+      path: '../public/fonts/PPEditorialNew-UltraboldItalic.otf',
+      weight: '800',
+      style: 'italic',
+    },
+    {
+      path: '../public/fonts/PPEditorialNew-Ultralight.otf',
+      weight: '200',
+    },
+    {
+      path: '../public/fonts/PPEditorialNew-UltralightItalic.otf',
+      weight: '200',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-editorial-new',
+})
 
 export const metadata: Metadata = {
   title: 'Tomas Maillo',
@@ -18,10 +58,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased max-w-[768px] border-x border-x-accent mx-auto px-4 py-4 text-foreground',
+          fontSans.variable,
+          editorialNew.variable
+        )}>
+        <TopBar />
         {children}
         <SpeedInsights />
         <Analytics />
+        <Toaster />
       </body>
     </html>
   )
