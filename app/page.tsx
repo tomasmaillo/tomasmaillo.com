@@ -1,4 +1,4 @@
-import IContactYou from '@/components/IContactYou'
+import Experience from '@/components/Experience/Experience'
 import Links from '@/components/Links'
 import Projects from '@/components/Projects/Projects'
 
@@ -20,6 +20,13 @@ export default function Home() {
 
       <Projects />
 
+      <span className="h-12"></span>
+
+      <Experience />
+
+      <p className="text-xs opacity-50 mt-32 text-center">
+        This page is under active development. Check back soon for more content.
+      </p>
       {/* <IContactYou /> */}
     </main>
   )

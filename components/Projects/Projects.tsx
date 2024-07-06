@@ -30,7 +30,8 @@ const Projects = () => {
     <div>
       <ProjectTitle>Vibe-Check</ProjectTitle>
       <ProjectDescription>
-        A web app that allows you to check the vibe of any song on Spotify.
+        Co-built a browser extension to improve lectures at university by giving
+        real-time feedback from the audience to lecturers.
       </ProjectDescription>
       <Carousel>
         <CarouselContent>
@@ -47,7 +48,8 @@ const Projects = () => {
 
       <ProjectTitle>Project Share</ProjectTitle>
       <ProjectDescription>
-        A web app that allows you to check the vibe of any song on Spotify.
+        Elit duis consectetur culpa officia qui nostrud commodo in cillum cillum
+        Lorem in ex culpa adipisicing.
       </ProjectDescription>
       <Carousel>
         <CarouselContent>
@@ -57,7 +59,6 @@ const Projects = () => {
           <CarouselItem>
             <CarouselImage src="/ps-browser-2.png" alt="Project 2" />
           </CarouselItem>
-          
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />

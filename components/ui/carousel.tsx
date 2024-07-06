@@ -59,6 +59,7 @@ const Carousel = React.forwardRef<
     },
     ref
   ) => {
+    const [autoPlayDelay, _] = React.useState(2000 + Math.random() * 4000)
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
@@ -67,7 +68,7 @@ const Carousel = React.forwardRef<
       [
         ...(plugins ?? []),
         Autoplay({
-          delay: 2000,
+          delay: autoPlayDelay,
         }),
       ]
     )

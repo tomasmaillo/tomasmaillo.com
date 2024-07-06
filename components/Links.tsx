@@ -4,7 +4,7 @@ import EmailLink from './EmailLink'
 
 const Links = () => {
   return (
-    <div className="flex space-x-4 text-sm opacity-70">
+    <div className="flex space-x-4 text-sm opacity-70 hover:opacity-100 m-auto">
       <a className="hover:opacity-90" href="/TomasMailloCV.pdf">
         CV
       </a>
