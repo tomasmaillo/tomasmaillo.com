@@ -8,13 +8,13 @@ const ExperienceEntry = ({
   description: string
 }) => (
   <div
-    className="child mb-4 flex flex-row justify-between hover:bg-slate-50 rounded-lg p-2 box-border -mx-2"
+    className="child mb-4 flex flex-row justify-between hover:bg-slate-50 rounded-lg p-2 box-border -mx-2 bg-slate-50 md:bg-transparent"
     style={{ width: 'calc(100% + 1rem)' }}>
     <div className="flex flex-col">
       <h2 className="">{title}</h2>
       <p className="opacity-70 text-sm">{description}</p>
     </div>
-    <p className="text-sm opacity-70">{date}</p>
+    <p className="text-sm opacity-70 text-right">{date}</p>
   </div>
 )
 

@@ -18,6 +18,8 @@ export default function Home() {
 
       <Links />
 
+      <span className="h-24 md:h-12"></span>
+
       <Projects />
 
       <span className="h-12"></span>
@@ -25,7 +27,7 @@ export default function Home() {
       <Experience />
 
       <p className="text-xs opacity-50 mt-32 text-center">
-        This page is under active development. Check back soon for more content.
+        This page is under active development. <br/>Check back soon for more content {":)"}
       </p>
       {/* <IContactYou /> */}
     </main>

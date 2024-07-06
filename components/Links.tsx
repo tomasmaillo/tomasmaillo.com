@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { toast } from 'sonner'
+import React from 'react'
 import EmailLink from './EmailLink'
 
 const Links = () => {
