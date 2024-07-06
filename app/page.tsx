@@ -1,5 +1,6 @@
 import IContactYou from '@/components/IContactYou'
 import Links from '@/components/Links'
+import Projects from '@/components/Projects/Projects'
 
 export default function Home() {
   return (
@@ -16,6 +17,8 @@ export default function Home() {
       </p>
 
       <Links />
+
+      <Projects />
 
       {/* <IContactYou /> */}
     </main>

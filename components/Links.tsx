@@ -15,7 +15,7 @@ const Links = () => {
         GitHub
       </a>
       <a
-        className="hover:opacity-90"
+        className="hover:opacity-90 active:scale-95"
         href="https://www.linkedin.com/in/tomas-maillo/">
         LinkedIn
       </a>

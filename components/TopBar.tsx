@@ -1,10 +1,16 @@
 async function getData() {
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      location: { city: 'Barcelona', region: 'Catalonia' },
+      visitor: { visitCount: 1000 },
+    }
+  }
+
   const [locationRes, visitorRes] = await Promise.all([
     fetch('https://web.tomasmaillo.com/location', {
       next: { revalidate: 3600 },
     }),
-    fetch('https://web.tomasmaillo.com/visit',
-    { cache: 'no-store' }),
+    fetch('https://web.tomasmaillo.com/visit', { cache: 'no-store' }),
   ])
 
   if (!locationRes.ok || !visitorRes.ok) {
