@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import TopBar from '@/components/TopBar'
 import localFont from 'next/font/local'
 import { Toaster } from '@/components/ui/sonner'
+import StartupConsoleLog from '@/components/StartupConsoleLog'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -69,6 +70,7 @@ export default function RootLayout({
         <SpeedInsights />
         <Analytics />
         <Toaster />
+        <StartupConsoleLog />
       </body>
     </html>
   )
