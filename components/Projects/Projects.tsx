@@ -46,6 +46,7 @@ const CarouselVideo = ({
       autoPlay
       loop
       muted
+      playsInline
     />
   )
 }
