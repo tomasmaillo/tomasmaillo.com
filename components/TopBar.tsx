@@ -14,7 +14,10 @@ async function getData() {
   ])
 
   if (!locationRes.ok || !visitorRes.ok) {
-    throw new Error('Failed to fetch data')
+    return {
+      location: { city: null, region: null },
+      visitor: { visitCount: null },
+    }
   }
 
   const location = await locationRes.json()
@@ -28,12 +31,14 @@ const TopBar = async () => {
 
   return (
     <header className="flex items-center justify-between text-xs hover:opacity-100 opacity-50">
-      <p>
-        {location.city}
-        {' · '}
-        {location.region}
-      </p>
-      <p>Welcome {visitor.visitCount}th visitor</p>
+      {location.city && location.region && (
+        <p>
+          {location.city}
+          {' · '}
+          {location.region}
+        </p>
+      )}
+      {visitor.visitCount && <p>Welcome {visitor.visitCount}th visitor</p>}
     </header>
   )
 }
