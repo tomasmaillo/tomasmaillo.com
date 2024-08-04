@@ -32,13 +32,19 @@ const TopBar = async () => {
   return (
     <header className="flex items-center justify-between text-xs hover:opacity-100 opacity-50">
       {location.city && location.region && (
-        <p>
+        <p title="Fetched every morning from my phone">
           {location.city}
           {' · '}
           {location.region}
         </p>
       )}
-      {visitor.visitCount && <p>Welcome {visitor.visitCount}th visitor</p>}
+      {visitor.visitCount && (
+        <p title="Lovely to see you here!">
+          Welcome{' '}
+          {visitor.visitCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
+          th visitor
+        </p>
+      )}
     </header>
   )
 }

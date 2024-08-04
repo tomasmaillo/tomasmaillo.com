@@ -1,4 +1,3 @@
-import Autoplay from 'embla-carousel-autoplay'
 import {
   Carousel,
   CarouselContent,
@@ -59,13 +58,24 @@ const ProjectDescription = ({ children }: { children: React.ReactNode }) => {
   return <p className="opacity-70 text-sm mb-2">{children}</p>
 }
 
+const ProjectTech = ({ children }: { children: React.ReactNode }) => (
+  <div className="flex flex-wrap gap-x-3 mt-2 justify-center items-center">
+    {children}
+  </div>
+)
+
+const ProjectTechItem = ({ children }: { children: React.ReactNode }) => {
+  return <span className="opacity-70 text-xs mb-2">{children}</span>
+}
+
 const Projects = () => {
   return (
-    <div>
+    <div className="mt-32">
       <ProjectTitle>Vibe-Check</ProjectTitle>
       <ProjectDescription>
-        Co-built a browser extension to improve lectures at university by giving
-        real-time feedback from the audience to lecturers.
+        Platform to increase lecture engagement by real-time interaction and
+        data visualization. Worked alongside UoEdinburgh lecturers to trial the
+        system in lectures.
       </ProjectDescription>
       <Carousel>
         <CarouselContent>
@@ -79,11 +89,19 @@ const Projects = () => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+      <ProjectTech>
+        <ProjectTechItem>ViteJS</ProjectTechItem>
+        <ProjectTechItem>TypeScript</ProjectTechItem>
+        <ProjectTechItem>WebSockets</ProjectTechItem>
+        <ProjectTechItem>NodeJS</ProjectTechItem>
+        <ProjectTechItem>Chrome-Extension</ProjectTechItem>
+      </ProjectTech>
 
       <ProjectTitle>Project Share</ProjectTitle>
       <ProjectDescription>
-        Elit duis consectetur culpa officia qui nostrud commodo in cillum cillum
-        Lorem in ex culpa adipisicing.
+        Founded UoEdinburgh&apos;s Project Share society, gathering a subset of
+        the most talented and proactive tech students of the Uni to hold regular
+        meetups and share updates on personal tech projects.
       </ProjectDescription>
       <Carousel>
         <CarouselContent>
@@ -97,11 +115,17 @@ const Projects = () => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+      <ProjectTech>
+        <ProjectTechItem>ReactJS</ProjectTechItem>
+        <ProjectTechItem>TypeScript</ProjectTechItem>
+      </ProjectTech>
 
       <ProjectTitle>Fan</ProjectTitle>
       <ProjectDescription>
-        Elit duis consectetur culpa officia qui nostrud commodo in cillum cillum
-        Lorem in ex culpa adipisicing.
+        Developed a smart fan prototype with computer vision capabilities. The
+        fan tracks users and responds to hand gestures for control.
+        Additionally, created a companion app for remote fan operation and data
+        monitoring.
       </ProjectDescription>
       <Carousel>
         <CarouselContent>
@@ -115,6 +139,17 @@ const Projects = () => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+      <ProjectTech>
+        <ProjectTechItem>React Native</ProjectTechItem>
+        <ProjectTechItem>TypeScript</ProjectTechItem>
+        <ProjectTechItem>Expo</ProjectTechItem>
+        <ProjectTechItem>Flask</ProjectTechItem>
+        <ProjectTechItem>Python</ProjectTechItem>
+      </ProjectTech>
+
+      <p className="text-xs opacity-50 mt-12 text-center">
+        and many more projects to be listed...
+      </p>
     </div>
   )
 }
