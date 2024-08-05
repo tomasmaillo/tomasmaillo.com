@@ -90,7 +90,7 @@ const Projects = () => {
         <CarouselNext />
       </Carousel>
       <ProjectTech>
-        <ProjectTechItem>ViteJS</ProjectTechItem>
+        <ProjectTechItem>Svelte</ProjectTechItem>
         <ProjectTechItem>TypeScript</ProjectTechItem>
         <ProjectTechItem>WebSockets</ProjectTechItem>
         <ProjectTechItem>NodeJS</ProjectTechItem>
