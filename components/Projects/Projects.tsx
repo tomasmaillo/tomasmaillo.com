@@ -19,7 +19,7 @@ const CarouselImage = ({
   return (
     <img
       className={cn(
-        'object-contain w-full h-full bg-slate-50 rounded-lg',
+        'object-contain w-full h-full bg-zinc-50 rounded-lg',
         addPadding && 'p-2'
       )}
       src={src}
@@ -38,7 +38,7 @@ const CarouselVideo = ({
   return (
     <video
       className={cn(
-        'object-cover w-full h-full bg-slate-50 rounded-lg overflow-hidden',
+        'object-cover w-full h-full bg-zinc-50 rounded-lg overflow-hidden',
         addPadding && 'p-2'
       )}
       src={src}

@@ -66,7 +66,7 @@ export default function RootLayout({
           editorialNew.variable
         )}>
         <TopBar />
-        <div className="flex min-h-screen flex-col md:p-24 pt-32">
+        <div className="min-h-screen md:p-24 pt-32">
 
         {children}
         </div>

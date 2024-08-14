@@ -1,0 +1,82 @@
+
+import LinkTo from '@/components/LinkTo'
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
+import Image from 'next/image'
+
+<LinkTo displayText="Back" link="/" />
+<br />
+
+# App: Zephyr Fan
+
+
+Autonomous Controlled Air Fan App. Using object detection to face people and hand gesture detection to control fan speed and mode of operation.
+
+Built on React Native, TypeScript, Expo, ThreeJS and WebSockets.
+
+<div className="relative w-full h-96 bg-zinc-50 rounded-lg flex justify-center items-center p-12 my-6">
+  <video src="/my-video.mp4" width={159} height={100} autoPlay muted loop playsInline className="rounded-lg" />
+  <Image src="/phone.png" alt="Project Share Website" width={190} height={50} className="absolute rounded" draggable={false}/>
+</div>
+
+
+## Pre Requisites
+
+We were prompted with: _Creating a robotic system that helps humans._
+
+Thinking on that prompt from the University of Edinburgh's *extremely* hot rooms in AT_5 building it became trivial to think of a smart fan. We decided it would need:
+
+- Built-in camera to track and face people's heads and hand gestures as remote control
+- On-board microcontroller to run ML vision models
+- App & Website to control the fan
+- WebSocket connection between control loop and users (app & website)
+
+<div className="relative w-full bg-zinc-50 rounded-lg my-6 p-4">
+  <Image src="/zephyr-day-0.png" alt="Hand drawn sketch of a fan with arrows, showing vertical and horizontal movement, a built in camera and a microcontroller" width={1990} height={2000} className="object-contain w-full h-64 bg-zinc-50 rounded-lg" draggable={false}/>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Day 0: Sketch of the capabilities of the fan. Facing direction, power and mode of operation to be controlle by hand gestures and companion app</p>
+</div>
+
+Additionally, as the systerm would be demoed in a public space, it needed:
+- Multi-user support (for demo purposes)
+- Admin / View only mode (for demo purposes)
+- Dynamically generated QR-code to direct users to the web app
+
+Looking back, one of our smartest moves was to focus on the demo experience from Day 0. It really allowed judges to get a feel for the project and the capabilities of the fan right from their own device.
+
+<div className="relative w-full bg-zinc-50 rounded-lg my-6 p-4">
+  <Image src="/zf-diagram.svg" alt="Technical layout of the project" width={1990} height={2000} className="object-contain w-full bg-zinc-50 rounded-lg" draggable={false}/>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Overview of the project's technical layout</p>
+</div>
+
+I focused on: 
+- Design and development of the app and website
+- Development of the control loop
+- Development of the WebSocket connection
+
+As a little bonus, I dipped my toes into 3D modeling and rendering!
+
+{/* ## Process
+
+Having the liberty to pick the tech and the feel of the app was a dream. I could both pick the tech and the feel of the app. Deciding which data to surface first and how.
+
+For this project I wanted to have fun with the design and create something that was both visually appealing and functional. From the (very kind) feedback I received, I think I succeeded!
+
+Next I cover the process behind the development of the app. Following the new tech stack I tried and the drawbacks I faced.
+
+Those requisites gave to this technical layout.
+
+
+
+## Process
+
+Thinking about the fan from its most basic form, I sketched the most basic capabilities. What exactly is the app controlling?
+
+
+
+Focusing on the fact that the main item to surface is the fan, I opted for a 3D recreation of the fan. It should be rendered on device as inexpensively as possible. Having had previous experience with ThreeJS, I had the confidence to be able to implement it without much hassle - what a mistake. 
+
+<div className="relative w-full bg-zinc-50 rounded-lg my-6 p-4">
+  <Image src="/zf-design.png" alt="Screenshots of IoT apps on the left with a screenshot of Zephyr Fan App on the right" width={1990} height={2000} className="object-contain w-full h-64 bg-zinc-50 rounded-lg" draggable={false}/>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Design inspiration of the app</p>
+</div> */}
+
+[WebApp demo](https://zephyrfan.netlify.app/)

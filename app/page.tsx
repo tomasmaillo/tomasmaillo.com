@@ -1,5 +1,6 @@
 import Experience from '@/components/Experience/Experience'
 import Links from '@/components/Links'
+import LinkTo from '@/components/LinkTo'
 import Projects from '@/components/Projects/Projects'
 
 export default function Home() {
@@ -24,7 +25,19 @@ export default function Home() {
 
       <Experience />
 
-      {/* <h1 className="text-2xl mt-12 mb-4 font-editorialNew">Posts</h1>
+      <h1 className="text-2xl mt-16 mb-4 font-editorialNew">Posts</h1>
+
+      <LinkTo
+        displayText="AI Fan App"
+        link="/zephyr-fan-app"
+        supportText="3 min read"
+      />
+
+      {/* <LinkTo
+        displayText="Behind Project Share"
+        link="/behind-project-share"
+        supportText="3 min read"
+      />
 
       <LinkTo
         displayText="Making a blog? Me?"
