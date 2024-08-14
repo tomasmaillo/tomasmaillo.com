@@ -30,7 +30,8 @@ export default function Home() {
       <LinkTo
         displayText="AI Fan App"
         link="/zephyr-fan-app"
-        supportText="3 min read"
+        sideText="3 min read"
+        supportText="Project write-up"
       />
 
       {/* <LinkTo

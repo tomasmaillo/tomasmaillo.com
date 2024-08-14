@@ -14,12 +14,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       />
     ),
     ol: (props) => <ol className="list-decimal my-8" {...props} />,
+    ul: (props) => <ul className="list-disc mb-6" {...props} />,
     a: (props) => <a className="text-[#EB5D31] hover:underline" {...props} />,
     p: (props) => <p className="text-sm mt-4 mb-6" {...props} />,
     strong: (props) => <strong className="font-bold" {...props} />,
     em: (props) => <em className="italic" {...props} />,
     blockquote: (props) => (
-      <blockquote className="border-l-4 pl-4 [&>*]:bg-red-600" {...props} />
+      <blockquote className="border-l-4 pl-4" {...props} />
     ),
   }
 }
