@@ -7,6 +7,7 @@ import {
 } from '../ui/carousel'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const CarouselImage = ({
   src,
@@ -56,8 +57,23 @@ const CarouselVideo = ({
   )
 }
 
-const ProjectTitle = ({ children }: { children: React.ReactNode }) => {
-  return <h2 className="mt-12 mb-2">{children}</h2>
+const ProjectTitle = ({
+  children,
+  link,
+}: {
+  children: React.ReactNode
+  link?: string
+}) => {
+  return (
+    <div className="flex items-center gap-2 mt-12 mb-2 align-baseline justify-between">
+      <h2 className="m-0">{children}</h2>
+      {link && (
+        <Link href={link} className="text-[#EB5D30] text-sm hover:underline">
+          ...more
+        </Link>
+      )}
+    </div>
+  )
 }
 
 const ProjectDescription = ({ children }: { children: React.ReactNode }) => {
@@ -126,7 +142,7 @@ const Projects = () => {
         <ProjectTechItem>TypeScript</ProjectTechItem>
       </ProjectTech>
 
-      <ProjectTitle>Fan</ProjectTitle>
+      <ProjectTitle link="/zephyr-fan-app">Fan</ProjectTitle>
       <ProjectDescription>
         Developed a smart fan prototype with computer vision capabilities. The
         fan tracks users and responds to hand gestures for control.
@@ -160,13 +176,12 @@ const Projects = () => {
         <p className="text-xs opacity-50 text-center">
           In the meantime, check my archive of
         </p>
-        <a
-          className="text-[#EB5D30] px-4 py-2 text-center text-underline mt-6 hover:text-underline"
-          style={{ textDecoration: 'underline' }}
+        <Link
+          className="text-[#EB5D30] px-4 py-2 text-center mt-6 hover:underline"
           target="_blank"
           href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d">
           Everything I&apos;ve ever Built
-        </a>
+        </Link>
       </div>
     </div>
   )
