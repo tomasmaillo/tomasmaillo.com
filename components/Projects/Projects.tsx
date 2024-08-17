@@ -6,6 +6,7 @@ import {
   CarouselNext,
 } from '../ui/carousel'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 const CarouselImage = ({
   src,
@@ -17,13 +18,18 @@ const CarouselImage = ({
   addPadding?: boolean
 }) => {
   return (
-    <img
+    <Image
       className={cn(
         'object-contain w-full h-full bg-zinc-50 rounded-lg',
         addPadding && 'p-2'
       )}
       src={src}
       alt={alt}
+      width={500}
+      height={500}
+      // TODO: Add placeholder
+      // placeholder="blur"
+      // blurDataURL={src}
     />
   )
 }
@@ -159,7 +165,7 @@ const Projects = () => {
           style={{ textDecoration: 'underline' }}
           target="_blank"
           href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d">
-          Everything I've ever Built
+          Everything I&apos;ve ever Built
         </a>
       </div>
     </div>
