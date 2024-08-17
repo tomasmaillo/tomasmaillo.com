@@ -73,9 +73,9 @@ const Projects = () => {
     <div className="mt-32">
       <ProjectTitle>Vibe-Check</ProjectTitle>
       <ProjectDescription>
-        Platform to increase lecture engagement by real-time interaction and
-        data visualization. Worked alongside UoEdinburgh lecturers to trial the
-        system in lectures.
+        Platform to increase lecture engagement through real-time audience
+        interaction and data visualization. Worked alongside UoEdinburgh
+        lecturers to trial the system in lectures.
       </ProjectDescription>
       <Carousel>
         <CarouselContent>
@@ -147,9 +147,21 @@ const Projects = () => {
         <ProjectTechItem>Python</ProjectTechItem>
       </ProjectTech>
 
-      <p className="text-xs opacity-50 mt-12 text-center">
-        and many more projects to be listed...
-      </p>
+      <div className="flex flex-col items-center mt-12">
+        <p className="text-xs opacity-50 text-center">
+          ...and many many more projects to be listed.
+        </p>
+        <p className="text-xs opacity-50 text-center">
+          In the meantime, check my archive of
+        </p>
+        <a
+          className="text-[#EB5D30] px-4 py-2 text-center text-underline mt-6 hover:text-underline"
+          style={{ textDecoration: 'underline' }}
+          target="_blank"
+          href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d">
+          Everything I've ever Built
+        </a>
+      </div>
     </div>
   )
 }
