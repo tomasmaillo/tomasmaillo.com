@@ -39,10 +39,17 @@ const TopBar = async () => {
         </p>
       )}
       {visitor.visitCount && (
-        <p title="Lovely to see you here!">
+        <p title="Lovely to see you here!" className="text-xs tabular-nums">
           Welcome{' '}
           {visitor.visitCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
-          th visitor
+          {visitor.visitCount % 10 === 1 && visitor.visitCount % 100 !== 11
+            ? 'st'
+            : visitor.visitCount % 10 === 2 && visitor.visitCount % 100 !== 12
+            ? 'nd'
+            : visitor.visitCount % 10 === 3 && visitor.visitCount % 100 !== 13
+            ? 'rd'
+            : 'th'}{' '}
+          visitor
         </p>
       )}
     </header>
