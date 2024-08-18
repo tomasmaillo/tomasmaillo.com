@@ -8,7 +8,7 @@ import TopBar from '@/components/TopBar'
 import localFont from 'next/font/local'
 import { Toaster } from '@/components/ui/sonner'
 import StartupConsoleLog from '@/components/StartupConsoleLog'
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider } from 'next-themes'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -59,18 +59,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased max-w-[768px] border-x border-x-border mx-auto px-4 py-4 text-foreground',
           fontSans.variable,
           editorialNew.variable
         )}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange>
+        <ThemeProvider defaultTheme="system" enableSystem>
           <TopBar />
           <div className="min-h-screen md:p-24 pt-32">{children}</div>
           <SpeedInsights />
