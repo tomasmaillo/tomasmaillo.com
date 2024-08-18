@@ -8,7 +8,52 @@ import Image from 'next/image'
 
 # Vibe-Check
 
-Co-built with <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" />
+Co-built with <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" />, vibe-check is a Chrome Extension and Website that helps make presentations more interactive. Users can *react* and *comment* on the presentation in real-time. Presenters can see real-time statistics on the *vibe* of the room. 
+
+After a successful summer of development in 2023, we released the Chrome Extension, opened beta testing and carried out some user testing. 
+
+<div className="relative w-full h-80 bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6">
+  <video src="/vc-room.mov" width={400} height={300} autoPlay muted loop playsInline className="rounded-lg" />
+  <p className="text-xs opacity-50 text-center m-0 mt-2">User trying to join a room. Users can scan a QR Code or type in a room code.</p>
+</div>
+
+## Origins
+
+The night before [Hack The Burgh 2023](https://2023.hacktheburgh.com/) hackathon, some friends and I were in my livingroom complaning about the lack of interaction in our university lectures.
+
+To put it simply, it went something like this:
+> "I'm not sure if I'm the only one, but I find it hard to stay awake in lectures"
+
+We found that lectures felt like unpolished YouTube videos and did not take advantage of the interactive potential that being in the same room as the lecturer offers.
+
+## Hack The Burgh 
+
+Following on from that night's conversation, along with <Avatar url="https://unavatar.io/github/paulinasg" name="Paulina Gerchuk" link="https://paulinagerch.uk/" />, <Avatar url="https://unavatar.io/github/david14higgins" name="David Higgins" link="https://github.com/david14higgins" />, <Avatar url="https://unavatar.io/github/archieforster" name="Archie Forster" link="https://github.com/archieforster" />, <Avatar url="https://unavatar.io/github/wietsdev" name="Wietske Holwerda" link="https://wiets.dev/" /> and <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" /> we decided to build a system that would help us stay awake in lectures.
+
+With only 24 hours to build a proof of concept demo, we focused on the core features of the system. Here is where we got to:
+
+<div className="relative w-full bg-card rounded-lg my-6 p-4">
+  <Image src="/vc-htb.png" alt="Screenshot of Chrome tab showing the vibe-check website. Large vibe check logo on the left and a QR code on the right. Real-time reactions are visible on the bottom right." width={1990} height={2000} className="object-contain w-full h-64 bg-card rounded-lg" draggable={false}/>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">During our demo, judges could scan the QR code and open the client on their devices. As we gave the demo, they could react and send comments in relation to our presentation.</p>
+</div>
+
+<div className="relative w-full h-96 bg-card rounded-lg flex flex-col justify-center items-center p-12 my-6">
+  <Image src="/vc-htb-phone.png" width={150} height={100} className="rounded-lg border-border border" />
+  <p className="text-xs opacity-50 text-center m-0 mt-2">The audience can react and comment.</p>
+</div>
+
+The hackathon was an absolute success. While we did win several smaller prices, the nicest outcome was getting feedback directly from heads of schools and lecturers. They saw the potential of the system and wanted to see it developed further.
+
+## V2
+
+After the hackathon, <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" /> and I decided to continue working on the project. 
+
+<div className="relative w-full bg-card rounded-lg my-6 p-4">
+  <Image src="/vc-dash.png" alt="Screenshot of Chrome tab showing the vibe-check website. Large vibe check logo on the left and a QR code on the right. Real-time reactions are visible on the bottom right." width={1990} height={2000} className="object-contain w-full h-64 bg-card rounded-lg" draggable={false}/>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">During our demo, judges could scan the QR code and open the client on their devices. As we gave the demo, they could react and send comments in relation to our presentation.</p>
+</div>
+
+
 {/* 
 Autonomous Controlled Air Fan App. Using object detection to face people and hand gesture detection to control fan speed and mode of operation.
 

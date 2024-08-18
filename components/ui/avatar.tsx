@@ -17,7 +17,12 @@ const Avatar = ({
   link: string
 }) => {
   return (
-    <Link href={link || '#'} className={cn("bg-card hover:underline rounded-full p-1", className)}>
+    <Link
+      href={link || '#'}
+      className={cn(
+        'bg-card hover:underline rounded-full py-0.5 pl-1 pr-1.5 inline-block',
+        className
+      )}>
       <Image
         src={url}
         alt="Avatar"
@@ -25,7 +30,7 @@ const Avatar = ({
         height={100}
         draggable={false}
         className={cn(
-          'relative h-4 w-4 shrink-0 overflow-hidden rounded-full inline-block align-text-top select-none',
+          'relative h-4 w-4 shrink-0 overflow-hidden rounded-full inline-block align-text-top select-none'
         )}
       />
       {name && <span className="text-sm ml-1">{name}</span>}
