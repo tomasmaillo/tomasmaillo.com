@@ -1,15 +1,15 @@
 
 import LinkTo from '@/components/LinkTo'
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
+import Avatar from '@/components/ui/avatar'
 import Image from 'next/image'
 
 <LinkTo displayText="Back" link="/" />
 <br />
 
-# App: Zephyr Fan
+# Vibe-Check
 
-[Demo](https://zephyrfan.netlify.app/)
-
+Co-built with <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" />
+{/* 
 Autonomous Controlled Air Fan App. Using object detection to face people and hand gesture detection to control fan speed and mode of operation.
 
 Built on React Native, TypeScript, Expo, ThreeJS and WebSockets.
@@ -88,4 +88,6 @@ While I opted for Expo and React Native (known for its cross-platform capabiliti
 Some of the functions used by ThreeJS used for rendering instanced meshes were not fully supported on iOS. It became an issue for displaying the blade cage and blades as they are packed as instanced meshes.
 
 As a workaround, I opted for the typical `if(Platform.OS === 'ios')...` pattern. Picking different models for the blades and the blade cage depending on the platform.
+ */}
+import { url } from "inspector"
 

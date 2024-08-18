@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main>
       <h1 className="text-3xl my-4 font-editorialNew">
-        Tomas Maillo<span className="text-[#EB5D30]">.</span>
+        Tomas Maillo<span className="text-accent">.</span>
       </h1>
 
       <p className="opacity-70 text-sm mb-6">

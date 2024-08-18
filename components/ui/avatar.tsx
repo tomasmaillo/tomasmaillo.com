@@ -1,50 +1,35 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import * as AvatarPrimitive from "@radix-ui/react-avatar"
+import Image from 'next/image'
+import Link from 'next/link'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
-const Avatar = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className
-    )}
-    {...props}
-  />
-))
-Avatar.displayName = AvatarPrimitive.Root.displayName
-
-const AvatarImage = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Image>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Image
-    ref={ref}
-    className={cn("aspect-square h-full w-full", className)}
-    {...props}
-  />
-))
-AvatarImage.displayName = AvatarPrimitive.Image.displayName
-
-const AvatarFallback = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Fallback>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={cn(
-      "flex h-full w-full items-center justify-center rounded-full bg-muted",
-      className
-    )}
-    {...props}
-  />
-))
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
-
-export { Avatar, AvatarImage, AvatarFallback }
+const Avatar = ({
+  url,
+  className,
+  name,
+  link,
+}: {
+  url: string
+  className?: string
+  name?: string
+  link: string
+}) => {
+  return (
+    <Link href={link || '#'} className={cn("bg-card hover:underline rounded-full p-1", className)}>
+      <Image
+        src={url}
+        alt="Avatar"
+        width={100}
+        height={100}
+        draggable={false}
+        className={cn(
+          'relative h-4 w-4 shrink-0 overflow-hidden rounded-full inline-block align-text-top select-none',
+        )}
+      />
+      {name && <span className="text-sm ml-1">{name}</span>}
+    </Link>
+  )
+}
+export default Avatar

@@ -8,6 +8,7 @@ import TopBar from '@/components/TopBar'
 import localFont from 'next/font/local'
 import { Toaster } from '@/components/ui/sonner'
 import StartupConsoleLog from '@/components/StartupConsoleLog'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -61,19 +62,22 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased max-w-[768px] border-x border-x-accent mx-auto px-4 py-4 text-foreground',
+          'min-h-screen bg-background font-sans antialiased max-w-[768px] border-x border-x-border mx-auto px-4 py-4 text-foreground',
           fontSans.variable,
           editorialNew.variable
         )}>
-        <TopBar />
-        <div className="min-h-screen md:p-24 pt-32">
-
-        {children}
-        </div>
-        <SpeedInsights />
-        <Analytics />
-        <Toaster />
-        <StartupConsoleLog />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange>
+          <TopBar />
+          <div className="min-h-screen md:p-24 pt-32">{children}</div>
+          <SpeedInsights />
+          <Analytics />
+          <Toaster />
+          <StartupConsoleLog />
+        </ThemeProvider>
       </body>
     </html>
   )

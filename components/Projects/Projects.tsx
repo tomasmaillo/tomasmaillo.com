@@ -21,7 +21,7 @@ const CarouselImage = ({
   return (
     <Image
       className={cn(
-        'object-contain w-full h-full bg-zinc-50 rounded-lg',
+        'object-contain w-full h-full bg-card rounded-lg',
         addPadding && 'p-2'
       )}
       src={src}
@@ -45,7 +45,7 @@ const CarouselVideo = ({
   return (
     <video
       className={cn(
-        'object-cover w-full h-full bg-zinc-50 rounded-lg overflow-hidden',
+        'object-cover w-full h-full bg-card rounded-lg overflow-hidden',
         addPadding && 'p-2'
       )}
       src={src}
@@ -68,7 +68,7 @@ const ProjectTitle = ({
     <div className="flex items-center gap-2 mt-12 mb-2 align-baseline justify-between">
       <h2 className="m-0">{children}</h2>
       {link && (
-        <Link href={link} className="text-[#EB5D30] text-sm hover:underline">
+        <Link href={link} className="text-accent text-sm hover:underline">
           ...more
         </Link>
       )}
@@ -177,7 +177,7 @@ const Projects = () => {
           In the meantime, check my archive of
         </p>
         <Link
-          className="text-[#EB5D30] px-4 py-2 text-center mt-6 hover:underline"
+          className="text-accent px-4 py-2 text-center mt-6 hover:underline"
           target="_blank"
           href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d">
           Everything I&apos;ve ever Built
