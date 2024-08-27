@@ -15,6 +15,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     a: (props) => <a className="text-[#EB5D31] hover:underline" {...props} />,
     p: (props) => <p className="text-sm mt-4 mb-6" {...props} />,
     strong: (props) => <strong className="font-bold" {...props} />,
+    code: (props) => <code className="bg-card p-1 rounded-md" {...props} />,
     em: (props) => <em className="italic" {...props} />,
     blockquote: (props) => (
       <blockquote className="border-l-4 pl-4" {...props} />

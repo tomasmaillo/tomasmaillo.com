@@ -6,7 +6,7 @@
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
 
-  --card: 0, 0%, 98%;
+  --card: 0, 0%, 97%;
   --card-foreground: 222.2 84% 4.9%;
 
   --popover: 0 0% 100%;
@@ -69,4 +69,14 @@
 }
 body {
   @apply bg-background text-foreground;
+}
+
+::selection {
+  background-color: hsl(var(--accent), 0.2);
+  color: hsl(var(--accent));
+}
+
+::-moz-selection {
+  background-color: hsl(var(--accent), 0.2);
+  color: hsl(var(--accent));
 }

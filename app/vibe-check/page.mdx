@@ -1,4 +1,3 @@
-
 import LinkTo from '@/components/LinkTo'
 import Avatar from '@/components/ui/avatar'
 import Image from 'next/image'
@@ -8,9 +7,9 @@ import Image from 'next/image'
 
 # Vibe-Check
 
-Co-built with <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" />, vibe-check is a Chrome Extension and Website that helps make presentations more interactive. Users can *react* and *comment* on the presentation in real-time. Presenters can see real-time statistics on the *vibe* of the room. 
+Co-built with <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" />, vibe-check is a Chrome Extension and Website that helps make presentations more interactive. Users can *react* and *comment* on the presentation in real-time. Presenters can see real-time statistics on the *vibe* of the room.
 
-After a successful summer of development in 2023, we released the Chrome Extension, opened beta testing and carried out some user testing. 
+After a successful summer of development in 2023, we released the Chrome Extension, opened beta testing, and carried out some user testing.
 
 <div className="relative w-full h-80 bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6">
   <video src="/vc-room.mov" width={400} height={300} autoPlay muted loop playsInline className="rounded-lg" />
@@ -19,14 +18,14 @@ After a successful summer of development in 2023, we released the Chrome Extensi
 
 ## Origins
 
-The night before [Hack The Burgh 2023](https://2023.hacktheburgh.com/) hackathon, some friends and I were in my livingroom complaning about the lack of interaction in our university lectures.
+The night before [Hack The Burgh 2023](https://2023.hacktheburgh.com/) hackathon, some friends and I were in my living room complaining about the lack of interaction in our university lectures.
 
-To put it simply, it went something like this:
+In simple terms, the conversation went like this:
 > "I'm not sure if I'm the only one, but I find it hard to stay awake in lectures"
 
-We found that lectures felt like unpolished YouTube videos and did not take advantage of the interactive potential that being in the same room as the lecturer offers.
+We found that lectures felt like low-quality YouTube videos and did not take advantage of the interactive potential that being in the same room as the lecturer offers.
 
-## Hack The Burgh 
+## Hack The Burgh
 
 Following on from that night's conversation, along with <Avatar url="https://unavatar.io/github/paulinasg" name="Paulina Gerchuk" link="https://paulinagerch.uk/" />, <Avatar url="https://unavatar.io/github/david14higgins" name="David Higgins" link="https://github.com/david14higgins" />, <Avatar url="https://unavatar.io/github/archieforster" name="Archie Forster" link="https://github.com/archieforster" />, <Avatar url="https://unavatar.io/github/wietsdev" name="Wietske Holwerda" link="https://wiets.dev/" /> and <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" /> we decided to build a system that would help us stay awake in lectures.
 
@@ -34,7 +33,7 @@ With only 24 hours to build a proof of concept demo, we focused on the core feat
 
 <div className="relative w-full bg-card rounded-lg my-6 p-4">
   <Image src="/vc-htb.png" alt="Screenshot of Chrome tab showing the vibe-check website. Large vibe check logo on the left and a QR code on the right. Real-time reactions are visible on the bottom right." width={1990} height={2000} className="object-contain w-full h-64 bg-card rounded-lg" draggable={false}/>
-  <p className="text-xs opacity-50 text-center m-0 mt-2">During our demo, judges could scan the QR code and open the client on their devices. As we gave the demo, they could react and send comments in relation to our presentation.</p>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">During our demo, judges could scan the QR code and open the client on their devices. As we gave the demo, they could react and comment on our presentation.</p>
 </div>
 
 <div className="relative w-full h-96 bg-card rounded-lg flex flex-col justify-center items-center p-12 my-6">
@@ -42,112 +41,41 @@ With only 24 hours to build a proof of concept demo, we focused on the core feat
   <p className="text-xs opacity-50 text-center m-0 mt-2">The audience can react and comment.</p>
 </div>
 
-The hackathon was an absolute success. While we did win several smaller prices, the nicest outcome was getting feedback directly from heads of schools and lecturers. They saw the potential of the system and wanted to see it developed further.
+The hackathon was a success. While we did win several smaller prizes, the nicest outcome was getting feedback directly from heads of schools and lecturers. They saw the potential of the system and wanted to see it developed further.
 
 ## V2
 
-By the end of March 2023, <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" /> and I decided to continue working on the project. We had clear ideas of what we wanted to build and how it could help university life. 
+By the end of March 2023, <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" /> and I decided to continue working on the project. We had clear ideas of what we wanted to build and how it could help university life. We called it V2.
 
-We planned to showcase our progress and partner with lecturers in September of 2023, our next academic year. 
+We planned to showcase our progress and partner with lecturers in September of 2023, our next academic year.
 
 <div className="relative w-full bg-card rounded-lg my-6 p-4">
   <Image src="/vc-dash.png" alt="Screenshot of Chrome tab showing the vibe-check website. Large vibe check logo on the left and a QR code on the right. Real-time reactions are visible on the bottom right." width={1990} height={2000} className="object-contain w-full h-64 bg-card rounded-lg" draggable={false}/>
   <p className="text-xs opacity-50 text-center m-0 mt-2">Presenter's dashboard mid-summer 2023</p>
 </div>
 
-Our timeline gave us couple of months to build a real MVP. These included: 
-- Build and Deploy extension to Chrome Webstore
-- Build a website for presenter and audience, including backend.
-- Build promotional website to allow lecturers to sign up for updates
+Our timeline gave us a couple of months to build a real MVP. These included: 
+- Deploy the extension to the Chrome Webstore.
+- Build and deploy the website for presenters and audiences, including backend.
+- Create a promotional website for lecturers to sign up for updates.
 
-One of the coolest parts was the Chrome Extension. It was the most unique part of the puzzle and the first time I got to work on a Chrome Extension. 
+We used Svelte, NextJS, TailwindCSS, Digital Ocean.
+
+I'll cover the coolest and most unique part of the puzzle:
+
+## Monorepo
+
+Stan pushed for a monorepo structure, a setup that allows code sharing across different parts of a project, such as between a server and a website. As a multiplayer game developer, Stan was quite fond of this approach because it enables consistent logic execution on both client and server sides. For instance, in multiplayer game development that he does, calculations for player movement need to be identical on both client devices and server.
+
+Initially, I was skeptical when Stan suggested combining our Chrome Extension, Website, and Backend into a single repository. My concerns centered around potential complexity and size issues. My previous experience, including an internship at Spotify, had always involved separate repositories for backend and frontend.
+
+However, my reservations were quickly dispelled. The monorepo structure proved to be a game-changer, offering benefits beyond my expectations. While sharing type definitions and helper functions across the three domains was useful, what truly amazed me was the ability to share Svelte components between the Website and the Chrome Extension. This eliminated the need for copying and pasting components or creating separate shared libraries.
+
+The primary challenge was the extensive configuration and build scripts required to integrate the components smoothly. We created a custom `webpack.config.js` to enable a unified development experience. With a single `npm run dev` command, we could start and hot-reload the server, website, and extension simultaneously.
 
 ## Chrome Extension
 
 Why not a desktop app?
-Part of the reason to pick a Chrome Extension was that all computers in the University of Edinburgh have Chrome installed and administrators can install extensions without user interaction. Therefore, setup was trivial. As soon as a lecturer would open a computer to display slides, the extension would be installed and running. 
+Part of the reason to pick a Chrome Extension was that all computers in the University of Edinburgh have Chrome installed and administrators can install extensions without user interaction. Therefore, setup was trivial. As soon as a lecturer would open a computer to display slides, the extension would be installed and running.
 
-It is true that a desktop app would be more versatile, (especially for that rogue lecturer who wants to use Edge or Firefox or some custom niche open source organic vegan indie slide deck viewer)
-
-{/* 
-Autonomous Controlled Air Fan App. Using object detection to face people and hand gesture detection to control fan speed and mode of operation.
-
-Built on React Native, TypeScript, Expo, ThreeJS and WebSockets.
-
-<div className="relative w-full h-96 bg-card rounded-lg flex justify-center items-center p-12 my-6">
-  <video src="/my-video.mp4" width={159} height={100} autoPlay muted loop playsInline className="rounded-lg" />
-  <Image src="/phone.png" alt="Project Share Website" width={190} height={50} className="absolute rounded" draggable={false}/>
-</div>
-
-
-## Pre Requisites
-
-We were prompted with: _Creating a robotic system that helps humans._
-
-Thinking on that prompt from the University of Edinburgh's *extremely* hot rooms in AT_5 building it became trivial to think of a smart fan. We decided it would need:
-
-- Built-in camera to track and face people's heads and hand gestures as remote control
-- On-board Raspberry Pi to run ML vision models
-- App & Website to control the fan
-- WebSocket for two-way communication between control loop and the app
-
-<div className="relative w-full bg-card rounded-lg my-6 p-4">
-  <Image src="/zephyr-day-0.png" alt="Hand drawn sketch of a fan with arrows, showing vertical and horizontal movement, a built in camera and a microcontroller" width={1990} height={2000} className="object-contain w-full h-64 bg-card rounded-lg" draggable={false}/>
-  <p className="text-xs opacity-50 text-center m-0 mt-2">Day 0: Sketch of the capabilities of the fan. Facing direction, power and mode of operation to be controlled by hand gestures and companion app</p>
-</div>
-
-Additionally, as the system would be demoed in a public space, it needed:
-- Multi-user support (for demo purposes)
-- Admin / View only mode (for demo purposes)
-- Dynamically generated QR-code to direct users to the web app
-
-Looking back, one of our smartest moves was to focus on the demo experience from Day 0. It allowed judges to experience the project's capabilities firsthand, directly from their own devices.
-
-<div className="relative w-full bg-card rounded-lg my-6 p-4">
-  <Image src="/zf-diagram.svg" alt="Technical layout of the project" width={1990} height={2000} className="object-contain w-full bg-card rounded-lg" draggable={false}/>
-  <p className="text-xs opacity-50 text-center m-0 mt-2">Overview of the project's technical layout</p>
-</div>
-
-I focused on: 
-- Design and development of the app and website
-- Development of the control loop
-- Development of the WebSocket connection
-
-As a little bonus, I dipped my toes into 3D modeling and rendering!
-
-As both the designer and developer of the app, I had the freedom to choose the technology stack and design the app's user experience
-
-Next, I'll cover some of the most interesting parts of the design and development process. 
-
-## Design
-
-As a form of challenge and looking for a premium-feeling experience, I decided to include a 3D model of the fan on the app. This idea followed a similar train of thought as what you would see from other premium IoT apps.
-
-<div className="relative w-full bg-card rounded-lg my-6 p-4">
-  <Image src="/zf-design.png" alt="Screenshots of IoT apps on the left with a screenshot of Zephyr Fan App on the right" width={1990} height={2000} className="object-contain w-full h-64 bg-card rounded-lg" draggable={false}/>
-  <p className="text-xs opacity-50 text-center m-0 mt-2">Design inspiration of the app</p>
-</div> 
-
-Part of committing to a real 3D render, not just an image of a render, was that I could adjust the representation dynamically. I envisioned to tweak the 3D model to be a 1 to 1 render of what the fan is currently doing. For example, it becomes obvious when removing the blade cage, the speed of the fan is represented by the speed of the blades!
-
-<div className="relative w-full h-96 bg-card rounded-lg flex justify-center items-center p-12 my-6">
-  <video src="/z-stripped.mp4" width={159} height={100} autoPlay muted loop playsInline className="rounded-lg" />
-  <Image src="/phone.png" alt="iPhone border" width={190} height={50} className="absolute rounded" draggable={false}/>
-</div>
-
-An exciting part of working on a real mobile app is that I could access the taptic engine of the device. Having focused almost exclusively on web stacks, this was an incredible opportunity for me. I was mainly inspired by apps like [Amie](https://amie.so/), [Lapse](https://www.lapse.com/) and [ID by Amo](https://amo.co/), where haptics are part of the personality of the app. 
-
-The main area where I included custom haptic feedback was on the power slider. As the user swipes on the slider, the haptic engine would trigger a different pattern depending on the speed of the slider. When the user reaches the top or bottom of the slider, the haptic engine would trigger a stronger and more definitive pattern. I was mesmerized by the interaction. 
-
-Unfortunately, the demo I linked above does not include the haptic feedback (as websites do not have access to the haptic engine).
-
-## Development
-
-While I opted for Expo and React Native (known for its cross-platform capabilities), not all of the code worked for iOS, Android and Web out of the box. Thumbs down!
-
-Some of the functions used by ThreeJS used for rendering instanced meshes were not fully supported on iOS. It became an issue for displaying the blade cage and blades as they are packed as instanced meshes.
-
-As a workaround, I opted for the typical `if(Platform.OS === 'ios')...` pattern. Picking different models for the blades and the blade cage depending on the platform.
- */}
-import { url } from "inspector"
-
+It is true that a desktop app would be more versatile, (especially for those lecturers who prefer alternative browsers), but we estimated that 90% of lecturers already use Chrome's PDF viewer in full screen mode.
