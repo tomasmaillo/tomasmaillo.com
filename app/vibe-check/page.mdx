@@ -86,7 +86,7 @@ As a multiplayer game developer, Stan was quite fond of the monorepo structure. 
 
 When Stan suggested using this same monorepo structure for our Chrome Extension, Website, and Backend, I was extremely skeptical. Would this be useful at all? Would it make everything bloated and complex?
 
-However, my reservations were quickly dispelled. The monorepo structure proved to be a game-changer for me. While sharing type definitions and helper functions across the three domains was useful, what truly amazed me was the ability to share Svelte components between the Website and the Chrome Extension. No copy-and-pasteing or making a UI library for our repos!
+However, my worries were quickly resolved. The monorepo structure proved to be a game-changer for me. While sharing type definitions and helper functions across the three domains was useful, what truly amazed me was the ability to share Svelte components between the Website and the Chrome Extension. No copy-and-pasteing or making a UI library for our repos!
 
 The primary challenge was the extensive configuration and build scripts required to integrate the components smoothly. We created a custom `webpack.config.js` to enable a unified development experience. With a single `npm run dev` command, we could start and hot-reload the server, website, and extension simultaneously.
 
