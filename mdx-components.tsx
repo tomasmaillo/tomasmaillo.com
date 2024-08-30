@@ -6,7 +6,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     h1: (props) => (
       <h1 className="text-3xl my-4 font-editorialNew" {...props} />
     ),
-    h2: (props) => <h2 className="my-4 mt-12 font-mediu " {...props} />,
+    h2: (props) => <h2 className="my-4 mt-12 font-medium text-lg " {...props} />,
+    h3: (props) => <h3 className="my-4 mt-6" {...props} />,
     li: (props) => (
       <li className="text-sm my-2 list-decimal list-inside ml-4" {...props} />
     ),
@@ -15,7 +16,18 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     a: (props) => <a className="text-[#EB5D31] hover:underline" {...props} />,
     p: (props) => <p className="text-sm mt-4 mb-6" {...props} />,
     strong: (props) => <strong className="font-bold" {...props} />,
-    code: (props) => <code className="bg-card p-1 rounded-md" {...props} />,
+    code: (props) => {
+      const isInline =
+        typeof props.children === 'string' && !props.children.includes('\n')
+      return (
+        <code
+          className={`text-sm bg-card p-1 rounded-md ${
+            isInline ? 'inline' : 'block'
+          }`}
+          {...props}
+        />
+      )
+    },
     em: (props) => <em className="italic" {...props} />,
     blockquote: (props) => (
       <blockquote className="border-l-4 pl-4" {...props} />

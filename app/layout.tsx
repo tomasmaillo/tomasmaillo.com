@@ -59,21 +59,23 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="bg-accent">
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased max-w-[768px] border-x border-x-border mx-auto px-4 py-4 text-foreground',
+          'min-h-screen bg-background font-sans antialiased overflow-x-hidden relative',
           fontSans.variable,
           editorialNew.variable
         )}>
-        <ThemeProvider defaultTheme="system" enableSystem>
-          <TopBar />
-          <div className="min-h-screen md:p-24 pt-32">{children}</div>
-          <SpeedInsights />
-          <Analytics />
-          <Toaster />
-          <StartupConsoleLog />
-        </ThemeProvider>
+        <div className="max-w-[768px] border-x border-x-border mx-auto px-4 py-4 text-foreground">
+          <ThemeProvider defaultTheme="system" enableSystem>
+            <TopBar />
+            <div className="min-h-screen md:p-24 pt-32">{children}</div>
+            <SpeedInsights />
+            <Analytics />
+            <Toaster />
+            <StartupConsoleLog />
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   )

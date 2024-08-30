@@ -47,8 +47,7 @@ export default function Home() {
       /> */}
 
       <p className="text-xs opacity-50 mt-32 text-center">
-        This page is under active development. <br />
-        Check back soon for more content {':)'}
+        Sincerely, <br /> Tomas
       </p>
     </main>
   )

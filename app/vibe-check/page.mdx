@@ -43,6 +43,23 @@ With only 24 hours to build a proof of concept demo, we focused on the core feat
 
 The hackathon was a success. While we did win several smaller prizes, the nicest outcome was getting feedback directly from heads of schools and lecturers. They saw the potential of the system and wanted to see it developed further.
 
+<div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
+  <div className="group z-50">
+    <div className="absolute w-full h-full top-0 left-0 bg-black opacity-0 lg:group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
+    <video 
+      src="/vc-hackathon.mp4" 
+      width={450} 
+      height={300} 
+      autoPlay 
+      muted 
+      loop 
+      playsInline 
+      className="rounded-lg lg:group-hover:scale-[2] transition-all duration-300" 
+    />
+  </div>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">On the left, audience view after scanning a QR code. On the right, presenter presenting with overlayed reactions and comments.</p>
+</div>
+
 ## V2
 
 By the end of March 2023, <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" /> and I decided to continue working on the project. We had clear ideas of what we wanted to build and how it could help university life. We called it V2.
@@ -65,17 +82,102 @@ I'll cover the coolest and most unique part of the puzzle:
 
 ## Monorepo
 
-Stan pushed for a monorepo structure, a setup that allows code sharing across different parts of a project, such as between a server and a website. As a multiplayer game developer, Stan was quite fond of this approach because it enables consistent logic execution on both client and server sides. For instance, in multiplayer game development that he does, calculations for player movement need to be identical on both client devices and server.
+As a multiplayer game developer, Stan was quite fond of the monorepo structure. It enables consistent logic execution on both client and server sides. For instance, in the multiplayer world, any calculations for player movement need to be calculated on the client (for instant reaction time) and on the server (to verify that movements coming for clients are valid).
 
-Initially, I was skeptical when Stan suggested combining our Chrome Extension, Website, and Backend into a single repository. My concerns centered around potential complexity and size issues. My previous experience, including an internship at Spotify, had always involved separate repositories for backend and frontend.
+When Stan suggested using this same monorepo structure for our Chrome Extension, Website, and Backend, I was extremely skeptical. Would this be useful at all? Would it make everything bloated and complex?
 
-However, my reservations were quickly dispelled. The monorepo structure proved to be a game-changer, offering benefits beyond my expectations. While sharing type definitions and helper functions across the three domains was useful, what truly amazed me was the ability to share Svelte components between the Website and the Chrome Extension. This eliminated the need for copying and pasting components or creating separate shared libraries.
+However, my reservations were quickly dispelled. The monorepo structure proved to be a game-changer for me. While sharing type definitions and helper functions across the three domains was useful, what truly amazed me was the ability to share Svelte components between the Website and the Chrome Extension. No copy-and-pasteing or making a UI library for our repos!
 
 The primary challenge was the extensive configuration and build scripts required to integrate the components smoothly. We created a custom `webpack.config.js` to enable a unified development experience. With a single `npm run dev` command, we could start and hot-reload the server, website, and extension simultaneously.
 
+Since then, I have used this structure in all my projects. I cannot recommend it enough.
+
 ## Chrome Extension
 
-Why not a desktop app?
-Part of the reason to pick a Chrome Extension was that all computers in the University of Edinburgh have Chrome installed and administrators can install extensions without user interaction. Therefore, setup was trivial. As soon as a lecturer would open a computer to display slides, the extension would be installed and running.
+### Why not a desktop app?
+
+All computers in the University of Edinburgh have Chrome installed and administrators can install extensions without user interaction. It made setup trivial. As soon as a lecturer would open a computer to display slides, the extension would be installed and running.
 
 It is true that a desktop app would be more versatile, (especially for those lecturers who prefer alternative browsers), but we estimated that 90% of lecturers already use Chrome's PDF viewer in full screen mode.
+
+### UX
+
+I think this was the first time I seriously thought of UX (User Experience). I frequently found myself thinking how to make the system more obvious. 
+
+It first started when I was pitching the system to a professor in late May 2023. Stan and I had identified that we needed people (lecturers in high places) to vouch for us and become our first users. So, a week before, I had stalked and emailed all possible lecturers that could be interested in supporting us develop the system. In just a few days I had scheduled a meeting with a few professors. 
+
+This pitch was awkward. I can vividly remember the professor tilting his head and saying "I'm not sure I understand what this is". While this person was one of the top most influencial people in Computer Science, the idea of Chrome Extensions escaped him. The idea of having an injected overlay over a website seemed out of of this world. Seeing him interact with the system, I could see the confusion.
+
+I dont blame him. The system needed to be way simpler to understand if we wanted it to be adopted, especially within the academic circles. 
+
+<div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
+  <div className="group z-50">
+    <div className="absolute w-full h-full top-0 left-0 bg-black opacity-0 lg:group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
+    <video 
+      src="/vc-comment.mp4" 
+      width={450} 
+      height={300} 
+      autoPlay 
+      muted 
+      loop 
+      playsInline 
+      className="rounded-lg lg:group-hover:scale-[2] transition-all duration-300" 
+    />
+  </div>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Demo of Chrome Extension overlay showing comments and reactions</p>
+</div>
+
+I got to play with dozens of variations of shapes, layouts, feedback systems, animations... 
+
+Where should the comments appear? What if you want to click something under the comments? What if you change tabs? What if the website you are visitng leaks its CSS onto the overlay?
+
+<div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
+  <div className="group z-50">
+    <div className="absolute w-full h-full top-0 left-0 bg-black opacity-0 lg:group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
+    <video 
+      src="/vc-sync2.mp4" 
+      width={450} 
+      height={300} 
+      autoPlay 
+      muted 
+      loop 
+      playsInline 
+      className="rounded-lg lg:group-hover:scale-[2] transition-all duration-300" 
+    />
+  </div>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Sync system on the Chrome Extension</p>
+</div>
+
+In all honestly, I'm extremely grateful of having to tackle this challenge. 
+
+### Stats
+
+Part of knowing the *vibe* of the room is seeing what people are reacting to. As the presenter is delivering a speech, they need to be able to see the overall change in feedback.
+
+The idea was to implement some `/stats` page to be automatically opened and follow in real-time the progress of the resentation. 
+Part of knowing the *vibe* of the room is seeing what people are reacting to. As the presenter is delivering a speech, they need to be able to see the overall change in feedback.
+
+The idea was to implement some `/stats` page to be automatically opened and follow in real-time the progress of the resentation. 
+Part of knowing the *vibe* of the room is seeing what people are reacting to. As the presenter is delivering a speech, they need to be able to see the overall change in feedback.
+
+The idea was to implement some `/stats` page to be automatically opened and follow in real-time the progress of the resentation. 
+Part of knowing the *vibe* of the room is seeing what people are reacting to. As the presenter is delivering a speech, they need to be able to see the overall change in feedback.
+
+The idea was to implement some `/stats` page to be automatically opened and follow in real-time the progress of the resentation. 
+
+<div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
+  <div className="group z-50">
+    <div className="absolute w-full h-full top-0 left-0 bg-black opacity-0 lg:group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
+    <video 
+      src="/vc-stats.mp4" 
+      width={450} 
+      height={300} 
+      autoPlay 
+      muted 
+      loop 
+      playsInline 
+      className="rounded-lg lg:group-hover:scale-[2] transition-all duration-300" 
+    />
+  </div>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Sync system on the Chrome Extension</p>
+</div>
