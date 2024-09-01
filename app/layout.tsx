@@ -9,6 +9,7 @@ import localFont from 'next/font/local'
 import { Toaster } from '@/components/ui/sonner'
 import StartupConsoleLog from '@/components/StartupConsoleLog'
 import { ThemeProvider } from 'next-themes'
+import Goodbye from '@/components/Goodbye'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -69,7 +70,10 @@ export default function RootLayout({
         <div className="max-w-[768px] border-x border-x-border mx-auto px-4 py-4 text-foreground">
           <ThemeProvider defaultTheme="system" enableSystem>
             <TopBar />
-            <div className="min-h-screen md:p-24 pt-32">{children}</div>
+            <div className="min-h-screen md:p-24 pt-32">
+              {children}
+              <Goodbye />
+            </div>
             <SpeedInsights />
             <Analytics />
             <Toaster />

@@ -46,9 +46,7 @@ export default function Home() {
         supportText="23 Jul"
       /> */}
 
-      <p className="text-xs opacity-50 mt-32 text-center">
-        Sincerely, <br /> Tomas
-      </p>
+     
     </main>
   )
 }

@@ -11,8 +11,20 @@ Co-built with <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flin
 
 After a successful summer of development in 2023, we released the Chrome Extension, opened beta testing, and carried out some user testing.
 
-<div className="relative w-full h-80 bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6">
-  <video src="/vc-room.mov" width={400} height={300} autoPlay muted loop playsInline className="rounded-lg" />
+<div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
+  <div className="group z-50">
+    <div className="absolute w-full h-full top-0 left-0 bg-black opacity-0 lg:group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
+    <video 
+      src="/vc-room.mov" 
+      width={450} 
+      height={300} 
+      autoPlay 
+      muted 
+      loop 
+      playsInline 
+      className="rounded-lg lg:group-hover:scale-[2] transition-all duration-300" 
+    />
+  </div>
   <p className="text-xs opacity-50 text-center m-0 mt-2">User trying to join a room. Users can scan a QR Code or type in a room code.</p>
 </div>
 
@@ -76,7 +88,7 @@ Our timeline gave us a couple of months to build a real MVP. These included:
 - Build and deploy the website for presenters and audiences, including backend.
 - Create a promotional website for lecturers to sign up for updates.
 
-We used Svelte, NextJS, TailwindCSS, Digital Ocean.
+We used Svelte, NextJS, lots of WebSockets and Digital Ocean.
 
 I'll cover the coolest and most unique part of the puzzle:
 

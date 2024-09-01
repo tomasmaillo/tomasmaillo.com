@@ -30,7 +30,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     },
     em: (props) => <em className="italic" {...props} />,
     blockquote: (props) => (
-      <blockquote className="border-l-4 pl-4" {...props} />
+      <blockquote className="border-l-4 pl-4 border-accent" {...props} />
     ),
   }
 }
