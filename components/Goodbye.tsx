@@ -38,9 +38,8 @@ const Goodbye = () => {
   const index = hash % GOODBYES.length
 
   return (
-    <p className="text-xs opacity-50 mt-48 mb-24 text-center">
+    <p className="text-xs opacity-50 mt-48 mb-12 text-center leading-5">
       {GOODBYES[index]}
-      <br />
       <br />
       Tomas
     </p>
