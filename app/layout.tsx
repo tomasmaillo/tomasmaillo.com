@@ -51,7 +51,7 @@ const editorialNew = localFont({
 
 export const metadata: Metadata = {
   title: 'Tomas Maillo',
-  description: '',
+  description: 'Tomas Maillo Portfolio: Software Engineer',
 }
 
 export default function RootLayout({
