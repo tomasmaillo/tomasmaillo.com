@@ -20,7 +20,7 @@ const Avatar = ({
     <Link
       href={link || '#'}
       className={cn(
-        'bg-card hover:underline rounded-full py-0.5 pl-1 pr-1.5 inline-block',
+        'bg-card underline hover:no-underline rounded-full py-0.5 pl-1 pr-1.5 inline-block',
         className
       )}>
       <Image

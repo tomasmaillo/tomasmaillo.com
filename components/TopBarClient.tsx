@@ -19,7 +19,7 @@ const TopBarContent = ({
       {location.city && location.region && (
         <p title="Fetched every morning from my phone">
           {location.city}
-          {' · '}
+          <span className="select-none"> {' · '}</span>
           {location.region}
         </p>
       )}

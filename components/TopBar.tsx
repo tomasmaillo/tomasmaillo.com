@@ -3,7 +3,7 @@ import TopBarClient from './TopBarClient'
 async function getData() {
   if (process.env.NODE_ENV === 'development') {
     return {
-      location: { city: 'Barcelona', region: 'Catalonia' },
+      location: { city: 'Mars', region: 'Milky Way' },
       visitor: { visitCount: 1000 },
     }
   }

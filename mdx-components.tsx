@@ -21,7 +21,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         typeof props.children === 'string' && !props.children.includes('\n')
       return (
         <code
-          className={`text-sm bg-card p-1 rounded-md ${
+          className={`text-xs bg-card px-1 py-0.5 rounded-md ${
             isInline ? 'inline' : 'block'
           }`}
           {...props}

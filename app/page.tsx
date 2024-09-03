@@ -34,6 +34,13 @@ export default function Home() {
         supportText="Project write-up"
       />
 
+      <LinkTo
+        displayText="What I use"
+        link="/what-i-use"
+        sideText="2 min read"
+        supportText="List of tools I use and recommend"
+      />
+
       {/* <LinkTo
         displayText="Behind Project Share"
         link="/behind-project-share"
@@ -45,8 +52,6 @@ export default function Home() {
         link="/making-a-blog"
         supportText="23 Jul"
       /> */}
-
-     
     </main>
   )
 }
