@@ -2,6 +2,7 @@ import Experience from '@/components/Experience/Experience'
 import Links from '@/components/Links'
 import LinkTo from '@/components/LinkTo'
 import Projects from '@/components/Projects/Projects'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -10,11 +11,15 @@ export default function Home() {
         Tomas Maillo<span className="text-accent">.</span>
       </h1>
 
-      <p className="opacity-70 text-sm mb-6">
+      <p className="text-muted text-sm mb-3">
         This is my little corner of the internet where I list what I&apos;ve
         built and learned. Currently a Computer Science and Artificial
         Intelligence student at the University of Edinburgh. Previously at
-        Spotify.
+        Spotify and Baillie Gifford.
+      </p>
+      <p className="text-muted text-sm mb-6">
+        This is the <Link href="/about-this-website" className='text-accent hover:underline'> 7th iteration</Link> of my
+        portfolio website. Built and designed by yours truly.
       </p>
 
       <Links />

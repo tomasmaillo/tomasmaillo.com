@@ -67,7 +67,7 @@ export default function RootLayout({
           fontSans.variable,
           editorialNew.variable
         )}>
-        <div className="max-w-[768px] border-x border-x-border mx-auto px-4 py-4 text-foreground">
+        <div className="max-w-[768px] md:border-x border-x-0 border-x-border mx-auto px-4 py-4 text-foreground">
           <ThemeProvider defaultTheme="system" enableSystem>
             <TopBar />
             <div className="min-h-screen md:p-24 pt-32">

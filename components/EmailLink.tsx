@@ -30,7 +30,7 @@ const EmailLink = () => {
 
   return (
     <div>
-      <a onClick={handleCopy} className="hover:opacity-90 cursor-pointer active:scale-95">
+      <a onClick={handleCopy} className="hover:underline cursor-pointer">
         Reach me
       </a>
     </div>
