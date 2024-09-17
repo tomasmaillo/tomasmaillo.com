@@ -20,7 +20,7 @@ const Avatar = ({
     <Link
       href={link || '#'}
       className={cn(
-        'bg-card underline hover:no-underline rounded-full py-0.5 pl-1 pr-1.5 inline-block',
+        'bg-card rounded-full py-0.5 pl-1 pr-1.5 inline-block',
         className
       )}>
       <Image
@@ -33,7 +33,7 @@ const Avatar = ({
           'relative h-4 w-4 shrink-0 overflow-hidden rounded-full inline-block align-text-top select-none'
         )}
       />
-      {name && <span className="text-sm ml-1">{name}</span>}
+      {name && <span className="text-sm ml-1">{name}</span>} {link && '↗'}
     </Link>
   )
 }

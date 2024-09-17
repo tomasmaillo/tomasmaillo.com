@@ -5,15 +5,15 @@ const Links = () => {
   return (
     <div className="flex space-x-4 text-sm text-muted m-auto justify-center">
       <a className="hover:underline" href="https://x.com/tomascodes">
-        Twitter
+        Twitter ↗
       </a>
       <a className="hover:underline" href="https://github.com/tomasmaillo">
-        GitHub
+        GitHub ↗
       </a>
       <a
         className="hover:underline"
         href="https://www.linkedin.com/in/tomas-maillo/">
-        LinkedIn
+        LinkedIn ↗
       </a>
       <EmailLink />
     </div>

@@ -80,3 +80,11 @@ body {
   background-color: hsl(var(--accent), 0.2);
   color: hsl(var(--accent));
 }
+
+a {
+  @apply text-accent;
+}
+
+a:hover {
+  text-decoration: underline;
+}

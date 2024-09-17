@@ -2,21 +2,33 @@
 import LinkTo from '@/components/LinkTo'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import Image from 'next/image'
+import Link from 'next/link'
 
 <LinkTo displayText="Back" link="/" />
 <br />
 
+<div className="flex justify-between items-center">
 # App: Zephyr Fan
-
-[Demo](https://zephyrfan.netlify.app/)
+  <Link
+    className={`bg-accent text-white px-4 py-2 rounded-md transition-all active:scale-95 h-min`}
+    href="https://zephyrfan.netlify.app/"
+    target="_blank"
+    rel="noopener noreferrer">Demo ↗</Link>
+</div>
 
 Autonomous Controlled Air Fan App. Using object detection to face people and hand gesture detection to control fan speed and mode of operation.
 
 Built on React Native, TypeScript, Expo, ThreeJS and WebSockets.
 
-<div className="relative w-full h-96 bg-card rounded-lg flex justify-center items-center p-12 my-6">
-  <video src="/my-video.mp4" width={159} height={100} autoPlay muted loop playsInline className="rounded-lg" />
-  <Image src="/phone.png" alt="Project Share Website" width={190} height={50} className="absolute rounded" draggable={false}/>
+<div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
+  <div className="z-50">
+    <div className="absolute w-full h-full top-0 left-0 bg-black opacity-0 lg:group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
+    <div className="relative w-full h-96 flex justify-center items-center lg:group-hover:scale-[2] transition-all duration-300">
+      <video src="/my-video.mp4" width={159} height={100} autoPlay muted loop playsInline className="rounded-lg" />
+      <Image src="/phone.png" alt="Project Share Website" width={300} height={100} className="absolute rounded scale-[1.2]" draggable={false}/>
+    </div>
+  </div>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Zephyr Fan App in action</p>
 </div>
 
 
@@ -70,9 +82,15 @@ As a form of challenge and looking for a premium-feeling experience, I decided t
 
 Part of committing to a real 3D render, not just an image of a render, was that I could adjust the representation dynamically. I envisioned to tweak the 3D model to be a 1 to 1 render of what the fan is currently doing. For example, it becomes obvious when removing the blade cage, the speed of the fan is represented by the speed of the blades!
 
-<div className="relative w-full h-96 bg-card rounded-lg flex justify-center items-center p-12 my-6">
-  <video src="/z-stripped.mp4" width={159} height={100} autoPlay muted loop playsInline className="rounded-lg" />
-  <Image src="/phone.png" alt="iPhone border" width={190} height={50} className="absolute rounded" draggable={false}/>
+<div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
+  <div className="group z-50">
+    <div className="absolute w-full h-full top-0 left-0 bg-black opacity-0 lg:group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
+    <div className="relative w-full h-96 flex justify-center items-center lg:group-hover:scale-[2] transition-all duration-300">
+      <video src="/z-stripped.mp4" width={159} height={100} autoPlay muted loop playsInline className="rounded-lg" />
+      <Image src="/phone.png" alt="Project Share Website" width={300} height={100} className="absolute rounded scale-[1.2]" draggable={false}/>
+    </div>
+  </div>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Zephyr Fan App with stripped down 3D model</p>
 </div>
 
 An exciting part of working on a real mobile app is that I could access the taptic engine of the device. Having focused almost exclusively on web stacks, this was an incredible opportunity for me. I was mainly inspired by apps like [Amie](https://amie.so/), [Lapse](https://www.lapse.com/) and [ID by Amo](https://amo.co/), where haptics are part of the personality of the app. 

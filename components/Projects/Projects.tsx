@@ -180,7 +180,7 @@ const Projects = () => {
           className="text-accent px-4 py-2 text-center mt-6 hover:underline"
           target="_blank"
           href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d">
-          Everything I&apos;ve ever Built
+          Everything I&apos;ve ever Built ↗
         </Link>
       </div>
     </div>
