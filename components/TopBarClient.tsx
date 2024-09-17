@@ -50,7 +50,7 @@ type TopBarClientProps = {
 
 const TopBarClient = ({ dataPromise }: TopBarClientProps) => {
   return (
-    <header className="flex items-center justify-between text-xs hover:opacity-100 opacity-50 h-4">
+    <header className="flex items-center justify-between text-xs pointer-events-none select-none opacity-50 h-4">
       <Suspense>
         <TopBarContent dataPromise={dataPromise} />
       </Suspense>

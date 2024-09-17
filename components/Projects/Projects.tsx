@@ -77,7 +77,7 @@ const ProjectTitle = ({
 }
 
 const ProjectDescription = ({ children }: { children: React.ReactNode }) => {
-  return <p className="opacity-70 text-sm mb-2">{children}</p>
+  return <p className="text-muted text-sm mb-2">{children}</p>
 }
 
 const ProjectTech = ({ children }: { children: React.ReactNode }) => (
@@ -87,7 +87,7 @@ const ProjectTech = ({ children }: { children: React.ReactNode }) => (
 )
 
 const ProjectTechItem = ({ children }: { children: React.ReactNode }) => {
-  return <span className="opacity-70 text-xs mb-2">{children}</span>
+  return <span className="text-muted text-xs mb-2">{children}</span>
 }
 
 const Projects = () => {
@@ -170,10 +170,10 @@ const Projects = () => {
       </ProjectTech>
 
       <div className="flex flex-col items-center mt-12">
-        <p className="text-xs opacity-50 text-center">
+        <p className="text-muted text-xs text-center">
           ...and many many more projects to be listed.
         </p>
-        <p className="text-xs opacity-50 text-center">
+        <p className="text-muted text-xs text-center">
           In the meantime, check my archive of
         </p>
         <Link

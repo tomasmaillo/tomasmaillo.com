@@ -12,9 +12,9 @@ const ExperienceEntry = ({
     style={{ width: 'calc(100% + 1rem)' }}>
     <div className="flex flex-col">
       <h2 className="">{title}</h2>
-      <p className="opacity-70 text-sm">{description}</p>
+      <p className="text-muted text-sm">{description}</p>
     </div>
-    <p className="text-sm opacity-70 text-right">{date}</p>
+    <p className="text-sm text-muted text-right">{date}</p>
   </div>
 )
 

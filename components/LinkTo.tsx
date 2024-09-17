@@ -21,11 +21,11 @@ const LinkTo = ({
         <div className="flex flex-col">
           <span className="group-hover:underline">{displayText}</span>
           {supportText && (
-            <span className="text-sm opacity-70 text-right">{supportText}</span>
+            <span className="text-sm text-muted text-right">{supportText}</span>
           )}
         </div>
         {sideText && (
-          <span className="text-sm opacity-70 text-right">{sideText}</span>
+          <span className="text-sm text-muted text-right">{sideText}</span>
         )}
       </div>
     </Link>
