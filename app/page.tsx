@@ -18,8 +18,14 @@ export default function Home() {
         Spotify and Baillie Gifford.
       </p>
       <p className="text-muted text-sm mb-6">
-        This is the <Link href="/about-this-website" className='text-accent hover:underline'> 7th iteration</Link> of my
-        portfolio website. Built and designed by yours truly.
+        This is the{' '}
+        <Link
+          href="/about-this-website"
+          className="text-accent hover:underline">
+          {' '}
+          7th iteration
+        </Link>{' '}
+        of my portfolio website. Built and designed by yours truly.
       </p>
 
       <Links />
@@ -32,31 +38,36 @@ export default function Home() {
 
       <h1 className="text-2xl mt-16 mb-4 font-editorialNew">Posts</h1>
 
-      <LinkTo
-        displayText="AI Fan App"
-        link="/zephyr-fan-app"
-        sideText="3 min read"
-        supportText="Project write-up"
-      />
+      <div className="grid grid-cols-1 gap-x-8 gap-y-4">
+        <LinkTo
+          displayText="AI Fan App"
+          link="/zephyr-fan-app"
+          sideText="3 min read"
+          supportText="Project write-up on building a fan with an on-board camera"
+        />
 
-      <LinkTo
-        displayText="What I use"
-        link="/what-i-use"
-        sideText="2 min read"
-        supportText="List of tools I use and recommend"
-      />
+        <LinkTo
+          displayText="What I use"
+          link="/what-i-use"
+          sideText="2 min read"
+          supportText="List of tools I use and recommend"
+        />
 
-      {/* <LinkTo
-        displayText="Behind Project Share"
-        link="/behind-project-share"
-        supportText="3 min read"
-      />
+        <LinkTo
+          displayText="About this website"
+          link="/about-this-website"
+          sideText="3 min read"
+          supportText="Story behind the last 7 iterations of my portfolio"
+        />
 
-      <LinkTo
-        displayText="Making a blog? Me?"
-        link="/making-a-blog"
-        supportText="23 Jul"
-      /> */}
+        <LinkTo
+          displayText="vibe-check"
+          link="/vibe-check"
+          sideText="5 min read"
+          supportText="Platform to make presentations at universities interactive"
+        />
+      </div>
+
     </main>
   )
 }
