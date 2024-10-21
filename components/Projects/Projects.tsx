@@ -13,10 +13,12 @@ const CarouselImage = ({
   src,
   alt,
   addPadding,
+  priority,
 }: {
   src: string
   alt: string
   addPadding?: boolean
+  priority?: boolean
 }) => {
   return (
     <Image
@@ -28,6 +30,7 @@ const CarouselImage = ({
       alt={alt}
       width={500}
       height={500}
+      priority={priority}
       // TODO: Add placeholder
       // placeholder="blur"
       // blurDataURL={src}
@@ -102,7 +105,7 @@ const Projects = () => {
       <Carousel>
         <CarouselContent>
           <CarouselItem>
-            <CarouselImage src="/vc-phone.png" alt="Project 1" />
+            <CarouselImage src="/vc-phone.png" alt="Project 1" priority />
           </CarouselItem>
           <CarouselItem>
             <CarouselImage src="/vc-browser.png" alt="Project 2" />
