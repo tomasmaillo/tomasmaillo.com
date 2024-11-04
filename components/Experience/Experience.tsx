@@ -100,7 +100,7 @@ const Experience = () => {
       company: 'Computer Science Society',
       role: 'Committee Member',
       period: '2023 - 2025',
-      imageUrl: 'https://unavatar.io/google/comp-swoc.com',
+      imageUrl: 'https://unavatar.io/google/comp-soc.com',
     },
   ]
 
