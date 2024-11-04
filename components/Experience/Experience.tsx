@@ -1,43 +1,140 @@
-const ExperienceEntry = ({
-  title,
-  date,
-  description,
+'use client'
+
+import Image from 'next/image'
+import React, { useState } from 'react'
+
+const Divider = () => (
+  <svg
+    className="w-[95%] h-[1px] mx-auto my-3"
+    viewBox="0 0 100 1"
+    preserveAspectRatio="none">
+    <line
+      x1="0"
+      y1="0"
+      x2="100"
+      y2="0"
+      stroke="currentColor"
+      strokeOpacity="0.1"
+    />
+  </svg>
+)
+
+const ExperienceItem = ({
+  company,
+  role,
+  period,
+  imageUrl,
+  className,
 }: {
-  title: string
-  date: string
-  description: string
+  company: string
+  role: string
+  period: string
+  imageUrl: string
+  className?: string
 }) => (
   <div
-    className="child mb-4 flex flex-row justify-between hover:bg-card rounded-lg p-2 box-border -mx-2 bg-card"
-    style={{ width: 'calc(100% + 1rem)' }}>
-    <div className="flex flex-col">
-      <h2 className="">{title}</h2>
-      <p className="text-muted text-sm">{description}</p>
-    </div>
-    <p className="text-sm text-muted text-right">{date}</p>
+    className={`flex md:flex-row flex-col justify-between gap-2 md:items-center py-1 ${className}`}>
+    <p className="flex flex-row items-center gap-2">
+      <Image
+        src={imageUrl}
+        alt={company}
+        width={20}
+        height={20}
+        className="rounded-full"
+      />
+      {company}
+    </p>
+    <p className="text-muted text-xs">
+      {role}
+      <span className="select-none"> · </span>
+      {period}
+    </p>
   </div>
 )
 
 const Experience = () => {
+  const [showMore, setShowMore] = useState(false)
+
+  const experiences = [
+    {
+      company: 'No peeking yet!',
+      role: 'Software Engineering',
+      period: '2025',
+      imageUrl: 'https://unavatar.io/google/secret!',
+      className: 'filter blur-sm select-none',
+    },
+    {
+      company: 'University of Edinburgh',
+      role: 'CS and AI student',
+      period: '2021 - 2025',
+      imageUrl: 'https://unavatar.io/x/EdinburghUni',
+    },
+    {
+      company: 'Baillie Gifford',
+      role: 'Software Engineering Intern',
+      period: 'Summer 2024',
+      imageUrl: 'https://unavatar.io/x/BaillieGifford',
+    },
+    {
+      company: 'Spotify',
+      role: 'Software Engineering Intern',
+      period: 'Summer 2022',
+      imageUrl: 'https://unavatar.io/google/spotify.com',
+    },
+  ]
+
+  const moreExperiences = [
+    {
+      company: 'Code Cadets',
+      role: 'Part-time High School Computer Science Teacher',
+      period: '2024',
+      imageUrl: 'https://unavatar.io/google/codecadets.co.uk',
+    },
+    {
+      company: 'UoE Software Engineering Course',
+      role: 'Lab Demonstrator and Marker',
+      period: '2023',
+      imageUrl: 'https://unavatar.io/x/EdinburghUni',
+    },
+    {
+      company: 'Computer Science Society',
+      role: 'Committee Member',
+      period: '2023 - 2025',
+      imageUrl: 'https://unavatar.io/google/comp-swoc.com',
+    },
+  ]
+
   return (
     <>
-      <ExperienceEntry
-        title="Baillie Gifford"
-        date="Summer 2024"
-        description="Software Engineering Intern"
-      />
+      <div
+        className="flex flex-col bg-card rounded-lg gap p-3 -mx-2"
+        style={{ width: 'calc(100% + 1rem)' }}>
+        {experiences.map((exp, index) => (
+          <>
+            <ExperienceItem key={exp.company} {...exp} />
+            {index < experiences.length - 1 && <Divider />}
+          </>
+        ))}
+      </div>
 
-      <ExperienceEntry
-        title="Spotify"
-        date="Summer 2022"
-        description="Software Engineering Intern"
-      />
+      <button
+        onClick={() => setShowMore(!showMore)}
+        className="text-accent text-sm hover:text-accent transition-colors flex ml-auto my-2">
+        <div className="ml-auto">{showMore ? 'less' : 'more'}</div>
+      </button>
 
-      <ExperienceEntry
-        title="University of Edinburgh"
-        date="2021 - Present"
-        description="Computer Science and Artificial Intelligence student."
-      />
+      {showMore && (
+        <div
+          className="flex flex-col bg-card rounded-lg p-3 gap mt-2 animate-fadeIn -mx-2"
+          style={{ width: 'calc(100% + 1rem)' }}>
+          {moreExperiences.map((exp, index) => (
+            <>
+              <ExperienceItem key={exp.company} {...exp} />
+              {index < moreExperiences.length - 1 && <Divider />}
+            </>
+          ))}
+        </div>
+      )}
     </>
   )
 }

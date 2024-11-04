@@ -63,13 +63,26 @@ const CarouselVideo = ({
 const ProjectTitle = ({
   children,
   link,
+  externalLink,
 }: {
   children: React.ReactNode
   link?: string
+  externalLink?: string
 }) => {
   return (
     <div className="flex items-center gap-2 mt-12 mb-2 align-baseline justify-between">
-      <h2 className="m-0">{children}</h2>
+      <h2 className="m-0">
+        {children}
+        {externalLink && (
+          <a
+            href={externalLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent text-sm hover:underline ml-2">
+            ↗
+          </a>
+        )}
+      </h2>
       {link && (
         <Link href={link} className="text-accent text-sm hover:underline">
           ...more
@@ -96,7 +109,7 @@ const ProjectTechItem = ({ children }: { children: React.ReactNode }) => {
 const Projects = () => {
   return (
     <div className="mt-32">
-      <ProjectTitle>Vibe-Check</ProjectTitle>
+      <ProjectTitle link="/vibe-check">Vibe-Check</ProjectTitle>
       <ProjectDescription>
         Platform to increase lecture engagement through real-time audience
         interaction and data visualization. Worked alongside UoEdinburgh
@@ -122,7 +135,9 @@ const Projects = () => {
         <ProjectTechItem>Chrome-Extension</ProjectTechItem>
       </ProjectTech>
 
-      <ProjectTitle>Project Share</ProjectTitle>
+      <ProjectTitle externalLink="https://projectshare.comp-soc.com">
+        Project Share
+      </ProjectTitle>
       <ProjectDescription>
         Founded UoEdinburgh&apos;s Project Share society, gathering a subset of
         the most talented and proactive tech students of the Uni to hold regular

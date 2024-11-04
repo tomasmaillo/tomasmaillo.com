@@ -16,7 +16,7 @@ const LinkTo = ({
       href={link}
       className="text-foreground !no-underline hover:!no-underline">
       <div
-        className="group flex flex-col hover:bg-card rounded-lg p-2 box-border -mx-2 bg-card"
+        className="group flex flex-col hover:bg-card rounded-lg p-3 box-border -mx-2 bg-card"
         style={{ width: 'calc(100% + 1rem)' }}>
         <div className="flex justify-between">
           <span className="group-hover:underline">{displayText}</span>
