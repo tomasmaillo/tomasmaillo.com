@@ -25,12 +25,14 @@ const ExperienceItem = ({
   period,
   imageUrl,
   className,
+  url,
 }: {
   company: string
   role: string
   period: string
   imageUrl: string
   className?: string
+  url?: string
 }) => (
   <div
     className={`flex md:flex-row flex-col justify-between gap-2 md:items-center py-1 ${className}`}>
@@ -40,9 +42,19 @@ const ExperienceItem = ({
         alt={company}
         width={20}
         height={20}
-        className="rounded-full"
+        draggable={false}
+        className="rounded-full select-none"
       />
       {company}
+      {url && (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent text-sm hover:underline">
+          ↗
+        </a>
+      )}
     </p>
     <p className="text-muted text-xs">
       {role}
@@ -85,22 +97,37 @@ const Experience = () => {
 
   const moreExperiences = [
     {
-      company: 'Code Cadets',
-      role: 'Part-time High School Computer Science Teacher',
-      period: '2024',
-      imageUrl: 'https://unavatar.io/google/codecadets.co.uk',
-    },
-    {
       company: 'UoE Software Engineering Course',
       role: 'Lab Demonstrator and Marker',
       period: '2023',
       imageUrl: 'https://unavatar.io/x/EdinburghUni',
     },
     {
+      company: 'Code Cadets',
+      role: 'Part-time High School Computer Science Teacher',
+      period: '2024',
+      imageUrl: 'https://unavatar.io/google/codecadets.co.uk',
+    },
+    {
       company: 'Computer Science Society',
       role: 'Committee Member',
       period: '2023 - 2025',
-      imageUrl: 'https://unavatar.io/google/comp-soc.com',
+      imageUrl: 'https://favicone.com/comp-soc.com?s=126',
+      url: 'https://comp-soc.com',
+    },
+    {
+      company: 'Project Share Society',
+      role: 'Founder & President',
+      period: '2023 - 2025',
+      imageUrl: 'https://favicone.com/projectshare.comp-soc.com?s=126',
+      url: 'https://projectshare.comp-soc.com',
+    },
+    {
+      company: 'Hack The Burgh 11 - Hackathon',
+      role: 'Organiser',
+      period: '2025',
+      imageUrl: 'https://favicone.com/hacktheburgh.com?s=126',
+      url: 'https://hacktheburgh.com',
     },
   ]
 

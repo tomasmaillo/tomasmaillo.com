@@ -1,5 +1,5 @@
 const withMDX = require('@next/mdx')()
- 
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Configure `pageExtensions` to include MDX files
@@ -13,8 +13,14 @@ const nextConfig = {
         port: '',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'favicone.com',
+        port: '',
+        pathname: '**',
+      },
     ],
   },
 }
- 
+
 module.exports = withMDX(nextConfig)
