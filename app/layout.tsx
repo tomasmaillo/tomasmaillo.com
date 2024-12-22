@@ -10,6 +10,7 @@ import { Toaster } from '@/components/ui/sonner'
 import StartupConsoleLog from '@/components/StartupConsoleLog'
 import { ThemeProvider } from 'next-themes'
 import Goodbye from '@/components/Goodbye'
+import Fall from '@/components/Fall'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -67,6 +68,7 @@ export default function RootLayout({
           fontSans.variable,
           editorialNew.variable
         )}>
+        <Fall />
         <div className="max-w-[768px] md:border-x border-x-0 border-x-border mx-auto px-4 py-4 text-foreground">
           <ThemeProvider defaultTheme="system" enableSystem>
             <TopBar />
