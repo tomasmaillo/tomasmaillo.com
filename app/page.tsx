@@ -4,6 +4,10 @@ import Links from '@/components/Links'
 import LinkTo from '@/components/LinkTo'
 import Projects from '@/components/Projects/Projects'
 import Link from 'next/link'
+import FanIcon from '@/public/pixel-arts/fan.svg'
+import ToolsIcon from '@/public/pixel-arts/tools.svg'
+import PageIcon from '@/public/pixel-arts/page.svg'
+import VibeCheckIcon from '@/public/pixel-arts/vibe-check.svg'
 
 export default function Home() {
   return (
@@ -46,33 +50,33 @@ export default function Home() {
 
       <h1 className="text-2xl mt-16 mb-4 font-editorialNew">Posts</h1>
 
-      <div className="grid grid-cols-1 gap-x-8 gap-y-4">
+      <div className="grid grid-cols-2 gap-x-8 gap-y-4">
         <LinkTo
+          Icon={FanIcon}
           displayText="AI Fan App"
           link="/zephyr-fan-app"
           sideText="3 min read"
-          supportText="Project write-up on building a fan with an on-board camera"
         />
 
         <LinkTo
+          Icon={ToolsIcon}
           displayText="What I use"
           link="/what-i-use"
           sideText="2 min read"
-          supportText="List of tools I use and recommend"
         />
 
         <LinkTo
+          Icon={PageIcon}
           displayText="About this website"
           link="/about-this-website"
           sideText="3 min read"
-          supportText="Story behind the last 7 iterations of my portfolio"
         />
 
         <LinkTo
+          Icon={VibeCheckIcon}
           displayText="vibe-check"
           link="/vibe-check"
           sideText="5 min read"
-          supportText="Platform to make presentations at universities interactive"
         />
       </div>
     </main>
