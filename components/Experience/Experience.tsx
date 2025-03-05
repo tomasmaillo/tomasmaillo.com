@@ -69,11 +69,10 @@ const Experience = () => {
 
   const experiences = [
     {
-      company: 'No peeking yet!',
-      role: 'Software Engineering',
-      period: '2025',
-      imageUrl: 'https://unavatar.io/google/secret!',
-      className: 'filter blur-sm select-none',
+      company: 'Stripe',
+      role: 'Software Engineer',
+      period: 'Sept 2025',
+      imageUrl: 'https://unavatar.io/google/stripe.com',
     },
     {
       company: 'University of Edinburgh',
