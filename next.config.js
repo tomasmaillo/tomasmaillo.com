@@ -28,6 +28,18 @@ const nextConfig = {
     })
     return config
   },
+  rewrites: async () => {
+    return [
+      {
+        source: "/api/data/:match*",
+        destination: 'https://tomasmaillo.com/_vercel/insights/:match*',
+      },
+      {
+        source: "/api/performance/:match*",
+        destination: 'https://tomasmaillo.com/_vercel/speed-insights/:match*',
+      },
+    ]
+  },
 }
 
 module.exports = withMDX(nextConfig)

@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Analytics } from '@vercel/analytics/react'
 import { cn } from '@/lib/utils'
 import TopBar from '@/components/TopBar'
 import localFont from 'next/font/local'
@@ -11,6 +9,8 @@ import StartupConsoleLog from '@/components/StartupConsoleLog'
 import { ThemeProvider } from 'next-themes'
 import Goodbye from '@/components/Goodbye'
 import Fall from '@/components/Fall'
+import { VercelSpeedInsights } from '@/lib/speed-insights'
+import { VercelAnalytics } from '@/lib/analytics'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -76,8 +76,8 @@ export default function RootLayout({
               {children}
               <Goodbye />
             </div>
-            <SpeedInsights />
-            <Analytics />
+            <VercelSpeedInsights />
+            <VercelAnalytics />
             <Toaster />
             <StartupConsoleLog />
           </ThemeProvider>
