@@ -11,6 +11,7 @@ import Goodbye from '@/components/Goodbye'
 import Fall from '@/components/Fall'
 import { VercelSpeedInsights } from '@/lib/speed-insights'
 import { VercelAnalytics } from '@/lib/analytics'
+import Gallery from '@/components/Drawing/Gallery'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -64,24 +65,29 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="bg-accent">
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased overflow-x-hidden relative',
+          'min-h-screen font-sans antialiased overflow-x-hidden relative',
           fontSans.variable,
           editorialNew.variable
         )}>
         <Fall />
-        <div className="max-w-[768px] md:border-x border-x-0 border-x-border mx-auto px-4 py-4 text-foreground">
-          <ThemeProvider defaultTheme="system" enableSystem>
-            <TopBar />
-            <div className="min-h-screen md:p-24 pt-32">
-              {children}
-              <Goodbye />
+        <ThemeProvider defaultTheme="system" enableSystem>
+          <div className="fixed bottom-0 left-0 w-full h-96">
+            <Gallery />
+          </div>
+          <div className="relative bg-background rounded-b-3xl shadow-xl">
+            <div className="max-w-[768px] md:border-x border-x-0 border-x-border mx-auto px-4 py-4 text-foreground mb-96 relative">
+              <TopBar />
+              <div className="min-h-screen md:p-24 pt-32">
+                {children}
+                <Goodbye />
+              </div>
+              <VercelSpeedInsights />
+              <VercelAnalytics />
+              <Toaster />
+              <StartupConsoleLog />
             </div>
-            <VercelSpeedInsights />
-            <VercelAnalytics />
-            <Toaster />
-            <StartupConsoleLog />
-          </ThemeProvider>
-        </div>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   )
