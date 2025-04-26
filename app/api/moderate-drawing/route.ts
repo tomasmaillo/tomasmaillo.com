@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { supabase } from '@/lib/supabase'
+import { sendPushoverNotification } from '@/lib/pushover'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
 
     if (dbError) throw dbError
 
-    // 4. Moderate the drawing
+    // 4. Moderate the drawing, author name, and message
     const completion = await openai.chat.completions.create({
       model: 'gpt-4.1-nano',
       messages: [
@@ -55,9 +56,9 @@ export async function POST(req: Request) {
             {
               type: 'text',
               text: `You are a strict content moderator for a drawing application. 
-              Your task is to analyze the provided image and REJECT any offensive, inappropriate, or harmful content.
+              Your task is to analyze the provided image, author name, and message to REJECT any offensive, inappropriate, or harmful content.
               
-              STRICTLY REJECT drawings containing:
+              STRICTLY REJECT content containing:
               - Sexual content of any kind (genitalia, nudity, suggestive imagery, penises, vaginas, etc.)
               - Weapons (guns, knives, bombs, etc.)
               - Violence or gore (blood, injuries, fighting)
@@ -67,13 +68,15 @@ export async function POST(req: Request) {
               - Drug or alcohol references
               - Any content inappropriate for children
               
-              Return your assessment as:
-              1. APPROVED: "This drawing appears to be appropriate and safe for all audiences."
-              2. REJECTED: "This drawing contains [specific concern]. This content violates our guidelines."
+              First, provide a detailed explanation of what you see in the image, author name, and message.
+              Then, end your response with either APPROVED or REJECTED as the last word.
               
-              ALSO INCLUDE a brief list of all objects/elements you can identify in the image.
+              If the last word is not APPROVED or REJECTED, the content will be automatically rejected.
               
-              Be direct, thorough, and err on the side of caution when moderating.`,
+              Be direct, thorough, and err on the side of caution when moderating.
+              
+              Author name: "${authorName || 'anonymous'}"
+              Message: "${message || ''}"`,
             },
             {
               type: 'image_url',
@@ -89,8 +92,22 @@ export async function POST(req: Request) {
     })
 
     const assessment = completion.choices[0].message.content || ''
-    const isApproved =
-      assessment.includes('APPROVED') || assessment.includes('appropriate')
+
+    // Check if the last word is APPROVED or REJECTED
+    const words = assessment.trim().split(/\s+/)
+    const lastWord = words[words.length - 1]
+    const isApproved = lastWord === 'APPROVED'
+
+    // Pretty console logging without chalk
+    console.log('\n==========================================')
+    console.log('📝 Assessment:')
+    console.log(assessment)
+    console.log('------------------------------------------')
+    console.log('🔍 Decision: ' + (isApproved ? 'APPROVED' : 'REJECTED'))
+    console.log('🖼️ Image URL: ' + publicUrl)
+    console.log('👤 Author: ' + (authorName || 'anonymous'))
+    console.log('💬 Message: ' + (message || 'none'))
+    console.log('==========================================\n')
 
     // 5. Update the drawing record with moderation results
     const { error: updateError } = await supabase
@@ -102,6 +119,15 @@ export async function POST(req: Request) {
       .eq('id', drawingData[0].id)
 
     if (updateError) throw updateError
+
+    // 6. Send Pushover notification with the moderation result
+    await sendPushoverNotification({
+      title: `Drawing ${isApproved ? 'Approved' : 'Rejected'}`,
+      message: `Author: ${authorName || 'anonymous'}\nMessage: ${
+        message || 'none'
+      }\n\nAssessment: ${assessment}`,
+      imageUrl: publicUrl,
+    })
 
     return NextResponse.json({
       success: true,

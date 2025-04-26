@@ -1,14 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import {
-  Undo2,
-  Eraser,
-  Download,
-  Loader2,
-  MessageSquare,
-  Pencil,
-} from 'lucide-react'
+import { Undo2, Eraser, Download, Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
 
 interface DrawingProps {
   width?: number
@@ -23,16 +17,15 @@ type ColorOption = {
 
 const COLORS: ColorOption[] = [
   { name: 'Black', value: '#000000' },
-  { name: 'Red', value: '#FF3B30' },
-  { name: 'Green', value: '#34C759' },
-  { name: 'Blue', value: '#007AFF' },
-  { name: 'Yellow', value: '#FFCC00' },
-  { name: 'Purple', value: '#AF52DE' },
-  { name: 'Orange', value: '#FF9500' },
-  { name: 'Pink', value: '#FF2D55' },
+  { name: 'Red', value: '#E53935' }, // mid-tone red
+  { name: 'Orange', value: '#FB8C00' }, // mid-tone orange
+  { name: 'Yellow', value: '#FDD835' }, // mid-tone yellow
+  { name: 'Green', value: '#43A047' }, // mid-tone green
+  { name: 'Teal', value: '#00897B' }, // mid-tone teal
+  { name: 'Blue', value: '#1E88E5' }, // mid-tone blue
+  { name: 'Purple', value: '#8E24AA' }, // mid-tone purple
 ]
 
-// Random titles for the author
 const RANDOM_TITLES = [
   'pencil',
   'artist',
@@ -67,14 +60,11 @@ export default function Drawing({
   const [history, setHistory] = useState<ImageData[]>([])
   const [currentStep, setCurrentStep] = useState(-1)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [saveStatus, setSaveStatus] = useState<string | null>(null)
   const [canvasScale, setCanvasScale] = useState(1)
 
   // New state for author and message
-  const [authorName, setAuthorName] = useState('anonymous')
+  const [authorName, setAuthorName] = useState('')
   const [message, setMessage] = useState('')
-  const [isEditingAuthor, setIsEditingAuthor] = useState(false)
-  const [showMessageInput, setShowMessageInput] = useState(false)
 
   useEffect(() => {
     const updateCanvasScale = () => {
@@ -245,7 +235,6 @@ export default function Drawing({
     if (!canvas) return
 
     setIsSubmitting(true)
-    setSaveStatus(null)
 
     try {
       const imageData = canvas.toDataURL('image/png')
@@ -269,39 +258,18 @@ export default function Drawing({
       const result = await response.json()
 
       if (result.isApproved) {
-        setSaveStatus(
-          'Your drawing has been approved and added to the gallery!'
-        )
+        toast.success('Your visitor log is now in the gallery!')
       } else {
-        setSaveStatus(
-          'Your drawing was not approved. Please try again with different content.'
-        )
+        toast.error('🤨')
       }
 
-      setTimeout(() => {
-        if (onClose) onClose()
-      }, 2000)
+      if (onClose) onClose()
     } catch (error) {
-      setSaveStatus('Error saving your drawing. Please try again.')
+      toast.error('Error saving your drawing. Please try again.')
       console.error('Error:', error)
     } finally {
       setIsSubmitting(false)
     }
-  }
-
-  // Function to handle author name change
-  const handleAuthorNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAuthorName(e.target.value)
-  }
-
-  // Function to handle message change
-  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(e.target.value)
-  }
-
-  // Function to toggle message input visibility
-  const toggleMessageInput = () => {
-    setShowMessageInput(!showMessageInput)
   }
 
   return (
@@ -333,7 +301,7 @@ export default function Drawing({
             onTouchStart={startDrawing}
             onTouchMove={draw}
             onTouchEnd={stopDrawing}
-            className="border border-gray-200 rounded-lg cursor-crosshair bg-white w-full shadow-sm"
+            className="border border-gray-300 rounded-lg cursor-crosshair bg-white w-full"
             style={{
               imageRendering: 'pixelated',
               touchAction: 'none', // Prevent scrolling while drawing
@@ -343,70 +311,38 @@ export default function Drawing({
             <button
               onClick={undo}
               disabled={currentStep <= 0}
-              className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:shadow-md">
+              className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:shadow-md border border-gray-300">
               <Undo2 className="w-4 h-4 text-gray-800" />
             </button>
             <button
               onClick={clearCanvas}
-              className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md">
+              className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md border border-gray-300">
               <Eraser className="w-4 h-4 text-gray-800" />
             </button>
             <button
               onClick={downloadCanvas}
-              className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md">
+              className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md border border-gray-300">
               <Download className="w-4 h-4 text-gray-800" />
             </button>
           </div>
-
-          {/* Author signature */}
-          <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-white/80 px-2 py-1 rounded-md shadow-sm">
-            <span className="text-xs text-gray-800 mr-1">By</span>
-            {isEditingAuthor ? (
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={authorName}
-                  onChange={handleAuthorNameChange}
-                  className="w-24 px-1 py-0.5 text-xs border border-gray-300 rounded text-gray-800"
-                  placeholder="Your name"
-                />
-                <button
-                  onClick={() => {
-                    setIsEditingAuthor(false)
-                  }}
-                  className="text-xs bg-accent text-white rounded px-1 py-0.5">
-                  OK
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center cursor-pointer hover:text-gray-900 transition-colors">
-                <span className="text-xs text-gray-800">{authorName}</span>
-                <Pencil className="w-3 h-3 ml-1 text-gray-600" />
-              </div>
-            )}
-          </div>
-
-          {/* Message button */}
-          <button
-            onClick={toggleMessageInput}
-            className="absolute top-2 left-2 p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md"
-            title="Add a message to your drawing">
-            <MessageSquare className="w-4 h-4 text-gray-800" />
-          </button>
         </div>
 
-        {/* Message input */}
-        {showMessageInput && (
-          <div className="w-full">
-            <textarea
-              value={message}
-              onChange={handleMessageChange}
-              placeholder="Add a message to your drawing (optional)"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md resize-none"
-              rows={3}
-            />
-          </div>
-        )}
+        <div className="w-full space-y-2">
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Message for your drawing (optional)"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md resize-none text-sm"
+            rows={1}
+          />
+          <input
+            type="text"
+            value={authorName}
+            onChange={(e) => setAuthorName(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+            placeholder="Your name (or be anonymous)"
+          />
+        </div>
 
         <button
           onClick={submitDrawing}
@@ -422,12 +358,6 @@ export default function Drawing({
           )}
         </button>
       </div>
-
-      {saveStatus && (
-        <div className="mt-2 p-3 bg-green-50 text-green-700 rounded-lg w-full text-center shadow-sm">
-          <p className="text-sm">{saveStatus}</p>
-        </div>
-      )}
     </div>
   )
 }
