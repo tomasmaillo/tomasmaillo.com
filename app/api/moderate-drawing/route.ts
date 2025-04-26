@@ -130,7 +130,7 @@ export async function POST(req: Request) {
         },
       ],
       temperature: 0.3,
-      max_tokens: 150,
+      max_tokens: 500,
     })
 
     const assessment = completion.choices[0].message.content || ''
