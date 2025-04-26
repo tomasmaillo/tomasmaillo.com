@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Undo2, Eraser, Download, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { Turnstile } from '@marsidev/react-turnstile'
 
 interface DrawingProps {
   width?: number
@@ -65,6 +66,11 @@ export default function Drawing({
   // New state for author and message
   const [authorName, setAuthorName] = useState('')
   const [message, setMessage] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+
+  // Character limits
+  const AUTHOR_NAME_LIMIT = 32
+  const MESSAGE_LIMIT = 200
 
   useEffect(() => {
     const updateCanvasScale = () => {
@@ -234,6 +240,11 @@ export default function Drawing({
     const canvas = canvasRef.current
     if (!canvas) return
 
+    if (!turnstileToken) {
+      toast.error('Please complete the security check')
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -248,6 +259,7 @@ export default function Drawing({
           imageData: imageData.split(',')[1],
           authorName,
           message,
+          turnstileToken,
         }),
       })
 
@@ -328,25 +340,68 @@ export default function Drawing({
         </div>
 
         <div className="w-full space-y-2">
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Message for your drawing (optional)"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md resize-none text-sm"
-            rows={1}
-          />
-          <input
-            type="text"
-            value={authorName}
-            onChange={(e) => setAuthorName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
-            placeholder="Your name (or be anonymous)"
+          <div className="relative">
+            <textarea
+              value={message}
+              onChange={(e) => {
+                if (e.target.value.length <= MESSAGE_LIMIT) {
+                  setMessage(e.target.value)
+                }
+              }}
+              placeholder="Message for your drawing (optional)"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md resize-none text-sm"
+              rows={1}
+            />
+            <div className="absolute right-2 top-1 text-xs text-gray-500">
+              {message.length}/{MESSAGE_LIMIT}
+              {message.length >= MESSAGE_LIMIT - 5 &&
+                message.length < MESSAGE_LIMIT && (
+                  <span className="text-amber-500 ml-1">
+                    ({MESSAGE_LIMIT - message.length} left)
+                  </span>
+                )}
+            </div>
+          </div>
+
+          <div className="relative">
+            <input
+              type="text"
+              value={authorName}
+              onChange={(e) => {
+                if (e.target.value.length <= AUTHOR_NAME_LIMIT) {
+                  setAuthorName(e.target.value)
+                }
+              }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+              placeholder="Your name (or be anonymous)"
+            />
+            <div className="absolute right-2 top-1 text-xs text-gray-500">
+              {authorName.length}/{AUTHOR_NAME_LIMIT}
+              {authorName.length >= AUTHOR_NAME_LIMIT - 5 &&
+                authorName.length < AUTHOR_NAME_LIMIT && (
+                  <span className="text-amber-500 ml-1">
+                    ({AUTHOR_NAME_LIMIT - authorName.length} left)
+                  </span>
+                )}
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full flex justify-center my-2">
+          <Turnstile
+            siteKey={
+              process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY || ''
+            }
+            onSuccess={(token: string) => setTurnstileToken(token)}
+            onError={() =>
+              toast.error('Security check failed. Please try again.')
+            }
           />
         </div>
 
         <button
           onClick={submitDrawing}
-          disabled={isSubmitting}
+          disabled={isSubmitting || !turnstileToken}
           className="w-full px-4 py-2 bg-accent text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all duration-200">
           {isSubmitting ? (
             <>

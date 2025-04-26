@@ -7,9 +7,51 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
+// Function to verify Turnstile token
+async function verifyTurnstileToken(token: string): Promise<boolean> {
+  try {
+    const response = await fetch(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
+          response: token,
+        }),
+      }
+    )
+
+    const data = await response.json()
+    console.log('Turnstile response:', data)
+    return data.success === true
+  } catch (error) {
+    console.error('Error verifying Turnstile token:', error)
+    return false
+  }
+}
+
 export async function POST(req: Request) {
   try {
-    const { imageData, authorName, message } = await req.json()
+    const { imageData, authorName, message, turnstileToken } = await req.json()
+
+    // Verify Turnstile token
+    if (!turnstileToken) {
+      return NextResponse.json(
+        { error: 'Security check token is required' },
+        { status: 400 }
+      )
+    }
+
+    const isValidToken = await verifyTurnstileToken(turnstileToken)
+    if (!isValidToken) {
+      return NextResponse.json(
+        { error: 'Invalid security check token' },
+        { status: 400 }
+      )
+    }
 
     // 1. Upload the drawing to Supabase Storage
     const base64Data = imageData.replace(/^data:image\/\w+;base64,/, '')
