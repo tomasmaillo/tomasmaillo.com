@@ -2,12 +2,13 @@ import Experience from '@/components/Experience/Experience'
 import FadeIn from '@/components/FadeIn'
 import Links from '@/components/Links'
 import LinkTo from '@/components/LinkTo'
-import Projects from '@/components/Projects/Projects'
+import { Projects } from '@/components/Projects/Projects'
 import Link from 'next/link'
 import FanIcon from '@/public/pixel-arts/fan.svg'
 import ToolsIcon from '@/public/pixel-arts/tools.svg'
 import PageIcon from '@/public/pixel-arts/page.svg'
 import VibeCheckIcon from '@/public/pixel-arts/vibe-check.svg'
+import MugIcon from '@/public/pixel-arts/mug.svg'
 
 export default function Home() {
   return (
@@ -76,6 +77,13 @@ export default function Home() {
           Icon={VibeCheckIcon}
           displayText="vibe-check"
           link="/vibe-check"
+          sideText="5 min read"
+        />
+
+        <LinkTo
+          Icon={MugIcon}
+          displayText="Internships 101"
+          link="/internships-101"
           sideText="5 min read"
         />
       </div>
