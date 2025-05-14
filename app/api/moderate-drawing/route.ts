@@ -111,9 +111,7 @@ export async function POST(req: Request) {
               - Any content inappropriate for children
               
               First, provide a detailed explanation of what you see in the image, author name, and message.
-              Then, end your response with either APPROVED or REJECTED as the last word.
-              
-              If the last word is not APPROVED or REJECTED, the content will be automatically rejected.
+              Then, end your response with either APPROVED or REJECTED as the last word. YOU MUST END WITH EITHER APPROVED OR REJECTED.
               
               Be direct, thorough, and err on the side of caution when moderating.
               

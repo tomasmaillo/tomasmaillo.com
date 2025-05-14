@@ -108,19 +108,21 @@ const calculateInitialPositions = (
   containerWidth: number,
   containerHeight: number
 ) => {
+  const maxDrawingSize = 200
+  const padding = 20 // Padding from edges
+
   return drawings.map((drawing, index) => {
-    // Create a grid-like distribution
-    const gridSize = Math.ceil(Math.sqrt(drawings.length))
-    const cellWidth = containerWidth / gridSize
-    const cellHeight = containerHeight / gridSize
+    // Calculate available space for random positioning
+    const availableWidth = containerWidth - maxDrawingSize - padding * 2
+    const availableHeight = containerHeight - maxDrawingSize - padding * 2
 
-    // Calculate base position in grid
-    const row = Math.floor(index / gridSize)
-    const col = index % gridSize
+    // Generate random position within available space
+    const x = padding + Math.random() * availableWidth
+    const y = padding + Math.random() * availableHeight
 
-    // Add some randomness within the cell
-    const x = col * cellWidth + (Math.random() * 0.8 + 0.1) * cellWidth
-    const y = row * cellHeight + (Math.random() * 0.8 + 0.1) * cellHeight
+    console.log(`Drawing ${index} (${drawing.id}):`)
+    console.log(`  Available space: ${availableWidth}x${availableHeight}`)
+    console.log(`  Final position: (${x}, ${y})`)
 
     return {
       ...drawing,
@@ -139,28 +141,140 @@ export default function Gallery() {
   const [error, setError] = useState<string | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [containerSize, setContainerSize] = useState({
-    width: 800,
-    height: 600,
-  }) // Default size
+    width: 0,
+    height: 0,
+  })
   const handleDragStart = useDraggable()
   const existingDrawingIds = useRef<Set<string>>(new Set())
   const [newDrawing, setNewDrawing] = useState<Drawing | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const hasPositionedDrawings = useRef(false)
+  const [isContainerReady, setIsContainerReady] = useState(false)
+  const hasFetchedDrawings = useRef(false)
 
-  // Fetch initial drawings
+  const updateContainerSize = useCallback(() => {
+    if (containerRef.current) {
+      const { width, height } = containerRef.current.getBoundingClientRect()
+      console.log('Container size update:', { width, height })
+      if (width > 0 && height > 0) {
+        setContainerSize({ width, height })
+        setIsContainerReady(true)
+      }
+    }
+  }, [])
+
+  // Update container size when it changes
+  useEffect(() => {
+    // Initial size update
+    updateContainerSize()
+
+    // Use MutationObserver to watch for style changes
+    const observer = new MutationObserver((mutations) => {
+      console.log('Mutation detected:', mutations)
+      updateContainerSize()
+    })
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current, {
+        attributes: true,
+        attributeFilter: ['style', 'class'],
+        childList: true,
+        subtree: true,
+      })
+    }
+
+    // Force update on window resize
+    const handleResize = () => {
+      console.log('Window resize detected')
+      requestAnimationFrame(updateContainerSize)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    // Force an update after a short delay to catch any initial layout
+    const initialUpdate = setTimeout(updateContainerSize, 100)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', handleResize)
+      clearTimeout(initialUpdate)
+    }
+  }, [updateContainerSize])
+
+  // Ensure we measure the container again **after** the drawings have been
+  // rendered for the first time. Without this pass the ref might still be
+  // null when the initial `useEffect` above runs (because there were no
+  // drawings yet, thus the container div was not rendered). By forcing one
+  // more measurement when `drawings` changes from empty → populated we make
+  // sure `isContainerReady` becomes `true` and the first set of positions is
+  // calculated right away - no more need for the user to resize the window.
+  useEffect(() => {
+    if (!isContainerReady && containerRef.current) {
+      updateContainerSize()
+    }
+  }, [drawings, isContainerReady, updateContainerSize])
+
+  // -------------------------------------------------------------------------
+  // Keep drawings inside the container when it resizes. We DON'T randomise
+  // again - we simply clamp the existing x/y to the new bounds so the layout
+  // feels stable on resize.
+  // -------------------------------------------------------------------------
+  useEffect(() => {
+    if (!hasPositionedDrawings.current) return
+    if (containerSize.width === 0 || containerSize.height === 0) return
+
+    const maxDrawingSize = 200
+
+    setDrawings((prev) =>
+      prev.map((d) => {
+        if (!d.position) return d
+
+        const maxX = containerSize.width - maxDrawingSize
+        const maxY = containerSize.height - maxDrawingSize
+
+        const clampedX = Math.min(Math.max(0, d.position.x), maxX)
+        const clampedY = Math.min(Math.max(0, d.position.y), maxY)
+
+        if (clampedX === d.position.x && clampedY === d.position.y) {
+          return d // no change needed
+        }
+
+        return {
+          ...d,
+          position: {
+            ...d.position,
+            x: clampedX,
+            y: clampedY,
+          },
+        }
+      })
+    )
+  }, [containerSize.width, containerSize.height])
+
+  // Fetch initial drawings and position them immediately when container is ready
   useEffect(() => {
     async function fetchDrawings() {
       try {
         const data = await getApprovedDrawings(10)
-        // Store positions in state to prevent re-randomization on re-render
-        const drawingsWithPositions = calculateInitialPositions(
-          data,
-          containerSize.width,
-          containerSize.height
-        )
-        setDrawings(drawingsWithPositions)
-
-        // Store existing drawing IDs
         existingDrawingIds.current = new Set(data.map((d) => d.id))
+
+        // If container is ready, position drawings immediately
+        if (
+          isContainerReady &&
+          containerSize.width > 0 &&
+          containerSize.height > 0
+        ) {
+          const drawingsWithPositions = calculateInitialPositions(
+            data,
+            containerSize.width,
+            containerSize.height
+          )
+          setDrawings(drawingsWithPositions)
+          hasPositionedDrawings.current = true
+        } else {
+          // Otherwise, just set the drawings and wait for container to be ready
+          setDrawings(data)
+        }
       } catch (err) {
         setError('Failed to load drawings')
         console.error(err)
@@ -169,38 +283,57 @@ export default function Gallery() {
       }
     }
 
-    fetchDrawings()
-  }, []) // Remove containerSize dependency
+    if (!hasFetchedDrawings.current) {
+      fetchDrawings()
+      hasFetchedDrawings.current = true
+    }
+  }, [isContainerReady, containerSize.width, containerSize.height])
+
+  // Calculate positions when container becomes ready
+  useEffect(() => {
+    if (
+      !hasPositionedDrawings.current &&
+      drawings.length > 0 &&
+      isContainerReady &&
+      containerSize.width > 0 &&
+      containerSize.height > 0
+    ) {
+      console.log('Calculating positions with container size:', containerSize)
+      const drawingsWithPositions = calculateInitialPositions(
+        drawings,
+        containerSize.width,
+        containerSize.height
+      )
+      setDrawings(drawingsWithPositions)
+      hasPositionedDrawings.current = true
+    }
+  }, [
+    drawings.length,
+    containerSize.width,
+    containerSize.height,
+    isContainerReady,
+  ])
 
   // Function to fetch only new drawings
   const fetchNewDrawings = useCallback(async () => {
     try {
       const data = await getApprovedDrawings(10)
-
-      // Filter out drawings we already have
       const newDrawings = data.filter(
         (d) => !existingDrawingIds.current.has(d.id)
       )
 
       if (newDrawings.length > 0) {
-        // Add the new drawing IDs to our set
         newDrawings.forEach((d) => existingDrawingIds.current.add(d.id))
-
-        // Calculate position for the new drawing
         const newDrawingWithPosition = calculateInitialPositions(
-          [newDrawings[0]], // Just position the first new drawing
+          [newDrawings[0]],
           containerSize.width,
           containerSize.height
         )[0]
-
-        // Set the new drawing with animation
         setNewDrawing(newDrawingWithPosition)
-
-        // After animation completes, add to main drawings list
         setTimeout(() => {
           setDrawings((prev) => [...prev, newDrawingWithPosition])
           setNewDrawing(null)
-        }, 1000) // Match this with CSS animation duration
+        }, 1000)
       }
     } catch (err) {
       console.error('Error fetching new drawings:', err)
@@ -209,16 +342,17 @@ export default function Gallery() {
 
   const handleDrawingSubmitted = () => {
     setIsDialogOpen(false)
-    // Fetch new drawings after a short delay to allow for moderation
     setTimeout(() => {
       fetchNewDrawings()
-    }, 3000)
+    }, 2000)
   }
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-32">
-        <div className="animate-pulse text-muted">Loading gallery...</div>
+        <div className="animate-pulse text-muted">
+          Looking for visitors&apos; drawings...
+        </div>
       </div>
     )
   }
@@ -233,7 +367,7 @@ export default function Gallery() {
 
   return (
     <div className="flex flex-col items-center h-full">
-      <div className="mb-4">
+      <div className="">
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button
@@ -260,22 +394,10 @@ export default function Gallery() {
         </div>
       ) : (
         <div
+          ref={containerRef}
           className="relative h-full w-full overflow-hidden"
-          ref={(el) => {
-            if (el) {
-              const newWidth = el.clientWidth
-              const newHeight = el.clientHeight
-              if (
-                newWidth !== containerSize.width ||
-                newHeight !== containerSize.height
-              ) {
-                setContainerSize({
-                  width: newWidth || 800,
-                  height: newHeight || 600,
-                })
-              }
-            }
-          }}>
+          style={{ minHeight: '400px' }}
+          onTransitionEnd={updateContainerSize}>
           {/* Render existing drawings */}
           {drawings.map((drawing, index) => (
             <div
@@ -291,6 +413,8 @@ export default function Gallery() {
                 height: 'auto',
                 maxWidth: '200px',
                 maxHeight: '200px',
+                opacity: drawing.position ? 1 : 0,
+                transition: 'opacity 0.3s ease-in-out',
               }}
               onMouseDown={(e) => handleDragStart(e, e.currentTarget)}
               onTouchStart={(e) => handleDragStart(e, e.currentTarget)}>
@@ -336,24 +460,25 @@ export default function Gallery() {
             <div
               key={newDrawing.id}
               className="absolute cursor-grab active:cursor-grabbing transition-all shadow-md active:shadow-lg animate-drawing-appear"
-              style={
-                {
-                  left: `${newDrawing.position?.x || 0}px`,
-                  top: `${newDrawing.position?.y || 0}px`,
-                  transform: `rotate(${newDrawing.position?.rotation || 0}deg)`,
-                  zIndex: 1000,
-                  touchAction: 'none',
-                  width: 'auto',
-                  height: 'auto',
-                  maxWidth: '200px',
-                  maxHeight: '200px',
-                  opacity: 0,
-                  scale: 0.5,
-                  '--rotation': `${newDrawing.position?.rotation || 0}deg`,
-                } as React.CSSProperties
+              style={{
+                left: `${newDrawing.position?.x || 0}px`,
+                top: `${newDrawing.position?.y || 0}px`,
+                transform: `rotate(${newDrawing.position?.rotation || 0}deg)`,
+                zIndex: 1000,
+                touchAction: 'none',
+                width: 'auto',
+                height: 'auto',
+                maxWidth: '200px',
+                maxHeight: '200px',
+                opacity: 0,
+                scale: 0.5,
+              }}
+              onMouseDown={(e: React.MouseEvent) =>
+                handleDragStart(e, e.currentTarget as HTMLDivElement)
               }
-              onMouseDown={(e) => handleDragStart(e, e.currentTarget)}
-              onTouchStart={(e) => handleDragStart(e, e.currentTarget)}>
+              onTouchStart={(e: React.TouchEvent) =>
+                handleDragStart(e, e.currentTarget as HTMLDivElement)
+              }>
               <div className="relative w-full h-full">
                 <Image
                   src={newDrawing.image_url}
