@@ -90,7 +90,7 @@ export async function POST(req: Request) {
 
     // 4. Moderate the drawing, author name, and message
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1-mini',
+      model: 'gpt-4.1-nano',
       messages: [
         {
           role: 'user',
@@ -111,7 +111,7 @@ export async function POST(req: Request) {
               - Any content inappropriate for children
               
               First, provide a detailed explanation of what you see in the image, author name, and message.
-              Then, end your response with either APPROVED or REJECTED as the last word. YOU MUST END WITH EITHER APPROVED OR REJECTED.
+              Then, end your response with either APPROVED or REJECTED as the last word. YOU MUST END WITH EITHER APPROVED OR REJECTED depending on your previous reasoning.
               
               Be direct, thorough, and err on the side of caution when moderating.
               
