@@ -90,7 +90,7 @@ export async function POST(req: Request) {
 
     // 4. Moderate the drawing, author name, and message
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1-nano',
+      model: 'gpt-4.1-mini',
       messages: [
         {
           role: 'user',

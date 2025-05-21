@@ -4,8 +4,11 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import { getApprovedDrawings } from '@/lib/supabase'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 import Drawing from './Drawing'
+import Link from 'next/link'
+import DrawYourOwnCard from './DrawYourOwnCard'
+import { ArrowRight } from 'lucide-react'
 
 interface Drawing {
   id: string
@@ -367,23 +370,11 @@ export default function Gallery() {
 
   return (
     <div className="flex flex-col items-center h-full">
-      <div className="">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button
-              variant="link"
-              className="absolute top-0 -translate-x-1/2 z-10">
-              Log your visit
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <Drawing
-              width={512}
-              height={384}
-              onClose={handleDrawingSubmitted}
-            />
-          </DialogContent>
-        </Dialog>
+      <div className="flex gap-4 items-center justify-center h-full">
+        <DrawYourOwnCard
+          onClick={() => setIsDialogOpen(true)}
+          className="absolute top-1/2 -translate-y-1/2 z-10 h-[150px] w-[200px]"
+        />
       </div>
 
       {drawings.length === 0 && !newDrawing ? (
@@ -407,7 +398,7 @@ export default function Gallery() {
                 left: `${drawing.position?.x || 0}px`,
                 top: `${drawing.position?.y || 0}px`,
                 transform: `rotate(${drawing.position?.rotation || 0}deg)`,
-                zIndex: index,
+                zIndex: index + 10,
                 touchAction: 'none',
                 width: 'auto',
                 height: 'auto',
@@ -515,8 +506,23 @@ export default function Gallery() {
               </div>
             </div>
           )}
+
+          <Link href="/gallery" className="absolute bottom-4 right-4 z-10">
+            <Button
+              variant="link"
+              className="flex items-center gap-2">
+              View all drawings
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
         </div>
       )}
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <Drawing width={512} height={384} onClose={handleDrawingSubmitted} />
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
