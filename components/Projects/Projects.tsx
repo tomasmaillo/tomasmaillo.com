@@ -9,22 +9,25 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const CarouselImage = ({
+export const CarouselImage = ({
   src,
   alt,
   addPadding,
   priority,
+  className,
 }: {
   src: string
   alt: string
   addPadding?: boolean
   priority?: boolean
+  className?: string
 }) => {
   return (
     <Image
       className={cn(
         'object-contain w-full h-full bg-card rounded-lg',
-        addPadding && 'p-2'
+        addPadding && 'p-2',
+        className
       )}
       src={src}
       alt={alt}
@@ -38,7 +41,7 @@ const CarouselImage = ({
   )
 }
 
-const CarouselVideo = ({
+export const CarouselVideo = ({
   src,
   addPadding,
 }: {
@@ -106,7 +109,7 @@ const ProjectTechItem = ({ children }: { children: React.ReactNode }) => {
   return <span className="text-muted text-xs mb-2">{children}</span>
 }
 
-const Projects = () => {
+export const Projects = () => {
   return (
     <div className="mt-32">
       <ProjectTitle link="/vibe-check">Vibe-Check</ProjectTitle>
@@ -204,5 +207,3 @@ const Projects = () => {
     </div>
   )
 }
-
-export default Projects

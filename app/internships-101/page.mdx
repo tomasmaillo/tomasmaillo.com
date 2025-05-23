@@ -1,0 +1,141 @@
+import LinkTo from '@/components/LinkTo'
+import Avatar from '@/components/ui/avatar'
+import Image from 'next/image'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel'
+import { CarouselImage } from '@/components/Projects/Projects'
+
+<LinkTo displayText="Back" link="/" />
+<br />
+<br />
+
+# Internships 101...
+
+_...or rather, things I wish I knew before I started applying_
+
+I'm probably not the most qualified person to write about this, as I'm only just starting my career. Yet, for some reason, I've been asked multiple times to share my experiences with applying for internships, interviewing, and landing jobs. I've given three talks on this topic and spoken with countless people about it, so I thought I'd finally write my thoughts here.
+
+<Carousel>
+  <CarouselContent>
+    {Array.from({ length: 8 }).map((_, index) => (
+      <CarouselItem key={index}>
+        <CarouselImage
+          src={`/posts/internships-101/internships-101-${index + 1}.png`}
+          alt={`Slide ${index + 1} about internships`}
+          className="p-8"
+          priority
+        />
+      </CarouselItem>
+    ))}
+  </CarouselContent>
+</Carousel>
+
+While I'm not someone who's interned at every big tech company out there, I've had my fair share of experiences and conversations with others who've interned at various places.
+
+Instead of repeating the same advice you've probably heard a thousand times, I'll share some tips I genuinely wish I'd known earlier: things that could have saved me a lot of time and missed opportunities.
+
+<div className="bg-card rounded-lg py-3 px-4">
+  <p className="text-sm m-0 p-0">While I won't be covering the basics here, you should still focus on creating a professional CV, writing tailored cover letters, practising LeetCode, building projects, attending hackathons, preparing answers for behavioural questions, {Array.from("gathering experience, networking, doing mock interviews").map((char, index, array) => ( <span key={index} style={{fontSize: `${Math.max(14 - (index * 0.2), 0)}px`}}>{char}</span>))} ...</p>
+</div>
+
+
+## 0. Are you sure this is what you want?
+
+Many people I've spoken with aren't even sure what they truly want. They feel pressured to follow the crowd, especially in Computer Science, where everyone seems to chase the same tech jobs and follow an unwritten competition.
+
+If you're studying CS, remember that your career options extend far beyond becoming a software engineer at a big tech company. You could explore research, academia, UX design, teaching, project management, or even entrepreneurship.
+
+On the other hand, I find that internships are the best way to explore your interests. You can try out a company and a role before committing to it. 
+
+As a CTO of a *very* large company once said in front of ~800 attendees at a hackathon:
+
+> "Interning at a company is like making out with someone. You get to experience it and see if it's for you or not. So come make out with us."
+
+Looking back, this was probably one of the most uncomfortable things I've heard someone in their 50s say, yet strangely enough, it made sense.
+
+## 1. Make a website
+
+Just do it.
+
+Creating a personal website requires minimal effort but offers immense benefits. In the grand scheme of things, there are few things that provide as much return on investment as building your own website. You can set one up in less than an hour, and it will:
+
+- Serve as a project you can discuss in interviews.
+- Make you more memorable to recruiters.
+- Make you stand out from other candidates that don't have one.
+
+Even if you're aiming to be a back-end engineer, I would suggest having a website is a good idea. It'll show your willingness to go the extra mile and out of your comfort zone.
+
+However, avoid these common pitfalls:
+
+1. **Don't use a template.** Recruiters and hiring managers can spot templates easily and make you look generic. My manager at Spotify once mentioned that part of why they hired me was because my website was clearly made by myself and showed my personality.
+2. **Don't plagiarise code.** When hiring the tech team for Hack the Burgh 2025, I rejected a candidate who claimed to have created a GLSL particle simulation on their portfolio, which turned out to be entirely stolen from a tutorial. (Yes, I read the code.)
+3. **Don't be generic.** Your website is your chance to stand out! Showcase your personality while maintaining professionalism.
+
+If you're convinced but unsure where to start, try writing some basic HTML and JavaScript, then deploy it using Netlify.
+
+## 2. Be QUICK
+
+Companies want to fill internship spots quickly to lock in the best talent, so delaying your interviews or applications can cost you.
+
+My most memorable time when this happened was when I postponed a final-round interview by a week due to university deadlines. I did quite well, but they then let me know that the last internship spot had just been filled. I was offered a spring week instead.
+
+Looking back, prioritising the interview over a slightly better university grade would have been the smarter choice.
+
+## 3. Interviewers are your friends
+
+It's easy to view interviews as exams, but they're fundamentally different. While your technical skills and thought processes matter, interviewers also assess your personality and cultural fit.
+
+Gayle Laakmann summarises this perfectly in her book, [Cracking the Coding Interview](https://www.crackingthecodinginterview.com/):
+
+> "Despite the questions on polymorphism and heaps and virtual machines, the question interviewers really want an answer to is: Would I have a beer with this guy or gal?"
+
+Remember, interviewers are looking for someone they'd enjoy working alongside. Be yourself, be friendly, and show genuine enthusiasm.
+
+## 4. Log it all
+
+Keeping track of your internship applications and interviews is incredibly helpful. I recommend creating a simple spreadsheet or Gantt chart to log:
+
+- Companies you've applied to.
+- Application dates.
+- Interview dates and outcomes.
+- Feedback received.
+
+After each interview, jot down notes about the questions asked, your responses, and any insights gained. These notes will be invaluable if you interview with the same company again, help friends applying later, or prepare for similar companies.
+
+## 5. Research, Research, Research
+
+Corporate websites don't show the full picture. Platforms like [Reddit](https://www.reddit.com/) and [Blind](https://www.teamblind.com/) offer candid insights from current and former employees, helping you understand:
+
+- Company culture and prestige: Is their CEO a known asshole?
+- Work-life balance and expectations: Will you have time to spend the money you're being paid?
+- Interview structures: Not just which questions they may ask, but also, what do they name their software role? (Apple uses some wacky names!)
+
+I've frequently changed my mind about applying to certain companies after reading honest reviews on Reddit on their culture or infinite coding challenges.
+
+You may also want to consider how you are getting pinged with jobs getting released. While LinkedIn may work, I would suggest to also use more rogue platforms like [TopJobsToday](https://topjobstoday.com/), [Welcome to the Jungle (Otta)](https://www.welcometothejungle.com/en) that focus on smaller quantity of suggested jobs but better tailored to you. String match filters are not great as some companies use weird names for roles
+
+## Feeling stressed?
+
+Feeling overwhelmed or worried about rejection? Remember, rejection is a natural part of the process. Every rejection teaches you something valuable.
+
+Everyone around you, including your idols, has faced rejection:
+
+- **Brian Acton** was rejected by both Facebook and Twitter before co-founding WhatsApp, which Facebook later bought for $19 billion.
+- **Saphira Crystal** was rejected 11 times before finally joining RuPaul's Drag Race and becoming one of its strongest contestants.
+- **Daniel Ek** was rejected by Google and ultimately made Spotify.
+- **Lady Gaga** was dropped by her first record label and faced months of rejection before releasing her breakthrough album, _The Fame_.
+- My sister, <Avatar url="https://unavatar.io/github/cris-maillo" name="Cris Maillo" link="https://crismaillo.net/" />, twice as smart as me, has faced many rejections from her dream roles and has not given up.
+- Personally, I've been rejected at least 57 times since starting university (and probably more that I haven't recorded).
+
+I encourage you to research your own idols' rejections. You'll quickly realise rejection is universal and often leads to greater opportunities.
+
+_But don't fall for the survivorship bias!_
+
+## You've got this!
+
+Go apply! Best of luck, fellow internaut.
+
+Lastly, remember that first impressions matter. As Apple's marketing philosophy "Impute" suggests, people do judge a book by its cover. Make sure your first impression counts.
