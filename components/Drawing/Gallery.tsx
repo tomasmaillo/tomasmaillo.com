@@ -123,9 +123,9 @@ const calculateInitialPositions = (
     const x = padding + Math.random() * availableWidth
     const y = padding + Math.random() * availableHeight
 
-    console.log(`Drawing ${index} (${drawing.id}):`)
-    console.log(`  Available space: ${availableWidth}x${availableHeight}`)
-    console.log(`  Final position: (${x}, ${y})`)
+    // console.log(`Drawing ${index} (${drawing.id}):`)
+    // console.log(`  Available space: ${availableWidth}x${availableHeight}`)
+    // console.log(`  Final position: (${x}, ${y})`)
 
     return {
       ...drawing,
@@ -158,7 +158,7 @@ export default function Gallery() {
   const updateContainerSize = useCallback(() => {
     if (containerRef.current) {
       const { width, height } = containerRef.current.getBoundingClientRect()
-      console.log('Container size update:', { width, height })
+      // console.log('Container size update:', { width, height })
       if (width > 0 && height > 0) {
         setContainerSize({ width, height })
         setIsContainerReady(true)
@@ -173,7 +173,7 @@ export default function Gallery() {
 
     // Use MutationObserver to watch for style changes
     const observer = new MutationObserver((mutations) => {
-      console.log('Mutation detected:', mutations)
+      // console.log('Mutation detected:', mutations)
       updateContainerSize()
     })
 
@@ -188,7 +188,7 @@ export default function Gallery() {
 
     // Force update on window resize
     const handleResize = () => {
-      console.log('Window resize detected')
+      // console.log('Window resize detected')
       requestAnimationFrame(updateContainerSize)
     }
 
@@ -301,7 +301,7 @@ export default function Gallery() {
       containerSize.width > 0 &&
       containerSize.height > 0
     ) {
-      console.log('Calculating positions with container size:', containerSize)
+      // console.log('Calculating positions with container size:', containerSize)
       const drawingsWithPositions = calculateInitialPositions(
         drawings,
         containerSize.width,

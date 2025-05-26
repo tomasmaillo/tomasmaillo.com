@@ -8,6 +8,7 @@ import FanIcon from '@/public/pixel-arts/fan.svg'
 import ToolsIcon from '@/public/pixel-arts/tools.svg'
 import PageIcon from '@/public/pixel-arts/page.svg'
 import VibeCheckIcon from '@/public/pixel-arts/vibe-check.svg'
+import BucketIcon from '@/public/pixel-arts/bucket.svg'
 
 export default function Home() {
   return (
@@ -77,6 +78,13 @@ export default function Home() {
           displayText="vibe-check"
           link="/vibe-check"
           sideText="5 min read"
+        />
+
+        <LinkTo
+          Icon={BucketIcon}
+          displayText="Bucket List"
+          link="/bucket-list"
+          sideText="1 min read"
         />
       </div>
     </main>
