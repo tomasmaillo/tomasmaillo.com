@@ -160,14 +160,14 @@ export default function RankingSystem() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative">
               <Button
                 variant="outline"
-                className="h-32 p-4"
+                className="h-32 p-4 whitespace-normal text-left"
                 onClick={() => handleChoice(currentPair[0], currentPair[1])}
                 disabled={isUpdating}>
                 {isUpdating ? 'Updating...' : currentPair[0].title}
               </Button>
               <Button
                 variant="outline"
-                className="h-32 p-4"
+                className="h-32 p-4 whitespace-normal text-left"
                 onClick={() => handleChoice(currentPair[1], currentPair[0])}
                 disabled={isUpdating}>
                 {isUpdating ? 'Updating...' : currentPair[1].title}
