@@ -15,7 +15,6 @@ const Goodbye = () => {
     <>See you tomorrrow,</>,
     <>Big hug,</>,
     <>See you in the future,</>,
-    <>placeholder_text,</>,
     <>Stay fun,</>,
     <>From your friend,</>,
     <>I will see myself out,</>,
