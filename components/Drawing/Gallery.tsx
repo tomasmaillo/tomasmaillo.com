@@ -411,6 +411,7 @@ export default function Gallery() {
               onTouchStart={(e) => handleDragStart(e, e.currentTarget)}>
               <div className="relative w-full h-full">
                 <Image
+                  unoptimized
                   src={drawing.image_url}
                   alt="User drawing"
                   fill

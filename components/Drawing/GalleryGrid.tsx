@@ -87,6 +87,7 @@ export default function GalleryGrid() {
           <div key={drawing.id} className="flex flex-col space-y-2">
             <div className="relative w-full aspect-[4/3] bg-background rounded-sm overflow-hidden shadow-md">
               <Image
+                unoptimized
                 src={drawing.image_url}
                 alt="User drawing"
                 fill
