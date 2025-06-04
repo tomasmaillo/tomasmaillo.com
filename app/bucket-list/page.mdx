@@ -1,5 +1,7 @@
 import LinkTo from '@/components/LinkTo'
 import RankingSystem from '@/components/BucketList/RankingSystem'
+import BucketList from '@/components/BucketList/BucketList'
+import AddBucketListItem from '@/components/BucketList/AddBucketListItem'
 
 <LinkTo displayText="Back" link="/" />
 <br />
@@ -9,6 +11,17 @@ import RankingSystem from '@/components/BucketList/RankingSystem'
 
 Below is a ranking of the things I'd love to do. Help me rank them!
 
-<RankingSystem />
+<BucketList />
 
+<br />
+
+<RankingSystem />
 Each time you vote between two items, their scores adjust using an *ELO* rating system (just like in chess!). Over time, the most wanted bucket list items rise to the top.
+
+<br />
+
+### Add New Bucket List Item
+
+Any ideas as to what you&apos;d like to see me do?
+
+<AddBucketListItem />
