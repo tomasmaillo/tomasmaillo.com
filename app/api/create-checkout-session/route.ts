@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         itemTitle,
         suggestedBy: request.headers.get('x-suggested-by'),
         suggestedByAvatar: request.headers.get('x-suggested-by-avatar'),
-        environment: 'test',
+        environment: process.env.NODE_ENV === 'production' ? '' : 'test',
       },
     })
 
