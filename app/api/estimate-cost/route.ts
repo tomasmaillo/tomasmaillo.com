@@ -79,6 +79,11 @@ Now evaluate this bucket list item:
     const response = completion.choices[0].message.content?.trim() || '0'
 
     if (response === 'ILLEGAL') {
+      sendPushoverNotification({
+        title: 'Bucket Item Estimation',
+        message: `ILLEGAL: ${item}`,
+      })
+
       return NextResponse.json({ estimatedCost: 'Infinity' })
     }
 
