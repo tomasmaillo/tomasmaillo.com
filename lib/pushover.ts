@@ -68,5 +68,10 @@ export async function sendPushoverNotification({
     }
   } catch (error) {
     console.error('Error sending Pushover notification:', error)
+    console.log('With params:', {
+      title,
+      message,
+      imageUrl,
+    })
   }
 }
