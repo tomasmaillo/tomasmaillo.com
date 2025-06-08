@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 
 const Definitions = ({
   text,
@@ -13,7 +13,8 @@ const Definitions = ({
   const [isHiding, setIsHiding] = useState(false)
   const [displayedText, setDisplayedText] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
-  const words = helperText.split(' ')
+  const hideTimeoutRef = useRef<NodeJS.Timeout>()
+  const words = useMemo(() => helperText.split(' '), [helperText])
 
   useEffect(() => {
     if (isVisible && !isHiding && currentIndex < words.length) {
@@ -35,18 +36,22 @@ const Definitions = ({
           return words.join(' ')
         })
         setCurrentIndex((prev) => prev - 1)
-      }, 25) 
+      }, 25)
       return () => clearTimeout(timer)
     } else if (!isVisible && !isHiding) {
       setDisplayedText('')
       setCurrentIndex(0)
     }
-  }, [isVisible, isHiding, currentIndex, words, helperText])
+  }, [isVisible, isHiding, currentIndex, helperText, words])
 
   const handleClick = () => {
     if (isVisible) {
       setIsHiding(true)
-      setTimeout(() => {
+      // Clear any existing timeout
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current)
+      }
+      hideTimeoutRef.current = setTimeout(() => {
         setIsVisible(false)
         setIsHiding(false)
       }, words.length * 25)
@@ -54,6 +59,15 @@ const Definitions = ({
       setIsVisible(true)
     }
   }
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <span>
