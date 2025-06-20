@@ -25,6 +25,12 @@ const nextConfig = {
         port: '',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.openlibrary.org',
+        port: '',
+        pathname: '**',
+      },
     ],
   },
   webpack(config) {
