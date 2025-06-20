@@ -9,6 +9,9 @@ import ToolsIcon from '@/public/pixel-arts/tools.svg'
 import PageIcon from '@/public/pixel-arts/page.svg'
 import VibeCheckIcon from '@/public/pixel-arts/vibe-check.svg'
 import BucketIcon from '@/public/pixel-arts/bucket.svg'
+// import CurlIcon from '@/public/pixel-arts/curl.svg'
+import BooksIcon from '@/public/pixel-arts/books.svg'
+import MarkedIcon from '@/public/pixel-arts/marked.svg'
 
 export default function Home() {
   return (
@@ -51,12 +54,13 @@ export default function Home() {
 
       <h1 className="text-2xl mt-16 mb-4 font-editorialNew">Posts</h1>
 
-      <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+      <div className="grid grid-cols-1   gap-x-8 gap-y-4">
         <LinkTo
           Icon={FanIcon}
           displayText="AI Fan App"
           link="/zephyr-fan-app"
           sideText="3 min read"
+          supportText="Project writeup of a fan using AI vision"
         />
 
         <LinkTo
@@ -64,6 +68,7 @@ export default function Home() {
           displayText="What I use"
           link="/what-i-use"
           sideText="2 min read"
+          supportText="A list of tools I use and recommend"
         />
 
         <LinkTo
@@ -71,6 +76,7 @@ export default function Home() {
           displayText="About this website"
           link="/about-this-website"
           sideText="3 min read"
+          supportText="Behind the scenes look at this website and the ones before it"
         />
 
         <LinkTo
@@ -78,6 +84,7 @@ export default function Home() {
           displayText="vibe-check"
           link="/vibe-check"
           sideText="5 min read"
+          supportText="A project writeup of a tool I built to help lecturers"
         />
 
         <LinkTo
@@ -85,6 +92,31 @@ export default function Home() {
           displayText="Bucket List"
           link="/bucket-list"
           sideText="1 min read"
+          supportText="A list of things I want to do before I -"
+        />
+
+        {/* <LinkTo
+          Icon={CurlIcon}
+          displayText="Paper: Towards Safer Curl"
+          link="/curl"
+          sideText="1 min read"
+          supportText="A tool I built to help lecturers"
+        /> */}
+
+        <LinkTo
+          Icon={BooksIcon}
+          displayText="Books"
+          link="/books"
+          sideText="1 min read"
+          supportText="A list of books I've read and recommend"
+        />
+
+        <LinkTo
+          Icon={MarkedIcon}
+          displayText="Paper: Enhancing peer feedback in MarkEd"
+          link="/marked"
+          sideText="∞ min read"
+          supportText="Story behind my dissertation and how it became a paper"
         />
       </div>
     </main>
