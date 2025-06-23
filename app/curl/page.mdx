@@ -2,6 +2,9 @@ import LinkTo from '@/components/LinkTo'
 import Definitions from '@/components/Definitions'
 import Avatar from '@/components/ui/avatar'
 import Image from 'next/image'
+import SyncedVideos from '@/components/SyncedVideos'
+import Latex from 'react-latex-next'
+import 'katex/dist/katex.min.css';
 
 export const metadata = {
   title: 'Deep Learning for Safer Strength Training',
@@ -17,17 +20,11 @@ export const metadata = {
 
 *Towards Safer Strength Training with Deep Learning for Rep Failure Prediction*
 
-Alongside <Avatar url="https://unavatar.io/github/Cat2005" name="Caterina Mammola" link="https://caterina.codes/" />, we asked if strength training could be made safer. We show that a deep learning model is capable of predicting with (reasonable) accuracy when a <Definitions text="rep" helperText="(single repetition of a repeated exercise like a squat or a push-up)" /> in a bicep curl <Definitions text="set" helperText="(a group of consecutive repetitions performed without rest)" /> is likely to be a <Definitions text="failure" helperText=", the point at which a muscle can no longer sustain the load and another rep is no longer possible" />. This technique could be expanded to excercises where muscular failure can lead to harm to reduce injury risk during unsupervised workouts. 
+**TL;DR**: Alongside <Avatar url="https://unavatar.io/github/Cat2005" name="Caterina Mammola" link="https://caterina.codes/" />, we asked if strength training could be made safer. We show that a deep learning model is capable of predicting with (reasonable) accuracy when a <Definitions text="rep" helperText="(single repetition of a repeated exercise like a squat or a push-up)" /> in a bicep curl <Definitions text="set" helperText="(a group of consecutive repetitions performed without rest)" /> is likely to be a <Definitions text="failure" helperText=", the point at which a muscle can no longer sustain the load and another rep is no longer possible" />. This technique could be expanded to excercises where muscular failure can lead to harm to reduce injury risk during unsupervised workouts. 
 
-This post walks through how:
-1. We collected and built a novel dataset, 
-2. Modelled rep dynamics by focusing on the elbow angle,
-3. Evaluated the performance.
+We created a novel dataset of >3200 bicep curl reps performed to failure in and trained a Hierarchical LSTM that beats a linear baseline by nearly 30% at identifying the final safe rep. The model analyses joint motion patterns like range of motion and velocity across reps, inspired by Remaining Useful Life prediction from engineering. 
 
-If you instead want the full read...
-
-
-<a href="/reps.pdf" className="w-full bg-card rounded-lg group grid sm:grid-cols-2 grid-cols-1 h-20 relative my-20 cursor-pointer text-primary" target="_blank"> 
+<a href="/curl/towards-safer-strength-training.pdf" className="w-full bg-card rounded-lg group grid sm:grid-cols-2 grid-cols-1 h-20 relative my-20 cursor-pointer text-primary" target="_blank"> 
   <div className="relative col-span-1 h-32 overflow-hidden -translate-y-12">
     <Image src="/mlp-3.jpg" alt="Curl" width={110} height={100} className='absolute bottom-0 left-[45%] -translate-x-1/5 border-card border rounded-sm translate-y-16 rotate-12 group-hover:translate-y-14 group-hover:rotate-[15deg] transition-all duration-200 ease-in-out'/>
     <Image src="/mlp-2.jpg" alt="Curl" width={120} height={100} className='absolute bottom-0 left-[43%] -translate-x-1/3 border-card border rounded-sm translate-y-16 rotate-3 group-hover:translate-y-14 group-hover:rotate-[6deg] transition-all duration-200 ease-in-out'/>
@@ -38,65 +35,64 @@ If you instead want the full read...
   </div>
 </a>
 
+To decorate the read, the following are a few figures and videos that did not make it into the paper.
+
+
+
 
 Our approach treats rep failure as a boundary detection problem, and we reframe it through the lens of Remaining Useful Life (RUL) prediction, adapting pose-based LSTMs to identify subtle biomechanical cues that precede failure. 
 
 
 
-**TL;DR** - We show that a lightweight vision model can warn you *one rep in advance* when your bicep curl is about to stall, hitting 65% accuracy without a single wearable sensor.
+{/* I couldnt be fucked to sync them manually or make one video out of them two on Davinci Resolve */}
+<SyncedVideos
+  mainVideoSrc="/curl/with-overlay.mov"
+  syncedVideoSrc="/curl/angle-graph.mp4"
+/>
 
-> "If a bench-press rep fails unexpectedly the bar doesn't just stop - it falls on your chest."  
-> *– every gym-goer ever*
+We then run a pose estimation model on the video to extract the elbow angle over time. 
 
-Reaching muscular failure is great for hypertrophy, but it is *exactly* the moment you lose control of the weight.  
-In our latest paper, written with <a href="https://caterina.codes" target="_blank" rel="noopener">Caterina Mammola</a>, we asked a simple question:
+<br />
 
-> **Can a camera spot the last safe rep *before* you can feel it?**
+Smooth the graph of elbow angle over time to remove noise and identify points that define the start and end of a rep. 
 
----
+<video 
+  src="/curl/adjusting-curves.mov" 
+  className="w-full h-full object-cover"   
+  controls={false}
+  autoPlay
+  muted
+  loop
+  playsInline 
+/>
 
-## 1 · Motivation
+While tweaking the <Latex children={"$\\sigma$"} /> parameter did not give failproof results (especially for sets with long pauses between reps or irregular reps) a rule based approach worked well.
 
-Current fitness-AI apps can **count** reps or **critique** form, yet none say *"Stop now or you'll drop it."*  
-For high-risk lifts (bench, overhead press) that warning matters more than flawless form correction.
+<br />
 
----
+To get participants to perform the reps, we used *super advanced* marketing techniques. 
 
-## 2 · A brand-new dataset (because none existed)
 
-|                       | Value |
-|-----------------------|-------|
-| Participants          | 66 volunteers |
-| Total sets            | 254 |
-| Total reps            | 3,272 |
-| Exercise              | Unilateral bicep curl, *to absolute failure* |
-| Recording setup       | iPhone @ 60 fps, strict side-on profile |
-| Ethics approval       | School of Informatics #161250 (04 Mar 2025) |
+<Image src="/curl/poster.png" alt="Grid" width={1000} height={1000} className="w-2/3 m-auto rounded-sm h-full object-cover" />
 
-Every set ends in a genuine grind-and-collapse rep — the bit commercial datasets politely trim away.
 
----
+*(In the small print we then explain that every set of reps is a ticket to a £40 prize draw, and that the more sets you do, the more tickets you get!)*
 
-## 3 · From pixels to numbers
+<br />
 
-1. **Pose estimation** (Mediapipe) → shoulder, elbow, wrist (2D).  
-2. **Rep segmentation** peak detector on smoothed elbow angle.  
-3. **Feature engineering**  
-   - 4 × relative joint positions  
-   - 2 × joint velocities  
-   - 1 × normalised range-of-motion  
-4. **Time-normalisation** 20 equally-spaced samples per rep — no zero-padding, no wasted timesteps.  
-5. **Augmentation** tiny rotations, scale jitter, tempo warping, Gaussian noise.
 
----
+We gathered 254 unique sets from 66 participants, totalling 3272 reps. A sizeable dataset but not enough to compare to other published approaches. 
 
-## 4 · The model: a Hierarchical LSTM
+<video 
+  src="/curl/grid.mp4" 
+  className="w-full h-full object-cover"   
+  controls={false}
+  autoPlay
+  muted
+  loop
+  playsInline 
+/>
 
-```mermaid
-flowchart LR
-  subgraph Rep[Within one rep]
-    A[20 x 7 pose features] --> B[LSTM_rep 64 units]
-  end
-  subgraph Sequence[Across reps]
-    B --> C[LSTM_seq 128 units] --> D[Dense -> RUL]
-  end
+The grid shows a small subset of different reps from different sets and the data we extracted from them. 
+
+What follows is a large amount of tweaking deep learning approaches to improve its performance. We also developed a linear baseline that uses the same features as the model but linear.
