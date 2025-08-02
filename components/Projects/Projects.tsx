@@ -108,7 +108,7 @@ const ProjectTechItem = ({ children }: { children: React.ReactNode }) => {
 
 const Projects = () => {
   return (
-    <div className="mt-32">
+    <div className="mt-24">
       <ProjectTitle link="/vibe-check">Vibe-Check</ProjectTitle>
       <ProjectDescription>
         Platform to increase lecture engagement through real-time audience
