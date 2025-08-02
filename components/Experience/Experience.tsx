@@ -136,31 +136,49 @@ const Experience = () => {
         className="flex flex-col bg-card rounded-lg gap p-3 -mx-2"
         style={{ width: 'calc(100% + 1rem)' }}>
         {experiences.map((exp, index) => (
-          <>
-            <ExperienceItem key={exp.company} {...exp} />
+          <React.Fragment key={exp.company}>
+            <ExperienceItem {...exp} />
             {index < experiences.length - 1 && <Divider />}
-          </>
+          </React.Fragment>
         ))}
       </div>
 
-      <button
-        onClick={() => setShowMore(!showMore)}
-        className="text-accent text-sm hover:text-accent transition-colors flex ml-auto my-2">
-        <div className="ml-auto">{showMore ? 'less' : 'more'}</div>
-      </button>
+      <div className="flex justify-center my-2">
+        <button
+          onClick={() => setShowMore(!showMore)}
+          className="text-muted hover:text-foreground transition-colors duration-200 p-1 rounded-full hover:bg-muted/50">
+          <svg
+            className={`w-4 h-4 transition-transform duration-300 ${
+              showMore ? 'rotate-45' : ''
+            }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </button>
+      </div>
 
-      {showMore && (
-        <div
-          className="flex flex-col bg-card rounded-lg p-3 gap mt-2 animate-fadeIn -mx-2"
-          style={{ width: 'calc(100% + 1rem)' }}>
+      <div
+        className={`overflow-hidden transition-all duration-500 ease-in-out -mx-2 ${
+          showMore ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+        style={{ width: 'calc(100% + 1rem)' }}>
+        <div className="flex flex-col bg-card rounded-lg p-3 gap">
           {moreExperiences.map((exp, index) => (
-            <>
-              <ExperienceItem key={exp.company} {...exp} />
+            <React.Fragment key={exp.company}>
+              <ExperienceItem {...exp} />
               {index < moreExperiences.length - 1 && <Divider />}
-            </>
+            </React.Fragment>
           ))}
         </div>
-      )}
+      </div>
     </>
   )
 }

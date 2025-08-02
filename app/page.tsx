@@ -9,7 +9,7 @@ import ToolsIcon from '@/public/pixel-arts/tools.svg'
 import PageIcon from '@/public/pixel-arts/page.svg'
 import VibeCheckIcon from '@/public/pixel-arts/vibe-check.svg'
 import BucketIcon from '@/public/pixel-arts/bucket.svg'
-// import CurlIcon from '@/public/pixel-arts/curl.svg'
+import CurlIcon from '@/public/pixel-arts/curl.svg'
 import BooksIcon from '@/public/pixel-arts/books.svg'
 import MarkedIcon from '@/public/pixel-arts/marked.svg'
 
@@ -46,11 +46,13 @@ export default function Home() {
       </FadeIn>
 
       <FadeIn delay={600}>
-        <Projects />
+        <h1 className="text-2xl mt-24 mb-4 font-editorialNew">Experience</h1>
+        <Experience />
       </FadeIn>
 
-      <h1 className="text-2xl mt-24 mb-4 font-editorialNew">Experience</h1>
-      <Experience />
+      <FadeIn delay={900}>
+        <Projects />
+      </FadeIn>
 
       <h1 className="text-2xl mt-16 mb-4 font-editorialNew">Posts</h1>
 
@@ -95,13 +97,13 @@ export default function Home() {
           supportText="A list of things I want to do before I -"
         />
 
-        {/* <LinkTo
+        <LinkTo
           Icon={CurlIcon}
           displayText="Paper: Towards Safer Curl"
           link="/curl"
           sideText="1 min read"
           supportText="A tool I built to help lecturers"
-        /> */}
+        />
 
         <LinkTo
           Icon={BooksIcon}
