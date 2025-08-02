@@ -10,6 +10,7 @@ import PageIcon from '@/public/pixel-arts/page.svg'
 import VibeCheckIcon from '@/public/pixel-arts/vibe-check.svg'
 import BucketIcon from '@/public/pixel-arts/bucket.svg'
 import CurlIcon from '@/public/pixel-arts/curl.svg'
+
 import BooksIcon from '@/public/pixel-arts/books.svg'
 import MarkedIcon from '@/public/pixel-arts/marked.svg'
 
