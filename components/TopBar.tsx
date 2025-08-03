@@ -29,9 +29,9 @@ async function getData() {
 }
 
 const TopBar = async () => {
-  const dataPromise = getData()
+  // const dataPromise = getData()
 
-  return <TopBarClient dataPromise={dataPromise} />
+  return null
 }
 
 export default TopBar
