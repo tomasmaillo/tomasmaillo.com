@@ -4,7 +4,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ...components,
     h1: (props) => (
-      <h1 className="text-3xl my-4 font-editorialNew" {...props} />
+      <h1 className="text-3xl my-4 font-bold" {...props} />
     ),
     h2: (props) => (
       <h2 className="my-4 mt-12 font-medium text-lg " {...props} />

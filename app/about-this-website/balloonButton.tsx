@@ -27,8 +27,8 @@ const BalloonButton = () => {
   return (
     <div className="flex justify-center">
       <button
-        className={`bg-accent text-white px-4 py-2 rounded-md m-auto transition-all ${
-          isDisabled ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'
+        className={`bg-foreground text-background px-4 py-2 rounded-md m-auto transition-all ${
+          isDisabled ? 'opacity-50 cursor-not-allowed' : 'active:scale-95 hover:opacity-90'
         }`}
         onClick={handleClick}
         disabled={isDisabled}>

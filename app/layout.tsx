@@ -1,54 +1,17 @@
 import type { Metadata } from 'next'
-import { Inter as FontSans } from 'next/font/google'
+import { Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/lib/utils'
-import TopBar from '@/components/TopBar'
-import localFont from 'next/font/local'
 import { Toaster } from '@/components/ui/sonner'
 import StartupConsoleLog from '@/components/StartupConsoleLog'
 import { ThemeProvider } from 'next-themes'
-import Goodbye from '@/components/Goodbye'
-import Fall from '@/components/Fall'
 import { VercelSpeedInsights } from '@/lib/speed-insights'
 import { VercelAnalytics } from '@/lib/analytics'
-import Gallery from '@/components/Drawing/Gallery'
 
-const fontSans = FontSans({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-sans',
-})
-
-const editorialNew = localFont({
-  src: [
-    {
-      path: '../public/fonts/PPEditorialNew-Regular.otf',
-      weight: '400',
-    },
-    {
-      path: '../public/fonts/PPEditorialNew-Italic.otf',
-      weight: '400',
-      style: 'italic',
-    },
-    {
-      path: '../public/fonts/PPEditorialNew-Ultrabold.otf',
-      weight: '800',
-    },
-    {
-      path: '../public/fonts/PPEditorialNew-UltraboldItalic.otf',
-      weight: '800',
-      style: 'italic',
-    },
-    {
-      path: '../public/fonts/PPEditorialNew-Ultralight.otf',
-      weight: '200',
-    },
-    {
-      path: '../public/fonts/PPEditorialNew-UltralightItalic.otf',
-      weight: '200',
-      style: 'italic',
-    },
-  ],
-  variable: '--font-editorial-new',
+  weight: ['300', '400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
@@ -62,30 +25,19 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="bg-accent">
+    <html lang="en" suppressHydrationWarning data-theme="dark">
       <body
         className={cn(
-          'min-h-screen font-sans antialiased overflow-x-hidden relative',
-          fontSans.variable,
-          editorialNew.variable
+          'min-h-screen font-sans antialiased overflow-x-hidden relative bg-background text-foreground',
+          spaceGrotesk.variable
         )}>
-        <Fall />
-        <ThemeProvider defaultTheme="system" enableSystem>
-          <div className="fixed bottom-0 left-0 w-full h-96">
-            <Gallery />
-          </div>
-          <div className="relative bg-background rounded-b-3xl shadow-xl">
-            <div className="max-w-[768px] md:border-x border-x-0 border-x-border mx-auto px-4 py-4 text-foreground mb-96 relative">
-              <TopBar />
-              <div className="min-h-screen md:p-24 pt-32">
-                {children}
-                <Goodbye />
-              </div>
-              <VercelSpeedInsights />
-              <VercelAnalytics />
-              <Toaster />
-              <StartupConsoleLog />
-            </div>
+        <ThemeProvider defaultTheme="dark" enableSystem={false}>
+          <div className="max-w-[600px] mx-auto px-6 py-8">
+            <div className="pt-8">{children}</div>
+            <VercelSpeedInsights />
+            <VercelAnalytics />
+            <Toaster />
+            <StartupConsoleLog />
           </div>
         </ThemeProvider>
       </body>

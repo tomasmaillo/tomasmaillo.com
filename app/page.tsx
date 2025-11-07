@@ -1,126 +1,66 @@
-import Experience from '@/components/Experience/Experience'
-import FadeIn from '@/components/FadeIn'
 import Links from '@/components/Links'
-import LinkTo from '@/components/LinkTo'
-import Projects from '@/components/Projects/Projects'
+import EmailLink from '@/components/EmailLink'
 import Link from 'next/link'
-import FanIcon from '@/public/pixel-arts/fan.svg'
-import ToolsIcon from '@/public/pixel-arts/tools.svg'
-import PageIcon from '@/public/pixel-arts/page.svg'
-import VibeCheckIcon from '@/public/pixel-arts/vibe-check.svg'
-import BucketIcon from '@/public/pixel-arts/bucket.svg'
-import CurlIcon from '@/public/pixel-arts/curl.svg'
-import BooksIcon from '@/public/pixel-arts/books.svg'
-import MarkedIcon from '@/public/pixel-arts/marked.svg'
+
+const posts = [
+  {
+    date: 'Jul 15, 2025',
+    title: 'Paper: Enhancing peer feedback in MarkEd',
+    link: '/marked',
+  },
+  { date: 'Jun 24, 2025', title: 'Books', link: '/books' },
+  { date: 'Aug 05, 2025', title: 'Paper: Towards Safer Curl', link: '/curl' },
+  { date: 'May 07, 2025', title: 'Bucket List', link: '/bucket-list' },
+  {
+    date: 'Sept 10, 2024',
+    title: 'About this website',
+    link: '/about-this-website',
+  },
+  { date: 'Aug 18, 2024', title: 'vibe-check', link: '/vibe-check' },
+  { date: 'Jun 15, 2024', title: 'What I use', link: '/what-i-use' },
+  { date: 'Feb 08, 2024', title: 'AI Fan App', link: '/zephyr-fan-app' },
+]
 
 export default function Home() {
   return (
-    <main>
-      <FadeIn delay={50}>
-        <h1 className="text-3xl my-4 font-editorialNew">
-          Tomas Maillo<span className="text-accent">.</span>
-        </h1>
-      </FadeIn>
-
-      <FadeIn delay={200}>
-        <p className="text-muted text-sm mb-3">
-          This is my little corner of the internet where I list what I&apos;ve
-          built and learned. Currently a Computer Science and Artificial
-          Intelligence student at the University of Edinburgh. Previously at
-          Spotify and Baillie Gifford.
-        </p>
-        <p className="text-muted text-sm mb-6">
-          This is the{' '}
-          <Link
-            href="/about-this-website"
-            className="text-accent hover:underline">
-            {' '}
-            7th iteration
-          </Link>{' '}
-          of my portfolio website. Built and designed by yours truly.
-        </p>
-      </FadeIn>
-
-      <FadeIn delay={300}>
+    <main className="flex flex-col gap-12">
+      <div className="flex items-center w-full justify-between">
+        <p className="text-sm leading-relaxed m-0">Tomas Maillo</p>
         <Links />
-      </FadeIn>
-
-      <FadeIn delay={600}>
-        <h1 className="text-2xl mt-24 mb-4 font-editorialNew">Experience</h1>
-        <Experience />
-      </FadeIn>
-
-      <FadeIn delay={900}>
-        <Projects />
-      </FadeIn>
-
-      <h1 className="text-2xl mt-16 mb-4 font-editorialNew">Posts</h1>
-
-      <div className="grid grid-cols-1   gap-x-8 gap-y-4">
-        <LinkTo
-          Icon={FanIcon}
-          displayText="AI Fan App"
-          link="/zephyr-fan-app"
-          sideText="3 min read"
-          supportText="Project writeup of a fan using AI vision"
-        />
-
-        <LinkTo
-          Icon={ToolsIcon}
-          displayText="What I use"
-          link="/what-i-use"
-          sideText="2 min read"
-          supportText="A list of tools I use and recommend"
-        />
-
-        <LinkTo
-          Icon={PageIcon}
-          displayText="About this website"
-          link="/about-this-website"
-          sideText="3 min read"
-          supportText="Behind the scenes look at this website and the ones before it"
-        />
-
-        <LinkTo
-          Icon={VibeCheckIcon}
-          displayText="vibe-check"
-          link="/vibe-check"
-          sideText="5 min read"
-          supportText="A project writeup of a tool I built to help lecturers"
-        />
-
-        <LinkTo
-          Icon={BucketIcon}
-          displayText="Bucket List"
-          link="/bucket-list"
-          sideText="1 min read"
-          supportText="A list of things I want to do before I -"
-        />
-
-        <LinkTo
-          Icon={CurlIcon}
-          displayText="Paper: Towards Safer Curl"
-          link="/curl"
-          sideText="1 min read"
-          supportText="A tool I built to help lecturers"
-        />
-
-        <LinkTo
-          Icon={BooksIcon}
-          displayText="Books"
-          link="/books"
-          sideText="1 min read"
-          supportText="A list of books I've read and recommend"
-        />
-
-        <LinkTo
-          Icon={MarkedIcon}
-          displayText="Paper: Enhancing peer feedback in MarkEd"
-          link="/marked"
-          sideText="∞ min read"
-          supportText="Story behind my dissertation and how it became a paper"
-        />
       </div>
+
+      <p className="text-sm leading-relaxed">
+        Based in London, I work at Stripe as a software engineer. Previously, I
+        spent time at Spotify and Baillie Gifford, and recently graduated from
+        the University of Edinburgh with a degree in Artificial Intelligence and
+        Computer Science.
+      </p>
+      <p className="text-sm leading-relaxed">
+        I&apos;m passionate about design and hardware. In the past, I&apos;ve
+        been known for founding Project Share, organising Hack the Burgh X,
+        publishing a paper on LLMs with peer feedback, winning hackathons and
+        remaking my this website every year.
+      </p>
+
+      <div className="space-y-1">
+        {posts.map((post) => (
+          <Link
+            href={post.link}
+            key={post.link}
+            className="flex items-start gap-6 hover:opacity-80 transition-opacity group rounded outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            tabIndex={0}
+            style={{ textDecoration: 'none' }}>
+            <span className="text-sm text-muted-foreground min-w-[120px] tabular-nums tracking-tight">
+              {post.date}
+            </span>
+            <span className="text-sm underline flex-1 group-hover:underline">
+              {post.title}
+            </span>
+          </Link>
+        ))}
+      </div>
+
+      <EmailLink />
     </main>
   )
 }

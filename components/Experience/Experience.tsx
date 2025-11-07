@@ -51,12 +51,12 @@ const ExperienceItem = ({
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-accent text-sm hover:underline">
+          className="text-foreground text-sm underline">
           ↗
         </a>
       )}
     </p>
-    <p className="text-muted text-xs">
+    <p className="text-muted-foreground text-xs">
       {role}
       <span className="select-none"> · </span>
       {period}
@@ -133,8 +133,7 @@ const Experience = () => {
   return (
     <>
       <div
-        className="flex flex-col bg-card rounded-lg gap p-3 -mx-2"
-        style={{ width: 'calc(100% + 1rem)' }}>
+        className="flex flex-col bg-card rounded-lg gap p-3 border border-border">
         {experiences.map((exp, index) => (
           <React.Fragment key={exp.company}>
             <ExperienceItem {...exp} />
@@ -146,7 +145,7 @@ const Experience = () => {
       <div className="flex justify-center my-2">
         <button
           onClick={() => setShowMore(!showMore)}
-          className="text-muted hover:text-foreground transition-colors duration-200 p-1 rounded-full hover:bg-muted/50">
+          className="text-muted-foreground hover:text-foreground transition-colors duration-200 p-1 rounded-full hover:bg-card">
           <svg
             className={`w-4 h-4 transition-transform duration-300 ${
               showMore ? 'rotate-45' : ''
@@ -166,11 +165,10 @@ const Experience = () => {
       </div>
 
       <div
-        className={`overflow-hidden transition-all duration-500 ease-in-out -mx-2 ${
+        className={`overflow-hidden transition-all duration-500 ease-in-out ${
           showMore ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
-        }`}
-        style={{ width: 'calc(100% + 1rem)' }}>
-        <div className="flex flex-col bg-card rounded-lg p-3 gap">
+        }`}>
+        <div className="flex flex-col bg-card rounded-lg p-3 gap border border-border">
           {moreExperiences.map((exp, index) => (
             <React.Fragment key={exp.company}>
               <ExperienceItem {...exp} />

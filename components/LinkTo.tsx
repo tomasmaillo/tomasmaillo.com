@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { FC, SVGProps } from 'react'
+import { ArrowLeft } from 'lucide-react'
 
 const LinkTo = ({
   displayText,
@@ -16,6 +17,18 @@ const LinkTo = ({
   image?: string
   Icon?: FC<SVGProps<SVGSVGElement>>
 }) => {
+  // Special case for back button
+  if (displayText === 'Back') {
+    return (
+      <Link
+        href={link}
+        className="inline-flex items-center gap-2 text-foreground hover:opacity-80 transition-opacity mb-4 group">
+        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+        <span className="text-sm">Back</span>
+      </Link>
+    )
+  }
+
   return (
     <Link
       href={link}
