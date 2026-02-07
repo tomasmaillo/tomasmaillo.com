@@ -72,25 +72,25 @@ const Experience = () => {
       company: 'Stripe',
       role: 'Software Engineer',
       period: 'Sept 2025',
-      imageUrl: 'https://unavatar.io/google/stripe.com',
+      imageUrl: '/experience/stripe.svg',
     },
     {
       company: 'University of Edinburgh',
       role: 'CS and AI student',
       period: '2021 - 2025',
-      imageUrl: 'https://unavatar.io/x/EdinburghUni',
+      imageUrl: '/experience/university-of-edinburgh.svg',
     },
     {
       company: 'Baillie Gifford',
       role: 'Software Engineering Intern',
       period: 'Summer 2024',
-      imageUrl: 'https://unavatar.io/x/BaillieGifford',
+      imageUrl: '/experience/baillie-gifford.svg',
     },
     {
       company: 'Spotify',
       role: 'Software Engineering Intern',
       period: 'Summer 2022',
-      imageUrl: 'https://unavatar.io/google/spotify.com',
+      imageUrl: '/experience/spotify.svg',
     },
   ]
 
@@ -99,7 +99,7 @@ const Experience = () => {
       company: 'UoE Software Engineering Course',
       role: 'Lab Demonstrator and Marker',
       period: '2023',
-      imageUrl: 'https://unavatar.io/x/EdinburghUni',
+      imageUrl: '/experience/university-of-edinburgh.svg',
     },
     {
       company: 'Code Cadets',
