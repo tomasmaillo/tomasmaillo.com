@@ -212,6 +212,7 @@ Flashcard quality rules:
 - Straight to the point. No fluff. Keep it short.
 - If the topic could be covered in a single flashcard, create a single flashcard. ONLY if needed, create multiple flashcards.
 - If you write math, make sure it will be parsable by JavaScript's \`JSON.parse()\` function.
+- Output must be a single JSON object.
 
 Return ONLY valid JSON with this exact shape:
 {
