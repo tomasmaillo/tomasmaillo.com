@@ -211,6 +211,7 @@ Flashcard quality rules:
 - If its just one (non-obvious) word, return the definition of the word with example.
 - Straight to the point. No fluff. Keep it short.
 - If the topic could be covered in a single flashcard, create a single flashcard. ONLY if needed, create multiple flashcards.
+- If you write math, make sure it will be parsable by JavaScript's \`JSON.parse()\` function.
 
 Return ONLY valid JSON with this exact shape:
 {
