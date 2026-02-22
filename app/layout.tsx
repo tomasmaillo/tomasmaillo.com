@@ -62,16 +62,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="bg-accent">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           'min-h-screen font-sans antialiased overflow-x-hidden relative',
           fontSans.variable,
-          editorialNew.variable
+          editorialNew.variable,
         )}>
         <Fall />
         <ThemeProvider defaultTheme="system" enableSystem>
-          <div className="fixed bottom-0 left-0 w-full h-96">
+          <div className="fixed bottom-0 left-0 w-full h-full bg-accent mt-24"></div>
+          <div className="fixed bottom-0 left-0 w-full h-96 mt-24">
             <Gallery />
           </div>
           <div className="relative bg-background rounded-b-3xl shadow-xl">
