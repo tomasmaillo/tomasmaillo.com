@@ -202,7 +202,6 @@ function buildOpenAIPrompt(topic: string): string {
 Create flashcards about this topic: "${topic}".
 
 Flashcard quality rules:
-- Prioritize understanding over trivia.
 - Keep front concise and clear.
 - Keep back concise but complete. No more than a sentence. 
 - Include specific facts, definitions, examples, or contrasts when useful.
