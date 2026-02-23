@@ -71,7 +71,7 @@ export default function RootLayout({
         )}>
         <Fall />
         <ThemeProvider defaultTheme="system" enableSystem>
-          <div className="fixed bottom-0 left-0 w-full h-full bg-accent mt-24"></div>
+          <div className="fixed bottom-0 left-0 w-full h-[32rem] bg-accent mt-24"></div>
           <div className="fixed bottom-0 left-0 w-full h-96 mt-24">
             <Gallery />
           </div>
