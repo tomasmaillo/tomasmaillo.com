@@ -199,61 +199,29 @@ async function updateMochiCard(params: {
 
 function buildOpenAIPrompt(topic: string): string {
   return `
-Create flashcards about this topic: "${topic}".
+Create Mochi flashcards about this topic: "${topic}".
 
-Flashcard quality rules:
-- Keep front concise and clear.
-- Keep back concise but complete. No more than a sentence. 
-- Include specific facts, definitions, examples, or contrasts when useful.
-- Avoid repeating near-duplicate cards.
-- Use plain Markdown only.
-- If its just one (non-obvious) word, return the definition of the word with example.
-- Straight to the point. No fluff. Keep it short.
-- If the topic could be covered in a single flashcard, create a single flashcard. ONLY if needed, create multiple flashcards.
-- If you write math, make sure it will be parsable by JavaScript's \`JSON.parse()\` function.
-- Output must be a single JSON object.
+Goal:
+- Produce concise, high-value cards optimized for active recall.
 
-Return ONLY valid JSON with this exact shape:
+Rules:
+- Prefer the smallest number of cards that still covers the topic well.
+- Front must be a clear question or prompt.
+- Back must be concise but complete (usually one sentence).
+- Use specific facts, definitions, examples, formulas, or contrasts when useful.
+- Avoid near-duplicate cards.
+- Use plain Markdown only (no code fences, no HTML).
+- If the topic is a single non-obvious word, return exactly one card with a definition and a short example sentence.
+- If including math or symbols, ensure the JSON remains valid for JavaScript \`JSON.parse()\`.
+
+Return ONLY valid JSON with exactly this shape:
 {
   "cards": [
     { "front": "Question or prompt", "back": "Answer" }
   ]
 }
 
-Here are some examples on how to format the response:
-
-If the topic is "3 tech companies and their CEOs", the response should be:
-{
-  "cards": [
-    { "front": "Google CEO", "back": "Sundar Pichai" },
-    { "front": "Apple CEO", "back": "Tim Cook" },
-    { "front": "Microsoft CEO", "back": "Satya Nadella" }
-  ]
-}
-
-If the topic is "Population of the USA", the response should be:
-{
-  "cards": [
-    { "front": "Population of the USA", "back": "350 million" }
-  ]
-}
-
-If the topic is "bulb work?", the response should be:
-{
-  "cards": [
-    { "front": "How does a bulb work", "back": "Passing electricity through a thin tungsten filament, heating it to extreme temperatures (over 2,000°C) until it glows. Bulb is filled with inert gas or a vacuum to prevent the hot metal from oxidizing and immediately burning out." }
-  ]
-}
-
-If the topic is "acquiesce", the response should be:
-{
-  "cards": [
-    { "front": "Define acquiesce", "back": "To agree or submit to something without protest. Eg: 'Sara acquiesced in his decision'" }
-  ]
-}
-
-
-No extra keys. No surrounding markdown. No explanation outside JSON.
+No extra keys. No markdown wrapper. No explanation outside JSON.
 `.trim()
 }
 
@@ -358,7 +326,7 @@ export async function POST(request: Request) {
         {
           role: 'system',
           content:
-            'You are an expert study assistant that writes concise, accurate, useful flashcards.',
+            'You are an expert flashcard writer for Mochi. Produce accurate, concise, high-signal flashcards for active recall, and follow formatting instructions exactly. Respond with valid JSON only.',
         },
         {
           role: 'user',
