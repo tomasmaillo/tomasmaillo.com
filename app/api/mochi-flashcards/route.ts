@@ -1,6 +1,10 @@
 import { timingSafeEqual } from 'crypto'
 import { OpenAI } from 'openai'
 import { NextResponse } from 'next/server'
+import {
+  FLASHCARDS_INSTRUCTIONS,
+  FLASHCARDS_RESPONSE_SCHEMA,
+} from './instructions'
 
 // If you are stalking this file and wondering what its for:
 // I use this endpoint to generate flashcards right from an iPhone Shortcut.
@@ -12,20 +16,13 @@ import { NextResponse } from 'next/server'
 export const runtime = 'nodejs'
 
 const MOCHI_BASE_URL = 'https://app.mochi.cards/api'
+const MOCHI_TEMPLATE_ID = 'Xk2rKwFs'
+const MOCHI_FRONT_FIELD_ID = 'name'
+const MOCHI_BACK_FIELD_ID = 'V72yjxYh'
 
 type Flashcard = {
   front: string
   back: string
-}
-
-type MochiTemplateField = {
-  id: string
-  pos?: string
-}
-
-type MochiTemplate = {
-  id: string
-  fields?: Record<string, MochiTemplateField>
 }
 
 type MochiCard = {
@@ -54,41 +51,39 @@ function safeTokenMatch(providedToken: string, expectedToken: string): boolean {
   return timingSafeEqual(providedBuffer, expectedBuffer)
 }
 
-function extractJsonObject(raw: string): string {
-  const firstBrace = raw.indexOf('{')
-  const lastBrace = raw.lastIndexOf('}')
-
-  if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {
-    return raw
-  }
-
-  return raw.slice(firstBrace, lastBrace + 1)
-}
-
 function parseFlashcards(raw: string): Flashcard[] {
-  const parsed = JSON.parse(extractJsonObject(raw)) as { cards?: unknown }
+  const parsed = JSON.parse(raw) as { cards?: unknown }
 
   if (!Array.isArray(parsed.cards)) {
     throw new Error('OpenAI response did not include a cards array')
   }
 
-  const cards = parsed.cards
-    .map((card) => {
-      if (!card || typeof card !== 'object') return null
-      const front = (card as { front?: unknown }).front
-      const back = (card as { back?: unknown }).back
-      if (typeof front !== 'string' || typeof back !== 'string') return null
+  const cards = parsed.cards.map((card, index) => {
+    if (!card || typeof card !== 'object') {
+      throw new Error(`Invalid card at index ${index}: expected object`)
+    }
 
-      const trimmedFront = front.trim()
-      const trimmedBack = back.trim()
-      if (!trimmedFront || !trimmedBack) return null
+    const front = (card as { front?: unknown }).front
+    const back = (card as { back?: unknown }).back
 
-      return {
-        front: trimmedFront,
-        back: trimmedBack,
-      }
-    })
-    .filter((card): card is Flashcard => Boolean(card))
+    if (typeof front !== 'string' || typeof back !== 'string') {
+      throw new Error(
+        `Invalid card at index ${index}: front/back must be strings`,
+      )
+    }
+
+    const trimmedFront = front.trim()
+    const trimmedBack = back.trim()
+
+    if (!trimmedFront || !trimmedBack) {
+      throw new Error(`Invalid card at index ${index}: front/back are empty`)
+    }
+
+    return {
+      front: trimmedFront,
+      back: trimmedBack,
+    }
+  })
 
   if (cards.length === 0) {
     throw new Error('OpenAI generated zero valid flashcards')
@@ -113,148 +108,17 @@ function toMochiContent(card: Flashcard): string {
   return `${card.front}\n---\n${card.back}`
 }
 
-function buildTemplateFields(template: MochiTemplate, card: Flashcard) {
-  const templateFields = template.fields ?? {}
-  const orderedFields = Object.values(templateFields).sort((a, b) =>
-    (a.pos ?? '').localeCompare(b.pos ?? ''),
-  )
-
-  if (orderedFields.length === 0) {
-    return null
-  }
-
-  const frontField = orderedFields[0]
-  const backField = orderedFields[1]
-  const result: Record<string, { id: string; value: string }> = {
-    [frontField.id]: {
-      id: frontField.id,
+function buildTemplateFields(card: Flashcard) {
+  return {
+    [MOCHI_FRONT_FIELD_ID]: {
+      id: MOCHI_FRONT_FIELD_ID,
       value: card.front,
     },
-  }
-
-  if (backField) {
-    result[backField.id] = {
-      id: backField.id,
+    [MOCHI_BACK_FIELD_ID]: {
+      id: MOCHI_BACK_FIELD_ID,
       value: card.back,
-    }
-  } else {
-    result[frontField.id] = {
-      id: frontField.id,
-      value: `${card.front}\n\n${card.back}`,
-    }
-  }
-
-  return result
-}
-
-async function getMochiTemplate(params: {
-  mochiApiKey: string
-  templateId: string
-}): Promise<MochiTemplate | null> {
-  const response = await fetch(
-    `${MOCHI_BASE_URL}/templates/${params.templateId}`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Basic ${Buffer.from(`${params.mochiApiKey}:`).toString(
-          'base64',
-        )}`,
-      },
     },
-  )
-
-  if (!response.ok) {
-    return null
   }
-
-  return (await response.json()) as MochiTemplate
-}
-
-async function updateMochiCard(params: {
-  mochiApiKey: string
-  cardId: string
-  fields: Record<string, { id: string; value: string }>
-}) {
-  const response = await fetch(`${MOCHI_BASE_URL}/cards/${params.cardId}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Basic ${Buffer.from(`${params.mochiApiKey}:`).toString(
-        'base64',
-      )}`,
-    },
-    body: JSON.stringify({
-      fields: params.fields,
-    }),
-  })
-
-  if (!response.ok) {
-    const errorText = await response.text()
-    throw new Error(
-      `Mochi update card fields failed with status ${response.status}: ${errorText}`,
-    )
-  }
-}
-
-function buildOpenAIPrompt(topic: string): string {
-  return `
-Create flashcards about this topic: "${topic}".
-
-Flashcard quality rules:
-- Keep front concise and clear.
-- Keep back concise but complete. No more than a sentence. 
-- Include specific facts, definitions, examples, or contrasts when useful.
-- Avoid repeating near-duplicate cards.
-- Use plain Markdown only.
-- If its just one (non-obvious) word, return the definition of the word with example.
-- Straight to the point. No fluff. Keep it short.
-- If the topic could be covered in a single flashcard, create a single flashcard. ONLY if needed, create multiple flashcards.
-- If you write math, make sure it will be parsable by JavaScript's \`JSON.parse()\` function.
-- Output must be a single JSON object.
-
-Return ONLY valid JSON with this exact shape:
-{
-  "cards": [
-    { "front": "Question or prompt", "back": "Answer" }
-  ]
-}
-
-Here are some examples on how to format the response:
-
-If the topic is "3 tech companies and their CEOs", the response should be:
-{
-  "cards": [
-    { "front": "Google CEO", "back": "Sundar Pichai" },
-    { "front": "Apple CEO", "back": "Tim Cook" },
-    { "front": "Microsoft CEO", "back": "Satya Nadella" }
-  ]
-}
-
-If the topic is "Population of the USA", the response should be:
-{
-  "cards": [
-    { "front": "Population of the USA", "back": "350 million" }
-  ]
-}
-
-If the topic is "bulb work?", the response should be:
-{
-  "cards": [
-    { "front": "How does a bulb work", "back": "Passing electricity through a thin tungsten filament, heating it to extreme temperatures (over 2,000°C) until it glows. Bulb is filled with inert gas or a vacuum to prevent the hot metal from oxidizing and immediately burning out." }
-  ]
-}
-
-If the topic is "acquiesce", the response should be:
-{
-  "cards": [
-    { "front": "Define acquiesce", "back": "To agree or submit to something without protest. Eg: 'Sara acquiesced in his decision'" }
-  ]
-}
-
-
-No extra keys. No surrounding markdown. No explanation outside JSON.
-`.trim()
 }
 
 async function createMochiCard(params: {
@@ -262,10 +126,13 @@ async function createMochiCard(params: {
   deckId: string
   content: string
   tags: string[]
+  fields: Record<string, { id: string; value: string }>
 }) {
   const body: Record<string, unknown> = {
     content: params.content,
     'deck-id': params.deckId,
+    'template-id': MOCHI_TEMPLATE_ID,
+    fields: params.fields,
   }
 
   if (params.tags.length > 0) {
@@ -296,6 +163,8 @@ async function createMochiCard(params: {
 }
 
 export async function POST(request: Request) {
+  const startedAt = Date.now()
+
   try {
     const shortcutToken = process.env.SHORTCUT_AUTH_TOKEN
     const mochiApiKey = process.env.MOCHI_API_KEY
@@ -351,24 +220,25 @@ export async function POST(request: Request) {
       )
     }
 
-    const openai = new OpenAI({ apiKey: openaiApiKey })
-    const completion = await openai.chat.completions.create({
-      model: process.env.FLASHCARDS_OPENAI_MODEL || 'gpt-4.1-mini',
-      messages: [
-        {
-          role: 'system',
-          content:
-            'You are an expert study assistant that writes concise, accurate, useful flashcards.',
-        },
-        {
-          role: 'user',
-          content: buildOpenAIPrompt(topic),
-        },
-      ],
-      temperature: 0.1,
-    })
+    const client = new OpenAI({ apiKey: openaiApiKey })
 
-    const raw = completion.choices[0]?.message?.content?.trim()
+    const response = await client.responses.create({
+      model: process.env.FLASHCARDS_OPENAI_MODEL || 'gpt-5.2',
+      reasoning: { effort: 'low' },
+      instructions: FLASHCARDS_INSTRUCTIONS,
+      input: topic,
+      text: {
+        format: {
+          type: 'json_schema',
+          name: 'flashcards_response',
+          schema: FLASHCARDS_RESPONSE_SCHEMA,
+          strict: true,
+        },
+      },
+    } as never)
+
+    const raw = response.output_text.trim()
+
     if (!raw) {
       return NextResponse.json(
         { error: 'OpenAI returned an empty response' },
@@ -386,25 +256,8 @@ export async function POST(request: Request) {
         deckId,
         content: toMochiContent(card),
         tags,
+        fields: buildTemplateFields(card),
       })
-
-      if (created.id && created['template-id']) {
-        const template = await getMochiTemplate({
-          mochiApiKey,
-          templateId: created['template-id'],
-        })
-
-        if (template) {
-          const fields = buildTemplateFields(template, card)
-          if (fields) {
-            await updateMochiCard({
-              mochiApiKey,
-              cardId: created.id,
-              fields,
-            })
-          }
-        }
-      }
 
       createdCards.push({
         id: created.id,
@@ -418,6 +271,7 @@ export async function POST(request: Request) {
       deckId,
       createdCount: createdCards.length,
       cards: createdCards,
+      timeTaken: Date.now() - startedAt,
     })
   } catch (error) {
     console.error('Error generating Mochi flashcards:', error)
