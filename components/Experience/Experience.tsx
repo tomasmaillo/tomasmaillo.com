@@ -94,41 +94,41 @@ const Experience = () => {
     },
   ]
 
-  const moreExperiences = [
-    {
-      company: 'UoE Software Engineering Course',
-      role: 'Lab Demonstrator and Marker',
-      period: '2023',
-      imageUrl: '/experience/university-of-edinburgh.svg',
-    },
-    {
-      company: 'Code Cadets',
-      role: 'Part-time High School Computer Science Teacher',
-      period: '2024',
-      imageUrl: 'https://unavatar.io/google/codecadets.co.uk',
-    },
-    {
-      company: 'Computer Science Society',
-      role: 'Committee Member',
-      period: '2023 - 2025',
-      imageUrl: 'https://favicone.com/comp-soc.com?s=126',
-      url: 'https://comp-soc.com',
-    },
-    {
-      company: 'Project Share Society',
-      role: 'Founder & President',
-      period: '2023 - 2025',
-      imageUrl: 'https://favicone.com/projectshare.comp-soc.com?s=126',
-      url: 'https://projectshare.comp-soc.com',
-    },
-    {
-      company: 'Hack The Burgh 11 - Hackathon',
-      role: 'Organiser',
-      period: '2025',
-      imageUrl: 'https://favicone.com/hacktheburgh.com?s=126',
-      url: 'https://hacktheburgh.com',
-    },
-  ]
+  // const moreExperiences = [
+  //   {
+  //     company: 'UoE Software Engineering Course',
+  //     role: 'Lab Demonstrator and Marker',
+  //     period: '2023',
+  //     imageUrl: '/experience/university-of-edinburgh.svg',
+  //   },
+  //   {
+  //     company: 'Code Cadets',
+  //     role: 'Part-time High School Computer Science Teacher',
+  //     period: '2024',
+  //     imageUrl: 'https://unavatar.io/google/codecadets.co.uk',
+  //   },
+  //   {
+  //     company: 'Computer Science Society',
+  //     role: 'Committee Member',
+  //     period: '2023 - 2025',
+  //     imageUrl: 'https://favicone.com/comp-soc.com?s=126',
+  //     url: 'https://comp-soc.com',
+  //   },
+  //   {
+  //     company: 'Project Share Society',
+  //     role: 'Founder & President',
+  //     period: '2023 - 2025',
+  //     imageUrl: 'https://favicone.com/projectshare.comp-soc.com?s=126',
+  //     url: 'https://projectshare.comp-soc.com',
+  //   },
+  //   {
+  //     company: 'Hack The Burgh 11 - Hackathon',
+  //     role: 'Organiser',
+  //     period: '2025',
+  //     imageUrl: 'https://favicone.com/hacktheburgh.com?s=126',
+  //     url: 'https://hacktheburgh.com',
+  //   },
+  // ]
 
   return (
     <>
@@ -143,7 +143,7 @@ const Experience = () => {
         ))}
       </div>
 
-      <div className="flex justify-center my-2">
+      {/* <div className="flex justify-center my-2">
         <button
           onClick={() => setShowMore(!showMore)}
           className="text-muted hover:text-foreground transition-colors duration-200 p-1 rounded-full hover:bg-muted/50">
@@ -178,7 +178,7 @@ const Experience = () => {
             </React.Fragment>
           ))}
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

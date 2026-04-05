@@ -3,7 +3,7 @@ import EmailLink from './EmailLink'
 
 const Links = () => {
   return (
-    <div className="flex space-x-4 text-sm text-muted m-auto justify-center">
+    <div className="flex space-x-8 text-sm text-muted m-auto justify-center">
       <a className="hover:underline" href="https://x.com/tomascodes">
         Twitter ↗
       </a>

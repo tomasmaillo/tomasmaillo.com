@@ -24,7 +24,7 @@ const CarouselImage = ({
     <Image
       className={cn(
         'object-contain w-full h-full bg-card rounded-lg',
-        addPadding && 'p-2'
+        addPadding && 'p-2',
       )}
       src={src}
       alt={alt}
@@ -49,7 +49,7 @@ const CarouselVideo = ({
     <video
       className={cn(
         'object-cover w-full h-full bg-card rounded-lg overflow-hidden',
-        addPadding && 'p-2'
+        addPadding && 'p-2',
       )}
       src={src}
       autoPlay
@@ -108,7 +108,7 @@ const ProjectTechItem = ({ children }: { children: React.ReactNode }) => {
 
 const Projects = () => {
   return (
-    <div className="mt-24">
+    <div>
       <ProjectTitle link="/vibe-check">Vibe-Check</ProjectTitle>
       <ProjectDescription>
         Platform to increase lecture engagement through real-time audience

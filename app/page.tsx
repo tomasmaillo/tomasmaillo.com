@@ -15,38 +15,28 @@ import MarkedIcon from '@/public/pixel-arts/marked.svg'
 
 export default function Home() {
   return (
-    <main>
-      <FadeIn delay={50}>
-        <h1 className="text-3xl my-4 font-editorialNew">
-          Tomas Maillo<span className="text-accent">.</span>
-        </h1>
-      </FadeIn>
+    <main className="flex flex-col gap-12">
+      <div className="flex flex-col gap-2">
+        <FadeIn delay={50}>
+          <h1 className="text-3xl mt-4 mb-2 font-editorialNew">Tomas Maillo</h1>
+        </FadeIn>
 
-      <FadeIn delay={200}>
-        <p className="text-muted text-sm mb-3">
-          This is my little corner of the internet where I list what I&apos;ve
-          built and learned. Currently a Computer Science and Artificial
-          Intelligence student at the University of Edinburgh. Previously at
-          Spotify and Baillie Gifford.
-        </p>
-        <p className="text-muted text-sm mb-6">
-          This is the{' '}
-          <Link
-            href="/about-this-website"
-            className="text-accent hover:underline">
-            {' '}
-            7th iteration
-          </Link>{' '}
-          of my portfolio website. Built and designed by yours truly.
-        </p>
-      </FadeIn>
+        <FadeIn delay={200}>
+          <p className="text-muted text-sm">
+            Software engineer at Stripe. Recently graduated from the University
+            of Edinburgh with a degree in Computer Science and Artificial
+            Intelligence. Previously at Spotify and Baillie Gifford.
+          </p>
+        </FadeIn>
 
-      <FadeIn delay={300}>
-        <Links />
-      </FadeIn>
+        <FadeIn delay={300}>
+          <div className="my-8">
+            <Links />
+          </div>
+        </FadeIn>
+      </div>
 
       <FadeIn delay={600}>
-        <h1 className="text-2xl mt-24 mb-4 font-editorialNew">Experience</h1>
         <Experience />
       </FadeIn>
 
@@ -54,9 +44,8 @@ export default function Home() {
         <Projects />
       </FadeIn>
 
-      <h1 className="text-2xl mt-16 mb-4 font-editorialNew">Posts</h1>
-
-      <div className="grid grid-cols-1   gap-x-8 gap-y-4">
+      <div className="grid grid-cols-1 mt-8 gap-x-8 gap-y-4">
+        <h1 className="text-2xl font-editorialNew">Posts</h1>
         <LinkTo
           Icon={FanIcon}
           displayText="AI Fan App"

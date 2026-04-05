@@ -25,14 +25,18 @@ const LinkTo = ({
           <Icon className="w-[50px] h-[50px] my-4 mx-4 mr-6 fill-current text-foreground overflow-visible" />
         )}
         <div className="flex flex-col justify-center gap-1 truncate">
-          <span className="group-hover:underline text-ellipsis overflow-hidden whitespace-nowrap">{displayText}</span>
+          <span className="group-hover:underline text-ellipsis overflow-hidden whitespace-nowrap">
+            {displayText}
+          </span>
           {supportText && (
-            <span className="text-sm text-muted text-ellipsis overflow-hidden whitespace-nowrap">{supportText}</span>
+            <span className="text-sm text-muted text-ellipsis overflow-hidden whitespace-nowrap">
+              {supportText}
+            </span>
           )}
         </div>
       </div>
       {sideText && (
-        <span className="text-muted ml-auto absolute top-4 right-4 text-xs">
+        <span className="text-muted ml-auto absolute top-4 right-2 text-xs pointer-events-none">
           {sideText}
         </span>
       )}

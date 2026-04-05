@@ -76,7 +76,7 @@ export default function RootLayout({
             <Gallery />
           </div>
           <div className="relative bg-background rounded-b-3xl shadow-xl">
-            <div className="max-w-[768px] md:border-x border-x-0 border-x-border mx-auto px-4 py-4 text-foreground mb-96 relative">
+            <div className="max-w-[768px] mx-auto px-4 py-4 text-foreground mb-96 relative">
               <TopBar />
               <div className="min-h-screen md:p-24 pt-32">
                 {children}
