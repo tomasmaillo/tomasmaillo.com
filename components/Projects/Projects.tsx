@@ -127,13 +127,6 @@ const Projects = () => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      <ProjectTech>
-        <ProjectTechItem>Svelte</ProjectTechItem>
-        <ProjectTechItem>TypeScript</ProjectTechItem>
-        <ProjectTechItem>WebSockets</ProjectTechItem>
-        <ProjectTechItem>NodeJS</ProjectTechItem>
-        <ProjectTechItem>Chrome-Extension</ProjectTechItem>
-      </ProjectTech>
 
       <ProjectTitle externalLink="https://projectshare.comp-soc.com">
         Project Share
@@ -155,10 +148,6 @@ const Projects = () => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      <ProjectTech>
-        <ProjectTechItem>ReactJS</ProjectTechItem>
-        <ProjectTechItem>TypeScript</ProjectTechItem>
-      </ProjectTech>
 
       <ProjectTitle link="/zephyr-fan-app">Fan</ProjectTitle>
       <ProjectDescription>
@@ -179,13 +168,6 @@ const Projects = () => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      <ProjectTech>
-        <ProjectTechItem>React Native</ProjectTechItem>
-        <ProjectTechItem>TypeScript</ProjectTechItem>
-        <ProjectTechItem>Expo</ProjectTechItem>
-        <ProjectTechItem>Flask</ProjectTechItem>
-        <ProjectTechItem>Python</ProjectTechItem>
-      </ProjectTech>
 
       <div className="flex flex-col items-center mt-12">
         <p className="text-muted text-xs text-center">

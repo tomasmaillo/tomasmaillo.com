@@ -41,7 +41,7 @@ const useDraggable = () => {
       const currentTransform = window.getComputedStyle(target).transform
       const matrix = new DOMMatrix(currentTransform)
       const currentRotation = Math.round(
-        Math.atan2(matrix.b, matrix.a) * (180 / Math.PI)
+        Math.atan2(matrix.b, matrix.a) * (180 / Math.PI),
       )
 
       // Set dragging styles
@@ -84,22 +84,22 @@ const useDraggable = () => {
 
         document.removeEventListener(
           isTouch ? 'touchmove' : 'mousemove',
-          handleMove
+          handleMove,
         )
         document.removeEventListener(
           isTouch ? 'touchend' : 'mouseup',
-          handleEnd
+          handleEnd,
         )
       }
 
       document.addEventListener(
         isTouch ? 'touchmove' : 'mousemove',
         handleMove,
-        { passive: false }
+        { passive: false },
       )
       document.addEventListener(isTouch ? 'touchend' : 'mouseup', handleEnd)
     },
-    []
+    [],
   )
 
   return handleDragStart
@@ -109,7 +109,7 @@ const useDraggable = () => {
 const calculateInitialPositions = (
   drawings: Drawing[],
   containerWidth: number,
-  containerHeight: number
+  containerHeight: number,
 ) => {
   const maxDrawingSize = 200
   const padding = 20 // Padding from edges
@@ -250,7 +250,7 @@ export default function Gallery() {
             y: clampedY,
           },
         }
-      })
+      }),
     )
   }, [containerSize.width, containerSize.height])
 
@@ -270,7 +270,7 @@ export default function Gallery() {
           const drawingsWithPositions = calculateInitialPositions(
             data,
             containerSize.width,
-            containerSize.height
+            containerSize.height,
           )
           setDrawings(drawingsWithPositions)
           hasPositionedDrawings.current = true
@@ -305,7 +305,7 @@ export default function Gallery() {
       const drawingsWithPositions = calculateInitialPositions(
         drawings,
         containerSize.width,
-        containerSize.height
+        containerSize.height,
       )
       setDrawings(drawingsWithPositions)
       hasPositionedDrawings.current = true
@@ -322,7 +322,7 @@ export default function Gallery() {
     try {
       const data = await getApprovedDrawings(10)
       const newDrawings = data.filter(
-        (d) => !existingDrawingIds.current.has(d.id)
+        (d) => !existingDrawingIds.current.has(d.id),
       )
 
       if (newDrawings.length > 0) {
@@ -330,7 +330,7 @@ export default function Gallery() {
         const newDrawingWithPosition = calculateInitialPositions(
           [newDrawings[0]],
           containerSize.width,
-          containerSize.height
+          containerSize.height,
         )[0]
         setNewDrawing(newDrawingWithPosition)
         setTimeout(() => {
@@ -435,11 +435,11 @@ export default function Gallery() {
                     }
                   }}
                 />
-                <div className="absolute bottom-1 right-1 text-xs text-gray-600 bg-white/70 px-1 rounded">
+                <div className="absolute bottom-1 right-1 text-xs text-gray-600 bg-white/70 px-1 rounded pointer-events-none">
                   By {drawing.author_name}
                 </div>
                 {drawing.message && (
-                  <div className="absolute top-1 left-1 right-1 text-xs text-gray-600 bg-white/70 p-1 rounded max-h-16 overflow-y-auto">
+                  <div className="absolute top-1 left-1 right-1 text-xs text-gray-600 bg-white/70 p-1 rounded max-h-16 overflow-y-auto pointer-events-none">
                     {drawing.message}
                   </div>
                 )}
@@ -509,9 +509,7 @@ export default function Gallery() {
           )}
 
           <Link href="/gallery" className="absolute bottom-4 right-4 z-10">
-            <Button
-              variant="link"
-              className="flex items-center gap-2">
+            <Button variant="link" className="flex items-center gap-2">
               View all drawings
               <ArrowRight className="w-4 h-4" />
             </Button>

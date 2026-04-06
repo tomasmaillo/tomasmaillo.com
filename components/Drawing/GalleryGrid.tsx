@@ -9,8 +9,6 @@ import {
   differenceInMinutes,
 } from 'date-fns'
 import { useInView } from 'react-intersection-observer'
-import Drawing from './Drawing'
-import { LoaderPinwheel } from 'lucide-react'
 
 interface Drawing {
   id: string
@@ -34,6 +32,28 @@ function formatTimeAgo(date: Date) {
   return 'now'
 }
 
+function SkeletonCard({ showMessage = true }: { showMessage?: boolean }) {
+  return (
+    <div className="flex flex-col space-y-2 animate-pulse">
+      <div className="relative w-full aspect-[4/3] bg-muted/60 rounded-sm overflow-hidden shadow-md">
+        <div className="absolute inset-0 bg-gradient-to-br from-muted/40 via-muted/70 to-muted/40" />
+      </div>
+      <div className="space-y-1">
+        <div className="flex items-center justify-between gap-3">
+          <div className="h-4 w-24 sm:w-28 rounded bg-muted/70" />
+          <div className="h-3 w-10 rounded bg-muted/60" />
+        </div>
+        {showMessage && (
+          <div className="space-y-1">
+            <div className="h-3 w-full rounded bg-muted/50" />
+            <div className="h-3 w-4/5 rounded bg-muted/50" />
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function GalleryGrid() {
   const [drawings, setDrawings] = useState<Drawing[]>([])
   const [page, setPage] = useState(1)
@@ -48,7 +68,7 @@ export default function GalleryGrid() {
     try {
       const newDrawings = await getApprovedDrawings(
         DRAWINGS_PER_PAGE,
-        (page - 1) * DRAWINGS_PER_PAGE
+        (page - 1) * DRAWINGS_PER_PAGE,
       )
 
       if (newDrawings.length === 0 || newDrawings.length < DRAWINGS_PER_PAGE) {
@@ -59,7 +79,7 @@ export default function GalleryGrid() {
       setDrawings((prev) => {
         const existingIds = new Set(prev.map((d) => d.id))
         const uniqueNewDrawings = newDrawings.filter(
-          (d) => !existingIds.has(d.id)
+          (d) => !existingIds.has(d.id),
         )
         return [...prev, ...uniqueNewDrawings]
       })
@@ -78,11 +98,16 @@ export default function GalleryGrid() {
 
   useEffect(() => {
     loadDrawings()
-  }, [page])
+  }, [page, loadDrawings])
 
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {drawings.length === 0 &&
+          isLoading &&
+          Array.from({ length: DRAWINGS_PER_PAGE }).map((_, idx) => (
+            <SkeletonCard key={`skeleton-initial-${idx}`} />
+          ))}
         {drawings.map((drawing) => (
           <div key={drawing.id} className="flex flex-col space-y-2">
             <div className="relative w-full aspect-[4/3] bg-background rounded-sm overflow-hidden shadow-md">
@@ -91,7 +116,8 @@ export default function GalleryGrid() {
                 src={drawing.image_url}
                 alt="User drawing"
                 fill
-                className="object-contain"
+                draggable={false}
+                className="object-contain pointer-events-none"
               />
             </div>
             <div className="space-y-1">
@@ -114,10 +140,13 @@ export default function GalleryGrid() {
       </div>
 
       {hasMore && (
-        <div ref={ref} className="h-20 flex items-center justify-center">
-          <div className="animate-pulse text-muted">
-            <LoaderPinwheel className="w-4 h-4 mr-2 animate-spin" />
-          </div>
+        <div ref={ref} className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {isLoading &&
+            drawings.length > 0 &&
+            Array.from({ length: 6 }).map((_, idx) => (
+              <SkeletonCard key={`skeleton-more-${idx}`} showMessage={false} />
+            ))}
+          {!isLoading && <div className="h-6" />}
         </div>
       )}
     </div>
