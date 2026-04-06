@@ -3,6 +3,7 @@ import Definitions from '@/components/Definitions'
 import Avatar from '@/components/ui/avatar'
 import Image from 'next/image'
 import SyncedVideos from '@/components/SyncedVideos'
+import Spacing from '@/components/Spacing'
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css';
 
@@ -12,8 +13,7 @@ export const metadata = {
 }
 
 <LinkTo displayText="Back" link="/" />
-<br />
-<br />
+<Spacing lines={2} />
 
 
 # Paper: Deep Learning for Safer Strength Training
@@ -52,7 +52,7 @@ Our approach treats rep failure as a boundary detection problem, and we reframe 
 
 We then run a pose estimation model on the video to extract the elbow angle over time. 
 
-<br />
+<Spacing />
 
 Smooth the graph of elbow angle over time to remove noise and identify points that define the start and end of a rep. 
 
@@ -68,7 +68,7 @@ Smooth the graph of elbow angle over time to remove noise and identify points th
 
 While tweaking the <Latex children={"$\\sigma$"} /> parameter did not give failproof results (especially for sets with long pauses between reps or irregular reps) a rule based approach worked well.
 
-<br />
+<Spacing />
 
 To get participants to perform the reps, we used *super advanced* marketing techniques. 
 
@@ -78,7 +78,7 @@ To get participants to perform the reps, we used *super advanced* marketing tech
 
 *(In the small print we then explain that every set of reps is a ticket to a £40 prize draw, and that the more sets you do, the more tickets you get!)*
 
-<br />
+<Spacing />
 
 
 We gathered 254 unique sets from 66 participants, totalling 3272 reps. A sizeable dataset but not enough to compare to other published approaches. 
