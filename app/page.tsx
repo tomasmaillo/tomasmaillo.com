@@ -2,8 +2,7 @@ import Experience from '@/components/Experience/Experience'
 import FadeIn from '@/components/FadeIn'
 import Links from '@/components/Links'
 import LinkTo from '@/components/LinkTo'
-import Projects from '@/components/Projects/Projects'
-import Link from 'next/link'
+import { Projects } from '@/components/Projects/Projects'
 import FanIcon from '@/public/pixel-arts/fan.svg'
 import ToolsIcon from '@/public/pixel-arts/tools.svg'
 import PageIcon from '@/public/pixel-arts/page.svg'
@@ -12,6 +11,7 @@ import BucketIcon from '@/public/pixel-arts/bucket.svg'
 import CurlIcon from '@/public/pixel-arts/curl.svg'
 import BooksIcon from '@/public/pixel-arts/books.svg'
 import MarkedIcon from '@/public/pixel-arts/marked.svg'
+import MugIcon from '@/public/pixel-arts/mug.svg'
 
 export default function Home() {
   return (
@@ -108,6 +108,14 @@ export default function Home() {
           link="/marked"
           sideText="∞ min read"
           supportText="Story behind my dissertation and how it became a paper"
+        />
+
+        <LinkTo
+          Icon={MugIcon}
+          displayText="Internships 102"
+          link="/internships-102"
+          sideText="5 min read"
+          supportText="...or rather, things I wish I knew before I started applying"
         />
       </div>
     </main>
