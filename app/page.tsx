@@ -112,9 +112,10 @@ export default function Home() {
 
         <LinkTo
           Icon={MugIcon}
-          displayText="Internships 101"
-          link="/internships-101"
+          displayText="Internships 102"
+          link="/internships-102"
           sideText="5 min read"
+          supportText="...or rather, things I wish I knew before I started applying"
         />
       </div>
     </main>
