@@ -1,0 +1,21 @@
+import LinkTo from '@/components/LinkTo'
+import Avatar from '@/components/ui/avatar'
+import Image from 'next/image'
+import Timeline from './timeline'
+import Spacing from '@/components/Spacing'
+
+export const metadata = {
+  title: 'Timeline',
+  description: 'A timeline of my projects',
+}
+
+<LinkTo displayText="Back" link="/" />
+<Spacing lines={2} />
+
+# Timeline
+
+I don't see GitHub contributions as a true measure of productivity, but they can be a surprisingly effective source of motivation. There's something powerful about looking back and seeing a consistent record of progress. 
+
+A timeline of my projects over the years, annotated with notable moments happening in the world alongside them:
+
+<Timeline />
