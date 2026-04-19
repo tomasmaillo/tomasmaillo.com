@@ -263,21 +263,23 @@ export default function Drawing({
         }),
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to submit drawing')
-      }
-
       const result = await response.json()
+
+      if (!response.ok) {
+        toast.error(result.error || 'Failed to submit drawing')
+        return
+      }
 
       if (result.isApproved) {
         toast.success('Your visitor log is now in the gallery!')
+        if (onClose) onClose()
       } else {
-        toast.error('🤨')
+        toast.error(
+          'Your drawing was flagged as inappropriate and could not be added to the gallery.'
+        )
       }
-
-      if (onClose) onClose()
     } catch (error) {
-      toast.error('Error saving your drawing. Please try again.')
+      toast.error('Network error. Please check your connection and try again.')
       console.error('Error:', error)
     } finally {
       setIsSubmitting(false)
@@ -393,9 +395,14 @@ export default function Drawing({
               process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY || ''
             }
             onSuccess={(token: string) => setTurnstileToken(token)}
-            onError={() =>
-              toast.error('Security check failed. Please try again.')
-            }
+            onError={() => {
+              setTurnstileToken(null)
+              toast.error('Security check failed. Please refresh and try again.')
+            }}
+            onExpire={() => {
+              setTurnstileToken(null)
+              toast.error('Security check expired. Please complete it again.')
+            }}
           />
         </div>
 
