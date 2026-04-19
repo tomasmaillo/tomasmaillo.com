@@ -20,9 +20,11 @@ export const metadata = {
 
 *Towards Safer Strength Training with Deep Learning for Rep Failure Prediction*
 
-**TL;DR**: Alongside <Avatar url="https://unavatar.io/github/Cat2005" name="Caterina Mammola" link="https://caterina.codes/" />, we asked if strength training could be made safer. We show that a deep learning model is capable of predicting with (reasonable) accuracy when a <Definitions text="rep" helperText="(single repetition of a repeated exercise like a squat or a push-up)" /> in a bicep curl <Definitions text="set" helperText="(a group of consecutive repetitions performed without rest)" /> is likely to be a <Definitions text="failure" helperText=", the point at which a muscle can no longer sustain the load and another rep is no longer possible" />. This technique could be expanded to excercises where muscular failure can lead to harm to reduce injury risk during unsupervised workouts. 
+**TL;DR**: Alongside <Avatar url="https://unavatar.io/github/Cat2005" name="Caterina Mammola" link="https://caterina.codes/" />, we explored whether strength training could be made safer. We show that a deep learning model can predict, with reasonable accuracy, when a <Definitions text="rep" helperText="(a single repetition of an exercise like a squat or push-up)" /> in a bicep curl <Definitions text="set" helperText="(a group of consecutive repetitions performed without rest)" /> is likely to reach <Definitions text="failure" helperText=", the point at which a muscle can no longer sustain the load and another rep is no longer possible" />. This approach could be extended to exercises where muscular failure is riskier, helping reduce injury during unsupervised workouts.
 
-We created a novel dataset of >3200 bicep curl reps performed to failure in and trained a Hierarchical LSTM that beats a linear baseline by nearly 30% at identifying the final safe rep. The model analyses joint motion patterns like range of motion and velocity across reps, inspired by Remaining Useful Life prediction from engineering. 
+In exercises like the bench press, reaching failure without a spotter can be dangerous. A system that can recognise the final safe rep could make solo strength training safer, and in lower-risk settings it could also push people to train harder by showing that they still have reps in reserve.
+
+We created a novel dataset of over 3,200 bicep curl reps performed to failure and trained a Hierarchical LSTM that outperforms a linear baseline by nearly 30% at identifying the final safe rep. The model analyses joint motion patterns such as range of motion and velocity across reps, inspired by Remaining Useful Life (RUL) prediction from engineering.
 
 <a href="/curl/towards-safer-strength-training.pdf" className="w-full bg-card rounded-lg group grid sm:grid-cols-2 grid-cols-1 h-20 relative my-20 cursor-pointer text-primary" target="_blank"> 
   <div className="relative col-span-1 h-32 overflow-hidden -translate-y-12">
@@ -35,14 +37,11 @@ We created a novel dataset of >3200 bicep curl reps performed to failure in and 
   </div>
 </a>
 
-To decorate the read, the following are a few figures and videos that did not make it into the paper.
+To complement the paper, here are a few figures and videos that did not make it into the final version.
 
+The project had four main stages: record sets to failure, extract pose from video, segment the motion into individual reps, and train a sequential model to estimate how close each rep is to failure.
 
-
-
-Our approach treats rep failure as a boundary detection problem, and we reframe it through the lens of Remaining Useful Life (RUL) prediction, adapting pose-based LSTMs to identify subtle biomechanical cues that precede failure. 
-
-
+Our approach treats rep failure as a boundary detection problem. We reframe it through the lens of Remaining Useful Life (RUL) prediction, adapting pose-based LSTMs to identify subtle biomechanical cues that precede failure.
 
 {/* I couldnt be fucked to sync them manually or make one video out of them two on Davinci Resolve */}
 <SyncedVideos
@@ -50,11 +49,11 @@ Our approach treats rep failure as a boundary detection problem, and we reframe 
   syncedVideoSrc="/curl/angle-graph.mp4"
 />
 
-We then run a pose estimation model on the video to extract the elbow angle over time. 
+We first run a pose estimation model on the video to extract the elbow angle over time.
 
 <Spacing />
 
-Smooth the graph of elbow angle over time to remove noise and identify points that define the start and end of a rep. 
+We then smooth the elbow angle signal to remove noise and identify the points that define the start and end of each rep.
 
 <video 
   src="/curl/adjusting-curves.mov" 
@@ -66,22 +65,25 @@ Smooth the graph of elbow angle over time to remove noise and identify points th
   playsInline 
 />
 
-While tweaking the <Latex children={"$\\sigma$"} /> parameter did not give failproof results (especially for sets with long pauses between reps or irregular reps) a rule based approach worked well.
+While tuning the <Latex children={"$\\sigma$"} /> parameter did not produce fully reliable results, especially for sets with long pauses or irregular reps, a rule-based approach worked well in practice.
 
 <Spacing />
 
-To get participants to perform the reps, we used *super advanced* marketing techniques. 
+To get participants to perform the reps, we used *highly sophisticated* marketing techniques.
 
+<Image src="/curl/poster.png" alt="Poster used to recruit participants for the study" width={1000} height={1000} className="w-2/3 m-auto rounded-sm h-full object-cover" />
 
-<Image src="/curl/poster.png" alt="Grid" width={1000} height={1000} className="w-2/3 m-auto rounded-sm h-full object-cover" />
-
-
-*(In the small print we then explain that every set of reps is a ticket to a £40 prize draw, and that the more sets you do, the more tickets you get!)*
+*(In the small print, we explain that each set of reps counts as a ticket in a £40 prize draw, and that more sets mean more tickets.)*
 
 <Spacing />
 
+One of the most difficult parts of the project was not the model itself, but building the dataset. Unlike many student ML projects, there was no suitable public dataset waiting for us. We needed videos of people performing consistent bicep curl sets all the way to failure, recorded cleanly enough for pose estimation to work reliably.
 
-We gathered 254 unique sets from 66 participants, totalling 3272 reps. A sizeable dataset but not enough to compare to other published approaches. 
+We also needed ethics approval before collecting data from participants, which took longer than we expected and compressed the project timeline quite a bit. By the time everything was approved, the amount of time left to collect data, build the pipeline, train the model, and write the paper was suddenly much smaller than planned.
+
+To actually gather the data, we set up a small recording station in Appleton Tower with adjustable dumbbells, consent forms, phones for recording, and a simple process for moving people through quickly. What we expected to be a slow trickle of participants turned into queues, with some people returning multiple times throughout the day to improve their chances in the prize draw.
+
+We gathered 254 unique sets from 66 participants, totalling 3,272 reps. A sizeable dataset, though still small compared to typical benchmarks in the literature.
 
 <video 
   src="/curl/grid.mp4" 
@@ -93,6 +95,10 @@ We gathered 254 unique sets from 66 participants, totalling 3272 reps. A sizeabl
   playsInline 
 />
 
-The grid shows a small subset of different reps from different sets and the data we extracted from them. 
+The grid shows a small subset of reps from different sets, alongside the features extracted from them.
 
-What follows is a large amount of tweaking deep learning approaches to improve its performance. We also developed a linear baseline that uses the same features as the model but linear.
+What followed was a large amount of iteration on deep learning approaches to improve performance. We also developed a linear baseline using the same features for comparison, which gave us a clearer sense of how much value the sequential model was actually adding.
+
+The final model showed encouraging signal, but the dataset size still imposed a clear ceiling on performance. If we were to continue this work, the next steps would be collecting more data, improving consistency in capture conditions, and expanding beyond bicep curls to exercises where rep failure has more serious safety implications.
+
+Even so, the project answered the question we started with: there is enough signal in human motion to make rep failure prediction plausible!
