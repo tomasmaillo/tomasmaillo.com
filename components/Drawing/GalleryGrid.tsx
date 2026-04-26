@@ -9,6 +9,9 @@ import {
   differenceInMinutes,
 } from 'date-fns'
 import { useInView } from 'react-intersection-observer'
+import DrawYourOwnCard from './DrawYourOwnCard'
+import Drawing from './Drawing'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 
 interface Drawing {
   id: string
@@ -59,6 +62,8 @@ export default function GalleryGrid() {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [refreshNonce, setRefreshNonce] = useState(0)
   const { ref, inView } = useInView()
 
   const loadDrawings = useCallback(async () => {
@@ -98,11 +103,27 @@ export default function GalleryGrid() {
 
   useEffect(() => {
     loadDrawings()
-  }, [page, loadDrawings])
+  }, [page, refreshNonce, loadDrawings])
+
+  const handleDrawingSubmitted = () => {
+    setIsDialogOpen(false)
+    // Reset to first page so the new drawing can appear.
+    setDrawings([])
+    setHasMore(true)
+    setPage(1)
+    setRefreshNonce((n) => n + 1)
+  }
 
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div className="relative w-full aspect-[4/3] bg-background rounded-sm overflow-hidden">
+          <DrawYourOwnCard
+            onClick={() => setIsDialogOpen(true)}
+            className="p-0"
+          />
+        </div>
+
         {drawings.length === 0 &&
           isLoading &&
           Array.from({ length: DRAWINGS_PER_PAGE }).map((_, idx) => (
@@ -149,6 +170,12 @@ export default function GalleryGrid() {
           {!isLoading && <div className="h-6" />}
         </div>
       )}
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <Drawing width={512} height={384} onClose={handleDrawingSubmitted} />
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

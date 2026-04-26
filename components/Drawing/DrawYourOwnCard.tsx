@@ -12,10 +12,10 @@ export default function DrawYourOwnCard({
 }: DrawYourOwnCardProps) {
   return (
     <Button
-      variant="link"
+      variant="ghost"
       onClick={onClick}
-      className={`relative border-2 border-dashed hover:opacity-100 opacity-50 border-black transition-opacity group rounded-sm h-full w-full ${className}`}>
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-black">
+      className={`relative border-2 border-dashed border-foreground/25 hover:border-foreground/40 bg-muted/20 hover:bg-muted/30 text-foreground transition-colors group rounded-sm h-full w-full ${className}`}>
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
         <Pencil className="w-8 h-8" />
         <span className="font-medium">Add your own</span>
       </div>
