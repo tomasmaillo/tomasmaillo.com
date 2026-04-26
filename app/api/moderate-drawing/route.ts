@@ -7,6 +7,86 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
+const MODERATION_INSTRUCTIONS = `You are a strict content moderator for a public drawing application used by a broad audience, including children.
+
+Review the submitted drawing image, author name, and message. Reject content when any part of the submission includes, implies, depicts, or references:
+- Sexual content of any kind, including nudity, genitalia, sexual gestures, or suggestive content.
+- Weapons, including guns, knives, bombs, or credible weapon-like threats.
+- Violence, gore, blood, injuries, fighting, self-harm, or threats.
+- Offensive gestures.
+- Hate symbols, discriminatory content, slurs, harassment, or bullying.
+- Profanity, offensive language, or sexual language in the author name or message.
+- Drug, alcohol, tobacco, or vaping references.
+- Anything inappropriate for children.
+
+Err on the side of rejection when the image or text is ambiguous. Base the decision only on visible image content and provided text. Return concise evidence that explains the decision.`
+
+const MODERATION_RESPONSE_SCHEMA = {
+  type: 'object',
+  properties: {
+    decision: {
+      type: 'string',
+      enum: ['approved', 'rejected'],
+      description: 'Whether the submitted drawing should be shown publicly.',
+    },
+    imageDescription: {
+      type: 'string',
+      description:
+        'A concise description of the relevant visible image content.',
+    },
+    textAssessment: {
+      type: 'string',
+      description: 'Assessment of the author name and message.',
+    },
+    reasoning: {
+      type: 'string',
+      description:
+        'Free-form moderation reasoning explaining why the submission was approved or rejected.',
+    },
+  },
+  required: ['decision', 'imageDescription', 'textAssessment', 'reasoning'],
+  additionalProperties: false,
+} as const
+
+type ModerationAssessment = {
+  decision: 'approved' | 'rejected'
+  imageDescription: string
+  textAssessment: string
+  reasoning: string
+}
+
+function parseModerationAssessment(raw: string): ModerationAssessment {
+  const parsed = JSON.parse(raw) as Partial<ModerationAssessment>
+
+  if (parsed.decision !== 'approved' && parsed.decision !== 'rejected') {
+    throw new Error('OpenAI response did not include a valid decision')
+  }
+
+  if (
+    typeof parsed.imageDescription !== 'string' ||
+    typeof parsed.textAssessment !== 'string' ||
+    typeof parsed.reasoning !== 'string'
+  ) {
+    throw new Error('OpenAI response did not match moderation schema')
+  }
+
+  return {
+    decision: parsed.decision,
+    imageDescription: parsed.imageDescription.trim(),
+    textAssessment: parsed.textAssessment.trim(),
+    reasoning: parsed.reasoning.trim(),
+  }
+}
+
+function formatAssessment(assessment: ModerationAssessment): string {
+  return [
+    `Decision: ${assessment.decision.toUpperCase()}`,
+    `Image: ${assessment.imageDescription}`,
+    `Text: ${assessment.textAssessment}`,
+    `Reasoning: ${assessment.reasoning}`,
+  ].join('\n')
+}
+
 // Function to verify Turnstile token
 async function verifyTurnstileToken(token: string): Promise<boolean> {
   try {
@@ -21,7 +101,7 @@ async function verifyTurnstileToken(token: string): Promise<boolean> {
           secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
           response: token,
         }),
-      }
+      },
     )
 
     const data = await response.json()
@@ -36,12 +116,17 @@ async function verifyTurnstileToken(token: string): Promise<boolean> {
 export async function POST(req: Request) {
   try {
     const { imageData, authorName, message, turnstileToken } = await req.json()
+    const submittedAuthorName =
+      typeof authorName === 'string' && authorName.trim()
+        ? authorName.trim()
+        : 'anonymous'
+    const submittedMessage = typeof message === 'string' ? message.trim() : ''
 
     // Verify Turnstile token
     if (!turnstileToken) {
       return NextResponse.json(
         { error: 'Security check token is required' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -49,12 +134,16 @@ export async function POST(req: Request) {
     if (!isValidToken) {
       return NextResponse.json(
         { error: 'Invalid security check token' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
     // 1. Upload the drawing to Supabase Storage
-    const base64Data = imageData.replace(/^data:image\/\w+;base64,/, '')
+    const imageDataUrl =
+      typeof imageData === 'string' && imageData.startsWith('data:image/')
+        ? imageData
+        : `data:image/png;base64,${imageData}`
+    const base64Data = imageDataUrl.replace(/^data:image\/\w+;base64,/, '')
     const blob = Buffer.from(base64Data, 'base64')
     const filename = `drawing-${Date.now()}.png`
 
@@ -80,8 +169,8 @@ export async function POST(req: Request) {
           image_url: publicUrl,
           is_flagged: false,
           reviewed: false,
-          author_name: authorName || 'anonymous',
-          message: message || '',
+          author_name: submittedAuthorName,
+          message: submittedMessage,
         },
       ])
       .select()
@@ -89,54 +178,48 @@ export async function POST(req: Request) {
     if (dbError) throw dbError
 
     // 4. Moderate the drawing, author name, and message
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1-nano',
-      messages: [
+    const response = await openai.responses.create({
+      model: process.env.MODERATE_DRAWING_OPENAI_MODEL || 'gpt-5.4-mini',
+      reasoning: { effort: 'low' },
+      instructions: MODERATION_INSTRUCTIONS,
+      input: [
         {
           role: 'user',
           content: [
             {
-              type: 'text',
-              text: `You are a strict content moderator for a drawing application. 
-              Your task is to analyze the provided image, author name, and message to REJECT any offensive, inappropriate, or harmful content.
-              
-              STRICTLY REJECT content containing:
-              - Sexual content of any kind (genitalia, nudity, suggestive imagery, penises, vaginas, etc.)
-              - Weapons (guns, knives, bombs, etc.)
-              - Violence or gore (blood, injuries, fighting)
-              - Offensive gestures (middle fingers, etc.)
-              - Hate symbols or discriminatory content
-              - Profanity or offensive language
-              - Drug or alcohol references
-              - Any content inappropriate for children
-              
-              First, provide a detailed explanation of what you see in the image, author name, and message.
-              Then, end your response with either APPROVED or REJECTED as the last word. YOU MUST END WITH EITHER APPROVED OR REJECTED depending on your previous reasoning.
-              
-              Be direct, thorough, and err on the side of caution when moderating.
-              
-              Author name: "${authorName || 'anonymous'}"
-              Message: "${message || ''}"`,
+              type: 'input_text',
+              text: JSON.stringify({
+                authorName: submittedAuthorName,
+                message: submittedMessage,
+              }),
             },
             {
-              type: 'image_url',
-              image_url: {
-                url: `data:image/jpeg;base64,${imageData}`,
-              },
+              type: 'input_image',
+              image_url: imageDataUrl,
+              detail: 'high',
             },
           ],
         },
       ],
-      temperature: 0.3,
-      max_tokens: 500,
-    })
+      text: {
+        format: {
+          type: 'json_schema',
+          name: 'drawing_moderation_response',
+          schema: MODERATION_RESPONSE_SCHEMA,
+          strict: true,
+        },
+      },
+    } as never)
 
-    const assessment = completion.choices[0].message.content || ''
+    const rawAssessment = response.output_text.trim()
 
-    // Check if the last word is APPROVED or REJECTED
-    const words = assessment.trim().split(/\s+/)
-    const lastWord = words[words.length - 1]
-    const isApproved = lastWord === 'APPROVED'
+    if (!rawAssessment) {
+      throw new Error('OpenAI returned an empty moderation response')
+    }
+
+    const moderationAssessment = parseModerationAssessment(rawAssessment)
+    const assessment = formatAssessment(moderationAssessment)
+    const isApproved = moderationAssessment.decision === 'approved'
 
     // Pretty console logging without chalk
     console.log('\n==========================================')
@@ -145,8 +228,8 @@ export async function POST(req: Request) {
     console.log('------------------------------------------')
     console.log('🔍 Decision: ' + (isApproved ? 'APPROVED' : 'REJECTED'))
     console.log('🖼️ Image URL: ' + publicUrl)
-    console.log('👤 Author: ' + (authorName || 'anonymous'))
-    console.log('💬 Message: ' + (message || 'none'))
+    console.log('👤 Author: ' + submittedAuthorName)
+    console.log('💬 Message: ' + (submittedMessage || 'none'))
     console.log('==========================================\n')
 
     // 5. Update the drawing record with moderation results
@@ -163,8 +246,8 @@ export async function POST(req: Request) {
     // 6. Send Pushover notification with the moderation result
     await sendPushoverNotification({
       title: `Drawing ${isApproved ? 'Approved' : 'Rejected'}`,
-      message: `Author: ${authorName || 'anonymous'}\nMessage: ${
-        message || 'none'
+      message: `Author: ${submittedAuthorName}\nMessage: ${
+        submittedMessage || 'none'
       }\n\nAssessment: ${assessment}`,
       imageUrl: publicUrl,
     })
@@ -177,13 +260,14 @@ export async function POST(req: Request) {
         reviewed: true,
       },
       assessment,
+      moderationAssessment,
       isApproved,
     })
   } catch (error) {
     console.error('Error:', error)
     return NextResponse.json(
       { error: 'Failed to process drawing' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }
