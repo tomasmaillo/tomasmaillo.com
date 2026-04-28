@@ -3,6 +3,11 @@ import Avatar from '@/components/ui/avatar'
 import Image from 'next/image'
 import Spacing from '@/components/Spacing'
 
+export const metadata = {
+  title: 'Vibe-Check - Tomas Maillo',
+  description: 'A Chrome extension and website for making presentations more interactive with live reactions, comments, and room statistics.',
+}
+
 <LinkTo displayText="Back" link="/" />
 <Spacing lines={2} />
 
@@ -39,7 +44,7 @@ We felt that lectures often resembled low-quality YouTube videos and didn't take
 
 Following that conversation, along with <Avatar url="https://unavatar.io/github/paulinasg" name="Paulina Gerchuk" link="https://paulinagerch.uk/" />, <Avatar url="https://unavatar.io/github/david14higgins" name="David Higgins" link="https://github.com/david14higgins" />, <Avatar url="https://unavatar.io/github/archieforster" name="Archie Forster" link="https://github.com/archieforster" />, <Avatar url="https://unavatar.io/github/wietsdev" name="Wietske Holwerda" link="https://wiets.dev/" /> and <Avatar url="https://unavatar.io/github/StanFlint" name="Stan Flint" link="https://stanflint.dev/" />, we decided to build a system to help us stay engaged in lectures.
 
-With only 24 hours to build a proof-of-concept demo, we focused on the core features. Here is where we got to:
+With only 24 hours to build a proof-of-concept demo, we focused on the core features. Here's where we got to:
 
 <div className="relative w-full bg-card rounded-lg my-6 p-4">
   <Image src="/vc-htb.png" alt="Screenshot of Chrome tab showing the vibe-check website. Large vibe check logo on the left and a QR code on the right. Real-time reactions are visible on the bottom right." width={1990} height={2000} className="object-contain w-full h-64 bg-card rounded-lg" draggable={false}/>
@@ -51,7 +56,7 @@ With only 24 hours to build a proof-of-concept demo, we focused on the core feat
   <p className="text-xs opacity-50 text-center m-0 mt-2">The audience can react and comment.</p>
 </div>
 
-The hackathon was a success. While we won several smaller prizes, the best outcome was receiving direct feedback from heads of schools and lecturers. They saw the potential of the system and wanted it developed further.
+The hackathon was a success. While we won several smaller prizes, the best outcome was receiving direct feedback from heads of school and lecturers. They saw the potential of the system and wanted it developed further.
 
 <div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
   <video 

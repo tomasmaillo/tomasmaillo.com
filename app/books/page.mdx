@@ -2,6 +2,11 @@ import Book from '../components/Book';
 import LinkTo from '@/components/LinkTo'
 import Spacing from '@/components/Spacing'
 
+export const metadata = {
+  title: 'My Favorite Books - Tomas Maillo',
+  description: 'A personal collection of books that have shaped how I think about technology, people, and the world.',
+}
+
 <LinkTo displayText="Back" link="/" />
 <Spacing lines={2} />
 
@@ -28,7 +33,7 @@ Here's a collection of books that have had a significant impact on me. Each one 
     query="9781451668254"
     title="The Boy Kings: A Journey into the Heart of the Social Network"
     author="Katherine Losse"
-    customDescription="Weirdly low ratings on Goodreads, but I loved it. Authored by the 51st employee of Facebook, it's an insider's account of working at its early years, exploring the culture and challenges of the tech industry."
+    customDescription="Weirdly low ratings on Goodreads, but I loved it. Authored by the 51st employee of Facebook, it's an insider's account of working there in its early years, exploring the culture and challenges of the tech industry."
   />
 
   <Book
@@ -101,4 +106,3 @@ Here's a collection of books that have had a significant impact on me. Each one 
     customDescription="First Walter Isaacson book I read and since then I've been hooked."
   />
 </div>
-

@@ -8,6 +8,11 @@ import {
 } from '@/components/ui/carousel'
 import { CarouselImage } from '@/components/Projects/Projects'
 
+export const metadata = {
+  title: 'Internships 102 - Tomas Maillo',
+  description: 'Practical advice and reflections on applying for internships, interviewing, and finding early-career opportunities.',
+}
+
 <LinkTo displayText="Back" link="/" />
 <br />
 <br />
@@ -35,7 +40,7 @@ I'm probably not the most qualified person to write about this, as I'm only just
 
 While I haven't interned at every big tech company, I've had my fair share of experiences and conversations with people who have.
 
-Instead of repeating advice you've probably heard a thousand times, I'll share the things I genuinely wish I'd known earlier. The kind that would have saved me time and missed opportunities.
+Instead of repeating advice you've probably heard a thousand times, I'll share the things I genuinely wish I'd known earlier: the kind that would have saved me time and missed opportunities.
 
 <div className="bg-card rounded-lg py-3 px-4">
   <p className="text-sm m-0 p-0">While I won't cover the basics here, you should still focus on creating a professional CV, writing tailored cover letters, practising LeetCode, building projects, attending hackathons, preparing answers for behavioural questions, {Array.from("gathering experience, networking, doing mock interviews").map((char, index, array) => ( <span key={index} style={{fontSize: `${Math.max(14 - (index * 0.2), 0)}px`}}>{char}</span>))} ...</p>
@@ -50,7 +55,7 @@ If you're studying CS, remember your options go far beyond becoming a software e
 
 That said, internships are one of the best ways to explore your interests. You get to try a company and a role before committing to it.
 
-As a CTO of a *very* large company once said in front of ~800 attendees at a hackathon:
+As the CTO of a *very* large company once said in front of ~800 attendees at a hackathon:
 
 > "Interning at a company is like making out with someone. You get to experience it and see if it's for you or not. So come make out with us."
 
@@ -103,7 +108,7 @@ Keeping track of your applications and interviews is incredibly useful. A simple
 - Interview stages and outcomes
 - Feedback received
 
-After each interview, jot down notes about the questions, your responses, and anything you learned. These notes become invaluable when you (inevitably) apply to the same company again, help friends, or spot patterns across companies.
+After each interview, jot down notes about the questions, your responses, and anything you learned. These notes become invaluable when you (inevitably) apply to the same company again, help friends prepare, or spot patterns across companies.
 
 ## 5. Research, research, research
 

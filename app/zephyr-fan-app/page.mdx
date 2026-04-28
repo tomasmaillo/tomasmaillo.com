@@ -4,6 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Spacing from '@/components/Spacing'
 
+export const metadata = {
+  title: 'Zephyr Fan App - Tomas Maillo',
+  description: 'A smart fan app and robotic system that uses computer vision, gestures, and real-time controls.',
+}
+
 <LinkTo displayText="Back" link="/" />
 <Spacing lines={2} />
 
@@ -29,7 +34,7 @@ Built with React Native, TypeScript, Expo, ThreeJS and WebSockets.
 </div>
 
 
-## Pre-requisites
+## Prerequisites
 
 We were prompted with: _"Create a robotic system that helps humans."_
 
@@ -38,7 +43,7 @@ Sitting in the University of Edinburgh's *extremely* hot AT_5 rooms, the idea of
 We quickly converged on a system that could:
 - Track and face people automatically using a camera
 - Detect hand gestures to control speed and mode
-- Run vision models on an on-board Raspberry Pi
+- Run vision models on an onboard Raspberry Pi
 - Provide a companion app and website for manual control
 - Use WebSockets for real-time, two-way communication
 
@@ -103,9 +108,9 @@ The system worked well at close range, but had clear limits. Person detection re
 
 On the hardware side, the fan supported horizontal rotation and vertical tilt. Getting stable movement was harder than expected, requiring motors strong enough to move the head while avoiding slipping or backtracking. We settled on a motor + worm gear setup for tilt, and reduced movement bounds from +/-45° to +/-35° to reduce structural strain.
 
-Although I chose Expo and React Native for their cross-platform capabilities, not everything worked seamlessly across iOS, Android and Web.
+Although I chose Expo and React Native for their cross-platform capabilities, not everything worked seamlessly across iOS, Android, and Web.
 
-Some ThreeJS features, particularly around instanced meshes, were not fully supported on iOS. This caused issues when rendering components that relied on model instancing (like the blade cage and fan blades). The pragmatic workaround was to use the usual `if (Platform.OS === 'ios')` pattern, loading alternative models for iOS where needed. Not ideal, but worked.
+Some ThreeJS features, particularly around instanced meshes, were not fully supported on iOS. This caused issues when rendering components that relied on model instancing (like the blade cage and fan blades). The pragmatic workaround was to use the usual `if (Platform.OS === 'ios')` pattern, loading alternative models for iOS where needed. Not ideal, but it worked.
 
 ## Demo
 
