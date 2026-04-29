@@ -8,7 +8,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog'
 import Drawing from './Drawing'
 import Link from 'next/link'
 import DrawYourOwnCard from './DrawYourOwnCard'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Pencil } from 'lucide-react'
 
 interface Drawing {
   id: string
@@ -17,6 +17,134 @@ interface Drawing {
   author_name: string
   message: string
   position?: { x: number; y: number; rotation: number }
+}
+
+const DESKTOP_DRAWING_MAX_SIZE = 200
+const MOBILE_DRAWING_MAX_SIZE = 150
+const MOBILE_DRAWING_BREAKPOINT = 640
+const DRAWING_PADDING = 20
+const DRAWING_PLACEMENT_ATTEMPTS = 70
+const DRAWING_BREATHING_ROOM = 28
+const DRAW_YOUR_OWN_CARD_WIDTH = 200
+const DRAW_YOUR_OWN_CARD_HEIGHT = 150
+const MOBILE_ADD_BUTTON_WIDTH = 150
+const MOBILE_ADD_BUTTON_HEIGHT = 40
+const MOBILE_ADD_BUTTON_OFFSET = 16
+
+interface PlacementBox {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
+const getDrawingMaxSize = (containerWidth: number) =>
+  containerWidth > 0 && containerWidth < MOBILE_DRAWING_BREAKPOINT
+    ? MOBILE_DRAWING_MAX_SIZE
+    : DESKTOP_DRAWING_MAX_SIZE
+
+const getOverlapArea = (a: PlacementBox, b: PlacementBox) => {
+  const overlapWidth = Math.max(
+    0,
+    Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x),
+  )
+  const overlapHeight = Math.max(
+    0,
+    Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y),
+  )
+
+  return overlapWidth * overlapHeight
+}
+
+const expandBox = (box: PlacementBox, amount: number): PlacementBox => ({
+  x: box.x - amount,
+  y: box.y - amount,
+  width: box.width + amount * 2,
+  height: box.height + amount * 2,
+})
+
+const getDrawingBox = (
+  x: number,
+  y: number,
+  drawingMaxSize: number,
+): PlacementBox => ({
+  x,
+  y,
+  width: drawingMaxSize,
+  height: drawingMaxSize,
+})
+
+const getDrawYourOwnCardBox = (
+  containerWidth: number,
+  containerHeight: number,
+): PlacementBox => ({
+  x: Math.max(0, (containerWidth - DRAW_YOUR_OWN_CARD_WIDTH) / 2),
+  y: Math.max(0, (containerHeight - DRAW_YOUR_OWN_CARD_HEIGHT) / 2),
+  width: DRAW_YOUR_OWN_CARD_WIDTH,
+  height: DRAW_YOUR_OWN_CARD_HEIGHT,
+})
+
+const getMobileAddButtonBox = (
+  containerHeight: number,
+): PlacementBox => ({
+  x: MOBILE_ADD_BUTTON_OFFSET,
+  y: Math.max(
+    0,
+    containerHeight - MOBILE_ADD_BUTTON_HEIGHT - MOBILE_ADD_BUTTON_OFFSET,
+  ),
+  width: MOBILE_ADD_BUTTON_WIDTH,
+  height: MOBILE_ADD_BUTTON_HEIGHT,
+})
+
+const getProtectedControlBox = (
+  containerWidth: number,
+  containerHeight: number,
+) =>
+  containerWidth < MOBILE_DRAWING_BREAKPOINT
+    ? getMobileAddButtonBox(containerHeight)
+    : getDrawYourOwnCardBox(containerWidth, containerHeight)
+
+const scorePlacement = (
+  candidate: PlacementBox,
+  placedBoxes: PlacementBox[],
+  protectedControlBox: PlacementBox,
+) => {
+  const relaxedCandidate = expandBox(candidate, DRAWING_BREATHING_ROOM)
+
+  const drawingPenalty = placedBoxes.reduce((score, placedBox) => {
+    const overlapPenalty = getOverlapArea(candidate, placedBox) * 2.5
+    const crowdingPenalty = getOverlapArea(
+      relaxedCandidate,
+      expandBox(placedBox, DRAWING_BREATHING_ROOM),
+    )
+
+    return score + overlapPenalty + crowdingPenalty
+  }, 0)
+
+  const controlOverlapPenalty = getOverlapArea(candidate, protectedControlBox) * 4
+  const controlCrowdingPenalty = getOverlapArea(
+    relaxedCandidate,
+    expandBox(protectedControlBox, DRAWING_BREATHING_ROOM),
+  )
+
+  return drawingPenalty + controlOverlapPenalty + controlCrowdingPenalty
+}
+
+const getRandomPosition = (containerWidth: number, containerHeight: number) => {
+  const drawingMaxSize = getDrawingMaxSize(containerWidth)
+  const availableWidth = Math.max(
+    0,
+    containerWidth - drawingMaxSize - DRAWING_PADDING * 2,
+  )
+  const availableHeight = Math.max(
+    0,
+    containerHeight - drawingMaxSize - DRAWING_PADDING * 2,
+  )
+
+  return {
+    x: DRAWING_PADDING + Math.random() * availableWidth,
+    y: DRAWING_PADDING + Math.random() * availableHeight,
+  }
 }
 
 // Custom hook for drag functionality
@@ -110,28 +238,53 @@ const calculateInitialPositions = (
   drawings: Drawing[],
   containerWidth: number,
   containerHeight: number,
+  existingDrawings: Drawing[] = [],
 ) => {
-  const maxDrawingSize = 200
-  const padding = 20 // Padding from edges
+  const drawingMaxSize = getDrawingMaxSize(containerWidth)
+  const protectedControlBox = getProtectedControlBox(
+    containerWidth,
+    containerHeight,
+  )
+  const placedBoxes = existingDrawings
+    .filter((drawing) => drawing.position)
+    .map((drawing) =>
+      getDrawingBox(
+        drawing.position?.x || 0,
+        drawing.position?.y || 0,
+        drawingMaxSize,
+      ),
+    )
 
-  return drawings.map((drawing, index) => {
-    // Calculate available space for random positioning
-    const availableWidth = containerWidth - maxDrawingSize - padding * 2
-    const availableHeight = containerHeight - maxDrawingSize - padding * 2
+  return drawings.map((drawing) => {
+    let bestPosition = getRandomPosition(containerWidth, containerHeight)
+    let bestScore = Number.POSITIVE_INFINITY
 
-    // Generate random position within available space
-    const x = padding + Math.random() * availableWidth
-    const y = padding + Math.random() * availableHeight
+    for (let i = 0; i < DRAWING_PLACEMENT_ATTEMPTS; i++) {
+      const candidatePosition = getRandomPosition(containerWidth, containerHeight)
+      const candidateBox = getDrawingBox(
+        candidatePosition.x,
+        candidatePosition.y,
+        drawingMaxSize,
+      )
+      const score =
+        scorePlacement(candidateBox, placedBoxes, protectedControlBox) +
+        Math.random() * 100
 
-    // console.log(`Drawing ${index} (${drawing.id}):`)
-    // console.log(`  Available space: ${availableWidth}x${availableHeight}`)
-    // console.log(`  Final position: (${x}, ${y})`)
+      if (score < bestScore) {
+        bestScore = score
+        bestPosition = candidatePosition
+      }
+    }
+
+    placedBoxes.push(
+      getDrawingBox(bestPosition.x, bestPosition.y, drawingMaxSize),
+    )
 
     return {
       ...drawing,
       position: {
-        x,
-        y,
+        x: bestPosition.x,
+        y: bestPosition.y,
         rotation: Math.random() * 10 - 5,
       },
     }
@@ -226,14 +379,13 @@ export default function Gallery() {
     if (!hasPositionedDrawings.current) return
     if (containerSize.width === 0 || containerSize.height === 0) return
 
-    const maxDrawingSize = 200
-
     setDrawings((prev) =>
       prev.map((d) => {
         if (!d.position) return d
 
-        const maxX = containerSize.width - maxDrawingSize
-        const maxY = containerSize.height - maxDrawingSize
+        const drawingMaxSize = getDrawingMaxSize(containerSize.width)
+        const maxX = containerSize.width - drawingMaxSize
+        const maxY = containerSize.height - drawingMaxSize
 
         const clampedX = Math.min(Math.max(0, d.position.x), maxX)
         const clampedY = Math.min(Math.max(0, d.position.y), maxY)
@@ -311,7 +463,7 @@ export default function Gallery() {
       hasPositionedDrawings.current = true
     }
   }, [
-    drawings.length,
+    drawings,
     containerSize.width,
     containerSize.height,
     isContainerReady,
@@ -331,6 +483,7 @@ export default function Gallery() {
           [newDrawings[0]],
           containerSize.width,
           containerSize.height,
+          drawings,
         )[0]
         setNewDrawing(newDrawingWithPosition)
         setTimeout(() => {
@@ -341,7 +494,7 @@ export default function Gallery() {
     } catch (err) {
       console.error('Error fetching new drawings:', err)
     }
-  }, [containerSize.width, containerSize.height])
+  }, [containerSize.width, containerSize.height, drawings])
 
   const handleDrawingSubmitted = () => {
     setIsDialogOpen(false)
@@ -349,6 +502,8 @@ export default function Gallery() {
       fetchNewDrawings()
     }, 2000)
   }
+
+  const drawingMaxSize = getDrawingMaxSize(containerSize.width)
 
   if (loading) {
     return (
@@ -369,11 +524,11 @@ export default function Gallery() {
   }
 
   return (
-    <div className="flex flex-col items-center h-full">
+    <div className="relative flex flex-col items-center h-full">
       <div className="flex gap-4 items-center justify-center h-full">
         <DrawYourOwnCard
           onClick={() => setIsDialogOpen(true)}
-          className="absolute top-1/2 -translate-y-1/2 z-10 h-[150px] w-[200px]"
+          className="absolute top-1/2 -translate-y-1/2 z-10 hidden h-[150px] w-[200px] sm:block"
         />
       </div>
 
@@ -402,8 +557,8 @@ export default function Gallery() {
                 touchAction: 'none',
                 width: 'auto',
                 height: 'auto',
-                maxWidth: '200px',
-                maxHeight: '200px',
+                maxWidth: `${drawingMaxSize}px`,
+                maxHeight: `${drawingMaxSize}px`,
                 opacity: drawing.position ? 1 : 0,
                 transition: 'opacity 0.3s ease-in-out',
               }}
@@ -411,6 +566,7 @@ export default function Gallery() {
               onTouchStart={(e) => handleDragStart(e, e.currentTarget)}>
               <div className="relative w-full h-full">
                 <Image
+                  key={`${drawing.id}-${drawingMaxSize}`}
                   unoptimized
                   src={drawing.image_url}
                   alt="User drawing"
@@ -423,14 +579,17 @@ export default function Gallery() {
                       ?.parentElement as HTMLDivElement
                     if (container) {
                       const aspectRatio = img.naturalWidth / img.naturalHeight
-                      const maxSize = 200
 
                       if (aspectRatio > 1) {
-                        container.style.width = `${maxSize}px`
-                        container.style.height = `${maxSize / aspectRatio}px`
+                        container.style.width = `${drawingMaxSize}px`
+                        container.style.height = `${
+                          drawingMaxSize / aspectRatio
+                        }px`
                       } else {
-                        container.style.height = `${maxSize}px`
-                        container.style.width = `${maxSize * aspectRatio}px`
+                        container.style.height = `${drawingMaxSize}px`
+                        container.style.width = `${
+                          drawingMaxSize * aspectRatio
+                        }px`
                       }
                     }
                   }}
@@ -460,8 +619,8 @@ export default function Gallery() {
                 touchAction: 'none',
                 width: 'auto',
                 height: 'auto',
-                maxWidth: '200px',
-                maxHeight: '200px',
+                maxWidth: `${drawingMaxSize}px`,
+                maxHeight: `${drawingMaxSize}px`,
                 opacity: 0,
                 scale: 0.5,
               }}
@@ -473,6 +632,7 @@ export default function Gallery() {
               }>
               <div className="relative w-full h-full">
                 <Image
+                  key={`${newDrawing.id}-${drawingMaxSize}`}
                   src={newDrawing.image_url}
                   alt="New drawing"
                   fill
@@ -484,14 +644,17 @@ export default function Gallery() {
                       ?.parentElement as HTMLDivElement
                     if (container) {
                       const aspectRatio = img.naturalWidth / img.naturalHeight
-                      const maxSize = 200
 
                       if (aspectRatio > 1) {
-                        container.style.width = `${maxSize}px`
-                        container.style.height = `${maxSize / aspectRatio}px`
+                        container.style.width = `${drawingMaxSize}px`
+                        container.style.height = `${
+                          drawingMaxSize / aspectRatio
+                        }px`
                       } else {
-                        container.style.height = `${maxSize}px`
-                        container.style.width = `${maxSize * aspectRatio}px`
+                        container.style.height = `${drawingMaxSize}px`
+                        container.style.width = `${
+                          drawingMaxSize * aspectRatio
+                        }px`
                       }
                     }
                   }}
@@ -508,6 +671,14 @@ export default function Gallery() {
             </div>
           )}
 
+          <Button
+            variant="link"
+            className="absolute bottom-4 left-4 z-20 flex items-center gap-2 sm:hidden"
+            onClick={() => setIsDialogOpen(true)}>
+            <Pencil className="h-4 w-4" />
+            Add your own
+          </Button>
+
           <Link href="/gallery" className="absolute bottom-4 right-4 z-10">
             <Button variant="link" className="flex items-center gap-2">
               View all drawings
@@ -517,8 +688,18 @@ export default function Gallery() {
         </div>
       )}
 
+      {drawings.length === 0 && !newDrawing && (
+        <Button
+          variant="link"
+          className="absolute bottom-4 left-4 z-20 flex items-center gap-2 sm:hidden"
+          onClick={() => setIsDialogOpen(true)}>
+          <Pencil className="h-4 w-4" />
+          Add your own
+        </Button>
+      )}
+
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="w-[calc(100vw-1rem)] p-2 sm:w-full sm:p-6">
           <Drawing width={512} height={384} onClose={handleDrawingSubmitted} />
         </DialogContent>
       </Dialog>

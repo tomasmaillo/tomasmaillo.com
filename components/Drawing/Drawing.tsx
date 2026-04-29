@@ -287,7 +287,7 @@ export default function Drawing({
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 w-full max-w-2xl mx-auto p-4">
+    <div className="flex flex-col items-center gap-3 w-full max-w-2xl mx-auto p-2 sm:gap-4 sm:p-4">
       <div className="flex flex-col items-center gap-4 w-full">
         <div className="grid grid-cols-8 gap-2 w-full">
           {COLORS.map((colorOption) => (
