@@ -12,6 +12,7 @@ import Fall from '@/components/Fall'
 import { VercelSpeedInsights } from '@/lib/speed-insights'
 import { VercelAnalytics } from '@/lib/analytics'
 import Gallery from '@/components/Drawing/Gallery'
+import { PostHogProvider } from './providers'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -70,25 +71,27 @@ export default function RootLayout({
           editorialNew.variable,
         )}>
         <Fall />
-        <ThemeProvider defaultTheme="system" enableSystem>
-          <div className="fixed bottom-0 left-0 w-full h-[32rem] bg-accent mt-24"></div>
-          <div className="fixed bottom-0 left-0 w-full h-96 mt-24">
-            <Gallery />
-          </div>
-          <div className="relative bg-background rounded-b-3xl shadow-xl">
-            <div className="max-w-[768px] mx-auto px-4 py-4 text-foreground mb-96 relative">
-              <TopBar />
-              <div className="min-h-screen md:p-24 pt-32">
-                {children}
-                <Goodbye />
-              </div>
-              <VercelSpeedInsights />
-              <VercelAnalytics />
-              <Toaster />
-              <StartupConsoleLog />
+        <PostHogProvider>
+          <ThemeProvider defaultTheme="system" enableSystem>
+            <div className="fixed bottom-0 left-0 w-full h-[32rem] bg-accent mt-24"></div>
+            <div className="fixed bottom-0 left-0 w-full h-96 mt-24">
+              <Gallery />
             </div>
-          </div>
-        </ThemeProvider>
+            <div className="relative bg-background rounded-b-3xl shadow-xl">
+              <div className="max-w-[768px] mx-auto px-4 py-4 text-foreground mb-96 relative">
+                <TopBar />
+                <div className="min-h-screen md:p-24 pt-32">
+                  {children}
+                  <Goodbye />
+                </div>
+                <VercelSpeedInsights />
+                <VercelAnalytics />
+                <Toaster />
+                <StartupConsoleLog />
+              </div>
+            </div>
+          </ThemeProvider>
+        </PostHogProvider>
       </body>
     </html>
   )

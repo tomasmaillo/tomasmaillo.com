@@ -12,6 +12,7 @@ import { useInView } from 'react-intersection-observer'
 import DrawYourOwnCard from './DrawYourOwnCard'
 import Drawing from './Drawing'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { usePostHog } from '@posthog/react'
 
 interface Drawing {
   id: string
@@ -58,6 +59,7 @@ function SkeletonCard({ showMessage = true }: { showMessage?: boolean }) {
 }
 
 export default function GalleryGrid() {
+  const posthog = usePostHog()
   const [drawings, setDrawings] = useState<Drawing[]>([])
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
@@ -114,12 +116,17 @@ export default function GalleryGrid() {
     setRefreshNonce((n) => n + 1)
   }
 
+  const handleCreateDrawingClick = () => {
+    posthog.capture('gallery_grid_create_drawing_clicked')
+    setIsDialogOpen(true)
+  }
+
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="relative w-full aspect-[4/3] bg-background rounded-sm overflow-hidden">
           <DrawYourOwnCard
-            onClick={() => setIsDialogOpen(true)}
+            onClick={handleCreateDrawingClick}
             className="p-0"
           />
         </div>

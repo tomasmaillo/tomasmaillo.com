@@ -9,6 +9,7 @@ import Drawing from './Drawing'
 import Link from 'next/link'
 import DrawYourOwnCard from './DrawYourOwnCard'
 import { ArrowRight, Pencil } from 'lucide-react'
+import { usePostHog } from '@posthog/react'
 
 interface Drawing {
   id: string
@@ -147,15 +148,36 @@ const getRandomPosition = (containerWidth: number, containerHeight: number) => {
   }
 }
 
+type DrawingPopupTriggerVariant =
+  | 'wide_screen_card'
+  | 'bottom_left_mobile_button'
+
+type DrawingDragEvent = {
+  drawingId: string
+  inputType: 'mouse' | 'touch'
+  startX: number
+  startY: number
+  endX: number
+  endY: number
+  deltaX: number
+  deltaY: number
+  distance: number
+}
+
 // Custom hook for drag functionality
-const useDraggable = () => {
+const useDraggable = (onDragEnd?: (event: DrawingDragEvent) => void) => {
   const handleDragStart = useCallback(
-    (e: React.MouseEvent | React.TouchEvent, target: HTMLDivElement) => {
+    (
+      e: React.MouseEvent | React.TouchEvent,
+      target: HTMLDivElement,
+      drawingId: string,
+    ) => {
       const container = target.parentElement
       if (!container) return
 
       const containerRect = container.getBoundingClientRect()
       const isTouch = 'touches' in e
+      const inputType = isTouch ? 'touch' : 'mouse'
       const startX = isTouch
         ? (e as React.TouchEvent).touches[0].clientX
         : (e as React.MouseEvent).clientX
@@ -164,6 +186,8 @@ const useDraggable = () => {
         : (e as React.MouseEvent).clientY
       const startLeft = target.offsetLeft
       const startTop = target.offsetTop
+      let lastLeft = startLeft
+      let lastTop = startTop
 
       // Get current rotation from transform
       const currentTransform = window.getComputedStyle(target).transform
@@ -200,6 +224,8 @@ const useDraggable = () => {
         newLeft = Math.max(0, Math.min(newLeft, maxX))
         newTop = Math.max(0, Math.min(newTop, maxY))
 
+        lastLeft = newLeft
+        lastTop = newTop
         target.style.left = `${newLeft}px`
         target.style.top = `${newTop}px`
       }
@@ -218,6 +244,24 @@ const useDraggable = () => {
           isTouch ? 'touchend' : 'mouseup',
           handleEnd,
         )
+
+        const deltaX = lastLeft - startLeft
+        const deltaY = lastTop - startTop
+        const distance = Math.hypot(deltaX, deltaY)
+
+        if (distance >= 5) {
+          onDragEnd?.({
+            drawingId,
+            inputType,
+            startX: Math.round(startLeft),
+            startY: Math.round(startTop),
+            endX: Math.round(lastLeft),
+            endY: Math.round(lastTop),
+            deltaX: Math.round(deltaX),
+            deltaY: Math.round(deltaY),
+            distance: Math.round(distance),
+          })
+        }
       }
 
       document.addEventListener(
@@ -227,7 +271,7 @@ const useDraggable = () => {
       )
       document.addEventListener(isTouch ? 'touchend' : 'mouseup', handleEnd)
     },
-    [],
+    [onDragEnd],
   )
 
   return handleDragStart
@@ -292,6 +336,7 @@ const calculateInitialPositions = (
 }
 
 export default function Gallery() {
+  const posthog = usePostHog()
   const [drawings, setDrawings] = useState<Drawing[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -300,7 +345,23 @@ export default function Gallery() {
     width: 0,
     height: 0,
   })
-  const handleDragStart = useDraggable()
+  const handleDrawingDragged = useCallback(
+    (event: DrawingDragEvent) => {
+      posthog.capture('gallery_drawing_dragged', {
+        drawing_id: event.drawingId,
+        input_type: event.inputType,
+        start_x: event.startX,
+        start_y: event.startY,
+        end_x: event.endX,
+        end_y: event.endY,
+        delta_x: event.deltaX,
+        delta_y: event.deltaY,
+        distance: event.distance,
+      })
+    },
+    [posthog],
+  )
+  const handleDragStart = useDraggable(handleDrawingDragged)
   const existingDrawingIds = useRef<Set<string>>(new Set())
   const [newDrawing, setNewDrawing] = useState<Drawing | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -503,6 +564,17 @@ export default function Gallery() {
     }, 2000)
   }
 
+  const handleOpenDrawingPopup = (
+    triggerVariant: DrawingPopupTriggerVariant,
+  ) => {
+    posthog.capture('gallery_create_drawing_clicked', {
+      trigger_variant: triggerVariant,
+      drawings_count: drawings.length,
+      has_new_drawing: Boolean(newDrawing),
+    })
+    setIsDialogOpen(true)
+  }
+
   const drawingMaxSize = getDrawingMaxSize(containerSize.width)
 
   if (loading) {
@@ -527,7 +599,7 @@ export default function Gallery() {
     <div className="relative flex flex-col items-center h-full">
       <div className="flex gap-4 items-center justify-center h-full">
         <DrawYourOwnCard
-          onClick={() => setIsDialogOpen(true)}
+          onClick={() => handleOpenDrawingPopup('wide_screen_card')}
           className="absolute top-1/2 -translate-y-1/2 z-10 hidden h-[150px] w-[200px] sm:block"
         />
       </div>
@@ -562,8 +634,12 @@ export default function Gallery() {
                 opacity: drawing.position ? 1 : 0,
                 transition: 'opacity 0.3s ease-in-out',
               }}
-              onMouseDown={(e) => handleDragStart(e, e.currentTarget)}
-              onTouchStart={(e) => handleDragStart(e, e.currentTarget)}>
+              onMouseDown={(e) =>
+                handleDragStart(e, e.currentTarget, drawing.id)
+              }
+              onTouchStart={(e) =>
+                handleDragStart(e, e.currentTarget, drawing.id)
+              }>
               <div className="relative w-full h-full">
                 <Image
                   key={`${drawing.id}-${drawingMaxSize}`}
@@ -625,10 +701,18 @@ export default function Gallery() {
                 scale: 0.5,
               }}
               onMouseDown={(e: React.MouseEvent) =>
-                handleDragStart(e, e.currentTarget as HTMLDivElement)
+                handleDragStart(
+                  e,
+                  e.currentTarget as HTMLDivElement,
+                  newDrawing.id,
+                )
               }
               onTouchStart={(e: React.TouchEvent) =>
-                handleDragStart(e, e.currentTarget as HTMLDivElement)
+                handleDragStart(
+                  e,
+                  e.currentTarget as HTMLDivElement,
+                  newDrawing.id,
+                )
               }>
               <div className="relative w-full h-full">
                 <Image
@@ -674,7 +758,9 @@ export default function Gallery() {
           <Button
             variant="link"
             className="absolute bottom-4 left-4 z-20 flex items-center gap-2 sm:hidden"
-            onClick={() => setIsDialogOpen(true)}>
+            onClick={() =>
+              handleOpenDrawingPopup('bottom_left_mobile_button')
+            }>
             <Pencil className="h-4 w-4" />
             Add your own
           </Button>
@@ -692,7 +778,9 @@ export default function Gallery() {
         <Button
           variant="link"
           className="absolute bottom-4 left-4 z-20 flex items-center gap-2 sm:hidden"
-          onClick={() => setIsDialogOpen(true)}>
+          onClick={() =>
+            handleOpenDrawingPopup('bottom_left_mobile_button')
+          }>
           <Pencil className="h-4 w-4" />
           Add your own
         </Button>
