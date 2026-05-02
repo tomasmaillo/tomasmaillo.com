@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { cn } from '@/lib/utils'
+import { getExternalLinkProps, isExternalHref } from '../ExternalLink'
 
 const Avatar = ({
   url,
@@ -19,6 +20,8 @@ const Avatar = ({
   return (
     <Link
       href={link || '#'}
+      target={isExternalHref(link) ? '_blank' : undefined}
+      {...getExternalLinkProps(link)}
       className={cn(
         'bg-card rounded-full py-0.5 pl-1 pr-1.5 inline-block',
         className

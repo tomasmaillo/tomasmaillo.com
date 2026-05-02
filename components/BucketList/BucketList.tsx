@@ -119,7 +119,8 @@ export default function BucketList() {
                     <a
                       href={item.suggested_by}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener"
+                      referrerPolicy="strict-origin-when-cross-origin"
                       className="h-6 w-6 rounded-full overflow-hidden border border-border bg-card shrink-0 hover:opacity-80 transition-opacity">
                       {item.suggested_by_avatar ? (
                         <div className="relative h-full w-full">

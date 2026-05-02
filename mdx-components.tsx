@@ -1,4 +1,5 @@
 import type { MDXComponents } from 'mdx/types'
+import ExternalLink from './components/ExternalLink'
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -15,7 +16,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     ol: (props) => <ol className="list-decimal my-8" {...props} />,
     ul: (props) => <ul className="list-disc mb-6" {...props} />,
-    a: (props) => <a {...props} />,
+    a: (props) => <ExternalLink {...props} />,
     p: (props) => <p className="text-sm mt-4 mb-6" {...props} />,
     strong: (props) => <strong className="font-bold" {...props} />,
     code: (props) => {

@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import React, { useState } from 'react'
+import ExternalLink from '../ExternalLink'
 
 const Divider = () => (
   <svg
@@ -47,13 +48,13 @@ const ExperienceItem = ({
       />
       {company}
       {url && (
-        <a
+        <ExternalLink
           href={url}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
           className="text-accent text-sm hover:underline">
           ↗
-        </a>
+        </ExternalLink>
       )}
     </p>
     <p className="text-muted text-xs">

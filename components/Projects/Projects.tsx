@@ -8,6 +8,7 @@ import {
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
+import ExternalLink, { getExternalLinkProps } from '../ExternalLink'
 
 export const CarouselImage = ({
   src,
@@ -77,13 +78,13 @@ const ProjectTitle = ({
       <h2 className="m-0">
         {children}
         {externalLink && (
-          <a
+          <ExternalLink
             href={externalLink}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
             className="text-accent text-sm hover:underline ml-2">
             ↗
-          </a>
+          </ExternalLink>
         )}
       </h2>
       {link && (
@@ -182,7 +183,10 @@ export const Projects = () => {
         <Link
           className="text-accent px-4 py-2 text-center mt-6 hover:underline"
           target="_blank"
-          href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d">
+          href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d"
+          {...getExternalLinkProps(
+            'https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d'
+          )}>
           Everything I&apos;ve ever Built ↗
         </Link>
       </div>
