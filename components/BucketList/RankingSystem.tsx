@@ -145,7 +145,7 @@ export default function RankingSystem() {
   return (
     <div>
       <h2 className="mb-4">
-        Which should Tomas prioritize?
+        Which should Tomas prioritise?
         <span className="text-xs opacity-50 ml-2 select-none">
           Total votes: {totalVotes}
         </span>

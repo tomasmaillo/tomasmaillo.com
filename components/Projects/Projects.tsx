@@ -116,7 +116,7 @@ export const Projects = () => {
       <ProjectTitle link="/vibe-check">Vibe-Check</ProjectTitle>
       <ProjectDescription>
         Platform to increase lecture engagement through real-time audience
-        interaction and data visualization. Worked alongside UoEdinburgh
+        interaction and data visualisation. Worked alongside UoEdinburgh
         lecturers to trial the system in lectures.
       </ProjectDescription>
       <Carousel>
