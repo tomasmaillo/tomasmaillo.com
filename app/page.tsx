@@ -6,6 +6,7 @@ import { Projects } from '@/components/Projects/Projects'
 import FanIcon from '@/public/pixel-arts/fan.svg'
 import ToolsIcon from '@/public/pixel-arts/tools.svg'
 import PageIcon from '@/public/pixel-arts/page.svg'
+import ClockIcon from '@/public/pixel-arts/clock.svg'
 import VibeCheckIcon from '@/public/pixel-arts/vibe-check.svg'
 import BucketIcon from '@/public/pixel-arts/bucket.svg'
 import CurlIcon from '@/public/pixel-arts/curl.svg'
@@ -60,6 +61,14 @@ export default function Home() {
           link="/what-i-use"
           sideText="2 min read"
           supportText="A list of tools I use and recommend"
+        />
+
+        <LinkTo
+          Icon={ClockIcon}
+          displayText="Now"
+          link="/now"
+          sideText="1 min read"
+          supportText="What I'm focused on at the moment"
         />
 
         <LinkTo

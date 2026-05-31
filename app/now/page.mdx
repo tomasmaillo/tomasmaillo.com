@@ -1,0 +1,68 @@
+import LinkTo from '@/components/LinkTo'
+import Spacing from '@/components/Spacing'
+import NowReminderToast from './NowReminderToast'
+import NowUpdate from './NowUpdate'
+
+export const revalidate = 3600
+
+export const metadata = {
+  title: '/now - Tomas Maillo',
+  description: 'What Tomas Maillo is focused on right now.',
+}
+
+<NowReminderToast />
+<LinkTo displayText="Back" link="/" />
+<Spacing lines={2} />
+
+<div className="text-sm text-muted-foreground p-4 mx-[-0.5rem]">
+  <p>This is a [/now](https://nownownow.com/about) page: a small, current snapshot of what has my attention. Less polished than a blog post, more alive than an about page.</p>
+</div>
+
+<NowUpdate date="2026-05-04" location="Battersea's Watchhouse">
+
+### Stripe Sessions
+
+Stripe Sessions just wrapped up, and it was very exciting to see some of my work on <a href="https://x.com/stripe/status/2049621560743608481">Stripe Treasury</a> make it onto the stage.
+
+I say exciting, but honestly, while watching the demos, a big part of me was just praying that nothing would break.
+
+That week reminded me how much I like being at Stripe. Even in the final (stressful) days leading up to Sessions, UX and craft was at a very high level. I love this. Craft and beauty!
+
+
+## Still working on my LED screen
+
+It started as a fun object for myself, but I am now wondering whether I could actually sell a few of them through this website. Maybe just made to order. Maybe just a small batch. Not sure yet.
+
+The exciting part is it would be my first physical product that people might actually want.
+
+The hard part is... basically everything else.
+
+- It is over 70cm long, thin, and fragile. How do I ship that without it arriving snapped in half?
+- If something breaks, what happens? Replace it? Do they ship it back to me?
+- Fires? Shorts? Heat dissipation?
+- Could I support over-the-air updates?
+
+At the moment I am designing a 3D printed case for the back of the screen and adding some I/O. I want the cables hidden, the mounting to feel solid, and the whole thing to look less like a prototype and more like a product.
+
+If you might want one or you have experience that could be helpful, please get in touch!
+
+<div className="grid grid-cols-2 gap-4 w-full">
+  <video src="/now/screen-fish.mov" autoPlay loop muted playsInline className="w-full h-full object-contain rounded-sm" />
+  <video src="/now/screen-terrain.mov" autoPlay loop muted playsInline className="w-full h-full object-contain rounded-sm" />
+</div>
+
+## Reading and watching
+
+I am reading the third book in the *Red Rising* series. I did not expect to get this into it, but here we are. At some point I will probably finish all 7.
+
+It is more about honour, families, loyalty, revenge, and friendship than I expected. If someone ever makes a TV show out of it, I think it could be huge.
+
+I have also started watching *The Testaments*, the sequel to *The Handmaid's Tale*. It is good, but I still prefer the original.
+
+## Small trips I am thinking about
+
+I am planning to go to Stockholm for a weekend.
+
+I am also thinking about going to Florida to see a rocket launch, although that is not planned yet. Seeing a rocket launch is one of those things <a href="/bucket-list">I have wanted to do for years</a>. It makes me hopeful about the future.
+
+</NowUpdate>
