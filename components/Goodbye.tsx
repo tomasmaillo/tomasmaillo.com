@@ -12,7 +12,7 @@ const Goodbye = () => {
     <>Obsessively,</>,
     <>and I&apos;m out,</>,
     <>Stay offline,</>,
-    <>See you tomorrrow,</>,
+    <>See you tomorrow,</>,
     <>Big hug,</>,
     <>See you in the future,</>,
     <>Stay fun,</>,

@@ -386,8 +386,7 @@ export default function Gallery() {
     updateContainerSize()
 
     // Use MutationObserver to watch for style changes
-    const observer = new MutationObserver((mutations) => {
-      // console.log('Mutation detected:', mutations)
+    const observer = new MutationObserver(() => {
       updateContainerSize()
     })
 
@@ -645,7 +644,7 @@ export default function Gallery() {
                   key={`${drawing.id}-${drawingMaxSize}`}
                   unoptimized
                   src={drawing.image_url}
-                  alt="User drawing"
+                  alt={`Drawing by ${drawing.author_name || 'an anonymous visitor'}`}
                   fill
                   className="object-contain rounded-sm"
                   draggable={false}
@@ -718,7 +717,9 @@ export default function Gallery() {
                 <Image
                   key={`${newDrawing.id}-${drawingMaxSize}`}
                   src={newDrawing.image_url}
-                  alt="New drawing"
+                  alt={`New drawing by ${
+                    newDrawing.author_name || 'an anonymous visitor'
+                  }`}
                   fill
                   className="object-contain rounded-sm"
                   draggable={false}

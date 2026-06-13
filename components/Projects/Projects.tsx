@@ -100,16 +100,6 @@ const ProjectDescription = ({ children }: { children: React.ReactNode }) => {
   return <p className="text-muted text-sm mb-2">{children}</p>
 }
 
-const ProjectTech = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex flex-wrap gap-x-3 mt-2 justify-center items-center">
-    {children}
-  </div>
-)
-
-const ProjectTechItem = ({ children }: { children: React.ReactNode }) => {
-  return <span className="text-muted text-xs mb-2">{children}</span>
-}
-
 export const Projects = () => {
   return (
     <div>
@@ -122,10 +112,17 @@ export const Projects = () => {
       <Carousel>
         <CarouselContent>
           <CarouselItem>
-            <CarouselImage src="/vc-phone.png" alt="Project 1" priority />
+            <CarouselImage
+              src="/vc-phone.png"
+              alt="Vibe-Check audience interface displayed in a phone frame"
+              priority
+            />
           </CarouselItem>
           <CarouselItem>
-            <CarouselImage src="/vc-browser.png" alt="Project 2" />
+            <CarouselImage
+              src="/vc-browser.png"
+              alt="Vibe-Check presenter dashboard with live audience reactions"
+            />
           </CarouselItem>
         </CarouselContent>
         <CarouselPrevious />
@@ -143,10 +140,16 @@ export const Projects = () => {
       <Carousel>
         <CarouselContent>
           <CarouselItem>
-            <CarouselImage src="/ps-browser.png" alt="Project 1" />
+            <CarouselImage
+              src="/ps-browser.png"
+              alt="Project Share website homepage showing upcoming student meetups"
+            />
           </CarouselItem>
           <CarouselItem>
-            <CarouselImage src="/ps-browser-2.png" alt="Project 2" />
+            <CarouselImage
+              src="/ps-browser-2.png"
+              alt="Project Share website page highlighting student projects"
+            />
           </CarouselItem>
         </CarouselContent>
         <CarouselPrevious />
@@ -163,7 +166,11 @@ export const Projects = () => {
       <Carousel>
         <CarouselContent>
           <CarouselItem>
-            <CarouselImage addPadding src="/zf-phone.png" alt="Project 1" />
+            <CarouselImage
+              addPadding
+              src="/zf-phone.png"
+              alt="Zephyr Fan mobile app controls displayed in a phone frame"
+            />
           </CarouselItem>
           <CarouselItem>
             <CarouselVideo src="/zf-video.mp4" />

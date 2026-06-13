@@ -1,8 +1,4 @@
-'use client'
-
 import Image from 'next/image'
-import { getBookData } from '../utils/bookUtils'
-import { useEffect, useState } from 'react'
 
 interface BookProps {
   query: string // ISBN
@@ -17,23 +13,14 @@ export default function Book({
   author,
   customDescription,
 }: BookProps) {
-  const [bookData, setBookData] = useState<{
-    imageUrl?: string
-  }>({})
-
-  useEffect(() => {
-    async function fetchBookData() {
-      const data = await getBookData(query)
-      setBookData(data)
-    }
-    fetchBookData()
-  }, [query])
+  const isbn = query.replace(/[^0-9X]/gi, '')
+  const imageUrl = `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
 
   return (
     <div className="flex flex-col md:flex-row gap-6">
       <div className="relative w-24 h-32 flex-shrink-0 rounded-sm">
         <Image
-          src={bookData.imageUrl || ''}
+          src={imageUrl}
           alt={`Book cover of ${title}`}
           fill
           className="object-contain rounded-sm"

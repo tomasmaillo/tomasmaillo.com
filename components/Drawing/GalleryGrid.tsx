@@ -142,7 +142,7 @@ export default function GalleryGrid() {
               <Image
                 unoptimized
                 src={drawing.image_url}
-                alt="User drawing"
+                alt={`Drawing by ${drawing.author_name || 'an anonymous visitor'}`}
                 fill
                 draggable={false}
                 className="object-contain pointer-events-none"
