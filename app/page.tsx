@@ -24,9 +24,9 @@ export default function Home() {
 
         <FadeIn delay={200}>
           <p className="text-muted text-sm">
-            Software engineer at Stripe. Recently graduated from the University
-            of Edinburgh with a degree in Computer Science and Artificial
-            Intelligence. Previously at Spotify and Baillie Gifford.
+            Software engineer at Stripe, making thoughtful and useful products.
+            A collection of projects, writing and lessons picked up along the
+            way.
           </p>
         </FadeIn>
 
