@@ -1,5 +1,4 @@
 import React from 'react'
-import EmailLink from './EmailLink'
 import ExternalLink from './ExternalLink'
 import Link from 'next/link'
 
@@ -24,7 +23,6 @@ const Links = () => {
         href="https://www.linkedin.com/in/tomas-maillo/">
         LinkedIn ↗
       </ExternalLink>
-      <EmailLink />
     </div>
   )
 }
