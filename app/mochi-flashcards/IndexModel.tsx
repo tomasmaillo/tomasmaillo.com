@@ -2,15 +2,24 @@
 
 import { Center, OrbitControls, useGLTF } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { Suspense } from 'react'
+import { Suspense, useMemo } from 'react'
 
 function Model() {
   const { scene } = useGLTF('/index-01.gltf')
+  const model = useMemo(() => {
+    const clone = scene.clone()
+
+    clone.traverse((object) => {
+      object.frustumCulled = false
+    })
+
+    return clone
+  }, [scene])
 
   return (
     <group scale={0.075}>
       <Center>
-        <primitive object={scene} />
+        <primitive object={model} />
       </Center>
     </group>
   )
