@@ -43,7 +43,7 @@ export default function LazyIndexModel() {
     <figure className="my-8">
       <div
         ref={ref}
-        className="h-[24rem] overflow-hidden bg-[radial-gradient(circle_at_50%_45%,hsl(var(--accent)/0.14),transparent_99%)] md:rounded-2xl shadow-[inset_0_9px_38px_0_hsl(var(--card)),inset_0_-12px_46px_0_white] bg-card"
+        className="h-[24rem] overflow-hidden bg-[radial-gradient(ellipse_at_center,hsl(var(--card))_0%,hsl(var(--card))_48%,white_100%)]"
         aria-label="Interactive 3D model of the Index 01 ring">
         {hasEnteredView ? (
           <IndexModel
