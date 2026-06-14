@@ -1,22 +1,18 @@
 'use client'
 
-import { OrbitControls, useGLTF } from '@react-three/drei'
+import { Center, OrbitControls, useGLTF } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 
 function Model() {
-  const { scene } = useGLTF('/index-01.glb')
+  const { scene } = useGLTF('/index-01.gltf')
 
   return (
-    <>
-      <mesh>
-        <sphereGeometry args={[0.25]} />
-        <meshStandardMaterial color="green" />
-      </mesh>
-      <group scale={0.075}>
-        <primitive object={scene} position={[-22.0085, -13.4703, -102.2624]} />
-      </group>
-    </>
+    <group scale={0.075}>
+      <Center>
+        <primitive object={scene} />
+      </Center>
+    </group>
   )
 }
 
@@ -50,4 +46,4 @@ export default function IndexModel({
   )
 }
 
-useGLTF.preload('/index-01.glb')
+useGLTF.preload('/index-01.gltf')
