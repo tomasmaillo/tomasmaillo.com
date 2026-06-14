@@ -43,7 +43,7 @@ export default function LazyIndexModel() {
     <figure className="my-8">
       <div
         ref={ref}
-        className="h-[24rem] overflow-hidden bg-[radial-gradient(ellipse_at_center,hsl(var(--card))_0%,hsl(var(--card))_48%,white_100%)]"
+        className="h-[24rem] overflow-hidden bg-card rounded-lg"
         aria-label="Interactive 3D model of the Index 01 ring">
         {hasEnteredView ? (
           <IndexModel
@@ -55,7 +55,10 @@ export default function LazyIndexModel() {
         )}
       </div>
       <figcaption className="mt-2 text-center text-xs text-muted-foreground">
-        Drag to explore.
+        Drag to explore. Device and model by{' '}
+        <a href="https://repebble.com/" target="_blank">
+          Pebble
+        </a>
       </figcaption>
     </figure>
   )
