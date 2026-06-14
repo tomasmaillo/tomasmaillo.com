@@ -147,7 +147,7 @@ export async function POST(req: Request) {
     const blob = Buffer.from(base64Data, 'base64')
     const filename = `drawing-${Date.now()}.png`
 
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from('drawings')
       .upload(filename, blob, {
         contentType: 'image/png',

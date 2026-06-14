@@ -1,5 +1,4 @@
 import LinkTo from '@/components/LinkTo'
-import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import Image from 'next/image'
 import Link from 'next/link'
 import Spacing from '@/components/Spacing'
@@ -29,7 +28,7 @@ Built with React Native, TypeScript, Expo, ThreeJS and WebSockets.
 <div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
   <div className="relative w-full h-96 flex justify-center items-center">
     <video src="/my-video.mp4" width={159} height={100} autoPlay muted loop playsInline className="rounded-lg" />
-    <Image src="/phone.png" alt="Zephyr Fan App" width={190} height={100} className="absolute rounded" draggable={false}/>
+    <Image src="/phone.png" alt="" width={190} height={100} className="absolute rounded" draggable={false}/>
   </div>
   <p className="text-xs opacity-50 text-center m-0 mt-2">Zephyr Fan App in action</p>
 </div>
@@ -61,7 +60,7 @@ Because the system would be demoed live, we also needed:
 Looking back, focusing on the demo experience from day one was one of our best decisions. It gave us a clear north star: build something that feels convincing in a live setting. It meant judges could interact with the system instantly from their own devices, rather than watching a passive demo.
 
 <div className="relative w-full bg-card rounded-lg my-6 p-4">
-  <Image src="/zf-diagram.svg" alt="Technical architecture diagram of the system" width={1990} height={2000} className="object-contain w-full bg-card rounded-lg" draggable={false}/>
+  <Image src="/zf-diagram.svg" alt="Zephyr Fan architecture connecting the mobile app, web interface, WebSocket server, Raspberry Pi and fan hardware" width={1990} height={2000} className="object-contain w-full bg-card rounded-lg" draggable={false}/>
   <p className="text-xs opacity-50 text-center m-0 mt-2">Overview of the system architecture</p>
 </div>
 
@@ -79,7 +78,7 @@ Next, I'll cover some of the more interesting parts of the design and developmen
 As a challenge, and to aim for a more premium feel, I decided to include a fully interactive 3D model of the fan in the app. This follows a pattern seen in higher-end IoT apps, where the device is represented visually.
 
 <div className="relative w-full bg-card rounded-lg my-6 p-4">
-  <Image src="/zf-design.png" alt="Screenshots of IoT apps and Zephyr Fan App for comparison" width={1990} height={2000} className="object-contain w-full h-64 bg-card rounded-lg" draggable={false}/>
+  <Image src="/zf-design.png" alt="Design comparison between premium IoT control apps and the Zephyr Fan interface" width={1990} height={2000} className="object-contain w-full h-64 bg-card rounded-lg" draggable={false}/>
   <p className="text-xs opacity-50 text-center m-0 mt-2">Design inspiration</p>
 </div> 
 
@@ -88,7 +87,7 @@ Committing to a real 3D model, rather than a static render, meant the UI could r
 <div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
   <div className="relative w-full h-96 flex justify-center items-center">
     <video src="/z-stripped.mp4" width={159} height={100} autoPlay muted loop playsInline className="rounded-lg" />
-    <Image src="/phone.png" alt="Zephyr Fan App" width={190} height={100} className="absolute rounded" draggable={false}/>
+    <Image src="/phone.png" alt="" width={190} height={100} className="absolute rounded" draggable={false}/>
   </div>
   <p className="text-xs opacity-50 text-center m-0 mt-2">Stripped-down 3D model showing blade speed clearly</p>
 </div>

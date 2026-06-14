@@ -49,7 +49,12 @@ export default function AvatarSelector({
     <div className="flex items-center">
       <div className="relative h-8 w-8 rounded-full overflow-hidden border border-border bg-card">
         {avatarUrl ? (
-          <Image src={avatarUrl} alt="Avatar" fill className="object-cover" />
+          <Image
+            src={avatarUrl}
+            alt={`${username}'s ${selectedPlatformData?.name || 'social'} avatar`}
+            fill
+            className="object-cover"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
             <UserIcon className="w-4 h-4" />

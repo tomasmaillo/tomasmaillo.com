@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React from 'react'
 import ExternalLink from '../ExternalLink'
 
 const Divider = () => (
@@ -66,8 +66,6 @@ const ExperienceItem = ({
 )
 
 const Experience = () => {
-  const [showMore, setShowMore] = useState(false)
-
   const experiences = [
     {
       company: 'Stripe',

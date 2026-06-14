@@ -126,7 +126,7 @@ export default function BucketList() {
                         <div className="relative h-full w-full">
                           <Image
                             src={item.suggested_by_avatar}
-                            alt="Added by"
+                            alt="Avatar of the person who suggested this item"
                             fill
                             sizes="24px"
                             className="object-cover"

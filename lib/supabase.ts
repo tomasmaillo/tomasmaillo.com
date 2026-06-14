@@ -15,7 +15,7 @@ export async function uploadDrawing(imageData: string) {
     const filename = `drawing-${Date.now()}.png`
 
     // Upload to Supabase Storage
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from('drawings')
       .upload(filename, blob, {
         contentType: 'image/png',

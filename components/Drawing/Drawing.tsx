@@ -27,25 +27,6 @@ const COLORS: ColorOption[] = [
   { name: 'Purple', value: '#8E24AA' }, // mid-tone purple
 ]
 
-const RANDOM_TITLES = [
-  'pencil',
-  'artist',
-  'creator',
-  'dreamer',
-  'explorer',
-  'wanderer',
-  'thinker',
-  'observer',
-  'storyteller',
-  'imagineer',
-  'adventurer',
-  'visionary',
-  'painter',
-  'sketcher',
-  'illustrator',
-  'designer',
-]
-
 export default function Drawing({
   width = 128,
   height = 64,

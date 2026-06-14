@@ -6,14 +6,12 @@ const LinkTo = ({
   link,
   supportText,
   sideText,
-  image,
   Icon,
 }: {
   displayText: string
   link: string
   supportText?: string
   sideText?: string
-  image?: string
   Icon?: FC<SVGProps<SVGSVGElement>>
 }) => {
   return (

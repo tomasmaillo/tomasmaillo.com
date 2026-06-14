@@ -29,7 +29,7 @@ const Avatar = ({
       {url ? (
         <Image
           src={url || '/placeholder-avatar.png'}
-          alt="Avatar"
+          alt={name ? `${name}'s avatar` : ''}
           width={100}
           height={100}
           draggable={false}
