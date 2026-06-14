@@ -1,6 +1,6 @@
 import LinkTo from '@/components/LinkTo'
 import Definitions from '@/components/Definitions'
-import Avatar from '@/components/ui/avatar'
+import Avatar, { Person } from '@/components/ui/avatar'
 import Image from 'next/image'
 import SyncedVideos from '@/components/SyncedVideos'
 import Spacing from '@/components/Spacing'
@@ -20,7 +20,7 @@ export const metadata = {
 
 *Towards Safer Strength Training with Deep Learning for Rep Failure Prediction*
 
-**TL;DR**: Alongside <Avatar url="https://unavatar.io/github/Cat2005" name="Caterina Mammola" link="https://caterina.codes/" />, we explored whether strength training could be made safer. We show that a deep learning model can predict, with reasonable accuracy, when a <Definitions text="rep" helperText="(a single repetition of an exercise like a squat or push-up)" /> in a bicep curl <Definitions text="set" helperText="(a group of consecutive repetitions performed without rest)" /> is likely to reach <Definitions text="failure" helperText=", the point at which a muscle can no longer sustain the load and another rep is no longer possible" />. This approach could be extended to exercises where muscular failure is riskier, helping reduce injury during unsupervised workouts.
+**TL;DR**: Alongside <Avatar person={Person.CaterinaMammola} />, we explored whether strength training could be made safer. We show that a deep learning model can predict, with reasonable accuracy, when a <Definitions text="rep" helperText="(a single repetition of an exercise like a squat or push-up)" /> in a bicep curl <Definitions text="set" helperText="(a group of consecutive repetitions performed without rest)" /> is likely to reach <Definitions text="failure" helperText=", the point at which a muscle can no longer sustain the load and another rep is no longer possible" />. This approach could be extended to exercises where muscular failure is riskier, helping reduce injury during unsupervised workouts.
 
 In exercises like the bench press, reaching failure without a spotter can be dangerous. A system that can recognise the final safe rep could make solo strength training safer, and in lower-risk settings it could also push people to train harder by showing that they still have reps in reserve.
 
