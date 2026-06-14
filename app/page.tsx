@@ -13,6 +13,7 @@ import CurlIcon from '@/public/pixel-arts/curl.svg'
 import BooksIcon from '@/public/pixel-arts/books.svg'
 import MarkedIcon from '@/public/pixel-arts/marked.svg'
 import MugIcon from '@/public/pixel-arts/mug.svg'
+import FlashcardsIcon from '@/public/pixel-arts/flashcards.svg'
 
 export default function Home() {
   return (
@@ -47,6 +48,14 @@ export default function Home() {
 
       <div className="grid grid-cols-1 mt-8 gap-x-8 gap-y-4">
         <h1 className="text-2xl font-editorialNew">Posts</h1>
+        <LinkTo
+          Icon={FlashcardsIcon}
+          displayText="Making flashcards before I forget"
+          link="/mochi-flashcards"
+          sideText="4 min read"
+          supportText="Connecting an iPhone Shortcut, OpenAI and Mochi"
+        />
+
         <LinkTo
           Icon={FanIcon}
           displayText="AI Fan App"
