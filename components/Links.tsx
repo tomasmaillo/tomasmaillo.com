@@ -10,17 +10,20 @@ const Links = () => {
       </Link>
       <ExternalLink
         className="whitespace-nowrap hover:underline"
-        href="https://x.com/tomascodes">
+        href="https://x.com/tomascodes"
+        rel="me">
         Twitter ↗
       </ExternalLink>
       <ExternalLink
         className="whitespace-nowrap hover:underline"
-        href="https://github.com/tomasmaillo">
+        href="https://github.com/tomasmaillo"
+        rel="me">
         GitHub ↗
       </ExternalLink>
       <ExternalLink
         className="whitespace-nowrap hover:underline"
-        href="https://www.linkedin.com/in/tomas-maillo/">
+        href="https://www.linkedin.com/in/tomas-maillo/"
+        rel="me">
         LinkedIn ↗
       </ExternalLink>
     </div>
