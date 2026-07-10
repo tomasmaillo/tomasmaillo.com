@@ -6,17 +6,16 @@ export type AnnotationLayout = {
   annIndex: number
   kind: AnnotationKind
   isPoint: boolean
-  /** Inclusive row span; `r0` is the row where the label sits (same as legacy `top` row). */
+  /** Inclusive row span; `r0` is the row where this annotation is introduced. */
   r0: number
   r1: number
+  /** Dedicated connector track. Overlapping date ranges never share a track. */
   barCol: number
-  col: number
 }
 
 export const CELL = 10
 export const GAP = 2
 export const ROW_STEP = CELL
-export const ANNOTATION_COL_WIDTH = 120
 
 export function contributionLevel(count: number, max: number): number {
   if (count <= 0) return 0

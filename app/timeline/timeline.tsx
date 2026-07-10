@@ -2,10 +2,7 @@ import { retrieveContributionData } from './fetchGithubContributions'
 import { ALL_ANNOTATIONS, isPointAnnotation } from './timeline-annotations'
 import { TimelineRows } from './timeline-rows'
 import {
-  CELL,
-  GAP,
   rechunkWeeks,
-  ROW_STEP,
   weekStartDate,
   type AnnotationLayout,
 } from './timeline-utils'
@@ -51,102 +48,50 @@ export default async function Timeline() {
       return weeks.length - 1
     }
 
-    type AnnWork = AnnotationLayout & { top: number; height: number }
+    const rawPositions: AnnotationLayout[] = ALL_ANNOTATIONS.map(
+      (ann, annIndex) => {
+        const kind = ann.kind ?? 'personal'
 
-    const rawPositions: AnnWork[] = ALL_ANNOTATIONS.map((ann, annIndex) => {
-      const kind = ann.kind ?? 'personal'
-      if (isPointAnnotation(ann)) {
-        const row = findRow(new Date(ann.at + 'T00:00:00'))
+        if (isPointAnnotation(ann)) {
+          const row = findRow(new Date(ann.at + 'T00:00:00'))
+          return {
+            annIndex,
+            kind,
+            isPoint: true,
+            r0: row,
+            r1: row,
+            barCol: 0,
+          }
+        }
+
         return {
           annIndex,
           kind,
-          isPoint: true,
-          r0: row,
-          r1: row,
+          isPoint: false,
+          r0: findRow(new Date(ann.to + 'T00:00:00')),
+          r1: findRow(new Date(ann.from + 'T00:00:00')),
           barCol: 0,
-          col: 0,
-          top: row * ROW_STEP,
-          height: CELL,
         }
-      }
-
-      const r0 = findRow(new Date(ann.to + 'T00:00:00'))
-      const r1 = findRow(new Date(ann.from + 'T00:00:00'))
-      const top = r0 * ROW_STEP
-      const height = Math.max((r1 - r0 + 1) * ROW_STEP - GAP, CELL)
-
-      return {
-        annIndex,
-        kind,
-        isPoint: false,
-        r0,
-        r1,
-        barCol: 0,
-        col: 0,
-        top,
-        height,
-      }
-    })
-
-    const barColumns: AnnWork[][] = []
-    for (const ann of rawPositions) {
-      let placed = false
-      for (let c = 0; c < barColumns.length; c++) {
-        const overlaps = barColumns[c].some(
-          (a) =>
-            !(a.top + a.height <= ann.top || ann.top + ann.height <= a.top),
-        )
-        if (!overlaps) {
-          ann.barCol = c
-          barColumns[c].push(ann)
-          placed = true
-          break
-        }
-      }
-      if (!placed) {
-        ann.barCol = barColumns.length
-        barColumns.push([ann])
-      }
-    }
-
-    const LABEL_HEIGHT_EST = ROW_STEP
-    const labelColumns: AnnWork[][] = []
-    for (const ann of rawPositions) {
-      let placed = false
-      for (let c = 0; c < labelColumns.length; c++) {
-        const overlaps = labelColumns[c].some(
-          (a) =>
-            !(
-              a.top + LABEL_HEIGHT_EST <= ann.top ||
-              ann.top + LABEL_HEIGHT_EST <= a.top
-            ),
-        )
-        if (!overlaps) {
-          ann.col = c
-          labelColumns[c].push(ann)
-          placed = true
-          break
-        }
-      }
-      if (!placed) {
-        ann.col = labelColumns.length
-        labelColumns.push([ann])
-      }
-    }
-
-    const numBarCols = barColumns.length
-
-    const layouts: AnnotationLayout[] = rawPositions.map(
-      ({ annIndex, kind, isPoint, r0, r1, barCol, col }) => ({
-        annIndex,
-        kind,
-        isPoint,
-        r0,
-        r1,
-        barCol,
-        col,
-      }),
+      },
     )
+
+    // Interval partitioning gives each overlapping annotation a dedicated
+    // connector track, with the smallest possible number of tracks.
+    const barColumns: AnnotationLayout[][] = []
+    const positionsByStart = [...rawPositions].sort(
+      (a, b) => a.r0 - b.r0 || a.r1 - b.r1 || a.annIndex - b.annIndex,
+    )
+
+    for (const ann of positionsByStart) {
+      const column = barColumns.findIndex((existing) =>
+        existing.every((other) => other.r1 < ann.r0 || ann.r1 < other.r0),
+      )
+      const barCol = column === -1 ? barColumns.length : column
+
+      ann.barCol = barCol
+      if (column === -1) barColumns.push([ann])
+      else barColumns[barCol].push(ann)
+    }
 
     return (
       <div className="max-w-full">
@@ -154,8 +99,8 @@ export default async function Timeline() {
           weeks={weeks}
           maxCount={maxCount}
           markers={markers}
-          layouts={layouts}
-          numBarCols={numBarCols}
+          layouts={rawPositions}
+          numBarCols={barColumns.length}
         />
       </div>
     )
