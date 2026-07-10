@@ -101,21 +101,18 @@ export default function RankingSystem() {
 
     setIsUpdating(true)
     try {
-      const { error: eloError } = await supabase.rpc('update_elo_scores', {
-        winner_id: winner.id,
-        loser_id: loser.id,
+      const response = await fetch('/api/vote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          winnerId: winner.id,
+          loserId: loser.id,
+        }),
       })
 
-      if (eloError) throw eloError
-
-      const { error: voteError } = await supabase.from('votes').insert([
-        {
-          winner_id: winner.id,
-          loser_id: loser.id,
-        },
-      ])
-
-      if (voteError) throw voteError
+      if (!response.ok) throw new Error('Failed to record vote')
 
       await Promise.all([fetchItems(), fetchTotalVotes()])
       toast.success('Rankings updated!')

@@ -1,7 +1,7 @@
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { supabase } from '@/lib/supabase'
+import { getSupabaseServerClient } from '@/lib/supabase-server'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-05-28.basil',
@@ -24,6 +24,7 @@ export async function POST(request: Request) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
+    const supabase = getSupabaseServerClient()
 
     // Get the suggested by and avatar from metadata
     const suggestedBy = session.metadata?.suggestedBy || ''
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
       console.error('Error adding item to bucket list:', error)
       return NextResponse.json(
         { error: 'Failed to add item to bucket list' },
-        { status: 500 }
+        { status: 500 },
       )
     }
   }

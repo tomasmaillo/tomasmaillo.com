@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
-import { supabase } from '@/lib/supabase'
+import { getSupabaseServerClient } from '@/lib/supabase-server'
 import { sendPushoverNotification } from '@/lib/pushover'
+
+const MAX_DRAWING_BYTES = 1024 * 1024
+const MAX_AUTHOR_NAME_LENGTH = 32
+const MAX_MESSAGE_LENGTH = 200
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -118,9 +122,19 @@ export async function POST(req: Request) {
     const { imageData, authorName, message, turnstileToken } = await req.json()
     const submittedAuthorName =
       typeof authorName === 'string' && authorName.trim()
-        ? authorName.trim()
+        ? authorName.trim().slice(0, MAX_AUTHOR_NAME_LENGTH)
         : 'anonymous'
-    const submittedMessage = typeof message === 'string' ? message.trim() : ''
+    const submittedMessage =
+      typeof message === 'string'
+        ? message.trim().slice(0, MAX_MESSAGE_LENGTH)
+        : ''
+
+    if (typeof imageData !== 'string' || !imageData) {
+      return NextResponse.json(
+        { error: 'A PNG drawing is required' },
+        { status: 400 },
+      )
+    }
 
     // Verify Turnstile token
     if (!turnstileToken) {
@@ -138,46 +152,20 @@ export async function POST(req: Request) {
       )
     }
 
-    // 1. Upload the drawing to Supabase Storage
-    const imageDataUrl =
-      typeof imageData === 'string' && imageData.startsWith('data:image/')
-        ? imageData
-        : `data:image/png;base64,${imageData}`
-    const base64Data = imageDataUrl.replace(/^data:image\/\w+;base64,/, '')
+    const base64Data = imageData.startsWith('data:image/png;base64,')
+      ? imageData.slice('data:image/png;base64,'.length)
+      : imageData
     const blob = Buffer.from(base64Data, 'base64')
-    const filename = `drawing-${Date.now()}.png`
+    if (!blob.length || blob.length > MAX_DRAWING_BYTES) {
+      return NextResponse.json(
+        { error: 'Drawing must be a PNG smaller than 1 MB' },
+        { status: 400 },
+      )
+    }
 
-    const { error: uploadError } = await supabase.storage
-      .from('drawings')
-      .upload(filename, blob, {
-        contentType: 'image/png',
-        upsert: false,
-      })
+    const imageDataUrl = `data:image/png;base64,${base64Data}`
 
-    if (uploadError) throw uploadError
-
-    // 2. Get the public URL
-    const {
-      data: { publicUrl },
-    } = supabase.storage.from('drawings').getPublicUrl(filename)
-
-    // 3. Save initial record to database
-    const { data: drawingData, error: dbError } = await supabase
-      .from('drawings')
-      .insert([
-        {
-          image_url: publicUrl,
-          is_flagged: false,
-          reviewed: false,
-          author_name: submittedAuthorName,
-          message: submittedMessage,
-        },
-      ])
-      .select()
-
-    if (dbError) throw dbError
-
-    // 4. Moderate the drawing, author name, and message
+    // Moderate before uploading so rejected submissions never become public.
     const response = await openai.responses.create({
       model: process.env.MODERATE_DRAWING_OPENAI_MODEL || 'gpt-5.4-mini',
       reasoning: { effort: 'low' },
@@ -221,6 +209,56 @@ export async function POST(req: Request) {
     const assessment = formatAssessment(moderationAssessment)
     const isApproved = moderationAssessment.decision === 'approved'
 
+    if (!isApproved) {
+      await sendPushoverNotification({
+        title: 'Drawing Rejected',
+        message: `Author: ${submittedAuthorName}\nMessage: ${
+          submittedMessage || 'none'
+        }\n\nAssessment: ${assessment}`,
+      })
+
+      return NextResponse.json({
+        success: true,
+        assessment,
+        moderationAssessment,
+        isApproved: false,
+      })
+    }
+
+    const supabase = getSupabaseServerClient()
+    const filename = `drawing-${crypto.randomUUID()}.png`
+    const { error: uploadError } = await supabase.storage
+      .from('drawings')
+      .upload(filename, blob, {
+        contentType: 'image/png',
+        upsert: false,
+      })
+
+    if (uploadError) throw uploadError
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from('drawings').getPublicUrl(filename)
+
+    const { data: drawingData, error: dbError } = await supabase
+      .from('drawings')
+      .insert([
+        {
+          image_url: publicUrl,
+          is_flagged: false,
+          reviewed: true,
+          author_name: submittedAuthorName,
+          message: submittedMessage,
+        },
+      ])
+      .select()
+      .single()
+
+    if (dbError) {
+      await supabase.storage.from('drawings').remove([filename])
+      throw dbError
+    }
+
     // Pretty console logging without chalk
     console.log('\n==========================================')
     console.log('📝 Assessment:')
@@ -232,20 +270,8 @@ export async function POST(req: Request) {
     console.log('💬 Message: ' + (submittedMessage || 'none'))
     console.log('==========================================\n')
 
-    // 5. Update the drawing record with moderation results
-    const { error: updateError } = await supabase
-      .from('drawings')
-      .update({
-        is_flagged: !isApproved,
-        reviewed: true,
-      })
-      .eq('id', drawingData[0].id)
-
-    if (updateError) throw updateError
-
-    // 6. Send Pushover notification with the moderation result
     await sendPushoverNotification({
-      title: `Drawing ${isApproved ? 'Approved' : 'Rejected'}`,
+      title: 'Drawing Approved',
       message: `Author: ${submittedAuthorName}\nMessage: ${
         submittedMessage || 'none'
       }\n\nAssessment: ${assessment}`,
@@ -254,14 +280,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      drawing: {
-        ...drawingData[0],
-        is_flagged: !isApproved,
-        reviewed: true,
-      },
+      drawing: drawingData,
       assessment,
       moderationAssessment,
-      isApproved,
+      isApproved: true,
     })
   } catch (error) {
     console.error('Error:', error)
