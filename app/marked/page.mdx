@@ -1,10 +1,11 @@
 import LinkTo from '@/components/LinkTo'
+import ExternalLink from '@/components/ExternalLink'
 import Avatar, { Person } from '@/components/ui/avatar'
 import Spacing from '@/components/Spacing'
 
 export const metadata = {
   title: 'Enhancing Peer Feedback in MarkEd',
-  description: 'A paper on enhancing peer feedback using LLMs as guidance for student peer reviews',
+  description: 'A paper about using LLM guidance and human moderation to improve student peer feedback',
 }
 
 <LinkTo displayText="Back" link="/" />
@@ -12,11 +13,11 @@ export const metadata = {
 
 # Paper: Enhancing Peer Feedback in MarkEd
 
-*Inspired by a semester spent marking second-year students&apos; essays, I proposed a dissertation project aimed at improving assessment practices in education.*
+*After a semester spent marking second-year students&apos; essays, I proposed a dissertation project aimed at improving assessment practices in education.*
 
-Under the guidance of my amazing supervisors <Avatar person={Person.CristinaAlexandru} /> and <Avatar person={Person.AuroraConstantin} />, we developed a tool addressing common issues in peer assessment. By combining structured moderation from human markers with AI-generated guidance, educators now have a toolkit for running more effective and reflective peer-review assignments.
+Under the guidance of my amazing supervisors <Avatar person={Person.CristinaAlexandru} /> and <Avatar person={Person.AuroraConstantin} />, we extended MarkEd to address common issues in peer assessment. It combines structured moderation from human markers with AI-generated guidance to help students write more effective and reflective peer feedback.
 
-The system was trialled during a large second-year course at the University of Edinburgh involving around 200 students. The results were really promising: notably, over 75% of students agreed that the AI-supported tools helped them reflect more deeply on the feedback they provided. The dissertation itself received a grade of *Outstanding (93%)*.
+The system was trialled in a large second-year course at the University of Edinburgh with 194 students. Of the students who received AI suggestions, 75% agreed or strongly agreed that they prompted reflection. The dissertation itself received a grade of *Outstanding (93%)*.
 
 <video
   src="/marked-in-action.mp4"
@@ -27,6 +28,17 @@ The system was trialled during a large second-year course at the University of E
   playsInline
 />
 
-We turned the dissertation into a paper that was recently accepted for presentation at the UK and Ireland Computing Education Research (UKICER) 2025 conference, with publication forthcoming in the conference proceedings.
+That work became a paper, presented at the UK and Ireland Computing Education Research (UKICER) 2025 conference and published in the ACM conference proceedings.
 
-I&apos;ll link the paper as soon as it&apos;s out: watch this space!
+<ExternalLink
+  href="https://doi.org/10.1145/3754508.3754511"
+  target="_blank"
+  aria-label="Read Enhancing MarkEd with Peer Feedback Functionality with LLM Support (opens in a new tab)"
+  className="not-prose group my-12 flex w-full items-center justify-between rounded-lg bg-card px-5 py-4 text-primary no-underline"
+>
+  <span className="flex flex-col gap-1">
+    <span className="text-xs text-muted">UKICER 2025 · ACM</span>
+    <span className="font-medium group-hover:underline">Read the paper</span>
+  </span>
+  <span aria-hidden="true" className="text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+</ExternalLink>
