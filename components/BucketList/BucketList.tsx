@@ -87,8 +87,8 @@ export default function BucketList() {
       <div className="flex items-center gap-4 mb-2 ml-6 text-sm font-medium text-muted-foreground">
         <span
           className="cursor-help"
-          title="ELO score represents the relative priority of items. Higher numbers indicate higher priority.">
-          ELO
+          title="Elo score represents the relative priority of items. Higher numbers indicate higher priority.">
+          Elo
         </span>
         <span>Item Description</span>
       </div>

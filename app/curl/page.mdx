@@ -20,11 +20,11 @@ export const metadata = {
 
 *Towards Safer Strength Training with Deep Learning for Rep Failure Prediction*
 
-**TL;DR**: Alongside <Avatar person={Person.CaterinaMammola} />, we explored whether strength training could be made safer. We show that a deep learning model can predict, with reasonable accuracy, when a <Definitions text="rep" helperText="(a single repetition of an exercise like a squat or push-up)" /> in a bicep curl <Definitions text="set" helperText="(a group of consecutive repetitions performed without rest)" /> is likely to reach <Definitions text="failure" helperText=", the point at which a muscle can no longer sustain the load and another rep is no longer possible" />. This approach could be extended to exercises where muscular failure is riskier, helping reduce injury during unsupervised workouts.
+**TL;DR**: Alongside <Avatar person={Person.CaterinaMammola} />, we explored whether strength training could be made safer. We show that a deep learning model can predict, with reasonable accuracy, when a <Definitions text="rep" helperText="(a single repetition of an exercise like a squat or push-up)" /> in a biceps curl <Definitions text="set" helperText="(a group of consecutive repetitions performed without rest)" /> is likely to reach <Definitions text="failure" helperText=", the point at which a muscle can no longer sustain the load and another rep is no longer possible" />. This approach could be extended to exercises where muscular failure is riskier, helping reduce injury during unsupervised workouts.
 
 In exercises like the bench press, reaching failure without a spotter can be dangerous. A system that can recognise the final safe rep could make solo strength training safer, and in lower-risk settings it could also push people to train harder by showing that they still have reps in reserve.
 
-We created a novel dataset of over 3,200 bicep curl reps performed to failure and trained a Hierarchical LSTM that outperforms a linear baseline by nearly 30% at identifying the final safe rep. The model analyses joint motion patterns such as range of motion and velocity across reps, inspired by Remaining Useful Life (RUL) prediction from engineering.
+We created a novel dataset of over 3,200 biceps curl reps performed to failure and trained a Hierarchical LSTM that outperforms a linear baseline by nearly 30% at identifying the final safe rep. The model analyses joint motion patterns such as range of motion and velocity across reps, inspired by Remaining Useful Life (RUL) prediction from engineering.
 
 <a href="/curl/towards-safer-strength-training.pdf" className="w-full bg-card rounded-lg group grid sm:grid-cols-2 grid-cols-1 h-20 relative my-20 cursor-pointer text-primary" target="_blank"> 
   <div className="relative col-span-1 h-32 overflow-hidden -translate-y-12">
@@ -77,13 +77,13 @@ To get participants to perform the reps, we used *highly sophisticated* marketin
 
 <Spacing />
 
-One of the most difficult parts of the project was not the model itself, but building the dataset. Unlike many student ML projects, there was no suitable public dataset waiting for us. We needed videos of people performing consistent bicep curl sets all the way to failure, recorded cleanly enough for pose estimation to work reliably.
+One of the most difficult parts of the project was not the model itself, but building the dataset. Unlike many student ML projects, there was no suitable public dataset waiting for us. We needed videos of people performing consistent biceps curl sets all the way to failure, recorded cleanly enough for pose estimation to work reliably.
 
 We also needed ethics approval before collecting data from participants, which took longer than we expected and compressed the project timeline quite a bit. By the time everything was approved, the amount of time left to collect data, build the pipeline, train the model, and write the paper was suddenly much smaller than planned.
 
 To actually gather the data, we set up a small recording station in Appleton Tower with adjustable dumbbells, consent forms, phones for recording, and a simple process for moving people through quickly. What we expected to be a slow trickle of participants turned into queues, with some people returning multiple times throughout the day to improve their chances in the prize draw.
 
-We gathered 254 unique sets from 66 participants, totalling 3,272 reps. A sizeable dataset, though still small compared to typical benchmarks in the literature.
+We gathered 254 unique sets from 66 participants, totalling 3,272 reps. This was a sizeable dataset, though still small compared to typical benchmarks in the literature.
 
 <video 
   src="/curl/grid.mp4" 
@@ -99,6 +99,6 @@ The grid shows a small subset of reps from different sets, alongside the feature
 
 What followed was a large amount of iteration on deep learning approaches to improve performance. We also developed a linear baseline using the same features for comparison, which gave us a clearer sense of how much value the sequential model was actually adding.
 
-The final model showed encouraging signal, but the dataset size still imposed a clear ceiling on performance. If we were to continue this work, the next steps would be collecting more data, improving consistency in capture conditions, and expanding beyond bicep curls to exercises where rep failure has more serious safety implications.
+The final model showed encouraging signal, but the dataset size still imposed a clear ceiling on performance. If we were to continue this work, the next steps would be collecting more data, improving consistency in capture conditions, and expanding beyond biceps curls to exercises where rep failure has more serious safety implications.
 
 Even so, the project answered the question we started with: there is enough signal in human motion to make rep failure prediction plausible!

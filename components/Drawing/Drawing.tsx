@@ -252,7 +252,7 @@ export default function Drawing({
       }
 
       if (result.isApproved) {
-        toast.success('Your visitor log is now in the gallery!')
+        toast.success('Your drawing is now in the gallery!')
         if (onClose) onClose()
       } else {
         toast.error(

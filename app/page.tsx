@@ -92,7 +92,7 @@ export default function Home() {
           displayText="Bucket List"
           link="/bucket-list"
           sideText="1 min read"
-          supportText="A list of things I want to do before I -"
+          supportText="A list of things I want to do before I kick the bucket"
         />
 
         <LinkTo
@@ -100,7 +100,7 @@ export default function Home() {
           displayText="Paper: Towards Safer Curl"
           link="/curl"
           sideText="1 min read"
-          supportText="A tool I built to help lecturers"
+          supportText="Research into using deep learning to make strength training safer"
         />
 
         <LinkTo

@@ -23,7 +23,7 @@ export const metadata = {
 
 An autonomous smart fan that tracks people and can be controlled with hand gestures. The system uses computer vision to rotate towards users and interpret gestures for speed and mode control, with a real-time app interface to monitor and override behaviour.
 
-Built with React Native, TypeScript, Expo, ThreeJS and WebSockets.
+Built with React Native, TypeScript, Expo, Three.js and WebSockets.
 
 <div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
   <div className="relative w-full h-96 flex justify-center items-center">
@@ -34,7 +34,7 @@ Built with React Native, TypeScript, Expo, ThreeJS and WebSockets.
 </div>
 
 
-## Prerequisites
+## The brief
 
 We were prompted with: _"Create a robotic system that helps humans."_
 
@@ -110,7 +110,7 @@ On the hardware side, the fan supported horizontal rotation and vertical tilt. G
 
 Although I chose Expo and React Native for their cross-platform capabilities, not everything worked seamlessly across iOS, Android, and Web.
 
-Some ThreeJS features, particularly around instanced meshes, were not fully supported on iOS. This caused issues when rendering components that relied on model instancing (like the blade cage and fan blades). The pragmatic workaround was to use the usual `if (Platform.OS === 'ios')` pattern, loading alternative models for iOS where needed. Not ideal, but it worked.
+Some Three.js features, particularly around instanced meshes, were not fully supported on iOS. This caused issues when rendering components that relied on model instancing (like the blade cage and fan blades). The pragmatic workaround was to use the usual `if (Platform.OS === 'ios')` pattern, loading alternative models for iOS where needed. Not ideal, but it worked.
 
 ## Demo
 

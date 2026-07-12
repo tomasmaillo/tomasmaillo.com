@@ -133,7 +133,7 @@ export default function AddBucketListItem() {
 
   const handleSubmit = async () => {
     if (!itemTitle.trim() || !estimatedValue) {
-      toast.error('Please enter an item and wait for value estimation')
+      toast.error('Please enter an item and wait for the cost estimate')
       return
     }
 
@@ -282,7 +282,7 @@ export default function AddBucketListItem() {
                   of completion.
                 </li>
                 <li>
-                  We reserve the right to remove or modify any content from the
+                  I reserve the right to remove or modify any content from the
                   bucket list at any time.
                 </li>
                 <li>All purchases are final and non-refundable.</li>

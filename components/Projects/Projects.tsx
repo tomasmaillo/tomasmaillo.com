@@ -182,7 +182,7 @@ export const Projects = () => {
 
       <div className="flex flex-col items-center mt-12">
         <p className="text-muted text-xs text-center">
-          ...and many many more projects to be listed.
+          ...and many, many more projects still to be listed.
         </p>
         <p className="text-muted text-xs text-center">
           In the meantime, check my archive of
@@ -194,7 +194,7 @@ export const Projects = () => {
           {...getExternalLinkProps(
             'https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d'
           )}>
-          Everything I&apos;ve ever Built ↗
+          Everything I&apos;ve ever built ↗
         </Link>
       </div>
     </div>

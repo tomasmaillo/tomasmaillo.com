@@ -13,9 +13,9 @@ export const metadata = {
 
 # Vibe-Check
 
-Co-built with <Avatar person={Person.StanFlint} />, vibe-check is a Chrome Extension and website that helps make presentations more interactive. Users can *react* and *comment* on presentations in real time, while presenters can see live statistics on the overall *vibe* of the room.
+Co-built with <Avatar person={Person.StanFlint} />, vibe-check is a Chrome extension and website that helps make presentations more interactive. Users can *react* and *comment* on presentations in real time, while presenters can see live statistics on the overall *vibe* of the room.
 
-After a successful summer of development in 2023, we released the Chrome Extension, opened beta testing, and carried out user testing.
+After a successful summer of development in 2023, we released the Chrome extension, opened beta testing, and carried out user testing.
 
 <div className="w-full h-auto bg-card rounded-lg flex flex-col justify-center items-center p-2 my-6 ">
   <video 
@@ -33,7 +33,7 @@ After a successful summer of development in 2023, we released the Chrome Extensi
 
 ## Origins
 
-The night before [Hack The Burgh 2023](https://2023.hacktheburgh.com/) hackathon, some friends and I were in my living room complaining about the lack of interaction in our university lectures.
+The night before the [Hack the Burgh 2023](https://2023.hacktheburgh.com/) hackathon, some friends and I were in my living room complaining about the lack of interaction in our university lectures.
 
 In simple terms, the conversation went like this:
 > "I'm not sure if I'm the only one, but I find it hard to stay awake in lectures."
@@ -96,15 +96,15 @@ I'll focus on the most interesting part of the system:
 
 As a multiplayer game developer, Stan was quite fond of the monorepo structure. It enables consistent logic execution on both client and server. For example, in multiplayer games, player movement is calculated on the client (for responsiveness) and on the server (to validate correctness).
 
-When Stan suggested using this structure for our Chrome Extension, website, and backend, I was sceptical. Would it actually help, or just add unnecessary complexity?
+When Stan suggested using this structure for our Chrome extension, website, and backend, I was sceptical. Would it actually help, or just add unnecessary complexity?
 
-My concerns were quickly resolved. The monorepo proved to be a game-changer. Sharing types and helper functions across the three domains was useful, but what stood out most was the ability to share Svelte components between the website and the Chrome Extension. No duplication, no separate UI library.
+My concerns were quickly resolved. The monorepo proved to be a game-changer. Sharing types and helper functions across the three domains was useful, but what stood out most was the ability to share Svelte components between the website and the Chrome extension. No duplication, no separate UI library.
 
 The main challenge was the amount of configuration and build tooling required. We created a custom `webpack.config.js` to enable a unified development experience. With a single `npm run dev`, we could run and hot-reload the server, website, and extension simultaneously.
 
 Since then, I've used this structure in all my projects. I highly recommend it.
 
-## Chrome Extension
+## Chrome extension
 
 ### Why not a desktop app?
 
@@ -118,7 +118,7 @@ This was the first time I seriously thought about UX (user experience). I often 
 
 It started while pitching the system to a professor in late May 2023. Stan and I realised we needed influential lecturers to support us and become early users. The week before, I had reached out to as many relevant lecturers as possible. Within a few days, I had several meetings scheduled.
 
-The pitch was awkward. I clearly remember the professor tilting his head and saying, "I'm not sure I understand what this is." Despite being highly influential in Computer Science, the concept of a Chrome Extension wasn't familiar to him. An injected overlay on top of a website felt unintuitive. Watching him use the system made the confusion obvious.
+The pitch was awkward. I clearly remember the professor tilting his head and saying, "I'm not sure I understand what this is." Despite being highly influential in Computer Science, the concept of a Chrome extension wasn't familiar to him. An injected overlay on top of a website felt unintuitive. Watching him use the system made the confusion obvious.
 
 I don't blame him. The system needed to be much simpler to understand if we wanted adoption, especially in academic settings.
 
@@ -133,7 +133,7 @@ I don't blame him. The system needed to be much simpler to understand if we want
     playsInline 
     className="rounded-lg" 
   />
-  <p className="text-xs opacity-50 text-center m-0 mt-2">Demo of the Chrome Extension overlay showing comments and reactions</p>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Demo of the Chrome extension overlay showing comments and reactions</p>
 </div>
 
 I experimented with dozens of variations of layouts, feedback systems, and animations.
@@ -151,7 +151,7 @@ Where should comments appear? What happens if users want to click something unde
     playsInline 
     className="rounded-lg" 
   />
-  <p className="text-xs opacity-50 text-center m-0 mt-2">Sync system on the Chrome Extension</p>
+  <p className="text-xs opacity-50 text-center m-0 mt-2">Sync system on the Chrome extension</p>
 </div>
 
 In hindsight, I'm extremely grateful to have tackled this challenge.

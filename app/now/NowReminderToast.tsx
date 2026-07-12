@@ -27,7 +27,7 @@ function ReminderToast({ id }: { id: string | number }) {
         return
       }
 
-      toast.success('Reminder notification sent to phone!')
+      toast.success('Reminder sent to my phone!')
     } catch (error) {
       console.error(error)
       toast.dismiss(id)
