@@ -4,12 +4,13 @@ import {
   Center,
   Environment,
   Lightformer,
-  OrbitControls,
+  PresentationControls,
   useGLTF,
 } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Suspense, useEffect, useMemo } from 'react'
 import {
+  BufferGeometry,
   DataTexture,
   Mesh,
   MeshPhysicalMaterial,
@@ -17,11 +18,13 @@ import {
   RepeatWrapping,
   UnsignedByteType,
 } from 'three'
+import { toCreasedNormals } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 
 function Model() {
   const { scene } = useGLTF('/index-01.gltf')
-  const { model, materials, texture } = useMemo(() => {
+  const { model, materials, texture, geometries } = useMemo(() => {
     const clone = scene.clone()
+    const smoothedGeometries: BufferGeometry[] = []
     const surfaceTexture = new DataTexture(
       Uint8Array.from({ length: 128 * 128 }, (_, index) => {
         const x = index % 128
@@ -50,43 +53,43 @@ function Model() {
       clearcoat: 0.22,
       clearcoatRoughness: 0.48,
     })
-    const detail = new MeshPhysicalMaterial({
-      color: '#d7603f',
-      metalness: 0.68,
-      roughness: 0.3,
-      bumpMap: surfaceTexture,
-      bumpScale: 0.012,
-      clearcoat: 0.3,
-      clearcoatRoughness: 0.38,
-    })
     let meshIndex = 0
 
     clone.traverse((object) => {
       object.frustumCulled = false
 
       if (object instanceof Mesh) {
-        object.material = meshIndex === 0 ? titanium : detail
+        if (meshIndex === 0) {
+          const geometry = toCreasedNormals(object.geometry, Math.PI / 3)
+          object.geometry = geometry
+          object.material = titanium
+          smoothedGeometries.push(geometry)
+        } else {
+          object.visible = false
+        }
         meshIndex += 1
       }
     })
 
     return {
       model: clone,
-      materials: [titanium, detail],
+      materials: [titanium],
       texture: surfaceTexture,
+      geometries: smoothedGeometries,
     }
   }, [scene])
 
   useEffect(
     () => () => {
       materials.forEach((material) => material.dispose())
+      geometries.forEach((geometry) => geometry.dispose())
       texture.dispose()
     },
-    [materials, texture],
+    [geometries, materials, texture],
   )
 
   return (
-    <group scale={0.075}>
+    <group scale={0.05} rotation-x={Math.PI / 2}>
       <Center>
         <primitive object={model} />
       </Center>
@@ -103,19 +106,19 @@ export default function IndexModel({
 }) {
   return (
     <Canvas
-      camera={{ position: [0, 0, 4], fov: 38 }}
+      camera={{ position: [0, 0, 3.2], fov: 38 }}
       dpr={[1, 1.5]}
       frameloop={isVisible && !prefersReducedMotion ? 'always' : 'demand'}
       gl={{ alpha: true, antialias: true }}
       performance={{ min: 0.5 }}>
       <ambientLight intensity={0.45} />
-      <hemisphereLight args={['#fff7ed', '#4b5563', 1.4]} />
+      <hemisphereLight args={['#f8fafc', '#4b5563', 1.4]} />
       <spotLight
         position={[4, 5, 6]}
         angle={0.45}
         penumbra={0.8}
         intensity={45}
-        color="#fff2df"
+        color="#ffffff"
       />
       <spotLight
         position={[-5, 1, 3]}
@@ -124,14 +127,19 @@ export default function IndexModel({
         intensity={32}
         color="#dbeafe"
       />
-      <pointLight position={[0, -4, -2]} intensity={18} color="#f36b47" />
       <Suspense fallback={null}>
-        <Model />
+        <PresentationControls
+          global
+          speed={0.9}
+          polar={[-Math.PI / 3, Math.PI / 3]}
+          azimuth={[-Infinity, Infinity]}>
+          <Model />
+        </PresentationControls>
         <Environment resolution={128}>
           <Lightformer
             form="ring"
             intensity={3}
-            color="#fff4e6"
+            color="#f8fafc"
             scale={5}
             position={[0, 4, 2]}
             rotation-x={Math.PI / 2}
@@ -144,21 +152,14 @@ export default function IndexModel({
             rotation-y={Math.PI / 2}
           />
           <Lightformer
-            intensity={2.5}
-            color="#f36b47"
+            intensity={1.5}
+            color="#e2e8f0"
             scale={[2, 3, 1]}
             position={[4, -1, -1]}
             rotation-y={-Math.PI / 2}
           />
         </Environment>
       </Suspense>
-      <OrbitControls
-        autoRotate={!prefersReducedMotion}
-        autoRotateSpeed={1.4}
-        enableDamping
-        enablePan={false}
-        enableZoom={false}
-      />
     </Canvas>
   )
 }
