@@ -1,0 +1,99 @@
+import LinkTo from '@/components/LinkTo'
+import Spacing from '@/components/Spacing'
+import FlashcardDeck from '@/components/FlashcardDeck'
+import 'katex/dist/katex.min.css'
+import Latex from 'react-latex-next'
+import Avatar, { Person } from '@/components/ui/avatar'
+import LazyIndexModel from './LazyIndexModel'
+
+export const metadata = {
+  title: 'Making flashcards before I forget - Tomas Maillo',
+  description:
+    'How I connected an iPhone Shortcut, OpenAI and Mochi to turn passing questions into flashcards.',
+}
+
+<LinkTo displayText="Back" link="/" />
+<Spacing lines={2} />
+
+# Making flashcards before I forget
+
+I keep coming across small things I want to remember: a word I have not seen before, or a fact that feels useful but will probably disappear from my head the moment I blink. I hate this.
+
+Back at uni, I had lots of success with flashcards. I went quite deep into _spaced repetition_: reviewing cards at increasing intervals, based on how well you remember them. I had a custom setup using Obsidian and a fork of [obsidian-spaced-repetition](https://github.com/st3v3nmw/obsidian-spaced-repetition) by <Avatar person={Person.StephenMwangi} />. I could create flashcards alongside my lecture notes, with inline <Latex children={"$\\LaTeX$"} /> support!
+
+Just for fun, here are a few examples of flashcards I made for uni exams:
+
+<FlashcardDeck />
+
+It worked! I credit much of my exam success to these flashcards. But when I tried to answer them again while writing this post, most of the answers escaped me. Spaced repetition only works if you keep coming back and trying to recall what you learnt. I did not do that for long enough.
+
+There was another problem: I made every card by hand, back in the _before_ times, before AI was much use. Flashcards can be a pain to study, but they are twice the pain to make. That friction sent me down a small rabbit hole involving AI, automation and Mochi. This post is where I ended up.
+
+
+<div className="border border-card md:rounded-lg px-4 bg-card -mx-4">
+<h2 className="text-lg font-medium pt-4">A fair argument against flashcards</h2>
+
+As much as I rave about flashcards, they are not the right tool for everything.
+
+My good friend <Avatar person={Person.CaterinaMammola} /> has always taken the opposite view. We have had a long-running debate about flashcards versus mind maps. In her [post on the subject](https://caterina.codes/posts/make-mindmaps), she writes:
+
+> I won't go into the science of mind maps too much because Justin Sung covers it much better but in a nutshell: 90% of learning is all about making connections to stuff. When you're learning a topic, you need to be able to distill it and understand how it connects to other topics, so that when you are asked a question about it, the correct relevant information can fire.
+> This is why flashcards are bad - if the exam question is not the same as your flashcard, it's unlikely the correct knowledge in your brain will fire.
+
+While I would never admit this to her, I do agree with her. Mind maps are better for building the shape of a subject: the relationships, parallels and dependencies between ideas. 
+
+But mind maps are not the answer to everything either. Some knowledge is simply factual, and forcing a connection does not make it more useful. The Moon's gravity is <Latex>{"$1.622\\ \\mathrm{m/s}^2$"}</Latex>, and the [first website ever created](https://info.cern.ch/) went online in 1991.
+
+</div>
+
+## How it works
+
+The visible part is an [iPhone Shortcut](https://support.apple.com/guide/shortcuts/welcome/ios). I give it a topic, such as `difference between encryption and hashing`, and it sends that text to a private API route on this website.
+
+<div className="my-8 w-full rounded-lg bg-card px-8 pt-8">
+  <video
+    src="/mochi-flashcards-shortcut.webm"
+    aria-label="Using the iPhone Shortcut to create a flashcard"
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+    className="mx-auto block w-full max-w-[18rem]"
+  />
+</div>
+
+The endpoint first checks a secret token from the Shortcut. It rejects requests without the correct token, limits the topic length, cleans up any tags and chooses either the requested Mochi deck or my default one.
+
+It then asks OpenAI for one or more cards. The prompt is deliberately strict: fronts should be clear, backs should be no longer than a sentence, duplicate cards should be avoided, and a simple topic should stay as a single card. The response must match a JSON schema containing only `front` and `back` fields.
+
+That structured response matters. Asking a model for "some flashcards" and hoping to parse whatever comes back would be fragile. The schema gives the rest of the script a predictable shape to validate before anything reaches my deck.
+
+Finally, the route turns each result into Mochi's card format, attaches my template fields and optional tags, then calls the [Mochi API](https://mochi.cards/docs/api/). Cards are created one at a time because Mochi allows only one active request per account.
+
+The endpoint returns the created card names and how long the whole process took. From my point of view, though, it is just:
+
+1. Think of something worth remembering.
+2. Run the Shortcut.
+3. Carry on with my day.
+
+## The part I like
+
+There is nothing especially groundbreaking here. It is a short API route joining three existing tools together.
+
+But it removes the exact bit of friction that kept stopping me. That is often my favourite kind of personal software: not a new platform or a grand system, just a tiny adjustment that makes the better habit easier than the lazy one.
+
+The risk is that generating cards becomes so easy that I stop deciding what is worth learning. I am trying to avoid that. A neat automation can create a card, but it cannot care about the answer for me.
+
+For now, the Shortcut has one job: catch a useful thought before I convince myself I will remember it.
+
+
+## The ultimate goal 
+
+The next step is to connect this to my Index 01, a smart ring that records audio at the press of a button. The idea is to capture a thought out loud, turn it into one or more flashcards and send them to Mochi without reaching for my phone. I have no idea how well it will work, but it is worth a try.
+
+<LazyIndexModel />
+
+## Looking to make your own? 
+
+My sister <Avatar person={Person.CrisMaillo} /> has built a similar, public version using Claude.

@@ -1,0 +1,138 @@
+import LinkTo from "@/components/LinkTo";
+import Spacing from "@/components/Spacing";
+import Avatar, { Person } from "@/components/ui/avatar";
+import { DrawingCount } from "@/components/DrawingCount";
+import { BenchmarkCarousel } from "@/components/ModerationBenchmark/BenchmarkCarousel";
+import { ComparisonMatrix } from "@/components/ModerationBenchmark/ComparisonMatrix";
+import { ModerationFlow } from "@/components/ModerationBenchmark/ModerationFlow";
+import { QualityCostPlot } from "@/components/ModerationBenchmark/QualityCostPlot";
+import { ImageTreatmentPlots } from "@/components/ModerationBenchmark/ImageTreatmentPlots";
+
+export const metadata = {
+  title: "Moderating 157 Drawings with AI - Tomas Maillo",
+  description:
+    "I ran 6,396 AI moderation calls to find the cheapest model I could trust with the drawings on my website.",
+};
+
+<LinkTo displayText="Back" link="/" />
+<Spacing lines={2} />
+
+# Moderating 157 drawings with AI
+
+_...or how I spent $4.19 to answer a $0.0005 question_
+
+Inspired by <Avatar person={Person.TobyBrown} />, I built a little drawing tool hidden at the bottom of this website. You can pick a colour, doodle something, leave your name and a message, then add it to the [visitor log book](/gallery). There are currently <DrawingCount /> drawings in it.
+
+<BenchmarkCarousel />
+
+There is, however, one fairly predictable problem with giving strangers a blank canvas on the internet: occasionally, someone draws what a stranger on the internet would draw.
+
+I use AI to moderate each submission before it appears publicly. The model looks at the drawing, author name and message, then returns a structured `approved` or `rejected` decision. The policy is deliberately strict because the gallery is public and could be viewed by children.
+
+<ModerationFlow />
+
+This is how the moderation flow has been working for the past year.
+
+Nevertheless, I never had a chance to test the moderation system with different models. Since I first created it I have just vaguely been updating the model I use with the latest and cheapest I could find.
+
+This worked, but I had chosen the model mostly because it seemed sensible. Every drawing made me wonder the same thing: **what is the cheapest model that is actually good enough?**
+
+"Cheapest" is easy to measure. "Good enough" is where things get interesting.
+
+## Making a tiny benchmark
+
+Over time, the gallery had collected 157 real submissions. That felt much more useful than inventing a neat synthetic test set, so I downloaded them into a local, ignored folder and reviewed the historical moderation decisions.
+
+I did not treat the old decisions as perfect ground truth. I re-labelled obvious mistakes, reviewed each image together with its name and message, and excluded one genuinely ambiguous drawing. This left **156 scored submissions: 142 safe and 14 unsafe**.
+
+Here, “unsafe” only means unsuitable for this particular gallery policy. The set included sexual or nude content, hate symbols, offensive gestures, a racial slur, a weapon and profanity. It is not a grand theory of morality; it is a binary answer to “should this appear on my website?”
+
+The imbalance matters. A model that approved everything would be 91% accurate while being a completely useless moderator. So I focused on two kinds of mistake:
+
+1. **Unsafe missed:** something inappropriate gets published. This is the serious failure.
+2. **Safe rejected:** somebody’s harmless drawing is blocked. This is the frustrating failure.
+
+I ranked models using **balanced accuracy**, which gives safe and unsafe drawings equal weight rather than letting the much larger safe group dominate the result.
+
+## The mildly excessive experiment
+
+I tested 10 model and reasoning-effort configurations, including mini, nano, Codex and newer model variants. Each received exactly the same prompt, drawing, name, message and JSON response format.
+
+The image changed in four controlled ways:
+
+- The original 512×384 PNG with high detail
+- The same original with the API’s low-detail mode
+- A resized 256×192 PNG with high detail
+- A tiny 128×96 PNG with high detail
+
+I also tried a heavily compressed JPEG at the original dimensions as a control. Every normal model configuration saw every labelled drawing once.
+
+> **156 labelled drawings** × **41 test configurations** = **6,396 API calls**
+
+The runner used eight workers, saved every response as it went and kept a running cost ledger with an $18 emergency stop. It completed with zero stored errors and cost **$4.1909**.
+
+That is a lot of structure for a gallery of scribbles. I regret nothing.
+
+## The winner was not the newest model
+
+<ComparisonMatrix />
+
+<QualityCostPlot />
+
+The best result came from **GPT-5 mini with low reasoning, the original 512×384 image and high detail**.
+
+> **GPT-5 mini, 512-high:** 14/14 unsafe drawings caught, 140/142 safe drawings approved, 99.3% balanced accuracy and $0.51 per 1,000 images.
+
+Its only two mistakes were conservative. It interpreted one abstract mark as a knife and one benign shape as sexual anatomy. Annoying, but importantly, it did not approve any of the 14 clearly unsafe submissions.
+
+GPT-4.1 mini was the strongest cheaper alternative. At 256-high it also caught all 14 unsafe drawings and cost about **$0.27 per 1,000**, but rejected four safe drawings instead of two. At the scale of this website, paying an extra 24 cents per thousand submissions for a nicer user experience seems like an easy choice.
+
+The ultra-cheap GPT-5 nano cost about **$0.11 per 1,000**, but missed one unsafe drawing and rejected ten safe ones. Cheap, yes. Good enough to be the only gate before publishing, no.
+
+The broader surprise was that model naming was a poor guide. GPT-5 mini beat GPT-5.4 mini, GPT-5.6 Luna, GPT-5.1 Codex and every nano setup in this particular benchmark. The coding model was good, but cost roughly 2.7 times as much and still rejected one more safe drawing. Apparently the doodles did not benefit from coding specialisation.
+
+## Smaller images barely saved money
+
+I expected image compression to be the obvious optimisation. Fewer pixels should mean fewer tokens, fewer tokens should mean less money, and the drawings are simple enough that a tiny copy should surely be fine.
+
+Only the middle part held up.
+
+<ImageTreatmentPlots />
+
+For GPT-5 mini, resizing from 512-high to 256-high reduced average input tokens by about 35%, but reduced the total cost by only about 8%. Output and reasoning tokens still made up most of the bill. The smaller image also caused six safe rejections instead of two.
+
+Going all the way down to 128 pixels did not even make the run cheaper than 256 pixels. Responses vary in length, and output tokens cost more than input tokens, so the image-token saving was swallowed by slightly longer answers.
+
+The low-detail API mode was stranger still. Because the original drawings were already only 512×384, GPT-5 mini used the same average input tokens in low and high detail. Low detail saved nothing and rejected three additional safe drawings.
+
+Finally, converting a full-size PNG into a crunchy quality-35 JPEG changed the network file size but not the visual-token count. The model pays attention to the processed image dimensions, not how cleverly the bytes were squeezed into the upload.
+
+The practical lesson: **compression is an accuracy decision, not just a billing decision.** Saving a fraction of a cent is not useful if more people are told their harmless doodle is inappropriate.
+
+## More thinking did not help either
+
+I also compared low and medium reasoning on two model families. Medium reasoning cost more and performed slightly worse in both.
+
+This is a visually grounded binary decision. Once the model had missed a visual signal, extra internal deliberation could not recover it. In some cases, more reasoning seemed to encourage more imaginative over-interpretation—which is not ideal when the input might simply be a wobbly rectangle.
+
+That does not mean low reasoning is universally better. It only means that, for this narrow task and the models I tested, extra thinking bought me nothing.
+
+## What I would actually ship
+
+The benchmark points to a simple setup: send the original drawing, name and message to GPT-5 mini with low reasoning and high image detail. Automatically publish approvals, but hold rejections for review instead of permanently deleting them.
+
+That last part matters. AI moderation should protect the public gallery without turning a model’s opinion into an irreversible fact. A small review queue catches conservative mistakes while keeping unsafe work out of public view. API failures should leave a submission pending and retryable—never silently approved.
+
+I would also store the model, prompt version, image treatment, response ID, decision, token usage, cost and any human override. “The AI rejected it” is not a very useful audit trail six months later.
+
+## A benchmark, not a victory lap
+
+There are only 14 clearly unsafe examples here. One extra miss changes unsafe recall by 7.1 percentage points. The dataset is mostly rough line drawings from one small gallery, half of the unsafe set is sexual content, and every model/image combination was run only once.
+
+So 14 out of 14 does not mean GPT-5 mini will catch everything forever. Model aliases change, outputs vary, and this set does not properly cover multilingual abuse, subtle symbols or adversarial drawings designed to evade moderation.
+
+Still, the benchmark answered the question I actually had. The cheapest model I would trust on its own was not the cheapest model available. It was the model that caught every unsafe example without making the gallery miserable to use—and it costs roughly **half a dollar per thousand drawings**.
+
+At current traffic, I should be financially prepared for this to cost me several pence over the lifetime of the website.
+
+Worth it.
