@@ -13,6 +13,7 @@ import CurlIcon from '@/public/pixel-arts/curl.svg'
 import BooksIcon from '@/public/pixel-arts/books.svg'
 import MarkedIcon from '@/public/pixel-arts/marked.svg'
 import MugIcon from '@/public/pixel-arts/mug.svg'
+import ModerationIcon from '@/public/pixel-arts/moderation.svg'
 
 export default function Home() {
   return (
@@ -47,6 +48,14 @@ export default function Home() {
 
       <div className="grid grid-cols-1 mt-8 gap-x-8 gap-y-4">
         <h2 className="text-2xl font-editorialNew">Posts</h2>
+        <LinkTo
+          Icon={ModerationIcon}
+          displayText="Moderating 157 drawings with AI"
+          link="/moderating-the-gallery"
+          sideText="8 min read"
+          supportText="6,396 calls to find the cheapest model I could trust"
+        />
+
         <LinkTo
           Icon={FanIcon}
           displayText="AI Fan App"
