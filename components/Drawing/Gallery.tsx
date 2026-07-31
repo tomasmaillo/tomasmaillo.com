@@ -577,13 +577,7 @@ export default function Gallery() {
   const drawingMaxSize = getDrawingMaxSize(containerSize.width)
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-32">
-        <div className="animate-pulse text-muted">
-          Looking for visitors&apos; drawings...
-        </div>
-      </div>
-    )
+    return null
   }
 
   if (error) {

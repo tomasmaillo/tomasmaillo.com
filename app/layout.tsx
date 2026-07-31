@@ -11,7 +11,7 @@ import Goodbye from '@/components/Goodbye'
 import Fall from '@/components/Fall'
 import { VercelSpeedInsights } from '@/lib/speed-insights'
 import { VercelAnalytics } from '@/lib/analytics'
-import Gallery from '@/components/Drawing/Gallery'
+import FooterGallery from '@/components/Drawing/FooterGallery'
 import { PostHogProvider } from './providers'
 
 const fontSans = FontSans({
@@ -73,12 +73,8 @@ export default function RootLayout({
         <Fall />
         <PostHogProvider>
           <ThemeProvider defaultTheme="system" enableSystem>
-            <div className="fixed bottom-0 left-0 w-full h-[32rem] bg-accent mt-24"></div>
-            <div className="fixed bottom-0 left-0 w-full h-96 mt-24">
-              <Gallery />
-            </div>
-            <div className="relative bg-background rounded-b-3xl shadow-xl">
-              <div className="max-w-[768px] mx-auto px-4 py-4 text-foreground mb-96 relative">
+            <div className="relative z-10 bg-background rounded-b-3xl shadow-xl">
+              <div className="max-w-[768px] mx-auto px-4 py-4 text-foreground relative">
                 <TopBar />
                 <div className="min-h-screen md:p-24 pt-32">
                   {children}
@@ -90,6 +86,7 @@ export default function RootLayout({
                 <StartupConsoleLog />
               </div>
             </div>
+            <FooterGallery />
           </ThemeProvider>
         </PostHogProvider>
       </body>
