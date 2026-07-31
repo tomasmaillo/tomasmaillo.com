@@ -2,6 +2,7 @@ interface PushoverNotificationOptions {
   title: string
   message: string
   imageUrl?: string
+  throwOnError?: boolean
 }
 
 /**
@@ -11,13 +12,16 @@ export async function sendPushoverNotification({
   title,
   message,
   imageUrl,
+  throwOnError = false,
 }: PushoverNotificationOptions): Promise<void> {
   const pushoverApiUrl = 'https://api.pushover.net/1/messages.json'
   const userKey = process.env.PUSHOVER_USER_KEY
   const appToken = process.env.PUSHOVER_APP_TOKEN
 
   if (!userKey || !appToken) {
-    console.error('Pushover credentials not configured')
+    const error = new Error('Pushover credentials not configured')
+    console.error(error.message)
+    if (throwOnError) throw error
     return
   }
 
@@ -61,17 +65,15 @@ export async function sendPushoverNotification({
     })
 
     if (!response.ok) {
-      const errorData = await response.json()
-      console.error('Pushover notification failed:', errorData)
+      const errorData = await response.text()
+      throw new Error(
+        `Pushover notification failed with HTTP ${response.status}: ${errorData.slice(0, 300)}`,
+      )
     } else {
       console.log('Pushover notification sent successfully')
     }
   } catch (error) {
     console.error('Error sending Pushover notification:', error)
-    console.log('With params:', {
-      title,
-      message,
-      imageUrl,
-    })
+    if (throwOnError) throw error
   }
 }

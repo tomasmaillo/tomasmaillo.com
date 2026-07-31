@@ -91,40 +91,164 @@ function formatAssessment(assessment: ModerationAssessment): string {
   ].join('\n')
 }
 
-// Function to verify Turnstile token
-async function verifyTurnstileToken(token: string): Promise<boolean> {
-  try {
-    const response = await fetch(
-      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
-          response: token,
-        }),
-      },
+function sanitiseAlertText(value: string, maxLength = 500): string {
+  return value
+    .replace(/\bsk-[A-Za-z0-9_-]+\b/g, '[REDACTED_OPENAI_KEY]')
+    .replace(
+      /\bsb_(?:secret|publishable)_[A-Za-z0-9_-]+\b/g,
+      '[REDACTED_SUPABASE_KEY]',
     )
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, maxLength)
+}
 
-    const data = await response.json()
-    console.log('Turnstile response:', data)
-    return data.success === true
+function describeError(error: unknown): string {
+  if (!error || typeof error !== 'object') {
+    return sanitiseAlertText(String(error))
+  }
+
+  const errorDetails = error as Record<string, unknown>
+  const details = [
+    errorDetails.name,
+    errorDetails.status && `HTTP ${errorDetails.status}`,
+    errorDetails.code && `code ${errorDetails.code}`,
+    errorDetails.type && `type ${errorDetails.type}`,
+    errorDetails.message,
+  ].filter((value): value is string => typeof value === 'string' && !!value)
+
+  return sanitiseAlertText(details.join(' — ') || 'Unknown error')
+}
+
+async function sendDrawingErrorAlert({
+  stage,
+  error,
+  authorName,
+  message,
+}: {
+  stage: string
+  error: unknown
+  authorName: string
+  message: string
+}) {
+  await sendPushoverNotification({
+    title: 'Drawing submission error',
+    message: [
+      `Stage: ${sanitiseAlertText(stage, 100)}`,
+      `Error: ${describeError(error)}`,
+      `Author: ${sanitiseAlertText(authorName, MAX_AUTHOR_NAME_LENGTH)}`,
+      `Message: ${sanitiseAlertText(message || 'none', MAX_MESSAGE_LENGTH)}`,
+      `Environment: ${process.env.VERCEL_ENV || process.env.NODE_ENV || 'unknown'}`,
+    ].join('\n'),
+  })
+}
+
+async function sendDrawingOutcomeNotification({
+  title,
+  notificationMessage,
+  imageUrl,
+  stage,
+  authorName,
+  submittedMessage,
+}: {
+  title: string
+  notificationMessage: string
+  imageUrl?: string
+  stage: string
+  authorName: string
+  submittedMessage: string
+}) {
+  try {
+    await sendPushoverNotification({
+      title,
+      message: notificationMessage,
+      imageUrl,
+      throwOnError: true,
+    })
   } catch (error) {
-    console.error('Error verifying Turnstile token:', error)
-    return false
+    console.error(`Drawing notification failed during ${stage}:`, error)
+    await sendDrawingErrorAlert({
+      stage,
+      error,
+      authorName,
+      message: submittedMessage,
+    })
   }
 }
 
+// Function to verify Turnstile token
+async function verifyTurnstileToken(token: string): Promise<boolean> {
+  const secret = process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY
+
+  if (!secret) {
+    throw new Error('Cloudflare Turnstile secret is not configured')
+  }
+
+  const response = await fetch(
+    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        secret,
+        response: token,
+      }),
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error(
+      `Turnstile verification request failed with HTTP ${response.status}`,
+    )
+  }
+
+  const data = (await response.json()) as {
+    success?: unknown
+    'error-codes'?: unknown
+  }
+  if (typeof data.success !== 'boolean') {
+    throw new Error('Turnstile returned an invalid verification response')
+  }
+
+  if (!data.success) {
+    const errorCodes = Array.isArray(data['error-codes'])
+      ? data['error-codes'].filter(
+          (value): value is string => typeof value === 'string',
+        )
+      : []
+    const expectedTokenErrors = new Set([
+      'missing-input-response',
+      'invalid-input-response',
+      'timeout-or-duplicate',
+    ])
+    const operationalErrors = errorCodes.filter(
+      (code) => !expectedTokenErrors.has(code),
+    )
+
+    if (operationalErrors.length > 0 || errorCodes.length === 0) {
+      throw new Error(
+        `Turnstile verification failed: ${operationalErrors.join(', ') || 'unknown error'}`,
+      )
+    }
+  }
+
+  return data.success
+}
+
 export async function POST(req: Request) {
+  let stage = 'reading submission'
+  let submittedAuthorName = 'anonymous'
+  let submittedMessage = ''
+
   try {
     const { imageData, authorName, message, turnstileToken } = await req.json()
-    const submittedAuthorName =
+    submittedAuthorName =
       typeof authorName === 'string' && authorName.trim()
         ? authorName.trim().slice(0, MAX_AUTHOR_NAME_LENGTH)
         : 'anonymous'
-    const submittedMessage =
+    submittedMessage =
       typeof message === 'string'
         ? message.trim().slice(0, MAX_MESSAGE_LENGTH)
         : ''
@@ -144,6 +268,7 @@ export async function POST(req: Request) {
       )
     }
 
+    stage = 'verifying security check'
     const isValidToken = await verifyTurnstileToken(turnstileToken)
     if (!isValidToken) {
       return NextResponse.json(
@@ -166,6 +291,7 @@ export async function POST(req: Request) {
     const imageDataUrl = `data:image/png;base64,${base64Data}`
 
     // Moderate before uploading so rejected submissions never become public.
+    stage = 'moderating drawing with OpenAI'
     const response = await openai.responses.create({
       model: process.env.MODERATE_DRAWING_OPENAI_MODEL || 'gpt-5.4-mini',
       reasoning: { effort: 'low' },
@@ -210,11 +336,15 @@ export async function POST(req: Request) {
     const isApproved = moderationAssessment.decision === 'approved'
 
     if (!isApproved) {
-      await sendPushoverNotification({
+      stage = 'sending rejection notification'
+      await sendDrawingOutcomeNotification({
         title: 'Drawing Rejected',
-        message: `Author: ${submittedAuthorName}\nMessage: ${
+        notificationMessage: `Author: ${submittedAuthorName}\nMessage: ${
           submittedMessage || 'none'
         }\n\nAssessment: ${assessment}`,
+        stage,
+        authorName: submittedAuthorName,
+        submittedMessage,
       })
 
       return NextResponse.json({
@@ -225,8 +355,10 @@ export async function POST(req: Request) {
       })
     }
 
+    stage = 'initialising Supabase'
     const supabase = getSupabaseServerClient()
     const filename = `drawing-${crypto.randomUUID()}.png`
+    stage = 'uploading drawing to Supabase Storage'
     const { error: uploadError } = await supabase.storage
       .from('drawings')
       .upload(filename, blob, {
@@ -240,6 +372,7 @@ export async function POST(req: Request) {
       data: { publicUrl },
     } = supabase.storage.from('drawings').getPublicUrl(filename)
 
+    stage = 'saving drawing record to Supabase'
     const { data: drawingData, error: dbError } = await supabase
       .from('drawings')
       .insert([
@@ -255,7 +388,16 @@ export async function POST(req: Request) {
       .single()
 
     if (dbError) {
-      await supabase.storage.from('drawings').remove([filename])
+      const { error: cleanupError } = await supabase.storage
+        .from('drawings')
+        .remove([filename])
+
+      if (cleanupError) {
+        throw new Error(
+          `Database insert failed: ${describeError(dbError)}. Uploaded file cleanup also failed: ${describeError(cleanupError)}`,
+        )
+      }
+
       throw dbError
     }
 
@@ -270,12 +412,16 @@ export async function POST(req: Request) {
     console.log('💬 Message: ' + (submittedMessage || 'none'))
     console.log('==========================================\n')
 
-    await sendPushoverNotification({
+    stage = 'sending approval notification'
+    await sendDrawingOutcomeNotification({
       title: 'Drawing Approved',
-      message: `Author: ${submittedAuthorName}\nMessage: ${
+      notificationMessage: `Author: ${submittedAuthorName}\nMessage: ${
         submittedMessage || 'none'
       }\n\nAssessment: ${assessment}`,
       imageUrl: publicUrl,
+      stage,
+      authorName: submittedAuthorName,
+      submittedMessage,
     })
 
     return NextResponse.json({
@@ -286,7 +432,14 @@ export async function POST(req: Request) {
       isApproved: true,
     })
   } catch (error) {
-    console.error('Error:', error)
+    console.error(`Drawing submission failed during ${stage}:`, error)
+    await sendDrawingErrorAlert({
+      stage,
+      error,
+      authorName: submittedAuthorName,
+      message: submittedMessage,
+    })
+
     return NextResponse.json(
       { error: 'Failed to process drawing' },
       { status: 500 },

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { getApprovedDrawings } from '@/lib/supabase'
 import {
@@ -64,12 +64,17 @@ export default function GalleryGrid() {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
+  const [loadError, setLoadError] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [refreshNonce, setRefreshNonce] = useState(0)
+  const requestedPagesRef = useRef(new Set<number>())
+  const wasLoadMoreInViewRef = useRef(false)
   const { ref, inView } = useInView()
 
   const loadDrawings = useCallback(async () => {
-    if (isLoading) return
+    if (requestedPagesRef.current.has(page)) return
+
+    requestedPagesRef.current.add(page)
 
     setIsLoading(true)
     try {
@@ -77,6 +82,8 @@ export default function GalleryGrid() {
         DRAWINGS_PER_PAGE,
         (page - 1) * DRAWINGS_PER_PAGE,
       )
+
+      setLoadError('')
 
       if (newDrawings.length === 0 || newDrawings.length < DRAWINGS_PER_PAGE) {
         setHasMore(false)
@@ -92,13 +99,18 @@ export default function GalleryGrid() {
       })
     } catch (error) {
       console.error('Error loading drawings:', error)
+      setHasMore(false)
+      setLoadError('The gallery could not be loaded. Refresh to try again.')
     } finally {
       setIsLoading(false)
     }
-  }, [page, isLoading])
+  }, [page])
 
   useEffect(() => {
-    if (inView && hasMore && !isLoading) {
+    const enteredView = inView && !wasLoadMoreInViewRef.current
+    wasLoadMoreInViewRef.current = inView
+
+    if (enteredView && hasMore && !isLoading) {
       setPage((prev) => prev + 1)
     }
   }, [inView, hasMore, isLoading])
@@ -112,6 +124,9 @@ export default function GalleryGrid() {
     // Reset to first page so the new drawing can appear.
     setDrawings([])
     setHasMore(true)
+    setLoadError('')
+    requestedPagesRef.current.clear()
+    wasLoadMoreInViewRef.current = false
     setPage(1)
     setRefreshNonce((n) => n + 1)
   }
@@ -123,6 +138,14 @@ export default function GalleryGrid() {
 
   return (
     <div className="space-y-8">
+      {loadError && (
+        <div
+          role="alert"
+          className="rounded-sm border-2 border-red-600 bg-red-50 px-4 py-3 text-sm text-red-950 dark:bg-red-950/30 dark:text-red-100">
+          {loadError}
+        </div>
+      )}
+
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <div className="relative w-full aspect-[4/3] bg-background rounded-sm overflow-hidden">
           <DrawYourOwnCard
@@ -167,7 +190,7 @@ export default function GalleryGrid() {
         ))}
       </div>
 
-      {hasMore && (
+      {hasMore && drawings.length > 0 && (
         <div ref={ref} className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {isLoading &&
             drawings.length > 0 &&
