@@ -13,6 +13,12 @@ import DrawYourOwnCard from './DrawYourOwnCard'
 import Drawing from './Drawing'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { usePostHog } from '@posthog/react'
+import {
+  NEW_DRAWING_EVENT,
+  NEW_DRAWING_HIGHLIGHT_DURATION_MS,
+  NEW_DRAWING_REFRESH_DELAY_MS,
+  NEW_DRAWING_STORAGE_KEY,
+} from './new-drawing'
 
 interface Drawing {
   id: string
@@ -66,9 +72,15 @@ export default function GalleryGrid() {
   const [isLoading, setIsLoading] = useState(false)
   const [loadError, setLoadError] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [refreshNonce, setRefreshNonce] = useState(0)
+  const [highlightedDrawingId, setHighlightedDrawingId] = useState<
+    string | null
+  >(null)
   const requestedPagesRef = useRef(new Set<number>())
   const wasLoadMoreInViewRef = useRef(false)
+  const refreshTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const highlightTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  )
   const { ref, inView } = useInView()
 
   const loadDrawings = useCallback(async () => {
@@ -117,18 +129,78 @@ export default function GalleryGrid() {
 
   useEffect(() => {
     loadDrawings()
-  }, [page, refreshNonce, loadDrawings])
+  }, [page, loadDrawings])
 
-  const handleDrawingSubmitted = () => {
+  const refreshForNewDrawing = useCallback(async (drawingId: string) => {
+    setIsLoading(true)
+
+    try {
+      const latestDrawings = await getApprovedDrawings(DRAWINGS_PER_PAGE, 0)
+
+      setDrawings(latestDrawings)
+      setPage(1)
+      setHasMore(latestDrawings.length === DRAWINGS_PER_PAGE)
+      setLoadError('')
+      requestedPagesRef.current = new Set([1])
+      wasLoadMoreInViewRef.current = false
+
+      if (latestDrawings.some((drawing) => drawing.id === drawingId)) {
+        setHighlightedDrawingId(drawingId)
+
+        if (highlightTimeoutRef.current) {
+          clearTimeout(highlightTimeoutRef.current)
+        }
+
+        highlightTimeoutRef.current = setTimeout(() => {
+          setHighlightedDrawingId(null)
+        }, NEW_DRAWING_HIGHLIGHT_DURATION_MS)
+      }
+    } catch (error) {
+      console.error('Error refreshing drawings:', error)
+      setLoadError('Your drawing was added, but the gallery could not refresh.')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  const queueNewDrawingRefresh = useCallback(
+    (drawingId: string) => {
+      if (refreshTimeoutRef.current) {
+        clearTimeout(refreshTimeoutRef.current)
+      }
+
+      refreshTimeoutRef.current = setTimeout(() => {
+        refreshForNewDrawing(drawingId)
+      }, NEW_DRAWING_REFRESH_DELAY_MS)
+    },
+    [refreshForNewDrawing],
+  )
+
+  useEffect(() => {
+    const storedDrawingId = sessionStorage.getItem(NEW_DRAWING_STORAGE_KEY)
+
+    if (storedDrawingId) {
+      sessionStorage.removeItem(NEW_DRAWING_STORAGE_KEY)
+      queueNewDrawingRefresh(storedDrawingId)
+    }
+
+    const handleNewDrawing = (event: Event) => {
+      const drawingId = (event as CustomEvent<string>).detail
+      if (drawingId) queueNewDrawingRefresh(drawingId)
+    }
+
+    window.addEventListener(NEW_DRAWING_EVENT, handleNewDrawing)
+
+    return () => {
+      window.removeEventListener(NEW_DRAWING_EVENT, handleNewDrawing)
+      if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current)
+      if (highlightTimeoutRef.current) clearTimeout(highlightTimeoutRef.current)
+    }
+  }, [queueNewDrawingRefresh])
+
+  const handleDrawingApproved = (drawingId: string) => {
     setIsDialogOpen(false)
-    // Reset to first page so the new drawing can appear.
-    setDrawings([])
-    setHasMore(true)
-    setLoadError('')
-    requestedPagesRef.current.clear()
-    wasLoadMoreInViewRef.current = false
-    setPage(1)
-    setRefreshNonce((n) => n + 1)
+    queueNewDrawingRefresh(drawingId)
   }
 
   const handleCreateDrawingClick = () => {
@@ -138,6 +210,10 @@ export default function GalleryGrid() {
 
   return (
     <div className="space-y-8">
+      <p aria-live="polite" className="sr-only">
+        {highlightedDrawingId ? 'Your drawing is now in the gallery.' : ''}
+      </p>
+
       {loadError && (
         <div
           role="alert"
@@ -159,35 +235,46 @@ export default function GalleryGrid() {
           Array.from({ length: DRAWINGS_PER_PAGE }).map((_, idx) => (
             <SkeletonCard key={`skeleton-initial-${idx}`} />
           ))}
-        {drawings.map((drawing) => (
-          <div key={drawing.id} className="flex flex-col space-y-2">
-            <div className="relative w-full aspect-[4/3] bg-background rounded-sm overflow-hidden shadow-md">
-              <Image
-                unoptimized
-                src={drawing.image_url}
-                alt={`Drawing by ${drawing.author_name || 'an anonymous visitor'}`}
-                fill
-                draggable={false}
-                className="object-contain pointer-events-none"
-              />
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="font-medium">{drawing.author_name}</span>
-                <span
-                  className="text-xs text-muted-foreground"
-                  title={new Date(drawing.created_at).toLocaleString()}>
-                  {formatTimeAgo(new Date(drawing.created_at))}
-                </span>
+        {drawings.map((drawing) => {
+          const isNewDrawing = drawing.id === highlightedDrawingId
+
+          return (
+            <div
+              key={drawing.id}
+              className={`flex flex-col space-y-2 ${
+                isNewDrawing ? 'animate-new-drawing-card' : ''
+              }`}>
+              <div
+                className={`relative w-full aspect-[4/3] bg-background rounded-sm overflow-hidden shadow-md ${
+                isNewDrawing ? 'animate-new-drawing-frame' : ''
+              }`}>
+                <Image
+                  unoptimized
+                  src={drawing.image_url}
+                  alt={`Drawing by ${drawing.author_name || 'an anonymous visitor'}`}
+                  fill
+                  draggable={false}
+                  className="object-contain pointer-events-none"
+                />
               </div>
-              {drawing.message && (
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {drawing.message}
-                </p>
-              )}
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">{drawing.author_name}</span>
+                  <span
+                    className="text-xs text-muted-foreground"
+                    title={new Date(drawing.created_at).toLocaleString()}>
+                    {formatTimeAgo(new Date(drawing.created_at))}
+                  </span>
+                </div>
+                {drawing.message && (
+                  <p className="text-sm text-muted-foreground line-clamp-2">
+                    {drawing.message}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {hasMore && drawings.length > 0 && (
@@ -203,7 +290,11 @@ export default function GalleryGrid() {
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
-          <Drawing width={512} height={384} onClose={handleDrawingSubmitted} />
+          <Drawing
+            width={512}
+            height={384}
+            onApproved={handleDrawingApproved}
+          />
         </DialogContent>
       </Dialog>
     </div>

@@ -10,6 +10,8 @@ import Link from 'next/link'
 import DrawYourOwnCard from './DrawYourOwnCard'
 import { ArrowRight, Pencil } from 'lucide-react'
 import { usePostHog } from '@posthog/react'
+import { usePathname, useRouter } from 'next/navigation'
+import { NEW_DRAWING_EVENT, NEW_DRAWING_STORAGE_KEY } from './new-drawing'
 
 interface Drawing {
   id: string
@@ -337,6 +339,8 @@ const calculateInitialPositions = (
 
 export default function Gallery() {
   const posthog = usePostHog()
+  const pathname = usePathname()
+  const router = useRouter()
   const [drawings, setDrawings] = useState<Drawing[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -362,8 +366,6 @@ export default function Gallery() {
     [posthog],
   )
   const handleDragStart = useDraggable(handleDrawingDragged)
-  const existingDrawingIds = useRef<Set<string>>(new Set())
-  const [newDrawing, setNewDrawing] = useState<Drawing | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const hasPositionedDrawings = useRef(false)
   const [isContainerReady, setIsContainerReady] = useState(false)
@@ -471,7 +473,6 @@ export default function Gallery() {
     async function fetchDrawings() {
       try {
         const data = await getApprovedDrawings(10)
-        existingDrawingIds.current = new Set(data.map((d) => d.id))
 
         // If container is ready, position drawings immediately
         if (
@@ -529,38 +530,18 @@ export default function Gallery() {
     isContainerReady,
   ])
 
-  // Function to fetch only new drawings
-  const fetchNewDrawings = useCallback(async () => {
-    try {
-      const data = await getApprovedDrawings(10)
-      const newDrawings = data.filter(
-        (d) => !existingDrawingIds.current.has(d.id),
-      )
-
-      if (newDrawings.length > 0) {
-        newDrawings.forEach((d) => existingDrawingIds.current.add(d.id))
-        const newDrawingWithPosition = calculateInitialPositions(
-          [newDrawings[0]],
-          containerSize.width,
-          containerSize.height,
-          drawings,
-        )[0]
-        setNewDrawing(newDrawingWithPosition)
-        setTimeout(() => {
-          setDrawings((prev) => [...prev, newDrawingWithPosition])
-          setNewDrawing(null)
-        }, 1000)
-      }
-    } catch (err) {
-      console.error('Error fetching new drawings:', err)
-    }
-  }, [containerSize.width, containerSize.height, drawings])
-
-  const handleDrawingSubmitted = () => {
+  const handleDrawingApproved = (drawingId: string) => {
     setIsDialogOpen(false)
-    setTimeout(() => {
-      fetchNewDrawings()
-    }, 2000)
+
+    if (pathname === '/gallery') {
+      window.dispatchEvent(
+        new CustomEvent<string>(NEW_DRAWING_EVENT, { detail: drawingId }),
+      )
+      return
+    }
+
+    sessionStorage.setItem(NEW_DRAWING_STORAGE_KEY, drawingId)
+    router.push('/gallery')
   }
 
   const handleOpenDrawingPopup = (
@@ -569,7 +550,6 @@ export default function Gallery() {
     posthog.capture('gallery_create_drawing_clicked', {
       trigger_variant: triggerVariant,
       drawings_count: drawings.length,
-      has_new_drawing: Boolean(newDrawing),
     })
     setIsDialogOpen(true)
   }
@@ -597,7 +577,7 @@ export default function Gallery() {
         />
       </div>
 
-      {drawings.length === 0 && !newDrawing ? (
+      {drawings.length === 0 ? (
         <div className="text-center p-4 bg-gray-50 rounded-lg">
           <p className="text-muted">
             No drawings yet. Be the first to create one!
@@ -675,81 +655,6 @@ export default function Gallery() {
             </div>
           ))}
 
-          {/* Render new drawing with animation */}
-          {newDrawing && (
-            <div
-              key={newDrawing.id}
-              className="absolute cursor-grab active:cursor-grabbing transition-all shadow-md active:shadow-lg animate-drawing-appear"
-              style={{
-                left: `${newDrawing.position?.x || 0}px`,
-                top: `${newDrawing.position?.y || 0}px`,
-                transform: `rotate(${newDrawing.position?.rotation || 0}deg)`,
-                zIndex: 1000,
-                touchAction: 'none',
-                width: 'auto',
-                height: 'auto',
-                maxWidth: `${drawingMaxSize}px`,
-                maxHeight: `${drawingMaxSize}px`,
-                opacity: 0,
-                scale: 0.5,
-              }}
-              onMouseDown={(e: React.MouseEvent) =>
-                handleDragStart(
-                  e,
-                  e.currentTarget as HTMLDivElement,
-                  newDrawing.id,
-                )
-              }
-              onTouchStart={(e: React.TouchEvent) =>
-                handleDragStart(
-                  e,
-                  e.currentTarget as HTMLDivElement,
-                  newDrawing.id,
-                )
-              }>
-              <div className="relative w-full h-full">
-                <Image
-                  key={`${newDrawing.id}-${drawingMaxSize}`}
-                  src={newDrawing.image_url}
-                  alt={`New drawing by ${
-                    newDrawing.author_name || 'an anonymous visitor'
-                  }`}
-                  fill
-                  className="object-contain rounded-sm"
-                  draggable={false}
-                  onLoad={(e) => {
-                    const img = e.target as HTMLImageElement
-                    const container = img.parentElement
-                      ?.parentElement as HTMLDivElement
-                    if (container) {
-                      const aspectRatio = img.naturalWidth / img.naturalHeight
-
-                      if (aspectRatio > 1) {
-                        container.style.width = `${drawingMaxSize}px`
-                        container.style.height = `${
-                          drawingMaxSize / aspectRatio
-                        }px`
-                      } else {
-                        container.style.height = `${drawingMaxSize}px`
-                        container.style.width = `${
-                          drawingMaxSize * aspectRatio
-                        }px`
-                      }
-                    }
-                  }}
-                />
-                <div className="absolute bottom-1 right-1 text-xs text-gray-600 bg-white/70 px-1 rounded">
-                  By {newDrawing.author_name}
-                </div>
-                {newDrawing.message && (
-                  <div className="absolute top-1 left-1 right-1 text-xs text-gray-600 bg-white/70 p-1 rounded max-h-16 overflow-y-auto">
-                    {newDrawing.message}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
           <Button
             variant="link"
             className="absolute bottom-4 left-4 z-20 flex items-center gap-2 sm:hidden"
@@ -769,7 +674,7 @@ export default function Gallery() {
         </div>
       )}
 
-      {drawings.length === 0 && !newDrawing && (
+      {drawings.length === 0 && (
         <Button
           variant="link"
           className="absolute bottom-4 left-4 z-20 flex items-center gap-2 sm:hidden"
@@ -783,7 +688,11 @@ export default function Gallery() {
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="w-[calc(100vw-1rem)] p-2 sm:w-full sm:p-6">
-          <Drawing width={512} height={384} onClose={handleDrawingSubmitted} />
+          <Drawing
+            width={512}
+            height={384}
+            onApproved={handleDrawingApproved}
+          />
         </DialogContent>
       </Dialog>
     </div>
