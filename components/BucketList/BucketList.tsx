@@ -20,7 +20,7 @@ export default function BucketList() {
 
     // Subscribe to changes
     const channel = supabase
-      .channel('bucket_list_changes')
+      .channel(`bucket_list_display_changes:${crypto.randomUUID()}`)
       .on(
         'postgres_changes',
         {

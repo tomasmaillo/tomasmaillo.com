@@ -25,7 +25,7 @@ export default function RankingSystem() {
 
     // Subscribe to changes
     const channel = supabase
-      .channel('bucket_list_changes')
+      .channel(`bucket_list_ranking_changes:${crypto.randomUUID()}`)
       .on(
         'postgres_changes',
         {
