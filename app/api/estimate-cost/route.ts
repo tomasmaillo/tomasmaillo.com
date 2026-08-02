@@ -1,20 +1,22 @@
 import { OpenAI } from 'openai'
+import { unstable_cache } from 'next/cache'
 import { NextResponse } from 'next/server'
+import {
+  EstimateRequestError,
+  MAX_ESTIMATE_REQUEST_BYTES,
+  parseEstimateOutput,
+  parseEstimateRequestBody,
+} from '@/lib/estimate-cost'
 import { sendPushoverNotification } from '@/lib/pushover'
+
+const ESTIMATE_CACHE_SECONDS = 24 * 60 * 60
+const OPENAI_TIMEOUT_MS = 10_000
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-export async function POST(request: Request) {
-  try {
-    const { item } = await request.json()
-
-    if (!item) {
-      return NextResponse.json({ error: 'Item is required' }, { status: 400 })
-    }
-
-    const prompt = `
+const ESTIMATE_INSTRUCTIONS = `
 You are evaluating a user-submitted bucket list item.
 
 Your job is to decide how much someone would need to pay *me* to actually do that thing. The price reflects:
@@ -56,50 +58,78 @@ Examples:
 - "Lick a subway pole" → 250
 - "Eat a spider" → 400
 
-Now evaluate this bucket list item:
+Evaluate the bucket list item supplied by the user.
 `
 
+const estimateCost = unstable_cache(
+  async (item: string) => {
+    const response = await openai.responses.create(
+      {
+        model: 'gpt-5.6-luna',
+        reasoning: { effort: 'none' },
+        instructions: ESTIMATE_INSTRUCTIONS,
+        input: item,
+        max_output_tokens: 16,
+        store: false,
+      },
+      {
+        maxRetries: 0,
+        timeout: OPENAI_TIMEOUT_MS,
+      },
+    )
 
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1',
-      messages: [
-        {
-          role: 'system',
-          content: prompt,
-        },
-        {
-          role: 'user',
-          content: item,
-        },
-      ],
-      temperature: 0.05,
-      max_tokens: 50,
-    })
+    return parseEstimateOutput(response.output_text)
+  },
+  ['bucket-list-cost-estimate-v2'],
+  {
+    revalidate: ESTIMATE_CACHE_SECONDS,
+  },
+)
 
-    const response = completion.choices[0].message.content?.trim() || '0'
-
-    if (response === 'ILLEGAL') {
-      sendPushoverNotification({
-        title: 'Bucket Item Estimation',
-        message: `ILLEGAL: ${item}`,
-      })
-
-      return NextResponse.json({ estimatedCost: 'Infinity' })
+export async function POST(request: Request) {
+  try {
+    if (!request.headers.get('content-type')?.includes('application/json')) {
+      return NextResponse.json(
+        { error: 'Content-Type must be application/json' },
+        { status: 415 },
+      )
     }
 
-    const estimatedCost = Math.max(1, parseInt(response) || 1)
+    const contentLength = Number(request.headers.get('content-length'))
+    if (
+      Number.isFinite(contentLength) &&
+      contentLength > MAX_ESTIMATE_REQUEST_BYTES
+    ) {
+      return NextResponse.json(
+        { error: 'Request body is too large' },
+        { status: 413 },
+      )
+    }
 
-    sendPushoverNotification({
+    const { item, cacheItem } = parseEstimateRequestBody(await request.text())
+    const estimatedCost = await estimateCost(cacheItem)
+
+    void sendPushoverNotification({
       title: 'Bucket Item Estimation',
-      message: `${estimatedCost}: ${item}`,
+      message:
+        estimatedCost === 'Infinity'
+          ? `ILLEGAL: ${item}`
+          : `${estimatedCost}: ${item}`,
     })
 
     return NextResponse.json({ estimatedCost })
   } catch (error) {
+    if (error instanceof EstimateRequestError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.status },
+      )
+    }
+
     console.error('Error estimating value:', error)
     return NextResponse.json(
       { error: 'Failed to estimate value' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
@@ -22,6 +22,7 @@ const stripePromise = loadStripe(
 
 const DEBOUNCE_DELAY = 1000 // 1 second delay
 const MIN_CHARS_FOR_ESTIMATE = 3 // Minimum characters before estimating
+const MAX_CHARS_FOR_ESTIMATE = 160
 
 const PLACEHOLDER_ITEMS = [
   'Run a marathon',
@@ -49,6 +50,7 @@ export default function AddBucketListItem() {
     useState(false)
   const [avatarUrl, setAvatarUrl] = useState('')
   const [showDisclaimer, setShowDisclaimer] = useState(false)
+  const estimateAbortController = useRef<AbortController | null>(null)
 
   // Animate placeholder text
   useEffect(() => {
@@ -91,6 +93,10 @@ export default function AddBucketListItem() {
       return
     }
 
+    estimateAbortController.current?.abort()
+    const abortController = new AbortController()
+    estimateAbortController.current = abortController
+
     setIsEstimating(true)
     try {
       const response = await fetch('/api/estimate-cost', {
@@ -99,6 +105,7 @@ export default function AddBucketListItem() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ item: itemTitle }),
+        signal: abortController.signal,
       })
 
       if (!response.ok) {
@@ -109,18 +116,33 @@ export default function AddBucketListItem() {
       setEstimatedValue(data.estimatedCost)
       setHasEstimateForCurrentInput(true)
     } catch (error) {
+      if (abortController.signal.aborted) {
+        return
+      }
+
       console.error('Error estimating value:', error)
       toast.error('Failed to estimate value')
       setHasEstimateForCurrentInput(false)
     } finally {
-      setIsEstimating(false)
+      if (estimateAbortController.current === abortController) {
+        estimateAbortController.current = null
+        setIsEstimating(false)
+      }
     }
   }, [itemTitle])
 
   // Reset estimate flag when input changes
   useEffect(() => {
     setHasEstimateForCurrentInput(false)
+    estimateAbortController.current?.abort()
   }, [itemTitle])
+
+  useEffect(
+    () => () => {
+      estimateAbortController.current?.abort()
+    },
+    [],
+  )
 
   // Debounced effect for auto-estimation
   useEffect(() => {
@@ -213,6 +235,7 @@ export default function AddBucketListItem() {
           placeholder={placeholderText}
           value={itemTitle}
           onChange={(e) => setItemTitle(e.target.value)}
+          maxLength={MAX_CHARS_FOR_ESTIMATE}
           disabled={isLoading}
         />
       </div>
