@@ -16,7 +16,7 @@ import MugIcon from '@/public/pixel-arts/mug.svg'
 
 export default function Home() {
   return (
-    <main className="flex flex-col gap-12">
+    <div className="flex flex-col gap-12">
       <div className="flex flex-col gap-2">
         <FadeIn delay={50}>
           <h1 className="text-3xl mt-4 mb-2 font-editorialNew">Tomas Maillo</h1>
@@ -46,7 +46,7 @@ export default function Home() {
       </FadeIn>
 
       <div className="grid grid-cols-1 mt-8 gap-x-8 gap-y-4">
-        <h1 className="text-2xl font-editorialNew">Posts</h1>
+        <h2 className="text-2xl font-editorialNew">Posts</h2>
         <LinkTo
           Icon={FanIcon}
           displayText="AI Fan App"
@@ -127,6 +127,6 @@ export default function Home() {
           supportText="...or rather, things I wish I knew before I started applying"
         />
       </div>
-    </main>
+    </div>
   )
 }

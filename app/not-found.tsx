@@ -1,10 +1,20 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
 const GRID_SIZE = 20
 const CELL_SIZE = 15
 const INITIAL_SPEED = 150
+const DIRECTION_KEYS = new Set([
+  'arrowup',
+  'arrowdown',
+  'arrowleft',
+  'arrowright',
+  'w',
+  'a',
+  's',
+  'd',
+])
 
 const NotFound = () => {
   const [snake, setSnake] = useState([{ x: 10, y: 10 }])
@@ -15,6 +25,7 @@ const NotFound = () => {
   const [gameOver, setGameOver] = useState(false)
   const [gameTime, setGameTime] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
+  const gameAreaRef = useRef<HTMLDivElement>(null)
 
   const generateFood = useCallback(() => {
     return {
@@ -54,8 +65,12 @@ const NotFound = () => {
   // Keyboard controls
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      e.preventDefault() // Prevent default scrolling
-      switch (e.key.toLowerCase()) {
+      const key = e.key.toLowerCase()
+
+      if (!DIRECTION_KEYS.has(key)) return
+
+      e.preventDefault()
+      switch (key) {
         case 'arrowup':
         case 'w':
           if (direction !== 'DOWN') setDirection('UP')
@@ -81,6 +96,9 @@ const NotFound = () => {
 
   // Touch controls for mobile
   useEffect(() => {
+    const gameArea = gameAreaRef.current
+    if (!gameArea) return
+
     let touchStartX = 0
     let touchStartY = 0
     const minSwipeDistance = 30 // Minimum distance required for a swipe
@@ -129,14 +147,14 @@ const NotFound = () => {
       touchStartY = 0
     }
 
-    window.addEventListener('touchstart', handleTouchStart)
-    window.addEventListener('touchmove', handleTouchMove, { passive: false })
-    window.addEventListener('touchend', handleTouchEnd)
+    gameArea.addEventListener('touchstart', handleTouchStart)
+    gameArea.addEventListener('touchmove', handleTouchMove, { passive: false })
+    gameArea.addEventListener('touchend', handleTouchEnd)
 
     return () => {
-      window.removeEventListener('touchstart', handleTouchStart)
-      window.removeEventListener('touchmove', handleTouchMove)
-      window.removeEventListener('touchend', handleTouchEnd)
+      gameArea.removeEventListener('touchstart', handleTouchStart)
+      gameArea.removeEventListener('touchmove', handleTouchMove)
+      gameArea.removeEventListener('touchend', handleTouchEnd)
     }
   }, [direction])
 
@@ -229,8 +247,12 @@ const NotFound = () => {
         </span>
       </div>
       <div className="flex flex-col items-center w-full max-w-[min(100vw-16px,400px)]">
-        <div className="relative border border-black/20 overflow-hidden w-full aspect-square">
+        <div
+          ref={gameAreaRef}
+          className="relative border border-black/20 overflow-hidden w-full aspect-square">
           <canvas
+            role="img"
+            aria-label={`Snake game board. Score ${score}.`}
             width={GRID_SIZE * CELL_SIZE}
             height={GRID_SIZE * CELL_SIZE}
             className="bg-white w-full h-full"
@@ -265,10 +287,13 @@ const NotFound = () => {
             }}
           />
           {gameOver && (
-            <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center text-white">
+            <div
+              role="alert"
+              className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center text-white">
               <div className="text-2xl font-bold mb-2">Game Over!</div>
               <div className="text-sm mb-4">Final Score: {score}</div>
               <button
+                type="button"
                 onClick={resetGame}
                 className="px-4 py-2 border border-white/20 hover:bg-white hover:text-black transition-colors">
                 Play Again
@@ -283,6 +308,7 @@ const NotFound = () => {
             <div>Time: {formatTime(gameTime)}</div>
           </div>
           <button
+            type="button"
             onClick={resetGame}
             className="px-3 py-1 border border-black/20 hover:bg-black hover:text-white transition-colors text-xs">
             {gameOver ? 'Play Again' : 'Restart'}
@@ -292,22 +318,34 @@ const NotFound = () => {
         <div className="grid grid-cols-3 gap-2 mt-4 w-full max-w-[200px]">
           <div /> {/* Empty cell for grid alignment */}
           <button
+            type="button"
+            aria-label="Move up"
+            aria-keyshortcuts="ArrowUp W"
             onClick={() => handleDirectionChange('UP')}
             className="aspect-square flex items-center justify-center border border-black/20 hover:bg-black/5 active:bg-black/10">
             ↑
           </button>
           <div /> {/* Empty cell for grid alignment */}
           <button
+            type="button"
+            aria-label="Move left"
+            aria-keyshortcuts="ArrowLeft A"
             onClick={() => handleDirectionChange('LEFT')}
             className="aspect-square flex items-center justify-center border border-black/20 hover:bg-black/5 active:bg-black/10">
             ←
           </button>
           <button
+            type="button"
+            aria-label="Move down"
+            aria-keyshortcuts="ArrowDown S"
             onClick={() => handleDirectionChange('DOWN')}
             className="aspect-square flex items-center justify-center border border-black/20 hover:bg-black/5 active:bg-black/10">
             ↓
           </button>
           <button
+            type="button"
+            aria-label="Move right"
+            aria-keyshortcuts="ArrowRight D"
             onClick={() => handleDirectionChange('RIGHT')}
             className="aspect-square flex items-center justify-center border border-black/20 hover:bg-black/5 active:bg-black/10">
             →

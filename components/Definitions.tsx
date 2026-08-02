@@ -1,6 +1,13 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from 'react'
+import {
+  useState,
+  useEffect,
+  useId,
+  useRef,
+  useMemo,
+  type KeyboardEvent,
+} from 'react'
 
 const Definitions = ({
   text,
@@ -14,6 +21,7 @@ const Definitions = ({
   const [displayedText, setDisplayedText] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
   const hideTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
+  const definitionId = useId()
   const words = useMemo(() => helperText.split(' '), [helperText])
 
   useEffect(() => {
@@ -60,6 +68,13 @@ const Definitions = ({
     }
   }
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLSpanElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return
+
+    event.preventDefault()
+    handleClick()
+  }
+
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
@@ -73,12 +88,22 @@ const Definitions = ({
     <span>
       <span
         onClick={handleClick}
-        className="border-b border-dashed border-orange-500 cursor-help">
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-expanded={isVisible}
+        aria-controls={definitionId}
+        className="border-b border-dashed border-orange-500 cursor-help focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
         {text}
       </span>
       {(isVisible || isHiding) && (
-        <span className="text-sm opacity-50 border-b border-dashed border-orange-500">
-          {displayedText}
+        <span id={definitionId}>
+          <span
+            aria-hidden="true"
+            className="text-sm opacity-50 border-b border-dashed border-orange-500">
+            {displayedText}
+          </span>
+          <span className="sr-only">{helperText}</span>
         </span>
       )}
     </span>

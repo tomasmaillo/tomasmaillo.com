@@ -27,14 +27,20 @@ const FadeIn = ({ delay = 0, children }: FadeInProps) => {
   }
 
   return (
-    <div
-      className={`transition-all duration-500 ${
-        showAnimation
-          ? 'opacity-100 blur-none translate-y-0'
-          : 'opacity-0 blur-[5px] translate-y-2'
-      }`}>
-      {children}
-    </div>
+    <>
+      <noscript>
+        <style>{`[data-fade-in] { opacity: 1 !important; filter: none !important; transform: none !important; }`}</style>
+      </noscript>
+      <div
+        data-fade-in
+        className={`transition-all duration-500 motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:blur-none motion-reduce:translate-y-0 ${
+          showAnimation
+            ? 'opacity-100 blur-none translate-y-0'
+            : 'opacity-0 blur-[5px] translate-y-2'
+        }`}>
+        {children}
+      </div>
+    </>
   )
 }
 

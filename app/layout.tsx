@@ -13,6 +13,7 @@ import { VercelSpeedInsights } from '@/lib/speed-insights'
 import { VercelAnalytics } from '@/lib/analytics'
 import FooterGallery from '@/components/Drawing/FooterGallery'
 import { PostHogProvider } from './providers'
+import ReducedMotionMedia from '@/components/ReducedMotionMedia'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -71,15 +72,16 @@ export default function RootLayout({
           editorialNew.variable,
         )}>
         <Fall />
+        <ReducedMotionMedia />
         <PostHogProvider>
           <ThemeProvider defaultTheme="system" enableSystem>
             <div className="relative z-10 bg-background rounded-b-3xl shadow-xl">
               <div className="max-w-[768px] mx-auto px-4 py-4 text-foreground relative">
                 <TopBar />
-                <div className="min-h-screen md:p-24 pt-32">
+                <main className="min-h-screen md:p-24 pt-32">
                   {children}
                   <Goodbye />
-                </div>
+                </main>
                 <VercelSpeedInsights />
                 <VercelAnalytics />
                 <Toaster />

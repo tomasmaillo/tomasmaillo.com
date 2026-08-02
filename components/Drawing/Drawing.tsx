@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { Undo2, Eraser, Download, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Turnstile } from '@marsidev/react-turnstile'
@@ -48,6 +48,8 @@ export default function Drawing({
   const [authorName, setAuthorName] = useState('')
   const [message, setMessage] = useState('')
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const messageCounterId = useId()
+  const authorCounterId = useId()
 
   // Character limits
   const AUTHOR_NAME_LIMIT = 32
@@ -278,11 +280,17 @@ export default function Drawing({
   return (
     <div className="flex flex-col items-center gap-3 w-full max-w-2xl mx-auto p-2 sm:gap-4 sm:p-4">
       <div className="flex flex-col items-center gap-4 w-full">
-        <div className="grid grid-cols-8 gap-2 w-full">
+        <div
+          className="grid grid-cols-8 gap-2 w-full"
+          role="group"
+          aria-label="Drawing colour">
           {COLORS.map((colorOption) => (
             <button
+              type="button"
               key={colorOption.value}
               onClick={() => setColor(colorOption.value)}
+              aria-label={colorOption.name}
+              aria-pressed={color === colorOption.value}
               className={`aspect-square rounded-lg border-2 transition-all ${
                 color === colorOption.value ? 'scale-90' : 'hover:scale-105'
               }`}
@@ -295,6 +303,8 @@ export default function Drawing({
         <div className="relative w-full" ref={containerRef}>
           <canvas
             ref={canvasRef}
+            role="img"
+            aria-label="Drawing canvas. Use a pointer or touch to draw."
             width={width}
             height={height}
             onMouseDown={startDrawing}
@@ -312,20 +322,26 @@ export default function Drawing({
           />
           <div className="absolute top-2 right-2 flex gap-2">
             <button
+              type="button"
+              aria-label="Undo last stroke"
               onClick={undo}
               disabled={currentStep <= 0}
               className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:shadow-md border border-gray-300">
-              <Undo2 className="w-4 h-4 text-gray-800" />
+              <Undo2 aria-hidden="true" className="w-4 h-4 text-gray-800" />
             </button>
             <button
+              type="button"
+              aria-label="Clear drawing"
               onClick={clearCanvas}
               className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md border border-gray-300">
-              <Eraser className="w-4 h-4 text-gray-800" />
+              <Eraser aria-hidden="true" className="w-4 h-4 text-gray-800" />
             </button>
             <button
+              type="button"
+              aria-label="Download drawing"
               onClick={downloadCanvas}
               className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md border border-gray-300">
-              <Download className="w-4 h-4 text-gray-800" />
+              <Download aria-hidden="true" className="w-4 h-4 text-gray-800" />
             </button>
           </div>
         </div>
@@ -333,6 +349,9 @@ export default function Drawing({
         <div className="w-full space-y-2">
           <div className="relative">
             <textarea
+              aria-label="Message for your drawing (optional)"
+              aria-describedby={messageCounterId}
+              maxLength={MESSAGE_LIMIT}
               value={message}
               onChange={(e) => {
                 if (e.target.value.length <= MESSAGE_LIMIT) {
@@ -343,7 +362,9 @@ export default function Drawing({
               className="w-full px-3 py-2 border border-gray-300 rounded-md resize-none text-sm"
               rows={1}
             />
-            <div className="absolute right-2 top-1 text-xs text-gray-500">
+            <div
+              id={messageCounterId}
+              className="absolute right-2 top-1 text-xs text-gray-500">
               {message.length}/{MESSAGE_LIMIT}
               {message.length >= MESSAGE_LIMIT - 5 &&
                 message.length < MESSAGE_LIMIT && (
@@ -357,6 +378,9 @@ export default function Drawing({
           <div className="relative">
             <input
               type="text"
+              aria-label="Your name (optional)"
+              aria-describedby={authorCounterId}
+              maxLength={AUTHOR_NAME_LIMIT}
               value={authorName}
               onChange={(e) => {
                 if (e.target.value.length <= AUTHOR_NAME_LIMIT) {
@@ -366,7 +390,9 @@ export default function Drawing({
               className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
               placeholder="Your name (or be anonymous)"
             />
-            <div className="absolute right-2 top-1 text-xs text-gray-500">
+            <div
+              id={authorCounterId}
+              className="absolute right-2 top-1 text-xs text-gray-500">
               {authorName.length}/{AUTHOR_NAME_LIMIT}
               {authorName.length >= AUTHOR_NAME_LIMIT - 5 &&
                 authorName.length < AUTHOR_NAME_LIMIT && (
@@ -396,12 +422,13 @@ export default function Drawing({
         </div>
 
         <button
+          type="button"
           onClick={submitDrawing}
           disabled={isSubmitting || !turnstileToken}
           className="w-full px-4 py-2 bg-accent text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all duration-200">
           {isSubmitting ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" />
               Submitting...
             </>
           ) : (

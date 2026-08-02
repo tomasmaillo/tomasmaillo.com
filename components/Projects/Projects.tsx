@@ -73,6 +73,8 @@ const ProjectTitle = ({
   link?: string
   externalLink?: string
 }) => {
+  const projectName = typeof children === 'string' ? children : 'this project'
+
   return (
     <div className="flex items-center gap-2 mt-12 mb-2 align-baseline justify-between">
       <h2 className="m-0">
@@ -82,13 +84,17 @@ const ProjectTitle = ({
             href={externalLink}
             target="_blank"
             rel="noopener"
+            aria-label={`Open ${projectName} in a new tab`}
             className="text-accent text-sm hover:underline ml-2">
             ↗
           </ExternalLink>
         )}
       </h2>
       {link && (
-        <Link href={link} className="text-accent text-sm hover:underline">
+        <Link
+          href={link}
+          aria-label={`Read more about ${projectName}`}
+          className="text-accent text-sm hover:underline">
           ...more
         </Link>
       )}

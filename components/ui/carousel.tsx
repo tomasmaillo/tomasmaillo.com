@@ -69,6 +69,9 @@ const Carousel = React.forwardRef<
         ...(plugins ?? []),
         Autoplay({
           delay: autoPlayDelay,
+          stopOnFocusIn: true,
+          stopOnMouseEnter: true,
+          stopOnInteraction: false,
         }),
       ]
     )
@@ -127,6 +130,28 @@ const Carousel = React.forwardRef<
       }
     }, [api, onSelect])
 
+    React.useEffect(() => {
+      if (!api) return
+
+      const reducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      )
+      const autoplay = api.plugins().autoplay
+
+      const applyPreference = () => {
+        if (reducedMotion.matches) {
+          autoplay.stop()
+        } else {
+          autoplay.play()
+        }
+      }
+
+      applyPreference()
+      reducedMotion.addEventListener('change', applyPreference)
+
+      return () => reducedMotion.removeEventListener('change', applyPreference)
+    }, [api])
+
     return (
       <CarouselContext.Provider
         value={{
@@ -141,6 +166,7 @@ const Carousel = React.forwardRef<
           canScrollNext,
         }}>
         <div
+          {...props}
           ref={ref}
           onKeyDownCapture={handleKeyDown}
           className={cn(
@@ -149,7 +175,8 @@ const Carousel = React.forwardRef<
           )}
           role="region"
           aria-roledescription="carousel"
-          {...props}>
+          aria-label={props['aria-label'] ?? 'Project media'}
+          tabIndex={props.tabIndex ?? 0}>
           {children}
         </div>
       </CarouselContext.Provider>

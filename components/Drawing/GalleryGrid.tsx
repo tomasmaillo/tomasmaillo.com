@@ -11,7 +11,12 @@ import {
 import { useInView } from 'react-intersection-observer'
 import DrawYourOwnCard from './DrawYourOwnCard'
 import Drawing from './Drawing'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { usePostHog } from '@posthog/react'
 import {
   NEW_DRAWING_EVENT,
@@ -290,6 +295,11 @@ export default function GalleryGrid() {
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
+          <DialogTitle className="sr-only">Create a drawing</DialogTitle>
+          <DialogDescription className="sr-only">
+            Draw a picture and add an optional message and name before
+            submitting it to the gallery.
+          </DialogDescription>
           <Drawing
             width={512}
             height={384}

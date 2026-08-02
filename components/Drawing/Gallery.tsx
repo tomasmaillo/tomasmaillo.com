@@ -4,7 +4,12 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import { getApprovedDrawings } from '@/lib/supabase'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import Drawing from './Drawing'
 import Link from 'next/link'
 import DrawYourOwnCard from './DrawYourOwnCard'
@@ -665,12 +670,15 @@ export default function Gallery() {
             Add your own
           </Button>
 
-          <Link href="/gallery" className="absolute bottom-4 right-4 z-10">
-            <Button variant="link" className="flex items-center gap-2">
+          <Button
+            asChild
+            variant="link"
+            className="absolute bottom-4 right-4 z-10 flex items-center gap-2">
+            <Link href="/gallery">
               View all drawings
               <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       )}
 
@@ -688,6 +696,11 @@ export default function Gallery() {
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="w-[calc(100vw-1rem)] p-2 sm:w-full sm:p-6">
+          <DialogTitle className="sr-only">Create a drawing</DialogTitle>
+          <DialogDescription className="sr-only">
+            Draw a picture and add an optional message and name before
+            submitting it to the gallery.
+          </DialogDescription>
           <Drawing
             width={512}
             height={384}
