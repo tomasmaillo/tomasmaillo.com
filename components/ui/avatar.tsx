@@ -79,7 +79,7 @@ const people: Record<Person, PersonDetails> = {
   },
   [Person.KhalidBelhadj]: {
     name: 'Khalid Belhadj',
-    link: 'https://khalidbelhadj.github.io/portfolio/',
+    link: 'https://www.khalidbelhadj.com/',
     url: 'https://unavatar.io/github/khalidbelhadj',
   },
   [Person.LexFridman]: {
