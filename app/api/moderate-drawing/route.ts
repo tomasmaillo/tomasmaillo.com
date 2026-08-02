@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { getSupabaseServerClient } from '@/lib/supabase-server'
 import { sendPushoverNotification } from '@/lib/pushover'
+import { isPng, PNG_DATA_URL_PREFIX } from '@/lib/png'
 
 const MAX_DRAWING_BYTES = 1024 * 1024
 const MAX_AUTHOR_NAME_LENGTH = 32
@@ -253,7 +254,10 @@ export async function POST(req: Request) {
         ? message.trim().slice(0, MAX_MESSAGE_LENGTH)
         : ''
 
-    if (typeof imageData !== 'string' || !imageData) {
+    if (
+      typeof imageData !== 'string' ||
+      !imageData.startsWith(PNG_DATA_URL_PREFIX)
+    ) {
       return NextResponse.json(
         { error: 'A PNG drawing is required' },
         { status: 400 },
@@ -277,11 +281,9 @@ export async function POST(req: Request) {
       )
     }
 
-    const base64Data = imageData.startsWith('data:image/png;base64,')
-      ? imageData.slice('data:image/png;base64,'.length)
-      : imageData
+    const base64Data = imageData.slice(PNG_DATA_URL_PREFIX.length)
     const blob = Buffer.from(base64Data, 'base64')
-    if (!blob.length || blob.length > MAX_DRAWING_BYTES) {
+    if (!isPng(blob) || blob.length > MAX_DRAWING_BYTES) {
       return NextResponse.json(
         { error: 'Drawing must be a PNG smaller than 1 MB' },
         { status: 400 },

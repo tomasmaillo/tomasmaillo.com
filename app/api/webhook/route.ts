@@ -24,6 +24,13 @@ export async function POST(request: Request) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
+    const itemTitle = session.metadata?.itemTitle
+
+    if (!itemTitle) {
+      console.error('Completed checkout session has no item title')
+      return NextResponse.json({ error: 'Missing item title' }, { status: 400 })
+    }
+
     const supabase = getSupabaseServerClient()
 
     // Get the suggested by and avatar from metadata
@@ -33,7 +40,7 @@ export async function POST(request: Request) {
     // Add the item to the bucket list
     const { error } = await supabase.from('bucket_list_items').insert([
       {
-        title: session.metadata?.itemTitle,
+        title: itemTitle,
         elo_score: 1000,
         completed: false,
         suggested_by: suggestedBy,

@@ -1,21 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import {
+  getBucketListItems,
+  supabase,
+  type BucketListItem,
+} from '@/lib/supabase'
 import { toast } from 'sonner'
 import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'next/image'
 import { UserIcon } from 'lucide-react'
-
-interface BucketListItem {
-  id: string
-  title: string
-  elo_score: number
-  completed: boolean
-  suggested_by?: string
-  suggested_by_avatar?: string
-  price?: number
-}
 
 export default function BucketList() {
   const [items, setItems] = useState<BucketListItem[]>([])
@@ -52,16 +46,7 @@ export default function BucketList() {
 
   const fetchItems = async () => {
     try {
-      const { data, error } = await supabase
-        .from('bucket_list_items')
-        .select('*')
-        .order('elo_score', { ascending: false })
-
-      if (error) {
-        throw error
-      }
-
-      setItems(data || [])
+      setItems(await getBucketListItems())
       setLoading(false)
     } catch (error) {
       console.error('Error fetching items:', error)

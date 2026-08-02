@@ -1,17 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import {
+  getBucketListItems,
+  supabase,
+  type BucketListItem,
+} from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { Skeleton } from '@/components/ui/skeleton'
-
-interface BucketListItem {
-  id: string
-  title: string
-  elo_score: number
-  completed: boolean
-}
 
 export default function RankingSystem() {
   const [items, setItems] = useState<BucketListItem[]>([])
@@ -49,18 +46,10 @@ export default function RankingSystem() {
 
   const fetchItems = async () => {
     try {
-      const { data, error } = await supabase
-        .from('bucket_list_items')
-        .select('*')
-        .order('elo_score', { ascending: false })
-
-      if (error) {
-        throw error
-      }
-
-      setItems(data || [])
+      const data = await getBucketListItems()
+      setItems(data)
       setLoading(false)
-      if (data && data.length > 0) {
+      if (data.length > 0) {
         selectRandomPair(data)
       }
     } catch (error) {

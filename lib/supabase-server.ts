@@ -1,8 +1,9 @@
 import 'server-only'
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import type { Database } from '@/lib/database.types'
 
-let serverClient: ReturnType<typeof createClient> | null = null
+let serverClient: SupabaseClient<Database> | null = null
 
 export function getSupabaseServerClient() {
   if (serverClient) return serverClient
@@ -14,7 +15,7 @@ export function getSupabaseServerClient() {
     throw new Error('Supabase server credentials are not configured')
   }
 
-  serverClient = createClient(supabaseUrl, supabaseSecretKey, {
+  serverClient = createClient<Database>(supabaseUrl, supabaseSecretKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
