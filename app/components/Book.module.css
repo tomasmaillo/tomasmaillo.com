@@ -1,0 +1,140 @@
+.coverStage {
+  --book-page-edge: #f2eee6;
+  --book-page-edge-dark: #c9c1b5;
+  --book-shadow-near: rgba(38, 28, 17, 0.2);
+  --book-shadow-far: rgba(38, 28, 17, 0.12);
+  position: relative;
+  width: 6.5rem;
+  flex: 0 0 auto;
+  aspect-ratio: 2 / 3;
+  perspective: 56rem;
+  transform-style: preserve-3d;
+}
+
+.groundShadow {
+  position: absolute;
+  z-index: 0;
+  right: 5%;
+  bottom: -3%;
+  left: 5%;
+  height: 8%;
+  border-radius: 50%;
+  background: var(--book-shadow-near);
+  filter: blur(0.65rem);
+  opacity: 0.68;
+  transform: rotate(-1.5deg) scaleX(0.9);
+}
+
+.bookVolume {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  border-radius: 0.16rem 0.28rem 0.28rem 0.16rem;
+  filter:
+    drop-shadow(0 0.3rem 0.25rem var(--book-shadow-near))
+    drop-shadow(0 1rem 0.85rem var(--book-shadow-far));
+  transform: rotateY(-5.5deg) rotateX(0.8deg);
+  transform-origin: 50% 70%;
+  transform-style: preserve-3d;
+}
+
+.bookVolume::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0.18rem -0.32rem 0.15rem 0.28rem;
+  border: 1px solid rgba(80, 67, 53, 0.13);
+  border-radius: 0.08rem 0.28rem 0.28rem 0.08rem;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(90, 76, 60, 0.08) 3px
+    ),
+    linear-gradient(
+      90deg,
+      var(--book-page-edge-dark),
+      var(--book-page-edge) 19%,
+      #fffaf1 58%,
+      var(--book-page-edge-dark)
+    );
+  box-shadow: 0.08rem 0.08rem 0.12rem rgba(30, 22, 15, 0.12);
+  content: '';
+  transform: translateZ(-0.36rem);
+}
+
+.bookVolume::after {
+  position: absolute;
+  z-index: 3;
+  top: 0.6%;
+  bottom: 0.6%;
+  left: 0;
+  width: 0.42rem;
+  border-radius: 0.12rem 0 0 0.12rem;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 7, 6, 0.66),
+    rgba(21, 17, 14, 0.28) 38%,
+    rgba(255, 255, 255, 0.18)
+  );
+  box-shadow: inset -1px 0 rgba(255, 255, 255, 0.16);
+  content: '';
+  opacity: 0.46;
+  pointer-events: none;
+  transform: translateZ(0.24rem);
+}
+
+.coverFace {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(19, 15, 12, 0.16);
+  border-radius: 0.14rem 0.24rem 0.24rem 0.14rem;
+  background: hsl(var(--card));
+  box-shadow:
+    inset 1px 0 rgba(255, 255, 255, 0.22),
+    inset -1px 0 rgba(0, 0, 0, 0.08);
+  transform: translateZ(0.18rem);
+}
+
+.coverImage {
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+}
+
+.coverSheen {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: block;
+  background:
+    linear-gradient(
+      104deg,
+      rgba(255, 255, 255, 0.2),
+      transparent 11%,
+      transparent 74%,
+      rgba(255, 255, 255, 0.1)
+    ),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.15), transparent 7%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+:global([data-theme='dark']) .coverStage {
+  --book-page-edge: #d0cbc1;
+  --book-page-edge-dark: #8b857b;
+  --book-shadow-near: rgba(0, 0, 0, 0.62);
+  --book-shadow-far: rgba(0, 0, 0, 0.44);
+}
+
+:global([data-theme='dark']) .coverFace {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:global([data-theme='dark']) .coverSheen {
+  opacity: 0.72;
+}
