@@ -8,7 +8,7 @@ import { Turnstile } from '@marsidev/react-turnstile'
 interface DrawingProps {
   width?: number
   height?: number
-  onClose?: () => void
+  onApproved: (drawingId: string) => void
 }
 
 type ColorOption = {
@@ -30,7 +30,7 @@ const COLORS: ColorOption[] = [
 export default function Drawing({
   width = 128,
   height = 64,
-  onClose,
+  onApproved,
 }: DrawingProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -252,8 +252,16 @@ export default function Drawing({
       }
 
       if (result.isApproved) {
-        toast.success('Your drawing is now in the gallery!')
-        if (onClose) onClose()
+        const drawingId = result.drawing?.id
+
+        if (!drawingId) {
+          toast.error(
+            'Your drawing was added, but the gallery could not open it.',
+          )
+          return
+        }
+
+        onApproved(drawingId)
       } else {
         toast.error(
           'Your drawing was flagged as inappropriate and could not be added to the gallery.'
