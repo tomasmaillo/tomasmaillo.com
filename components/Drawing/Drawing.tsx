@@ -237,7 +237,7 @@ export default function Drawing({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          imageData: imageData.split(',')[1],
+          imageData,
           authorName,
           message,
           turnstileToken,
