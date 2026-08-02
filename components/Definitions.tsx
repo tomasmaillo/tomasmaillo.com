@@ -13,7 +13,7 @@ const Definitions = ({
   const [isHiding, setIsHiding] = useState(false)
   const [displayedText, setDisplayedText] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
-  const hideTimeoutRef = useRef<NodeJS.Timeout>()
+  const hideTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const words = useMemo(() => helperText.split(' '), [helperText])
 
   useEffect(() => {
