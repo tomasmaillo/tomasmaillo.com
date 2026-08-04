@@ -2,7 +2,7 @@
 
 import { RotateCw } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import Latex from 'react-latex-next'
+import Latex from '@/components/Latex'
 import { cn } from '@/lib/utils'
 
 const flashcards = [

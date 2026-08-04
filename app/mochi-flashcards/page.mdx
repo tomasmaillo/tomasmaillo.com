@@ -2,9 +2,10 @@ import LinkTo from '@/components/LinkTo'
 import Spacing from '@/components/Spacing'
 import FlashcardDeck from '@/components/FlashcardDeck'
 import 'katex/dist/katex.min.css'
-import Latex from 'react-latex-next'
+import Latex from '@/components/Latex'
 import Avatar, { Person } from '@/components/ui/avatar'
 import LazyIndexModel from './LazyIndexModel'
+import ShortcutVideo from './ShortcutVideo'
 
 export const metadata = {
   title: 'Making flashcards before I forget - Tomas Maillo',
@@ -50,18 +51,7 @@ But mind maps are not the answer to everything either. Some knowledge is simply 
 
 The visible part is an [iPhone Shortcut](https://support.apple.com/guide/shortcuts/welcome/ios). I give it a topic, such as `difference between encryption and hashing`, and it sends that text to a private API route on this website.
 
-<div className="my-8 w-full rounded-lg bg-card px-8 pt-8">
-  <video
-    src="/mochi-flashcards-shortcut.webm"
-    aria-label="Using the iPhone Shortcut to create a flashcard"
-    autoPlay
-    muted
-    loop
-    playsInline
-    preload="metadata"
-    className="mx-auto block w-full max-w-[18rem]"
-  />
-</div>
+<ShortcutVideo />
 
 The endpoint first checks a secret token from the Shortcut. It rejects requests without the correct token, limits the topic length, cleans up any tags and chooses either the requested Mochi deck or my default one.
 
