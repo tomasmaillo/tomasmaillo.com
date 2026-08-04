@@ -22,6 +22,8 @@
     "@radix-ui/react-dialog": "^1.1.23",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.1.0",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.7.0",
     "@stripe/stripe-js": "^7.3.1",
     "@supabase/supabase-js": "2.111.0",
     "@types/mdx": "2.0.14",
@@ -46,7 +48,8 @@
     "sonner": "^2.0.7",
     "stripe": "18.2.1",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "three": "^0.170.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
