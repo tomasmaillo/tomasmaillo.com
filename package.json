@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test lib/*.test.ts"
+    "test": "node --test lib/*.test.ts"
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.1.0",
