@@ -6,6 +6,8 @@ export type AnnotationLayout = {
   annIndex: number
   kind: AnnotationKind
   isPoint: boolean
+  /** Monday-based day column used when an annotation is circled in the grid. */
+  dayCol?: number
   /** Inclusive row span; `r0` is the row where this annotation is introduced. */
   r0: number
   r1: number
@@ -28,11 +30,11 @@ export function contributionLevel(count: number, max: number): number {
 }
 
 export const LEVEL_CLASS = [
-  'bg-zinc-500/10',
-  'bg-emerald-800/50',
-  'bg-emerald-600/60',
-  'bg-emerald-500/70',
-  'bg-emerald-400/90',
+  'timeline-level-0',
+  'timeline-level-1',
+  'timeline-level-2',
+  'timeline-level-3',
+  'timeline-level-4',
 ]
 
 export type Cell = ContributionDay | null

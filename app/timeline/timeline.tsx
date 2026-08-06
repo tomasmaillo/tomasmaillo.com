@@ -3,6 +3,7 @@ import { ALL_ANNOTATIONS, isPointAnnotation } from './timeline-annotations'
 import { TimelineRows } from './timeline-rows'
 import {
   rechunkWeeks,
+  isoDow,
   weekStartDate,
   type AnnotationLayout,
 } from './timeline-utils'
@@ -58,6 +59,7 @@ export default async function Timeline() {
             annIndex,
             kind,
             isPoint: true,
+            dayCol: isoDow(ann.at) - 1,
             r0: row,
             r1: row,
             barCol: 0,
@@ -68,30 +70,13 @@ export default async function Timeline() {
           annIndex,
           kind,
           isPoint: false,
+          dayCol: isoDow(ann.to) - 1,
           r0: findRow(new Date(ann.to + 'T00:00:00')),
           r1: findRow(new Date(ann.from + 'T00:00:00')),
           barCol: 0,
         }
       },
     )
-
-    // Interval partitioning gives each overlapping annotation a dedicated
-    // connector track, with the smallest possible number of tracks.
-    const barColumns: AnnotationLayout[][] = []
-    const positionsByStart = [...rawPositions].sort(
-      (a, b) => a.r0 - b.r0 || a.r1 - b.r1 || a.annIndex - b.annIndex,
-    )
-
-    for (const ann of positionsByStart) {
-      const column = barColumns.findIndex((existing) =>
-        existing.every((other) => other.r1 < ann.r0 || ann.r1 < other.r0),
-      )
-      const barCol = column === -1 ? barColumns.length : column
-
-      ann.barCol = barCol
-      if (column === -1) barColumns.push([ann])
-      else barColumns[barCol].push(ann)
-    }
 
     return (
       <div className="max-w-full">
@@ -100,14 +85,15 @@ export default async function Timeline() {
           maxCount={maxCount}
           markers={markers}
           layouts={rawPositions}
-          numBarCols={barColumns.length}
         />
       </div>
     )
   } catch (error) {
     console.error('Timeline error:', error)
     return (
-      <p className="text-xs text-zinc-500">Unable to load contribution data.</p>
+      <div className="timeline-error rounded-md px-3 py-2 text-xs">
+        Unable to load timeline. Try later
+      </div>
     )
   }
 }
