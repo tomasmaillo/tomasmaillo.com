@@ -273,15 +273,15 @@ function AnnotationInk({
   const rangeMid = (rowY + rangeBottom) / 2
   const rangeQuarter = (rangeBottom - rowY) / 4
   const startX = usesCircle ? selectionRight + 2.5 : trackX + 6
-  const startY = usesCircle ? rowY : rangeMid
+  const startY = usesCircle ? rowY : rangeMid - 0.5
   const controlOffset = Math.min(34, Math.max(18, (labelLeft - startX) * 0.34))
   const leader = `M ${startX} ${startY} C ${startX + controlOffset} ${startY}, ${labelLeft - controlOffset} ${targetY}, ${labelLeft} ${targetY}`
 
   const brace = [
     `M ${trackX - 3} ${rowY}`,
-    `C ${trackX + 2.5} ${rowY}, ${trackX + 2.5} ${rowY + rangeQuarter * 0.72}, ${trackX + 2.5} ${rangeMid - 3}`,
-    `C ${trackX + 2.5} ${rangeMid - 1}, ${trackX + 6} ${rangeMid - 1}, ${trackX + 6} ${rangeMid}`,
-    `C ${trackX + 2.5} ${rangeMid + 1}, ${trackX + 2.5} ${rangeMid + 1}, ${trackX + 2.5} ${rangeMid + 3}`,
+    `C ${trackX + 2.5} ${rowY}, ${trackX + 2.5} ${rowY + rangeQuarter * 0.72}, ${trackX + 2.5} ${rangeMid - 4}`,
+    `C ${trackX + 2.5} ${rangeMid - 2.5}, ${trackX + 4.25} ${rangeMid - 0.75}, ${trackX + 6} ${rangeMid}`,
+    `C ${trackX + 4.25} ${rangeMid + 0.75}, ${trackX + 2.5} ${rangeMid + 2.5}, ${trackX + 2.5} ${rangeMid + 4}`,
     `C ${trackX + 2.5} ${rangeBottom - rangeQuarter * 0.72}, ${trackX + 2.5} ${rangeBottom}, ${trackX - 3} ${rangeBottom}`,
   ].join(' ')
 
@@ -349,27 +349,13 @@ function AnnotationCard({
       {media && (
         <CollapsibleHeight open={expanded}>
           <div id={mediaId} className="pt-2">
-            {media.type === 'image' && (
-              <Image
-                src={media.src}
-                alt={media.alt}
-                width={media.width}
-                height={media.height}
-                className="timeline-media h-auto max-w-full rounded border"
-              />
-            )}
-            {media.type === 'video' && (
-              <video
-                src={media.src}
-                width={media.width}
-                height={media.height}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="timeline-media h-auto max-w-full rounded border"
-              />
-            )}
+            <Image
+              src={media.src}
+              alt={media.alt}
+              width={media.width}
+              height={media.height}
+              className="timeline-media h-auto max-w-full rounded border"
+            />
           </div>
         </CollapsibleHeight>
       )}

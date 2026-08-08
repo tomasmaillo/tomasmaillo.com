@@ -11,7 +11,6 @@ type GitHubContributionResponse = {
     user?: {
       contributionsCollection?: {
         contributionCalendar?: {
-          totalContributions: number
           weeks: Array<{
             contributionDays: ContributionDay[]
           }>
@@ -32,7 +31,6 @@ type GitHubUserCreatedAtResponse = {
 }
 
 export type ContributionData = {
-  totalContributions: number
   weeks: ContributionDay[][]
 }
 
@@ -48,7 +46,6 @@ query($userName:String!, $from: DateTime!, $to: DateTime!) {
   user(login: $userName){
     contributionsCollection(from: $from, to: $to) {
       contributionCalendar {
-        totalContributions
         weeks {
           contributionDays {
             contributionCount
@@ -162,7 +159,6 @@ const getCachedContributionData = unstable_cache(
     }
 
     return {
-      totalContributions: calendar.totalContributions,
       weeks: calendar.weeks.map((week) => week.contributionDays),
     }
   },
@@ -228,17 +224,14 @@ export async function retrieveContributionData(
   )
   const windows = splitIntoRequestWindows(clampedFromDate.toISOString(), to)
 
-  let totalContributions = 0
   const allWeeks: ContributionDay[][] = []
 
   for (const window of windows) {
     const windowData = await getCachedContributionData(userName, window)
-    totalContributions += windowData.totalContributions
     allWeeks.push(...windowData.weeks)
   }
 
   return {
-    totalContributions,
     weeks: allWeeks,
   }
 }

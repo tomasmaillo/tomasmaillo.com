@@ -7,9 +7,7 @@ export type AnnotationKind = 'personal' | 'world'
 type AnnotationDetails = {
   label: ReactNode
   kind?: AnnotationKind
-  media?:
-    | { type: 'image'; src: string; alt: string; width: number; height: number }
-    | { type: 'video'; src: string; width: number; height: number }
+  media?: { src: string; alt: string; width: number; height: number }
 }
 
 export type RangeAnnotation = AnnotationDetails & {
@@ -35,6 +33,43 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
       </a>
     ),
     at: '2017-01-01',
+  },
+  {
+    label: (
+      <a
+        href="https://github.com/tomasmaillo/newsletter"
+        target="_blank"
+        rel="noopener noreferrer">
+        Made a newsletter (now defunct)
+      </a>
+    ),
+    at: '2020-07-27',
+  },
+  {
+    label: (
+      <a
+        href="https://github.com/tomasmaillo/UCASsearch"
+        target="_blank"
+        rel="noopener noreferrer">
+        Scraped the UCAS list of universities to choose where to apply
+      </a>
+    ),
+    at: '2020-08-24',
+  },
+  {
+    label: 'Made my first React Native app to track SpaceX rocket launches',
+    at: '2020-12-19',
+  },
+  {
+    label: (
+      <a
+        href="https://github.com/norbeyandresg/hades/commit/6588bf25d87c82d4fd1527ab8e8cd125e88760c4"
+        target="_blank"
+        rel="noopener noreferrer">
+        Made my first PR contribution to an open-source repository
+      </a>
+    ),
+    at: '2021-04-10',
   },
   {
     label: 'Created a website for my school magazine',
@@ -69,6 +104,17 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
       'Worked with an independent journalist to launch a website for the COP26 conference in Glasgow',
     from: '2021-10-31',
     to: '2021-11-12',
+  },
+  {
+    label: (
+      <a
+        href="https://github.com/tomasmaillo/temperature-blankets"
+        target="_blank"
+        rel="noopener noreferrer">
+        Made a 3D visualisation of temperature increase
+      </a>
+    ),
+    at: '2022-01-03',
   },
   {
     label: (
@@ -128,7 +174,6 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
     ),
     at: '2025-05-01',
     media: {
-      type: 'image',
       src: '/edin.png',
       alt: 'Graduation at the University of Edinburgh',
       width: 120,
@@ -282,7 +327,6 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
       'Built Zephyr Fan, an AI-powered smart fan with CV + gesture control',
     at: '2024-05-31',
     media: {
-      type: 'image',
       src: '/mlp-1.jpg',
       alt: 'Zephyr Fan',
       width: 120,
