@@ -13,10 +13,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import {
-  ALL_ANNOTATIONS,
-  type AnnotationCategory,
-} from './timeline-annotations'
+import { ALL_ANNOTATIONS } from './timeline-annotations'
 import type { AnnotationLayout } from './timeline-utils'
 import {
   CELL,
@@ -52,18 +49,6 @@ const DATE_FORMATTER = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
   timeZone: 'UTC',
 })
-const CATEGORY_FILTERS: readonly {
-  value: AnnotationCategory
-  label: string
-}[] = [
-  { value: 'living', label: 'Living' },
-  { value: 'education', label: 'Education' },
-  { value: 'career', label: 'Career' },
-  { value: 'projects', label: 'Projects' },
-  { value: 'hackathons', label: 'Hackathons' },
-  { value: 'world', label: 'World' },
-]
-
 type PackedRail = {
   positions: Record<number, number>
   height: number
@@ -88,12 +73,19 @@ function inkClassName(kind: AnnotationLayout['kind']) {
   return isWorld(kind) ? 'timeline-ink-world' : 'timeline-ink-personal'
 }
 
-function anchorTop(layout: AnnotationLayout) {
-  return layout.r0 * ROW_PITCH
-}
-
 function rowCentre(row: number) {
   return row * ROW_PITCH + CELL / 2
+}
+
+function usesRangeBrace(layout: AnnotationLayout) {
+  return !layout.isPoint && layout.r1 - layout.r0 > 1
+}
+
+function anchorTop(layout: AnnotationLayout) {
+  if (!usesRangeBrace(layout)) return layout.r0 * ROW_PITCH
+
+  const rangeMid = (rowCentre(layout.r0) + rowCentre(layout.r1)) / 2
+  return rangeMid - LABEL_LEADER_OFFSET
 }
 
 function contributionSummary(count: number) {
@@ -268,14 +260,19 @@ function AnnotationInk({
     gridLeft + GRID_WIDTH + COLUMN_GAP + layout.barCol * BAR_COL_WIDTH + BAR_COL_WIDTH / 2
   const rowY = rowCentre(layout.r0)
   const targetY = top + LABEL_LEADER_OFFSET
-  const pointX =
-    gridLeft + (layout.dayCol ?? 6) * (CELL + GAP) + CELL / 2
-  const usesCircle = layout.isPoint || layout.r1 - layout.r0 <= 1
+  const endDayCol = layout.dayCol ?? 6
+  const startDayCol =
+    layout.r0 === layout.r1 ? (layout.startDayCol ?? endDayCol) : endDayCol
+  const selectionLeft =
+    gridLeft + Math.min(startDayCol, endDayCol) * (CELL + GAP) - 1.5
+  const selectionRight =
+    gridLeft + Math.max(startDayCol, endDayCol) * (CELL + GAP) + CELL + 1.5
+  const usesCircle = !usesRangeBrace(layout)
 
   const rangeBottom = Math.max(rowCentre(layout.r1), rowY + 10)
   const rangeMid = (rowY + rangeBottom) / 2
   const rangeQuarter = (rangeBottom - rowY) / 4
-  const startX = usesCircle ? pointX + CELL / 2 + 2.5 : trackX + 6
+  const startX = usesCircle ? selectionRight + 2.5 : trackX + 6
   const startY = usesCircle ? rowY : rangeMid
   const controlOffset = Math.min(34, Math.max(18, (labelLeft - startX) * 0.34))
   const leader = `M ${startX} ${startY} C ${startX + controlOffset} ${startY}, ${labelLeft - controlOffset} ${targetY}, ${labelLeft} ${targetY}`
@@ -289,11 +286,11 @@ function AnnotationInk({
   ].join(' ')
 
   const circle = [
-    `M ${pointX - 6.5} ${rowY - 1}`,
-    `C ${pointX - 6.1} ${rowY - 6.1}, ${pointX - 1.8} ${rowY - 7.2}, ${pointX + 2.2} ${rowY - 6.5}`,
-    `C ${pointX + 6.5} ${rowY - 5.7}, ${pointX + 7.3} ${rowY - 1.2}, ${pointX + 6.4} ${rowY + 2.5}`,
-    `C ${pointX + 5.4} ${rowY + 6.4}, ${pointX + 0.8} ${rowY + 7}, ${pointX - 3} ${rowY + 6}`,
-    `C ${pointX - 6.8} ${rowY + 5}, ${pointX - 7.2} ${rowY + 1.7}, ${pointX - 6.5} ${rowY - 1}`,
+    `M ${selectionLeft} ${rowY - 1}`,
+    `C ${selectionLeft + 0.4} ${rowY - 6.1}, ${selectionLeft + 4.7} ${rowY - 7.2}, ${selectionRight - 4.3} ${rowY - 6.5}`,
+    `C ${selectionRight} ${rowY - 5.7}, ${selectionRight + 0.8} ${rowY - 1.2}, ${selectionRight - 0.1} ${rowY + 2.5}`,
+    `C ${selectionRight - 1.1} ${rowY + 6.4}, ${selectionRight - 5.7} ${rowY + 7}, ${selectionLeft + 3.5} ${rowY + 6}`,
+    `C ${selectionLeft - 0.3} ${rowY + 5}, ${selectionLeft - 0.7} ${rowY + 1.7}, ${selectionLeft} ${rowY - 1}`,
   ].join(' ')
 
   return (
@@ -394,31 +391,17 @@ export function TimelineRows({
   layouts,
 }: Props) {
   const [expanded, setExpanded] = useState<Set<number>>(() => new Set())
-  const [pivotalEnabled, setPivotalEnabled] = useState(true)
-  const [enabledCategories, setEnabledCategories] = useState<
-    Set<AnnotationCategory>
-  >(() => new Set())
   const cardRefs = useRef(new Map<number, HTMLElement>())
   const containerRef = useRef<HTMLDivElement>(null)
   const tooltipRef = useRef<TimelineTooltipHandle>(null)
 
   const { orderedLayouts, numBarCols } = useMemo(() => {
-    const visibleLayouts = layouts
-      .filter((layout) => {
-        const annotation = ALL_ANNOTATIONS[layout.annIndex]
-        if (!annotation) return false
-        return (
-          (pivotalEnabled && annotation.pivotal) ||
-          enabledCategories.has(annotation.category)
-        )
-      })
-      .map((layout) => ({ ...layout, barCol: 0 }))
+    const visibleLayouts = layouts.map((layout) => ({ ...layout, barCol: 0 }))
 
-    // Only long ranges need brace tracks. Repack them whenever filters change
-    // so filtered views do not retain empty connector columns.
+    // Only long ranges need brace tracks.
     const barColumns: AnnotationLayout[][] = []
     const rangedLayouts = visibleLayouts
-      .filter((layout) => !layout.isPoint && layout.r1 - layout.r0 > 1)
+      .filter(usesRangeBrace)
       .sort(
         (a, b) => a.r0 - b.r0 || a.r1 - b.r1 || a.annIndex - b.annIndex,
       )
@@ -439,11 +422,13 @@ export function TimelineRows({
     return {
       orderedLayouts: visibleLayouts.sort(
         (a, b) =>
-          a.r0 - b.r0 || a.barCol - b.barCol || a.annIndex - b.annIndex,
+          anchorTop(a) - anchorTop(b) ||
+          a.barCol - b.barCol ||
+          a.annIndex - b.annIndex,
       ),
       numBarCols: Math.max(1, barColumns.length),
     }
-  }, [enabledCategories, layouts, pivotalEnabled])
+  }, [layouts])
 
   const trackWidth = Math.max(1, numBarCols) * BAR_COL_WIDTH
   const labelLeft =
@@ -460,15 +445,6 @@ export function TimelineRows({
       const next = new Set(previous)
       if (next.has(annIndex)) next.delete(annIndex)
       else next.add(annIndex)
-      return next
-    })
-  }, [])
-
-  const toggleCategory = useCallback((category: AnnotationCategory) => {
-    setEnabledCategories((previous) => {
-      const next = new Set(previous)
-      if (next.has(category)) next.delete(category)
-      else next.add(category)
       return next
     })
   }, [])
@@ -584,45 +560,6 @@ export function TimelineRows({
 
   return (
     <div ref={containerRef} className="timeline relative w-full min-w-0">
-      <div className="timeline-filter-bar sticky top-2 z-30 mb-3 flex items-center gap-2 rounded-full border p-1.5 shadow-sm backdrop-blur-md">
-        <div className="timeline-filter-scroll min-w-0 flex-1 overflow-x-auto">
-          <div
-            role="group"
-            aria-label="Timeline filters"
-            className="flex w-max items-center gap-1">
-            <button
-              type="button"
-              aria-pressed={pivotalEnabled}
-              onClick={() => setPivotalEnabled((enabled) => !enabled)}
-              className={`timeline-filter-chip rounded-full px-2.5 py-1 text-[10px] font-medium leading-none transition-colors ${
-                pivotalEnabled ? 'is-active' : ''
-              }`}>
-              Pivotal
-            </button>
-            {CATEGORY_FILTERS.map((filter) => {
-              const enabled = enabledCategories.has(filter.value)
-              return (
-                <button
-                  key={filter.value}
-                  type="button"
-                  aria-pressed={enabled}
-                  onClick={() => toggleCategory(filter.value)}
-                  className={`timeline-filter-chip rounded-full px-2.5 py-1 text-[10px] font-medium leading-none transition-colors ${
-                    enabled ? 'is-active' : ''
-                  }`}>
-                  {filter.label}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-        <span
-          aria-live="polite"
-          className="timeline-filter-count shrink-0 pr-1.5 font-mono text-[9px] tabular-nums">
-          {orderedLayouts.length}/{layouts.length} shown
-        </span>
-      </div>
-
       <div
         className="relative w-full min-w-0"
         style={{ minHeight: rail.height + HEADER_HEIGHT }}>

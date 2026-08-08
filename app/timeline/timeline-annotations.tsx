@@ -1,19 +1,11 @@
 import { type ReactNode } from 'react'
 import Image from 'next/image'
+import Avatar, { Person } from '@/components/ui/avatar'
 
 export type AnnotationKind = 'personal' | 'world'
-export type AnnotationCategory =
-  | 'living'
-  | 'education'
-  | 'career'
-  | 'projects'
-  | 'hackathons'
-  | 'world'
 
 type AnnotationDetails = {
   label: ReactNode
-  category: AnnotationCategory
-  pivotal: boolean
   kind?: AnnotationKind
   media?:
     | { type: 'image'; src: string; alt: string; width: number; height: number }
@@ -38,6 +30,26 @@ export function isPointAnnotation(a: TimelineAnnotation): a is PointAnnotation {
 export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
   {
     label: (
+      <a href="/about-this-website">
+        Released version 2017 of my portfolio website
+      </a>
+    ),
+    at: '2017-01-01',
+  },
+  {
+    label: 'Created a website for my school magazine',
+    at: '2021-06-30',
+  },
+  {
+    label: 'Finished secondary school with A*A*A*A grades',
+    at: '2021-07-01',
+  },
+  {
+    label: 'Moved to Edinburgh',
+    at: '2021-08-23',
+  },
+  {
+    label: (
       <span>
         Started uni at the{' '}
         <Image
@@ -50,9 +62,13 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
         University of Edinburgh
       </span>
     ),
-    category: 'education',
-    pivotal: true,
     at: '2021-09-01',
+  },
+  {
+    label:
+      'Worked with an independent journalist to launch a website for the COP26 conference in Glasgow',
+    from: '2021-10-31',
+    to: '2021-11-12',
   },
   {
     label: (
@@ -68,8 +84,6 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
         Spotify
       </span>
     ),
-    category: 'career',
-    pivotal: true,
     from: '2022-06-01',
     to: '2022-09-01',
   },
@@ -87,15 +101,15 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
         Baillie Gifford
       </span>
     ),
-    category: 'career',
-    pivotal: true,
-    from: '2024-06-01',
+    from: '2024-06-08',
     to: '2024-09-01',
   },
   {
-    label: 'Dissertation deadline',
-    category: 'education',
-    pivotal: true,
+    label: (
+      <a href="/marked">
+        Completed MarkEd, my LLM-supported peer-feedback dissertation
+      </a>
+    ),
     at: '2025-02-03',
   },
   {
@@ -109,24 +123,20 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
           height={12}
           className="inline-block -align-[2px]"
         />{' '}
-        University of Edinburgh
+        University of Edinburgh with first-class honours
       </span>
     ),
-    category: 'education',
-    pivotal: true,
     at: '2025-05-01',
     media: {
       type: 'image',
       src: '/edin.png',
-      alt: 'Zephyr Fan',
+      alt: 'Graduation at the University of Edinburgh',
       width: 120,
       height: 120,
     },
   },
   {
     label: 'Moved to London',
-    category: 'living',
-    pivotal: true,
     from: '2025-06-25',
     to: '2025-06-30',
   },
@@ -144,76 +154,133 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
         Stripe as a Software Engineer
       </span>
     ),
-    category: 'career',
-    pivotal: true,
     at: '2025-09-02',
   },
   {
-    label: (
-      <>
-        Published a paper on my dissertation.{' '}
-        <a href="/marked" target="_blank" rel="noopener noreferrer">
-          Read more
-        </a>
-      </>
-    ),
-    category: 'projects',
-    pivotal: true,
+    label: <a href="/marked">Published a paper on my dissertation</a>,
     at: '2025-09-10',
   },
   {
+    label: 'Travelled to China',
+    from: '2025-11-24',
+    to: '2025-11-30',
+  },
+  {
     label: 'Built BTCGlobe, a real-time 3D globe for Bitcoin transactions',
-    category: 'projects',
-    pivotal: true,
     at: '2021-03-01',
   },
   {
     label: 'Co-founded Project Share',
-    category: 'projects',
-    pivotal: true,
     at: '2022-09-08',
   },
   {
+    label: (
+      <a href="/about-this-website">
+        Released version 2022 of my portfolio website
+      </a>
+    ),
+    at: '2022-09-01',
+  },
+  {
     label: 'Built the Library Occupancy Tracker',
-    category: 'projects',
-    pivotal: true,
     at: '2023-01-01',
   },
   {
-    label: 'Built Vibe-Check at Hack The Burgh',
-    category: 'hackathons',
-    pivotal: true,
-    from: '2023-03-11',
-    to: '2023-03-12',
+    label: (
+      <span>
+        Hackathon:{' '}
+        <a
+          href="https://devpost.com/software/promotions-of-men-and-women-in-the-modern-workplace"
+          target="_blank"
+          rel="noopener noreferrer">
+          built Gender Bias in Promotions
+        </a>{' '}
+        (Ada Hack 2022)
+      </span>
+    ),
+    at: '2022-10-15',
   },
   {
-    label: 'Demoed Vibe-Check during the Informatics Entrepreneurship Festival',
-    category: 'hackathons',
-    pivotal: true,
+    label: (
+      <span>
+        Hackathon:{' '}
+        <a
+          href="https://devpost.com/software/vibe-check-tox0wn"
+          target="_blank"
+          rel="noopener noreferrer">
+          built Vibe Check
+        </a>{' '}
+        (Hack The Burgh 2023)
+      </span>
+    ),
+    from: '2023-03-04',
+    to: '2023-03-05',
+  },
+  {
+    label: (
+      <a
+        href="https://comp-soc.com/team/"
+        target="_blank"
+        rel="noopener noreferrer">
+        Started my first CompSoc term as 3rd Year Representative
+      </a>
+    ),
+    at: '2023-04-04',
+  },
+  {
+    label: (
+      <a
+        href="https://comp-soc.com/team/"
+        target="_blank"
+        rel="noopener noreferrer">
+        Started my second CompSoc term as 4th Year Representative
+      </a>
+    ),
+    at: '2024-04-03',
+  },
+  {
+    label: 'Started working as marker for the Software Engineering course at UoE',
     at: '2023-09-01',
   },
   {
-    label:
-      'Worked as a lab demonstrator and marker for UoE Software Engineering',
-    category: 'career',
-    pivotal: true,
-    from: '2023-09-01',
-    to: '2024-05-31',
+    label: (
+      <span>
+        Hackathon:{' '}
+        <a
+          href="https://devpost.com/software/ark-ademic"
+          target="_blank"
+          rel="noopener noreferrer">
+          built ARK-ademic
+        </a>{' '}
+        (IC Hack 24)
+      </span>
+    ),
+    at: '2024-02-04',
   },
   {
-    label: 'Taught programming at Code Cadets',
-    category: 'career',
-    pivotal: true,
-    from: '2024-01-01',
-    to: '2024-12-31',
+    label: (
+      <span>
+        Hackathon:{' '}
+        <a
+          href="https://devpost.com/software/notevec"
+          target="_blank"
+          rel="noopener noreferrer">
+          built NoteVec
+        </a>{' '}
+        (Hack The Burgh 2024)
+      </span>
+    ),
+    from: '2024-03-02',
+    to: '2024-03-03',
+  },
+  {
+    label: 'Started teaching programming to kids part-time at Code Cadets',
+    at: '2024-01-01',
   },
   {
     label:
       'Built Zephyr Fan, an AI-powered smart fan with CV + gesture control',
-    category: 'projects',
-    pivotal: true,
-    from: '2024-01-01',
-    to: '2024-05-31',
+    at: '2024-05-31',
     media: {
       type: 'image',
       src: '/mlp-1.jpg',
@@ -223,16 +290,109 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
     },
   },
   {
-    label: 'Organised Hack The Burgh XI',
-    category: 'hackathons',
-    pivotal: true,
+    label: (
+      <a href="/about-this-website">
+        Released version 2024 of my portfolio website
+      </a>
+    ),
+    at: '2024-09-08',
+  },
+  {
+    label: (
+      <span>
+        Released the{' '}
+        <a
+          href="https://comp-soc.com"
+          target="_blank"
+          rel="noopener noreferrer">
+          new CompSoc website
+        </a>{' '}
+        with{' '}
+        <Avatar
+          person={Person.CaterinaMammola}
+          className="inline-flex items-center px-1 py-px align-middle leading-none [&_img]:size-3 [&_img]:align-middle [&_span]:ml-1 [&_span]:text-[10px] [&_span]:leading-none sm:[&_span]:text-[11px]"
+        />
+      </span>
+    ),
+    at: '2024-09-29',
+  },
+  {
+    label: (
+      <span>
+        Researched whether{' '}
+        <a href="/curl">
+          computer vision can help make strength training safer
+        </a>
+      </span>
+    ),
+    at: '2025-01-01',
+  },
+  {
+    label: 'Organised Hack The Burgh 2025: Largest hackathon in Scotland',
     from: '2025-03-01',
     to: '2025-03-02',
   },
   {
+    label: (
+      <span>
+        Hackathon:{' '}
+        <a
+          href="https://devpost.com/software/blockdraw"
+          target="_blank"
+          rel="noopener noreferrer">
+          built BlockDraw
+        </a>{' '}
+        (IC Hack 25)
+      </span>
+    ),
+    from: '2025-02-01',
+    to: '2025-02-02',
+  },
+  {
+    label: (
+      <a
+        href="https://www.research.ed.ac.uk/en/publications/enhancing-peer-feedback-quality-in-marked/"
+        target="_blank"
+        rel="noopener noreferrer">
+        Presented my MarkEd research at the University Learning &amp; Teaching
+        Conference
+      </a>
+    ),
+    at: '2025-06-17',
+  },
+  {
+    label: (
+      <span>
+        Hackathon:{' '}
+        <a
+          href="https://devpost.com/software/sosbridge"
+          target="_blank"
+          rel="noopener noreferrer">
+          built SOSBridge
+        </a>{' '}
+        (ElevenLabs × London Founder House Hack)
+      </span>
+    ),
+    from: '2025-06-28',
+    to: '2025-06-29',
+  },
+  {
+    label: (
+      <span>
+        Stripe Sessions 2026:{' '}
+        <a
+          href="https://x.com/stripe/status/2049621560743608481"
+          target="_blank"
+          rel="noopener noreferrer">
+          Saw my work on Stripe Treasury reach the stage
+        </a>
+      </span>
+    ),
+    from: '2026-04-27',
+    to: '2026-05-01',
+  },
+  {
     label: 'ChatGPT launched',
-    category: 'world',
-    pivotal: true,
     at: '2022-11-30',
     kind: 'world',
   },

@@ -71,6 +71,7 @@ export default async function Timeline() {
           kind,
           isPoint: false,
           dayCol: isoDow(ann.to) - 1,
+          startDayCol: isoDow(ann.from) - 1,
           r0: findRow(new Date(ann.to + 'T00:00:00')),
           r1: findRow(new Date(ann.from + 'T00:00:00')),
           barCol: 0,

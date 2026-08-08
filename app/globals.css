@@ -99,13 +99,6 @@ body {
   --timeline-tooltip-foreground: #fafafa;
   --timeline-tooltip-detail: #d4d4d8;
   --timeline-tooltip-border: #27272a;
-  --timeline-filter-background: rgb(255 255 255 / 0.9);
-  --timeline-filter-border: #d4d4d8;
-  --timeline-filter-chip: #f4f4f5;
-  --timeline-filter-chip-hover: #e4e4e7;
-  --timeline-filter-chip-text: #52525b;
-  --timeline-filter-active: #18181b;
-  --timeline-filter-active-text: #fafafa;
 }
 
 [data-theme='dark'] .timeline {
@@ -124,44 +117,6 @@ body {
   --timeline-tooltip-foreground: #18181b;
   --timeline-tooltip-detail: #52525b;
   --timeline-tooltip-border: #d4d4d8;
-  --timeline-filter-background: rgb(24 24 27 / 0.9);
-  --timeline-filter-border: #3f3f46;
-  --timeline-filter-chip: #27272a;
-  --timeline-filter-chip-hover: #3f3f46;
-  --timeline-filter-chip-text: #d4d4d8;
-  --timeline-filter-active: #f4f4f5;
-  --timeline-filter-active-text: #18181b;
-}
-
-.timeline-filter-bar {
-  background-color: var(--timeline-filter-background);
-  border-color: var(--timeline-filter-border);
-}
-
-.timeline-filter-scroll {
-  scrollbar-width: none;
-}
-
-.timeline-filter-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.timeline-filter-chip {
-  color: var(--timeline-filter-chip-text);
-  background-color: var(--timeline-filter-chip);
-}
-
-.timeline-filter-chip:hover {
-  background-color: var(--timeline-filter-chip-hover);
-}
-
-.timeline-filter-chip.is-active {
-  color: var(--timeline-filter-active-text);
-  background-color: var(--timeline-filter-active);
-}
-
-.timeline-filter-count {
-  color: var(--timeline-muted);
 }
 
 .timeline-day-header {

@@ -8,6 +8,8 @@ export type AnnotationLayout = {
   isPoint: boolean
   /** Monday-based day column used when an annotation is circled in the grid. */
   dayCol?: number
+  /** Monday-based start column for ranges contained within one week. */
+  startDayCol?: number
   /** Inclusive row span; `r0` is the row where this annotation is introduced. */
   r0: number
   r1: number
