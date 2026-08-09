@@ -71,6 +71,130 @@ body {
   @apply text-foreground;
 }
 
+.timeline-error {
+  color: #b91c1c;
+  background-color: rgb(239 68 68 / 0.12);
+  border: 1px solid rgb(239 68 68 / 0.18);
+}
+
+[data-theme='dark'] .timeline-error {
+  color: #fca5a5;
+  background-color: rgb(239 68 68 / 0.14);
+  border-color: rgb(248 113 113 / 0.2);
+}
+
+.timeline {
+  --timeline-empty: #e4e4e7;
+  --timeline-cell-border: rgb(63 63 70 / 0.12);
+  --timeline-level-1: #86efac;
+  --timeline-level-2: #4ade80;
+  --timeline-level-3: #22c55e;
+  --timeline-level-4: #15803d;
+  --timeline-label: #27272a;
+  --timeline-muted: #52525b;
+  --timeline-personal: #047857;
+  --timeline-world: #0369a1;
+  --timeline-tooltip-background: #18181b;
+  --timeline-tooltip-foreground: #fafafa;
+  --timeline-tooltip-detail: #d4d4d8;
+  --timeline-tooltip-border: #27272a;
+}
+
+[data-theme='dark'] .timeline {
+  --timeline-empty: #27272a;
+  --timeline-cell-border: rgb(255 255 255 / 0.07);
+  --timeline-level-1: #065f46;
+  --timeline-level-2: #047857;
+  --timeline-level-3: #10b981;
+  --timeline-level-4: #6ee7b7;
+  --timeline-label: #e4e4e7;
+  --timeline-muted: #a1a1aa;
+  --timeline-personal: #34d399;
+  --timeline-world: #38bdf8;
+  --timeline-tooltip-background: #fafafa;
+  --timeline-tooltip-foreground: #18181b;
+  --timeline-tooltip-detail: #52525b;
+  --timeline-tooltip-border: #d4d4d8;
+}
+
+.timeline-day-header {
+  color: var(--timeline-muted);
+}
+
+.timeline-tooltip {
+  color: var(--timeline-tooltip-foreground);
+  background: var(--timeline-tooltip-background);
+  border-color: var(--timeline-tooltip-border);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.16);
+}
+
+.timeline-tooltip-detail {
+  color: var(--timeline-tooltip-detail);
+}
+
+.timeline-cell {
+  box-shadow: inset 0 0 0 1px var(--timeline-cell-border);
+}
+
+.timeline-level-0 {
+  background-color: var(--timeline-empty);
+}
+
+.timeline-level-1 {
+  background-color: var(--timeline-level-1);
+}
+
+.timeline-level-2 {
+  background-color: var(--timeline-level-2);
+}
+
+.timeline-level-3 {
+  background-color: var(--timeline-level-3);
+}
+
+.timeline-level-4 {
+  background-color: var(--timeline-level-4);
+}
+
+.timeline-year {
+  color: var(--timeline-muted);
+}
+
+.timeline-annotation-label {
+  color: var(--timeline-label);
+}
+
+.timeline-now,
+.timeline-more {
+  color: var(--timeline-personal);
+}
+
+.timeline-more {
+  text-decoration-color: color-mix(in srgb, var(--timeline-personal), transparent 55%);
+}
+
+.timeline-more:hover {
+  color: color-mix(in srgb, var(--timeline-personal), currentColor 18%);
+}
+
+.timeline-ink-personal {
+  --timeline-ink: var(--timeline-personal);
+}
+
+.timeline-ink-world {
+  --timeline-ink: var(--timeline-world);
+}
+
+svg.timeline-ink-personal path,
+svg.timeline-ink-world path {
+  fill: none;
+  stroke: var(--timeline-ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.35;
+}
+
+
 ::selection {
   background-color: hsl(var(--accent), 0.2);
   color: hsl(var(--accent));

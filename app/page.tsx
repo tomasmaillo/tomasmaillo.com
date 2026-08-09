@@ -13,6 +13,7 @@ import CurlIcon from '@/public/pixel-arts/curl.svg'
 import BooksIcon from '@/public/pixel-arts/books.svg'
 import MarkedIcon from '@/public/pixel-arts/marked.svg'
 import MugIcon from '@/public/pixel-arts/mug.svg'
+import TimelineIcon from '@/public/pixel-arts/timeline.svg'
 
 export default function Home() {
   return (
@@ -47,6 +48,14 @@ export default function Home() {
 
       <div className="grid grid-cols-1 mt-8 gap-x-8 gap-y-4">
         <h2 className="text-2xl font-editorialNew">Posts</h2>
+        <LinkTo
+          Icon={TimelineIcon}
+          displayText="Timeline"
+          link="/timeline"
+          sideText="3 min read"
+          supportText="A visual history of projects, progress and notable moments"
+        />
+
         <LinkTo
           Icon={FanIcon}
           displayText="AI Fan App"
