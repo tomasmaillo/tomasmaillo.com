@@ -1,6 +1,8 @@
+import { after } from 'next/server'
 import { retrieveContributionData } from './fetchGithubContributions'
 import { ALL_ANNOTATIONS, isPointAnnotation } from './timeline-annotations'
 import { TimelineRows } from './timeline-rows'
+import { sendPushoverNotification } from '@/lib/pushover'
 import {
   rechunkWeeks,
   isoDow,
@@ -91,6 +93,14 @@ export default async function Timeline() {
     )
   } catch (error) {
     console.error('Timeline error:', error)
+
+    after(() => {
+      return sendPushoverNotification({
+        title: 'Timeline failed to load',
+        message: 'The /timeline page is showing its error state.',
+      })
+    })
+
     return (
       <div className="timeline-error rounded-md px-3 py-2 text-xs">
         Unable to load timeline. Try later
