@@ -22,6 +22,7 @@
     "@radix-ui/react-dialog": "^1.1.23",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.1.0",
+    "@sentry/nextjs": "^10.69.0",
     "@stripe/stripe-js": "^7.3.1",
     "@supabase/supabase-js": "2.111.0",
     "@types/mdx": "2.0.14",
