@@ -94,7 +94,6 @@ body {
   --timeline-muted: #52525b;
   --timeline-personal: #047857;
   --timeline-world: #0369a1;
-  --timeline-media-border: #d4d4d8;
   --timeline-tooltip-background: #18181b;
   --timeline-tooltip-foreground: #fafafa;
   --timeline-tooltip-detail: #d4d4d8;
@@ -112,7 +111,6 @@ body {
   --timeline-muted: #a1a1aa;
   --timeline-personal: #34d399;
   --timeline-world: #38bdf8;
-  --timeline-media-border: #3f3f46;
   --timeline-tooltip-background: #fafafa;
   --timeline-tooltip-foreground: #18181b;
   --timeline-tooltip-detail: #52525b;
@@ -196,9 +194,6 @@ svg.timeline-ink-world path {
   stroke-width: 1.35;
 }
 
-.timeline-media {
-  border-color: var(--timeline-media-border);
-}
 
 ::selection {
   background-color: hsl(var(--accent), 0.2);

@@ -273,14 +273,16 @@ function AnnotationInk({
   const rangeMid = (rowY + rangeBottom) / 2
   const rangeQuarter = (rangeBottom - rowY) / 4
   const startX = usesCircle ? selectionRight + 2.5 : trackX + 6
-  const startY = usesCircle ? rowY : rangeMid - 0.5
-  const controlOffset = Math.min(34, Math.max(18, (labelLeft - startX) * 0.34))
+  const startY = usesCircle ? rowY : rangeMid
+  const controlOffset = Math.min(34, Math.max(0, (labelLeft - startX) * 0.34))
   const leader = `M ${startX} ${startY} C ${startX + controlOffset} ${startY}, ${labelLeft - controlOffset} ${targetY}, ${labelLeft} ${targetY}`
 
-  const brace = [
+  const rangeInk = [
     `M ${trackX - 3} ${rowY}`,
     `C ${trackX + 2.5} ${rowY}, ${trackX + 2.5} ${rowY + rangeQuarter * 0.72}, ${trackX + 2.5} ${rangeMid - 4}`,
     `C ${trackX + 2.5} ${rangeMid - 2.5}, ${trackX + 4.25} ${rangeMid - 0.75}, ${trackX + 6} ${rangeMid}`,
+    `C ${startX + controlOffset} ${startY}, ${labelLeft - controlOffset} ${targetY}, ${labelLeft} ${targetY}`,
+    `M ${trackX + 6} ${rangeMid}`,
     `C ${trackX + 4.25} ${rangeMid + 0.75}, ${trackX + 2.5} ${rangeMid + 2.5}, ${trackX + 2.5} ${rangeMid + 4}`,
     `C ${trackX + 2.5} ${rangeBottom - rangeQuarter * 0.72}, ${trackX + 2.5} ${rangeBottom}, ${trackX - 3} ${rangeBottom}`,
   ].join(' ')
@@ -300,8 +302,11 @@ function AnnotationInk({
       width="100%"
       height={height}
       preserveAspectRatio="none">
-      <path d={usesCircle ? circle : brace} vectorEffect="non-scaling-stroke" />
-      <path d={leader} vectorEffect="non-scaling-stroke" />
+      <path
+        d={usesCircle ? circle : rangeInk}
+        vectorEffect="non-scaling-stroke"
+      />
+      {usesCircle && <path d={leader} vectorEffect="non-scaling-stroke" />}
     </svg>
   )
 }
@@ -354,7 +359,7 @@ function AnnotationCard({
               alt={media.alt}
               width={media.width}
               height={media.height}
-              className="timeline-media h-auto max-w-full rounded border"
+              className="h-auto max-w-full rounded"
             />
           </div>
         </CollapsibleHeight>
