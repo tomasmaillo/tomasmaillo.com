@@ -1,6 +1,7 @@
 import LinkTo from '@/components/LinkTo'
 import Spacing from '@/components/Spacing'
 import NowReminderToast from './NowReminderToast'
+import NowMediaScroller from './NowMediaScroller'
 import NowUpdate from './NowUpdate'
 
 export const revalidate = 3600
@@ -18,7 +19,41 @@ export const metadata = {
   <p>This is a [/now](https://nownownow.com/about) page: a small, current snapshot of what has my attention. Less polished than a blog post, more alive than an about page.</p>
 </div>
 
-<NowUpdate date="2026-05-04" location="Battersea's Watchhouse">
+<NowUpdate date="2026-08-14" location="Andrín, Asturias, Spain">
+
+I am spending the first two weeks of August in northern Spain. It is nice to see family, sunbathe, and do more reading than I manage at any other point in the year.
+
+## Reading and watching
+
+I just finished *Masters of Doom*. Great read. One takeaway was that the [`.plan` files John Carmack used to write](https://github.com/ESWAT/john-carmack-plan-archive/blob/master/by_year/johnc_plan_1997.txt) feel just like a /now page but for developers. It turns out history is repeating itself yet again.
+
+I have started *Snow Crash*, the novel that coined the term "metaverse", and started watching *X-Men '97*. Pretty good!
+
+## LED screen
+
+I took a little break from working on the screen after a period of crunch at work. Getting back into it now. I won't bore you with the dozens of hours of tests I have run, but here is the TL;DR of the coolest bits:
+
+- I am calling it `Raster 01`, and it will ship in one piece.
+- I have soldered on a rotary encoder for input, but I am having second thoughts. What about a touch sensor?
+- I have decided against having an app.
+- I have made more cool animations:
+
+<NowMediaScroller>
+  <video src="/now/andrin-2026/led-waves.mp4" autoPlay loop muted playsInline preload="metadata" aria-label="Blue waves moving across the LED screen" className="h-auto w-28 shrink-0 rounded-sm sm:w-32" />
+  <video src="/now/andrin-2026/led-ribbons.mp4" autoPlay loop muted playsInline preload="metadata" aria-label="Colourful ribbons moving across the LED screen" className="h-auto w-28 shrink-0 rounded-sm sm:w-32" />
+  <video src="/now/andrin-2026/led-countdown.mp4" autoPlay loop muted playsInline preload="metadata" aria-label="Colourful countdown on the LED screen" className="h-auto w-28 shrink-0 rounded-sm sm:w-32" />
+  <video src="/now/andrin-2026/led-blocks.mp4" autoPlay loop muted playsInline preload="metadata" aria-label="Colourful blocks moving across the LED screen" className="h-auto w-28 shrink-0 rounded-sm sm:w-32" />
+</NowMediaScroller>
+
+## Timeline
+
+A few days ago I published the [/timeline](/timeline) post I have been working on. While showing it to a friend, they asked me how I had made the lines between the events and the labels, but I could not answer. It is the first feature on this website entirely AI-generated. Incredible times! Even using AI tools non-stop for work, it is incredibly impressive how capable they are in small codebases.
+
+<br />
+
+</NowUpdate>
+
+<NowUpdate date="2026-05-04" location="WatchHouse, Battersea Power Station, London">
 
 ### Stripe Sessions
 
@@ -64,5 +99,7 @@ I have also started watching *The Testaments*, the sequel to *The Handmaid's Tal
 I am planning to go to Stockholm for a weekend.
 
 I am also thinking about going to Florida to see a rocket launch, although that is not planned yet. Seeing a rocket launch is one of those things <a href="/bucket-list">I have wanted to do for years</a>. It makes me hopeful about the future.
+
+<br />
 
 </NowUpdate>

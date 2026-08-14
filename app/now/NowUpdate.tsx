@@ -111,10 +111,6 @@ function formatSingleUnitAgo(postDay: Date, now: Date): string {
     return 'upcoming'
   }
   if (dayDiff === 0) {
-    const hours = Math.floor((now.getTime() - postDay.getTime()) / 3_600_000)
-    if (hours >= 1) return `${hours}h ago`
-    const mins = Math.floor((now.getTime() - postDay.getTime()) / 60_000)
-    if (mins >= 1) return `${mins}m ago`
     return 'today'
   }
 
@@ -173,6 +169,19 @@ const jaggedPaper = `polygon(
   0.5% 46%, 1.5% 33%, 0.7% 19%
 )`
 
+const shadowBlur = 'blur(0.55rem)'
+
+const paperShadowStyle = {
+  inset: '0.12rem 0 -0.12rem',
+  filter: shadowBlur,
+  WebkitFilter: shadowBlur,
+} satisfies CSSProperties
+
+const paperShadowShapeStyle = {
+  background: 'var(--now-shadow)',
+  clipPath: jaggedPaper,
+} satisfies CSSProperties
+
 export default function NowUpdate({
   children,
   date,
@@ -189,8 +198,6 @@ export default function NowUpdate({
   )
 
   const wrapperStyle = {
-    filter:
-      'drop-shadow(0 1.35rem 1.15rem var(--now-shadow-main)) drop-shadow(0 0.28rem 0.25rem var(--now-shadow-tight))',
     transformOrigin: '48% 12%',
     '--now-tilt': `${tiltMobile}deg`,
     '--now-tilt-wide': `${tiltWide}deg`,
@@ -205,20 +212,25 @@ export default function NowUpdate({
   return (
     <div
       className={cn(
-        "my-10 -mx-1 [--now-shadow-main:rgba(30,24,18,0.188)] [--now-shadow-tight:rgba(30,24,18,0.069)] [transform:rotate(var(--now-tilt))] [[data-theme='dark']_&]:[--now-shadow-main:rgba(0,0,0,0.42)] [[data-theme='dark']_&]:[--now-shadow-tight:rgba(0,0,0,0.25)] sm:[transform:rotate(var(--now-tilt-wide))]",
+        "relative isolate my-10 -mx-1 [--now-shadow:rgba(30,24,18,0.2)] [transform:rotate(var(--now-tilt))] [[data-theme='dark']_&]:[--now-shadow:rgba(0,0,0,0.5)] sm:[transform:rotate(var(--now-tilt-wide))]",
         className,
       )}
       style={wrapperStyle}>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute"
+        style={paperShadowStyle}>
+        <div className="size-full" style={paperShadowShapeStyle} />
+      </div>
       <article
-        className="relative px-5 py-6 text-[var(--now-paper-ink)] [--now-paper:#ffffff] [--now-paper-fleck:rgba(35,29,22,0.055)] [--now-paper-ink:#241f1a] [--now-paper-muted:rgba(36,31,26,0.6)] [[data-theme='dark']_&]:[--now-paper:#1b1815] [[data-theme='dark']_&]:[--now-paper-fleck:rgba(255,246,230,0.075)] [[data-theme='dark']_&]:[--now-paper-ink:#f5efe5] [[data-theme='dark']_&]:[--now-paper-muted:rgba(245,239,229,0.64)] sm:px-9 sm:py-8"
+        className="relative z-10 px-5 py-6 text-[var(--now-paper-ink)] [--now-paper:#ffffff] [--now-paper-fleck:rgba(35,29,22,0.055)] [--now-paper-ink:#241f1a] [--now-paper-muted:rgba(36,31,26,0.6)] [[data-theme='dark']_&]:[--now-paper:#1b1815] [[data-theme='dark']_&]:[--now-paper-fleck:rgba(255,246,230,0.075)] [[data-theme='dark']_&]:[--now-paper-ink:#f5efe5] [[data-theme='dark']_&]:[--now-paper-muted:rgba(245,239,229,0.64)] sm:px-9 sm:py-8"
         style={paperStyle}
         aria-label={`Now update written on ${displayDate} from ${location}`}>
-        <header className="mt-6 mb-2 flex flex-wrap gap-x-2 gap-y-1 text-xs leading-snug text-[var(--now-paper-muted)]">
-          <time dateTime={iso}>{displayDate}</time>
-          <span aria-hidden="true" className="select-none">
-            /
-          </span>
-          <span>{location}</span>
+        <header className="mt-6 mb-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-xs leading-snug text-[var(--now-paper-muted)]">
+          <span className="shrink-0">{location}</span>
+          <time className="shrink-0" dateTime={iso}>
+            {displayDate}
+          </time>
         </header>
         <div>{children}</div>
       </article>
