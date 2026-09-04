@@ -1,14 +1,8 @@
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-} from '../ui/carousel'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
-import ExternalLink, { getExternalLinkProps } from '../ExternalLink'
+import StripeIcon from '@/public/experience/stripe.svg'
+import ExternalLink from '../ExternalLink'
 
 export const CarouselImage = ({
   src,
@@ -35,6 +29,7 @@ export const CarouselImage = ({
       width={500}
       height={500}
       priority={priority}
+      draggable={false}
       // TODO: Add placeholder
       // placeholder="blur"
       // blurDataURL={src}
@@ -45,163 +40,131 @@ export const CarouselImage = ({
 export const CarouselVideo = ({
   src,
   addPadding,
+  className,
 }: {
   src: string
   addPadding?: boolean
+  className?: string
 }) => {
   return (
     <video
       className={cn(
         'object-cover w-full h-full bg-card rounded-lg overflow-hidden',
         addPadding && 'p-2',
+        className,
       )}
       src={src}
       autoPlay
       loop
       muted
       playsInline
+      draggable={false}
     />
   )
 }
 
-const ProjectTitle = ({
+const CarouselSlide = ({
   children,
-  link,
-  externalLink,
+  footer,
 }: {
   children: React.ReactNode
-  link?: string
-  externalLink?: string
-}) => {
-  const projectName = typeof children === 'string' ? children : 'this project'
-
-  return (
-    <div className="flex items-center gap-2 mt-12 mb-2 align-baseline justify-between">
-      <h2 className="m-0">
-        {children}
-        {externalLink && (
-          <ExternalLink
-            href={externalLink}
-            target="_blank"
-            rel="noopener"
-            aria-label={`Open ${projectName} in a new tab`}
-            className="text-accent text-sm hover:underline ml-2">
-            ↗
-          </ExternalLink>
-        )}
-      </h2>
-      {link && (
-        <Link
-          href={link}
-          aria-label={`Read more about ${projectName}`}
-          className="text-accent text-sm hover:underline">
-          ...more
-        </Link>
-      )}
+  footer: React.ReactNode
+}) => (
+  <div
+    role="listitem"
+    className="flex w-[calc(100vw-3.5rem)] shrink-0 flex-col md:w-[34rem]">
+    <div className="flex h-80 w-full items-center justify-center overflow-hidden rounded-lg bg-card">
+      {children}
     </div>
-  )
-}
-
-const ProjectDescription = ({ children }: { children: React.ReactNode }) => {
-  return <p className="text-muted text-sm mb-2">{children}</p>
-}
+    <div className="relative h-11 pr-3 text-xs text-muted">
+      <div className="sticky left-4 flex h-full w-fit max-w-[calc(100%-1.75rem)] items-center whitespace-nowrap">
+        {footer}
+      </div>
+    </div>
+  </div>
+)
 
 export const Projects = () => {
   return (
-    <div>
-      <ProjectTitle link="/vibe-check">Vibe-Check</ProjectTitle>
-      <ProjectDescription>
-        Platform to increase lecture engagement through real-time audience
-        interaction and data visualisation. Worked alongside UoEdinburgh
-        lecturers to trial the system in lectures.
-      </ProjectDescription>
-      <Carousel>
-        <CarouselContent>
-          <CarouselItem>
-            <CarouselImage
-              src="/vc-phone.png"
-              alt="Vibe-Check audience interface displayed in a phone frame"
-              priority
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <CarouselImage
-              src="/vc-browser.png"
-              alt="Vibe-Check presenter dashboard with live audience reactions"
-            />
-          </CarouselItem>
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-
-      <ProjectTitle externalLink="https://projectshare.comp-soc.com">
-        Project Share
-      </ProjectTitle>
-      <ProjectDescription>
-        Founded UoEdinburgh&apos;s Project Share society, gathering a subset of
-        the most talented and proactive tech students of the Uni to hold regular
-        meetups and share updates on personal tech projects.
-      </ProjectDescription>
-      <Carousel>
-        <CarouselContent>
-          <CarouselItem>
-            <CarouselImage
-              src="/ps-browser.png"
-              alt="Project Share website homepage showing upcoming student meetups"
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <CarouselImage
-              src="/ps-browser-2.png"
-              alt="Project Share website page highlighting student projects"
-            />
-          </CarouselItem>
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-
-      <ProjectTitle link="/zephyr-fan-app">Fan</ProjectTitle>
-      <ProjectDescription>
-        Developed a smart fan prototype with computer vision capabilities. The
-        fan tracks users and responds to hand gestures for control.
-        Additionally, created a companion app for remote fan operation and data
-        monitoring.
-      </ProjectDescription>
-      <Carousel>
-        <CarouselContent>
-          <CarouselItem>
-            <CarouselImage
-              addPadding
-              src="/zf-phone.png"
-              alt="Zephyr Fan mobile app controls displayed in a phone frame"
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <CarouselVideo src="/zf-video.mp4" />
-          </CarouselItem>
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-
-      <div className="flex flex-col items-center mt-12">
-        <p className="text-muted text-xs text-center">
-          ...and many, many more projects still to be listed.
-        </p>
-        <p className="text-muted text-xs text-center">
-          In the meantime, check my archive of
-        </p>
-        <Link
-          className="text-accent px-4 py-2 text-center mt-6 hover:underline"
-          target="_blank"
-          href="https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d"
-          {...getExternalLinkProps(
-            'https://tomasmaillo.notion.site/Everything-I-ve-ever-made-3d0e512ce6f24e6498604f2a772b4c8d'
-          )}>
-          Everything I&apos;ve ever built ↗
-        </Link>
+    <div
+      aria-label="Selected projects"
+      role="region"
+      className="relative left-1/2 w-screen -translate-x-1/2 select-none overflow-x-auto no-scrollbar overscroll-x-none">
+      <div
+        role="list"
+        className="flex gap-4 px-4 md:px-[max(1rem,calc((100vw-34rem)/2))]">
+        <CarouselSlide footer="Software engineer at Stripe · 2025–present">
+          <StripeIcon
+            aria-label="Stripe"
+            className="stripe-carousel-logo h-10 w-10"
+            draggable={false}
+            viewBox="0 0 512 512"
+          />
+        </CarouselSlide>
+        <CarouselSlide
+          footer={
+            <>
+              AI fan prototype ·&nbsp;
+              <Link
+                href="/zephyr-fan-app"
+                className="border-b border-dotted border-accent text-foreground !no-underline">
+                Write-up
+              </Link>
+            </>
+          }>
+          <CarouselVideo src="/zf-video.mp4" className="rounded-none" />
+        </CarouselSlide>
+        <CarouselSlide footer="Engineering intern at Spotify · Summer 2022">
+          <Image
+            className="spotify-carousel-logo h-10 w-10"
+            src="/experience/spotify.svg"
+            alt="Spotify"
+            width={40}
+            height={40}
+            draggable={false}
+          />
+        </CarouselSlide>
+        <CarouselSlide
+          footer={
+            <>
+              Student builder community ·&nbsp;
+              <ExternalLink
+                href="https://projectshare.comp-soc.com"
+                target="_blank"
+                rel="noopener"
+                className="border-b border-dotted border-accent text-foreground !no-underline">
+                Visit site ↗
+              </ExternalLink>
+            </>
+          }>
+          <CarouselImage
+            src="/ps-browser.png"
+            alt="Project Share website homepage showing upcoming student meetups"
+            className="rounded-none"
+          />
+        </CarouselSlide>
+        <CarouselSlide
+          footer={
+            <>
+              Live lecture engagement ·&nbsp;
+              <Link
+                href="/vibe-check"
+                className="border-b border-dotted border-accent text-foreground !no-underline">
+                Write-up
+              </Link>
+            </>
+          }>
+          <CarouselImage
+            src="/vc-phone.png"
+            alt="Vibe-Check audience interface displayed in a phone frame"
+            priority
+            className="rounded-none"
+          />
+        </CarouselSlide>
+        <div
+          aria-hidden="true"
+          className="w-0 shrink-0 md:w-[max(0px,calc((100vw-34rem)/2-1rem))]"
+        />
       </div>
     </div>
   )

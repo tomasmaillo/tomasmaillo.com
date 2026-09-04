@@ -77,6 +77,7 @@ const config = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
+        display: ['var(--font-display)', ...fontFamily.sans],
         editorialNew: ['var(--font-editorial-new)', ...fontFamily.sans],
       },
     },

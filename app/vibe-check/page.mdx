@@ -2,6 +2,8 @@ import LinkTo from '@/components/LinkTo'
 import Avatar, { Person } from '@/components/ui/avatar'
 import Image from 'next/image'
 import Spacing from '@/components/Spacing'
+import PostTitle from '@/components/PostTitle'
+import VibeCheckIcon from '@/public/pixel-arts/vibe-check.svg'
 
 export const metadata = {
   title: 'Vibe-Check - Tomas Maillo',
@@ -11,7 +13,7 @@ export const metadata = {
 <LinkTo displayText="Back" link="/" />
 <Spacing lines={2} />
 
-# Vibe-Check
+<PostTitle Icon={VibeCheckIcon}>Vibe-Check</PostTitle>
 
 Co-built with <Avatar person={Person.StanFlint} />, vibe-check is a Chrome extension and website that helps make presentations more interactive. Users can *react* and *comment* on presentations in real time, while presenters can see live statistics on the overall *vibe* of the room.
 

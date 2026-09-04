@@ -2,6 +2,8 @@ import LinkTo from '@/components/LinkTo'
 import Avatar, { Person } from '@/components/ui/avatar'
 import BalloonButton from './balloonButton'
 import Spacing from '@/components/Spacing'
+import PostTitle from '@/components/PostTitle'
+import PageIcon from '@/public/pixel-arts/page.svg'
 
 export const metadata = {
   title: 'About This Website - Tomas Maillo',
@@ -11,7 +13,7 @@ export const metadata = {
 <LinkTo displayText="Back" link="/" />
 <Spacing lines={2} />
 
-# About this website
+<PostTitle Icon={PageIcon}>About this website</PostTitle>
 
 Yes, the very website you are looking at right now! My portfolio website.
 

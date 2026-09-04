@@ -3,6 +3,8 @@ import Avatar, { Person } from '@/components/ui/avatar'
 import Latex from '@/components/Latex';
 import 'katex/dist/katex.min.css';
 import Spacing from '@/components/Spacing'
+import PostTitle from '@/components/PostTitle'
+import ToolsIcon from '@/public/pixel-arts/tools.svg'
 
 export const metadata = {
   title: 'What I Use - Tomas Maillo',
@@ -12,7 +14,7 @@ export const metadata = {
 <LinkTo displayText="Back" link="/" />
 <Spacing lines={2} />
 
-# What I use
+<PostTitle Icon={ToolsIcon}>What I use</PostTitle>
 
 A big chunk of being a developer is figuring out what tools to use. Yes, knowledge and being a team player are extremely important, but so is knowing what tools to use. 
 

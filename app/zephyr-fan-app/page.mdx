@@ -2,6 +2,8 @@ import LinkTo from '@/components/LinkTo'
 import Image from 'next/image'
 import Link from 'next/link'
 import Spacing from '@/components/Spacing'
+import PostTitle from '@/components/PostTitle'
+import FanIcon from '@/public/pixel-arts/fan.svg'
 
 export const metadata = {
   title: 'Zephyr Fan App - Tomas Maillo',
@@ -12,7 +14,7 @@ export const metadata = {
 <Spacing lines={2} />
 
 <div className="flex justify-between items-center">
-# App: Zephyr Fan
+  <PostTitle Icon={FanIcon}>App: Zephyr Fan</PostTitle>
   <Link
     className={`bg-accent text-white px-4 py-2 rounded-md transition-all active:scale-95 h-min`}
     href="https://zephyrfan.netlify.app/"

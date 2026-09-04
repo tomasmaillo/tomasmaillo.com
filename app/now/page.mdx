@@ -3,6 +3,8 @@ import Spacing from '@/components/Spacing'
 import NowReminderToast from './NowReminderToast'
 import NowMediaScroller from './NowMediaScroller'
 import NowUpdate from './NowUpdate'
+import PostTitle from '@/components/PostTitle'
+import ClockIcon from '@/public/pixel-arts/clock.svg'
 
 export const revalidate = 3600
 
@@ -14,6 +16,8 @@ export const metadata = {
 <NowReminderToast />
 <LinkTo displayText="Back" link="/" />
 <Spacing lines={2} />
+
+<PostTitle Icon={ClockIcon}>Now</PostTitle>
 
 <div className="text-sm text-muted-foreground p-4 mx-[-0.5rem]">
   <p>This is a [/now](https://nownownow.com/about) page: a small, current snapshot of what has my attention. Less polished than a blog post, more alive than an about page.</p>

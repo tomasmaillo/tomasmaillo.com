@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter as FontSans } from 'next/font/google'
+import { Instrument_Sans, Inter as FontSans } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/lib/utils'
 import TopBar from '@/components/TopBar'
@@ -18,6 +18,11 @@ import ReducedMotionMedia from '@/components/ReducedMotionMedia'
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans',
+})
+
+const fontDisplay = Instrument_Sans({
+  subsets: ['latin'],
+  variable: '--font-display',
 })
 
 const editorialNew = localFont({
@@ -69,6 +74,7 @@ export default function RootLayout({
         className={cn(
           'min-h-screen font-sans antialiased overflow-x-hidden relative',
           fontSans.variable,
+          fontDisplay.variable,
           editorialNew.variable,
         )}>
         <Fall />

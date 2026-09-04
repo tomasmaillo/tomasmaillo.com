@@ -71,6 +71,55 @@ body {
   @apply text-foreground;
 }
 
+.dithered-aurora {
+  position: absolute;
+  z-index: -1;
+  top: -7.5rem;
+  left: 50%;
+  width: min(72rem, 100vw);
+  height: 24rem;
+  transform: translate(-50%, -33%);
+  color: hsl(var(--accent));
+  image-rendering: pixelated;
+  opacity: 0.78;
+  pointer-events: none;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 15%,
+    black 68%,
+    transparent 100%
+  );
+}
+
+[data-theme='dark'] .dithered-aurora {
+  opacity: 0.9;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.spotify-carousel-logo {
+  filter: brightness(0);
+}
+
+[data-theme='dark'] .spotify-carousel-logo {
+  filter: brightness(0) invert(1);
+}
+
+.stripe-carousel-logo path:first-child {
+  fill: hsl(var(--foreground));
+}
+
+.stripe-carousel-logo path:nth-child(2) {
+  fill: hsl(var(--card));
+}
+
 .timeline-error {
   color: #b91c1c;
   background-color: rgb(239 68 68 / 0.12);

@@ -1,6 +1,8 @@
 import Book from '../components/Book'
 import LinkTo from '@/components/LinkTo'
 import Spacing from '@/components/Spacing'
+import PostTitle from '@/components/PostTitle'
+import BooksIcon from '@/public/pixel-arts/books.svg'
 
 export const metadata = {
   title: 'My Favourite Books - Tomas Maillo',
@@ -10,7 +12,7 @@ export const metadata = {
 <LinkTo displayText="Back" link="/" />
 <Spacing lines={2} />
 
-# My Favourite Books
+<PostTitle Icon={BooksIcon}>My Favourite Books</PostTitle>
 
 Here's a collection of books that have had a significant impact on me. Each one has shaped my thinking in different ways.
 

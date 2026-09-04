@@ -1,5 +1,3 @@
-import Experience from '@/components/Experience/Experience'
-import FadeIn from '@/components/FadeIn'
 import Links from '@/components/Links'
 import LinkTo from '@/components/LinkTo'
 import { Projects } from '@/components/Projects/Projects'
@@ -14,128 +12,125 @@ import BooksIcon from '@/public/pixel-arts/books.svg'
 import MarkedIcon from '@/public/pixel-arts/marked.svg'
 import MugIcon from '@/public/pixel-arts/mug.svg'
 import TimelineIcon from '@/public/pixel-arts/timeline.svg'
+import DitheredAurora from '@/components/DitheredAurora'
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-12">
-      <div className="flex flex-col gap-2">
-        <FadeIn delay={50}>
-          <h1 className="text-3xl mt-4 mb-2 font-editorialNew">Tomas Maillo</h1>
-        </FadeIn>
+    <div className="flex flex-col gap-16">
+      <div className="relative isolate -mx-4 px-4">
+        <DitheredAurora />
 
-        <FadeIn delay={200}>
+        <div className="relative z-10 flex flex-col gap-2">
+          <h1 className="text-3xl mt-4 mb-2 font-editorialNew">
+            Tomas Maillo
+          </h1>
+
           <p className="text-muted text-sm">
             Software engineer at Stripe, making thoughtful and useful products.
             A collection of projects, writing and lessons picked up along the
             way.
           </p>
-        </FadeIn>
 
-        <FadeIn delay={300}>
           <div className="my-8">
             <Links />
           </div>
-        </FadeIn>
+        </div>
       </div>
 
-      <FadeIn delay={600}>
-        <Experience />
-      </FadeIn>
+      <Projects />
 
-      <FadeIn delay={900}>
-        <Projects />
-      </FadeIn>
+      <div className="mt-8 mb-8">
+        <div>
+          <LinkTo
+            Icon={TimelineIcon}
+            displayText="Timeline"
+            link="/timeline"
+            sideText="3 min read"
+            supportText="A visual history of projects, progress and notable moments"
+          />
 
-      <div className="grid grid-cols-1 mt-8 gap-x-8 gap-y-4">
-        <h2 className="text-2xl font-editorialNew">Posts</h2>
-        <LinkTo
-          Icon={TimelineIcon}
-          displayText="Timeline"
-          link="/timeline"
-          sideText="3 min read"
-          supportText="A visual history of projects, progress and notable moments"
-        />
+          <LinkTo
+            Icon={FanIcon}
+            displayText="AI Fan App"
+            link="/zephyr-fan-app"
+            sideText="3 min read"
+            supportText="Project writeup of a fan using AI vision"
+          />
 
-        <LinkTo
-          Icon={FanIcon}
-          displayText="AI Fan App"
-          link="/zephyr-fan-app"
-          sideText="3 min read"
-          supportText="Project writeup of a fan using AI vision"
-        />
+          <LinkTo
+            Icon={ToolsIcon}
+            displayText="What I use"
+            link="/what-i-use"
+            sideText="2 min read"
+            supportText="A list of tools I use and recommend"
+          />
 
-        <LinkTo
-          Icon={ToolsIcon}
-          displayText="What I use"
-          link="/what-i-use"
-          sideText="2 min read"
-          supportText="A list of tools I use and recommend"
-        />
+          <LinkTo
+            Icon={ClockIcon}
+            displayText="Now"
+            link="/now"
+            sideText="1 min read"
+            supportText="What I'm focused on at the moment"
+          />
 
-        <LinkTo
-          Icon={ClockIcon}
-          displayText="Now"
-          link="/now"
-          sideText="1 min read"
-          supportText="What I'm focused on at the moment"
-        />
+          <LinkTo
+            Icon={PageIcon}
+            displayText="About this website"
+            link="/about-this-website"
+            sideText="3 min read"
+            supportText="Behind the scenes look at this website and the ones before it"
+          />
 
-        <LinkTo
-          Icon={PageIcon}
-          displayText="About this website"
-          link="/about-this-website"
-          sideText="3 min read"
-          supportText="Behind the scenes look at this website and the ones before it"
-        />
+          <LinkTo
+            Icon={VibeCheckIcon}
+            displayText="vibe-check"
+            link="/vibe-check"
+            sideText="5 min read"
+            supportText="A project writeup of a tool I built to help lecturers"
+          />
 
-        <LinkTo
-          Icon={VibeCheckIcon}
-          displayText="vibe-check"
-          link="/vibe-check"
-          sideText="5 min read"
-          supportText="A project writeup of a tool I built to help lecturers"
-        />
+          <LinkTo
+            Icon={BucketIcon}
+            displayText="Bucket List"
+            link="/bucket-list"
+            sideText="1 min read"
+            supportText="A list of things I want to do before I kick the bucket"
+          />
 
-        <LinkTo
-          Icon={BucketIcon}
-          displayText="Bucket List"
-          link="/bucket-list"
-          sideText="1 min read"
-          supportText="A list of things I want to do before I kick the bucket"
-        />
+          <LinkTo
+            Icon={CurlIcon}
+            displayText="Paper: Towards Safer Curl"
+            link="/curl"
+            sideText="1 min read"
+            supportText="Research into using deep learning to make strength training safer"
+          />
 
-        <LinkTo
-          Icon={CurlIcon}
-          displayText="Paper: Towards Safer Curl"
-          link="/curl"
-          sideText="1 min read"
-          supportText="Research into using deep learning to make strength training safer"
-        />
+          <LinkTo
+            Icon={BooksIcon}
+            displayText="Books"
+            link="/books"
+            sideText="1 min read"
+            supportText="A list of books I've read and recommend"
+          />
 
-        <LinkTo
-          Icon={BooksIcon}
-          displayText="Books"
-          link="/books"
-          sideText="1 min read"
-          supportText="A list of books I've read and recommend"
-        />
+          <LinkTo
+            Icon={MarkedIcon}
+            displayText="Paper: Enhancing peer feedback in MarkEd"
+            link="/marked"
+            sideText="∞ min read"
+            supportText="Story behind my dissertation and how it became a paper"
+          />
 
-        <LinkTo
-          Icon={MarkedIcon}
-          displayText="Paper: Enhancing peer feedback in MarkEd"
-          link="/marked"
-          sideText="∞ min read"
-          supportText="Story behind my dissertation and how it became a paper"
-        />
-
-        <LinkTo
-          Icon={MugIcon}
-          displayText="Internships 102"
-          link="/internships-102"
-          sideText="5 min read"
-          supportText="...or rather, things I wish I knew before I started applying"
-        />
+          <LinkTo
+            Icon={MugIcon}
+            displayText="Internships 102"
+            link="/internships-102"
+            sideText="5 min read"
+            supportText="...or rather, things I wish I knew before I started applying"
+          />
+        </div>
       </div>
+
     </div>
   )
 }
