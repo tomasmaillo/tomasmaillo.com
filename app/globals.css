@@ -113,11 +113,11 @@ body {
 }
 
 .stripe-carousel-logo path:first-child {
-  fill: hsl(var(--foreground));
+  fill: #533afd;
 }
 
 .stripe-carousel-logo path:nth-child(2) {
-  fill: hsl(var(--card));
+  fill: #fff;
 }
 
 .timeline-error {
