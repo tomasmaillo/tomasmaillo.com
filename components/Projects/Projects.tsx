@@ -161,6 +161,13 @@ export const Projects = () => {
             className="rounded-none"
           />
         </CarouselSlide>
+        <CarouselSlide footer="C++ raytracer">
+          <CarouselImage
+            src="/orbital-playground.webp"
+            alt="Colourful geometric shapes rendered with a raytracer"
+            className="rounded-none object-cover"
+          />
+        </CarouselSlide>
         <div
           aria-hidden="true"
           className="w-0 shrink-0 md:w-[max(0px,calc((100vw-34rem)/2-1rem))]"
