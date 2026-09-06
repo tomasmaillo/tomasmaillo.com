@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState } from 'react'
 
 const Gallery = dynamic(() => import('./Gallery'), { ssr: false })
+const GALLERY_LOAD_AHEAD_PX = 384
 
 const FooterGallery = () => {
   const revealRef = useRef<HTMLDivElement>(null)
@@ -15,17 +16,41 @@ const FooterGallery = () => {
 
     if (!reveal) return
 
-    const observer = new IntersectionObserver(([entry]) => {
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
       setIsRevealed(entry.isIntersecting)
-
-      if (entry.isIntersecting) {
-        setHasBeenRevealed(true)
-      }
     })
+    let hasScrolled = window.scrollY > 0
 
-    observer.observe(reveal)
+    const loadGallery = () => setHasBeenRevealed(true)
+    const isNearViewport = () => {
+      const { top, bottom } = reveal.getBoundingClientRect()
 
-    return () => observer.disconnect()
+      return (
+        top <= window.innerHeight + GALLERY_LOAD_AHEAD_PX &&
+        bottom >= -GALLERY_LOAD_AHEAD_PX
+      )
+    }
+    const loadObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && hasScrolled) loadGallery()
+      },
+      { rootMargin: `${GALLERY_LOAD_AHEAD_PX}px 0px` },
+    )
+    const handleScroll = () => {
+      hasScrolled = true
+
+      if (isNearViewport()) loadGallery()
+    }
+
+    visibilityObserver.observe(reveal)
+    loadObserver.observe(reveal)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      visibilityObserver.disconnect()
+      loadObserver.disconnect()
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   return (
