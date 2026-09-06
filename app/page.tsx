@@ -12,6 +12,7 @@ import BooksIcon from '@/public/pixel-arts/books.svg'
 import MarkedIcon from '@/public/pixel-arts/marked.svg'
 import MugIcon from '@/public/pixel-arts/mug.svg'
 import TimelineIcon from '@/public/pixel-arts/timeline.svg'
+import RaytracerIcon from '@/public/pixel-arts/raytracer.svg'
 import DitheredAurora from '@/components/DitheredAurora'
 
 export default function Home() {
@@ -79,6 +80,14 @@ export default function Home() {
             link="/about-this-website"
             sideText="3 min read"
             supportText="Behind the scenes look at this website and the ones before it"
+          />
+
+          <LinkTo
+            Icon={RaytracerIcon}
+            displayText="Making a raytracer"
+            link="/raytracer"
+            sideText="2 min read"
+            supportText="A visual tour through light, glass, texture and motion"
           />
 
           <LinkTo

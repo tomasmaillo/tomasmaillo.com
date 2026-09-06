@@ -161,11 +161,20 @@ export const Projects = () => {
             className="rounded-none"
           />
         </CarouselSlide>
-        <CarouselSlide footer="C++ raytracer">
-          <CarouselImage
-            src="/orbital-playground.webp"
-            alt="Colourful geometric shapes rendered with a raytracer"
-            className="rounded-none object-cover"
+        <CarouselSlide
+          footer={
+            <>
+              C++ raytracer ·&nbsp;
+              <Link
+                href="/raytracer"
+                className="border-b border-dotted border-accent text-foreground !no-underline">
+                Write-up
+              </Link>
+            </>
+          }>
+          <CarouselVideo
+            src="/raytracer/glass-sphere-loop.mp4"
+            className="rounded-none"
           />
         </CarouselSlide>
         <div

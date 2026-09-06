@@ -1,0 +1,143 @@
+import Image from 'next/image'
+import BackLink from '@/components/BackLink'
+import PostTitle from '@/components/PostTitle'
+import Spacing from '@/components/Spacing'
+import RaytracerIcon from '@/public/pixel-arts/raytracer.svg'
+
+export const metadata = {
+  title: 'Making a raytracer - Tomas Maillo',
+  description: 'A visual tour through the raytracer I built at university: light, glass, texture, depth of field and motion.',
+}
+
+<BackLink />
+<Spacing lines={2} />
+
+<PostTitle Icon={RaytracerIcon}>Making a raytracer</PostTitle>
+
+At uni, I chose to take a course in computer-generated graphics. A big part of it was making a raytracer from scratch in C++. It was a very welcome assignment after so many less practical ones. Here is the final result:
+
+<figure className="my-10">
+  <video
+    src="/raytracer/glass-sphere-loop.mp4"
+    className="aspect-video w-full rounded-lg bg-black object-cover"
+    aria-label="A glass sphere refracting coloured stripes in a raytraced animation"
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+  />
+  <figcaption className="mt-2 text-center text-sm text-muted">A glass sphere with smooth lighting, shadows and refraction.</figcaption>
+</figure>
+
+But this wasn't my first raytracer. When I first started working with React, I had the (not so) brilliant idea of building one in React.
+
+I used ASCII characters for the shading, with a spinning triangle in the middle. See how it chugs! This is where I got to:
+
+<figure className="my-10">
+  <video
+    src="/raytracer/react-ascii-raytracer.mp4"
+    className="w-full rounded-lg bg-black"
+    aria-label="A spinning raytraced triangle shaded with red ASCII characters"
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+  />
+  <figcaption className="mt-2 text-center text-sm text-muted">My first raytracer: ASCII shading in React.</figcaption>
+</figure>
+
+I don't write about university assignments much, but I came away from this project with so much appreciation for the craft that I thought it would be nice to share some milestones and technical details.
+
+I'll only cover the basics here, but the milestones below show some of the magic behind making the actual images.
+
+
+The basic concept of a raytracer is shooting rays from the camera into a scene to create an image. If a ray hits a surface, we colour the corresponding pixel based on the material and the ray's relationship to the surface and lights.
+
+
+<figure className="my-10">
+  <Image quality={98} src="/raytracer/binary_primitives.webp" alt="Red silhouettes of a sphere, triangle and cylinder on a black background" width={1200} height={800} className="w-full rounded-lg" priority />
+  <figcaption className="mt-2 text-center text-sm text-muted">The first intersections. Hit: red. Miss: black.</figcaption>
+</figure>
+
+To add light and shadows, you shoot another ray from the intersection point towards a light. If something blocks it, the point is in shadow; if it reaches the light, the point is illuminated.
+
+<figure className="m-0">
+  <Image quality={98} src="/raytracer/shadows_simple_phong.webp" alt="Several coloured primitives casting shadows across a green plane" width={1200} height={800} className="h-full w-full rounded-lg object-cover" />
+</figure>
+
+You can make this even cooler by adding refraction: when light bends as it passes from one material into another. In a raytracer, we model this by changing the direction of rays as they enter and leave a surface.
+
+<figure className="my-10">
+  <Image quality={98} src="/raytracer/refraction.webp" alt="Five glass spheres bending coloured diagonal stripes by increasing amounts" width={1200} height={800} className="w-full rounded-lg" />
+  <figcaption className="mt-2 text-center text-sm text-muted">Refractive index rising from 1.0 to 1.5, left to right. Notice how the rays bend more as the refractive index increases.</figcaption>
+</figure>
+
+You can take it further with textures. When a ray hits a surface, you look up the colour in a texture map using the surface coordinates at that point.
+
+<figure className="my-10">
+  <Image quality={98} src="/raytracer/textures.webp" alt="Cylinders, spheres and triangles wrapped in marble, granite, wood and grass textures" width={1200} height={800} className="w-full rounded-lg" />
+  <figcaption className="mt-2 text-center text-sm text-muted">The same textures wrapped around three different primitives. Notice the seams where the textures repeat and the warping on the sphere.</figcaption>
+</figure>
+
+But a material is not just its texture. Different materials have properties you can control, such as roughness and metalness. To simulate them, you tweak how rays bounce off a surface and how their contributions are combined.
+
+<figure className="my-10">
+  <Image quality={98} src="/raytracer/brdf_grid.webp" alt="A six by six grid of spheres progressing from rough and matte to glossy and metallic" width={1200} height={800} className="w-full rounded-lg" />
+  <figcaption className="mt-2 text-center text-sm text-muted">Metalness versus roughness. The bottom is roughest. The right is most metallic.</figcaption>
+</figure>
+
+If you put this all together, you can make interesting scenes with refraction, mirrors and colour. Colours can even bleed into one another. Notice how the red wall gives the white wall a slight red tint, and how the granite is smoother and more reflective than the wood.
+
+All this random sampling can also create little bright specks known as fireflies. They appear when a pixel happens to use rays that pick up more light than their neighbours. This is possible because the direction of each per-pixel bounce is random.
+
+<figure className="my-10">
+  <Image quality={98} src="/raytracer/brdf.webp" alt="A richly lit scene of textured and reflective spheres between red and blue walls" width={1200} height={800} className="w-full rounded-lg" />
+</figure>
+
+By using many triangles you can approximate almost any shape you want.
+
+<figure className="my-10">
+  <Image quality={98} src="/raytracer/blender.webp" alt="A raytraced chess knight with a wood-textured floor" width={1200} height={800} className="w-full rounded-lg" />
+  <figcaption className="mt-2 text-center text-sm text-muted">A 258-vertex chess knight imported from Blender.</figcaption>
+</figure>
+
+By modelling an area light or a camera aperture, then taking multiple samples, you can create soft shadows and even the depth-of-field effect that cameras with lenses have. Though this increases compute significantly.
+
+<div className="my-10 grid gap-3 sm:grid-cols-2">
+  <figure className="m-0">
+    <Image quality={98} src="/raytracer/area_light_pathtracer.webp" alt="A glossy sphere and cylinder lit by a broad soft area light" width={1200} height={800} className="h-full w-full rounded-lg object-cover" />
+    <figcaption className="mt-2 text-center text-sm text-muted">Area light and soft shadows</figcaption>
+  </figure>
+  <figure className="m-0">
+    <Image quality={98} src="/raytracer/depth_of_field.webp" alt="Colourful spheres with near and distant objects blurred by depth of field" width={1200} height={800} className="h-full w-full rounded-lg object-cover" />
+    <figcaption className="mt-2 text-center text-sm text-muted">Depth of field</figcaption>
+  </figure>
+</div>
+
+Sampling a moving shape at different positions during the shutter interval can create motion blur too.
+
+<figure className="my-10">
+  <Image quality={98} src="/raytracer/motion.webp" alt="A pathtraced scene of glossy spheres streaked with motion blur" width={1200} height={800} className="w-full rounded-lg" />
+  <figcaption className="mt-2 text-center text-sm text-muted">Notice the motion blur on the purple ball. Its reflection stays sharp because reflected rays did not inherit the original ray’s shutter timestamp.</figcaption>
+</figure>
+
+Lastly, while not visual, a big chunk of the effort in this project is keeping the rendering time down. Each step in the pipeline adds realism, but also more computation. The main techniques cut out large chunks of work—for example, finding which primitives a ray might hit can be sped up by pruning branches of the scene, so we don't need to check every primitive.
+
+I hope you enjoyed looking at these images as much as I enjoyed making them.
+
+Here is a video of me making the raytracer in wintry Edinburgh.
+
+<figure className="my-10">
+  <video
+    src="/raytracer/wintry-edinburgh.mp4"
+    className="mx-auto w-full max-w-sm rounded-lg bg-black"
+    aria-label="A raytracer running on a monitor beside a snowy Edinburgh window"
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+  />
+</figure>
