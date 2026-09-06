@@ -39,16 +39,29 @@ const DitheredAurora = () => {
     const resize = () => {
       const bounds = canvas.getBoundingClientRect()
       const colourChannels = getComputedStyle(canvas).color.match(/[\d.]+/g)
+      let colourChanged = false
 
       if (colourChannels && colourChannels.length >= 3) {
-        accentColour = colourChannels.slice(0, 3).map(Number)
+        const nextAccentColour = colourChannels.slice(0, 3).map(Number)
+        colourChanged = nextAccentColour.some(
+          (channel, index) => channel !== accentColour[index],
+        )
+        accentColour = nextAccentColour
       }
 
-      width = Math.max(1, Math.ceil(bounds.width / PIXEL_SIZE))
-      height = Math.max(1, Math.ceil(bounds.height / PIXEL_SIZE))
-      canvas.width = width
-      canvas.height = height
+      const nextWidth = Math.max(1, Math.ceil(bounds.width / PIXEL_SIZE))
+      const nextHeight = Math.max(1, Math.ceil(bounds.height / PIXEL_SIZE))
+      const dimensionsChanged = nextWidth !== width || nextHeight !== height
+
+      if (!dimensionsChanged) return colourChanged
+
+      width = nextWidth
+      height = nextHeight
+      canvas.width = nextWidth
+      canvas.height = nextHeight
       context.imageSmoothingEnabled = false
+
+      return true
     }
 
     const render = (time: number) => {
@@ -135,6 +148,7 @@ const DitheredAurora = () => {
       }
 
       context.putImageData(image, 0, 0)
+      canvas.classList.add('dithered-aurora--visible')
     }
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -174,29 +188,45 @@ const DitheredAurora = () => {
       animationFrame = requestAnimationFrame(animate)
     }
 
-    const start = () => {
+    const handleResize = () => {
+      if (!resize()) return
+
+      const time = reducedMotion.matches ? 0 : performance.now()
+      render(time)
+
+      if (!reducedMotion.matches) {
+        lastFrame = time
+      }
+    }
+
+    const handleMotionPreferenceChange = () => {
       cancelAnimationFrame(animationFrame)
-      resize()
 
       if (reducedMotion.matches) {
         render(0)
       } else {
+        lastFrame = performance.now()
+        render(lastFrame)
         animationFrame = requestAnimationFrame(animate)
       }
     }
 
-    const resizeObserver = new ResizeObserver(start)
+    const resizeObserver = new ResizeObserver(handleResize)
     resizeObserver.observe(canvas)
-    reducedMotion.addEventListener('change', start)
+    reducedMotion.addEventListener('change', handleMotionPreferenceChange)
     window.addEventListener('pointermove', handlePointerMove, {
       passive: true,
     })
-    start()
+    handleResize()
+
+    if (!reducedMotion.matches) {
+      animationFrame = requestAnimationFrame(animate)
+    }
 
     return () => {
       cancelAnimationFrame(animationFrame)
       resizeObserver.disconnect()
-      reducedMotion.removeEventListener('change', start)
+      reducedMotion.removeEventListener('change', handleMotionPreferenceChange)
       window.removeEventListener('pointermove', handlePointerMove)
     }
   }, [])

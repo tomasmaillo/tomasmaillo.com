@@ -81,7 +81,9 @@ body {
   transform: translate(-50%, -33%);
   color: hsl(var(--accent));
   image-rendering: pixelated;
-  opacity: 0.78;
+  --aurora-opacity: 0.78;
+  opacity: 0;
+  transition: opacity 700ms ease-out;
   pointer-events: none;
   mask-image: linear-gradient(
     to bottom,
@@ -93,7 +95,17 @@ body {
 }
 
 [data-theme='dark'] .dithered-aurora {
-  opacity: 0.9;
+  --aurora-opacity: 0.9;
+}
+
+.dithered-aurora--visible {
+  opacity: var(--aurora-opacity);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dithered-aurora {
+    transition: none;
+  }
 }
 
 .no-scrollbar {
