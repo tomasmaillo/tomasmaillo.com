@@ -96,6 +96,13 @@ All this random sampling can also create little bright specks known as fireflies
   <Image quality={98} src="/raytracer/brdf.webp" alt="A richly lit scene of textured and reflective spheres between red and blue walls" width={1200} height={800} className="w-full rounded-lg" />
 </figure>
 
+The two renders compared below use exactly the same scene and settings. The only difference is the slight randomness applied to rays as they bounce off a surface. That variation spreads the shadow transition across neighbouring pixels, producing softer shadows without a perfectly sharp outline. Every pixel that differs between the two renders is shown in red.
+
+<figure className="my-10">
+  <Image quality={98} src="/raytracer/random-bounce-difference.jpg" alt="A red difference map showing pixels changed between two otherwise identical raytraced renders with randomised bounced rays" width={878} height={800} className="w-full rounded-lg" />
+  <figcaption className="mt-2 text-center text-sm text-muted">Red pixels differ between the two renders because each uses slightly different random bounce directions.</figcaption>
+</figure>
+
 By using many triangles you can approximate almost any shape you want.
 
 <figure className="my-10">
