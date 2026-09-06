@@ -170,7 +170,7 @@ export const Projects = () => {
         </CarouselSlide>
         <div
           aria-hidden="true"
-          className="w-0 shrink-0 md:w-[max(0px,calc((100vw-34rem)/2-1rem))]"
+          className="-ml-4 w-4 shrink-0 md:w-[max(1rem,calc((100vw-34rem)/2))]"
         />
       </div>
     </div>
