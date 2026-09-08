@@ -8,7 +8,7 @@ const PostTitle = ({
   Icon: FC<SVGProps<SVGSVGElement>>
 }) => (
   <h1 className="my-4 flex items-center gap-3 font-sans text-3xl">
-    <Icon className="h-9 w-9 shrink-0 fill-current text-foreground overflow-visible" />
+    <Icon className="h-10 w-10 shrink-0 fill-current text-foreground overflow-visible" />
     <span>{children}</span>
   </h1>
 )

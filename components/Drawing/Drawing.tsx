@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useId, useRef, useState } from 'react'
-import { Undo2, Eraser, Download, Loader2 } from 'lucide-react'
+import { Undo2, Eraser, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Turnstile } from '@marsidev/react-turnstile'
 
@@ -33,7 +33,6 @@ export default function Drawing({
   onApproved,
 }: DrawingProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
   const [isDrawing, setIsDrawing] = useState(false)
   const [color, setColor] = useState('#000000')
   const [brushSize] = useState(4)
@@ -42,7 +41,6 @@ export default function Drawing({
   const [history, setHistory] = useState<ImageData[]>([])
   const [currentStep, setCurrentStep] = useState(-1)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [canvasScale, setCanvasScale] = useState(1)
 
   // New state for author and message
   const [authorName, setAuthorName] = useState('')
@@ -54,24 +52,6 @@ export default function Drawing({
   // Character limits
   const AUTHOR_NAME_LIMIT = 32
   const MESSAGE_LIMIT = 200
-
-  useEffect(() => {
-    const updateCanvasScale = () => {
-      if (!containerRef.current || !canvasRef.current) return
-
-      const containerWidth = containerRef.current.clientWidth
-      const scale = containerWidth / width
-      setCanvasScale(scale)
-
-      const canvas = canvasRef.current
-      canvas.style.width = `${width * scale}px`
-      canvas.style.height = `${height * scale}px`
-    }
-
-    updateCanvasScale()
-    window.addEventListener('resize', updateCanvasScale)
-    return () => window.removeEventListener('resize', updateCanvasScale)
-  }, [width, height])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -138,17 +118,9 @@ export default function Drawing({
     ctx.strokeStyle = color
 
     const rect = canvas.getBoundingClientRect()
-    let x, y
-
-    if ('touches' in e) {
-      // Touch event
-      x = (e.touches[0].clientX - rect.left) / canvasScale
-      y = (e.touches[0].clientY - rect.top) / canvasScale
-    } else {
-      // Mouse event
-      x = (e.clientX - rect.left) / canvasScale
-      y = (e.clientY - rect.top) / canvasScale
-    }
+    const pointer = 'touches' in e ? e.touches[0] : e
+    const x = (pointer.clientX - rect.left) * (width / rect.width)
+    const y = (pointer.clientY - rect.top) * (height / rect.height)
 
     setIsDrawing(true)
     setLastX(x)
@@ -169,17 +141,9 @@ export default function Drawing({
     ctx.strokeStyle = color
 
     const rect = canvas.getBoundingClientRect()
-    let x, y
-
-    if ('touches' in e) {
-      // Touch event
-      x = (e.touches[0].clientX - rect.left) / canvasScale
-      y = (e.touches[0].clientY - rect.top) / canvasScale
-    } else {
-      // Mouse event
-      x = (e.clientX - rect.left) / canvasScale
-      y = (e.clientY - rect.top) / canvasScale
-    }
+    const pointer = 'touches' in e ? e.touches[0] : e
+    const x = (pointer.clientX - rect.left) * (width / rect.width)
+    const y = (pointer.clientY - rect.top) * (height / rect.height)
 
     ctx.beginPath()
     ctx.moveTo(lastX, lastY)
@@ -207,16 +171,6 @@ export default function Drawing({
     ctx.fillStyle = '#ffffff'
     ctx.fillRect(0, 0, width, height)
     saveState()
-  }
-
-  const downloadCanvas = () => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const link = document.createElement('a')
-    link.download = 'my-drawing.png'
-    link.href = canvas.toDataURL('image/png')
-    link.click()
   }
 
   const submitDrawing = async () => {
@@ -278,8 +232,8 @@ export default function Drawing({
   }
 
   return (
-    <div className="flex flex-col items-center gap-3 w-full max-w-2xl mx-auto p-2 sm:gap-4 sm:p-4">
-      <div className="flex flex-col items-center gap-4 w-full">
+    <div className="flex min-w-0 w-full max-w-2xl flex-col items-center gap-3 mx-auto p-2 sm:gap-4 sm:p-4">
+      <div className="flex min-w-0 w-full flex-col items-center gap-4">
         <div
           className="grid grid-cols-8 gap-2 w-full"
           role="group"
@@ -300,7 +254,7 @@ export default function Drawing({
           ))}
         </div>
 
-        <div className="relative w-full" ref={containerRef}>
+        <div className="relative w-full">
           <canvas
             ref={canvasRef}
             role="img"
@@ -314,7 +268,7 @@ export default function Drawing({
             onTouchStart={startDrawing}
             onTouchMove={draw}
             onTouchEnd={stopDrawing}
-            className="border border-gray-300 rounded-lg cursor-crosshair bg-white w-full"
+            className="block w-full cursor-crosshair rounded-lg border border-gray-300 bg-white"
             style={{
               imageRendering: 'pixelated',
               touchAction: 'none', // Prevent scrolling while drawing
@@ -335,13 +289,6 @@ export default function Drawing({
               onClick={clearCanvas}
               className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md border border-gray-300">
               <Eraser aria-hidden="true" className="w-4 h-4 text-gray-800" />
-            </button>
-            <button
-              type="button"
-              aria-label="Download drawing"
-              onClick={downloadCanvas}
-              className="p-2 bg-white/60 hover:bg-white rounded-lg shadow-sm transition-all duration-200 hover:shadow-md border border-gray-300">
-              <Download aria-hidden="true" className="w-4 h-4 text-gray-800" />
             </button>
           </div>
         </div>
@@ -404,21 +351,23 @@ export default function Drawing({
           </div>
         </div>
 
-        <div className="w-full flex justify-center my-2">
-          <Turnstile
-            siteKey={
-              process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY || ''
-            }
-            onSuccess={(token: string) => setTurnstileToken(token)}
-            onError={() => {
-              setTurnstileToken(null)
-              toast.error('Security check failed. Please refresh and try again.')
-            }}
-            onExpire={() => {
-              setTurnstileToken(null)
-              toast.error('Security check expired. Please complete it again.')
-            }}
-          />
+        <div className="my-2 w-full overflow-x-auto">
+          <div className="mx-auto w-fit min-w-[300px]">
+            <Turnstile
+              siteKey={
+                process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY || ''
+              }
+              onSuccess={(token: string) => setTurnstileToken(token)}
+              onError={() => {
+                setTurnstileToken(null)
+                toast.error('Security check failed. Please refresh and try again.')
+              }}
+              onExpire={() => {
+                setTurnstileToken(null)
+                toast.error('Security check expired. Please complete it again.')
+              }}
+            />
+          </div>
         </div>
 
         <button

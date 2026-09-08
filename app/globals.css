@@ -116,14 +116,6 @@ body {
   display: none;
 }
 
-.spotify-carousel-logo {
-  filter: brightness(0);
-}
-
-[data-theme='dark'] .spotify-carousel-logo {
-  filter: brightness(0) invert(1);
-}
-
 .stripe-carousel-logo path:first-child {
   fill: #533afd;
 }

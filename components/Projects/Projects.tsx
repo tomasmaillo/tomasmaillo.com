@@ -116,7 +116,7 @@ export const Projects = () => {
         </CarouselSlide>
         <CarouselSlide footer="Engineering intern at Spotify · Summer 2022">
           <Image
-            className="spotify-carousel-logo h-10 w-10"
+            className="h-10 w-10"
             src="/experience/spotify.svg"
             alt="Spotify"
             width={40}

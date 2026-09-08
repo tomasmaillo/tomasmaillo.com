@@ -695,7 +695,7 @@ export default function Gallery() {
       )}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="w-[calc(100vw-1rem)] p-2 sm:w-full sm:p-6">
+        <DialogContent className="max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] overflow-x-hidden overflow-y-auto overscroll-contain p-2 sm:w-full sm:p-6">
           <DialogTitle className="sr-only">Create a drawing</DialogTitle>
           <DialogDescription className="sr-only">
             Draw a picture and add an optional message and name before
