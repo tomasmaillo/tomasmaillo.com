@@ -341,6 +341,13 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
     to: '2024-03-03',
   },
   {
+    label: (
+      <a href="/raytracer">Built a raytracer from scratch in C++</a>
+    ),
+    from: '2024-10-30',
+    to: '2024-11-25',
+  },
+  {
     label: 'Started teaching programming part-time at Code Cadets',
     at: '2024-01-01',
   },
