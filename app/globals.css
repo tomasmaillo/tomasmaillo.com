@@ -67,6 +67,10 @@
 * {
   @apply border-border;
 }
+html,
+body {
+  @apply bg-background;
+}
 body {
   @apply text-foreground;
 }
