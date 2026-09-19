@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss'
-const { fontFamily } = require('tailwindcss/defaultTheme')
+import defaultTheme from 'tailwindcss/defaultTheme'
+import animate from 'tailwindcss-animate'
+import typography from '@tailwindcss/typography'
 
 const config = {
   darkMode: ['class'],
@@ -76,12 +78,12 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-        editorialNew: ['var(--font-editorial-new)', ...fontFamily.sans],
+        sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
+        editorialNew: ['var(--font-editorial-new)', ...defaultTheme.fontFamily.sans],
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
+  plugins: [animate, typography],
 } satisfies Config
 
 export default config

@@ -37,6 +37,7 @@ const nextConfig = {
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
+      resourceQuery: { not: [/__next_metadata__/] },
       use: ['@svgr/webpack'],
     })
     return config
