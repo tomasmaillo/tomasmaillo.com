@@ -2,7 +2,8 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { getApprovedDrawings } from '@/lib/supabase'
-import Image from 'next/image'
+import GalleryImage from './GalleryImage'
+import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -562,7 +563,12 @@ export default function Gallery() {
   const drawingMaxSize = getDrawingMaxSize(containerSize.width)
 
   if (loading) {
-    return null
+    return (
+      <div role="status" className="flex h-full items-center justify-center gap-2 text-sm text-muted-foreground">
+        <Loader2 aria-hidden="true" className="h-4 w-4 motion-safe:animate-spin" />
+        Loading drawings…
+      </div>
+    )
   }
 
   if (error) {
@@ -605,8 +611,7 @@ export default function Gallery() {
                 transform: `rotate(${drawing.position?.rotation || 0}deg)`,
                 zIndex: index + 10,
                 touchAction: 'none',
-                width: 'auto',
-                height: 'auto',
+                width: `${drawingMaxSize}px`,
                 maxWidth: `${drawingMaxSize}px`,
                 maxHeight: `${drawingMaxSize}px`,
                 opacity: drawing.position ? 1 : 0,
@@ -618,36 +623,11 @@ export default function Gallery() {
               onTouchStart={(e) =>
                 handleDragStart(e, e.currentTarget, drawing.id)
               }>
-              <div className="relative w-full h-full">
-                <Image
-                  key={`${drawing.id}-${drawingMaxSize}`}
-                  unoptimized
-                  src={drawing.image_url}
-                  alt={`Drawing by ${drawing.author_name || 'an anonymous visitor'}`}
-                  fill
-                  className="object-contain rounded-sm"
-                  draggable={false}
-                  onLoad={(e) => {
-                    const img = e.target as HTMLImageElement
-                    const container = img.parentElement
-                      ?.parentElement as HTMLDivElement
-                    if (container) {
-                      const aspectRatio = img.naturalWidth / img.naturalHeight
-
-                      if (aspectRatio > 1) {
-                        container.style.width = `${drawingMaxSize}px`
-                        container.style.height = `${
-                          drawingMaxSize / aspectRatio
-                        }px`
-                      } else {
-                        container.style.height = `${drawingMaxSize}px`
-                        container.style.width = `${
-                          drawingMaxSize * aspectRatio
-                        }px`
-                      }
-                    }
-                  }}
-                />
+              <GalleryImage
+                src={drawing.image_url}
+                author={drawing.author_name}
+                overlayCaption
+                caption={<>
                 <div className="absolute bottom-1 right-1 text-xs text-gray-600 bg-white/70 px-1 rounded pointer-events-none">
                   By {drawing.author_name}
                 </div>
@@ -656,7 +636,8 @@ export default function Gallery() {
                     {drawing.message}
                   </div>
                 )}
-              </div>
+                </>}
+              />
             </div>
           ))}
 

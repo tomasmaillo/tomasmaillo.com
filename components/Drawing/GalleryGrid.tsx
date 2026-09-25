@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
+import GalleryImage from './GalleryImage'
 import { getApprovedDrawings } from '@/lib/supabase'
 import {
   differenceInDays,
@@ -47,23 +47,21 @@ function formatTimeAgo(date: Date) {
   return 'now'
 }
 
-function SkeletonCard({ showMessage = true }: { showMessage?: boolean }) {
+function SkeletonCard() {
   return (
-    <div className="flex flex-col space-y-2 animate-pulse">
+    <div className="flex flex-col space-y-2 motion-safe:animate-pulse">
       <div className="relative w-full aspect-[4/3] bg-muted/60 rounded-sm overflow-hidden shadow-md">
         <div className="absolute inset-0 bg-gradient-to-br from-muted/40 via-muted/70 to-muted/40" />
       </div>
-      <div className="space-y-1">
+      <div className="h-16 space-y-1">
         <div className="flex items-center justify-between gap-3">
           <div className="h-4 w-24 sm:w-28 rounded bg-muted/70" />
           <div className="h-3 w-10 rounded bg-muted/60" />
         </div>
-        {showMessage && (
-          <div className="space-y-1">
-            <div className="h-3 w-full rounded bg-muted/50" />
-            <div className="h-3 w-4/5 rounded bg-muted/50" />
-          </div>
-        )}
+        <div className="space-y-1">
+          <div className="h-3 w-full rounded bg-muted/50" />
+          <div className="h-3 w-4/5 rounded bg-muted/50" />
+        </div>
       </div>
     </div>
   )
@@ -74,7 +72,7 @@ export default function GalleryGrid() {
   const [drawings, setDrawings] = useState<Drawing[]>([])
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [loadError, setLoadError] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [highlightedDrawingId, setHighlightedDrawingId] = useState<
@@ -215,7 +213,8 @@ export default function GalleryGrid() {
 
   return (
     <div className="space-y-8">
-      <p aria-live="polite" className="sr-only">
+      <p role="status" className="sr-only">
+        {isLoading ? 'Loading drawings. ' : ''}
         {highlightedDrawingId ? 'Your drawing is now in the gallery.' : ''}
       </p>
 
@@ -249,34 +248,28 @@ export default function GalleryGrid() {
               className={`flex flex-col space-y-2 ${
                 isNewDrawing ? 'animate-new-drawing-card' : ''
               }`}>
-              <div
-                className={`relative w-full aspect-[4/3] bg-background rounded-sm overflow-hidden shadow-md ${
-                isNewDrawing ? 'animate-new-drawing-frame' : ''
-              }`}>
-                <Image
-                  unoptimized
-                  src={drawing.image_url}
-                  alt={`Drawing by ${drawing.author_name || 'an anonymous visitor'}`}
-                  fill
-                  draggable={false}
-                  className="object-contain pointer-events-none"
-                />
-              </div>
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">{drawing.author_name}</span>
-                  <span
-                    className="text-xs text-muted-foreground"
-                    title={new Date(drawing.created_at).toLocaleString()}>
-                    {formatTimeAgo(new Date(drawing.created_at))}
-                  </span>
-                </div>
-                {drawing.message && (
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {drawing.message}
-                  </p>
-                )}
-              </div>
+              <GalleryImage
+                src={drawing.image_url}
+                author={drawing.author_name}
+                frameClassName={isNewDrawing ? 'animate-new-drawing-frame' : ''}
+                caption={
+                  <div className="h-16 space-y-1">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="min-w-0 truncate font-medium">{drawing.author_name}</span>
+                      <span
+                        className="shrink-0 text-xs text-muted-foreground"
+                        title={new Date(drawing.created_at).toLocaleString()}>
+                        {formatTimeAgo(new Date(drawing.created_at))}
+                      </span>
+                    </div>
+                    {drawing.message && (
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {drawing.message}
+                      </p>
+                    )}
+                  </div>
+                }
+              />
             </div>
           )
         })}
@@ -287,7 +280,7 @@ export default function GalleryGrid() {
           {isLoading &&
             drawings.length > 0 &&
             Array.from({ length: 6 }).map((_, idx) => (
-              <SkeletonCard key={`skeleton-more-${idx}`} showMessage={false} />
+              <SkeletonCard key={`skeleton-more-${idx}`} />
             ))}
           {!isLoading && <div className="h-6" />}
         </div>
