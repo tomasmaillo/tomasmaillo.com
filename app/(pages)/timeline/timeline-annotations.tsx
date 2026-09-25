@@ -463,6 +463,25 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
     to: '2026-05-01',
   },
   {
+    label: (
+      <span>
+        Organised an{' '}
+        <a
+          href="https://x.com/tomascodes/status/2098538614304981453"
+          target="_blank"
+          rel="noopener noreferrer">
+          Apple event watch party at a cinema in central London
+        </a>{' '}
+        with{' '}
+        <Avatar
+          person={Person.CaterinaMammola}
+          className="inline-flex items-center px-1 py-px align-middle leading-none [&_img]:size-3 [&_img]:align-middle [&_span]:ml-1 [&_span]:text-[10px] [&_span]:leading-none sm:[&_span]:text-[11px]"
+        />
+      </span>
+    ),
+    at: '2026-09-09',
+  },
+  {
     label: 'ChatGPT launched',
     at: '2022-11-30',
     kind: 'world',
