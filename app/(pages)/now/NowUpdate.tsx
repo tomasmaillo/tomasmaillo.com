@@ -223,7 +223,7 @@ export default function NowUpdate({
         <div className="size-full" style={paperShadowShapeStyle} />
       </div>
       <article
-        className="relative z-10 px-5 py-6 text-[var(--now-paper-ink)] [--now-paper:#ffffff] [--now-paper-fleck:rgba(35,29,22,0.055)] [--now-paper-ink:#241f1a] [--now-paper-muted:rgba(36,31,26,0.6)] [[data-theme='dark']_&]:[--now-paper:#1b1815] [[data-theme='dark']_&]:[--now-paper-fleck:rgba(255,246,230,0.075)] [[data-theme='dark']_&]:[--now-paper-ink:#f5efe5] [[data-theme='dark']_&]:[--now-paper-muted:rgba(245,239,229,0.64)] sm:px-9 sm:py-8"
+        className="relative z-10 px-5 py-6 text-[var(--now-paper-ink)] [--now-paper:#ffffff] [--now-paper-fleck:rgba(35,29,22,0.055)] [--now-paper-ink:#241f1a] [--now-paper-muted:rgba(36,31,26,0.6)] [[data-theme='dark']_&]:[--now-paper:#181818] [[data-theme='dark']_&]:[--now-paper-fleck:rgba(255,246,230,0.075)] [[data-theme='dark']_&]:[--now-paper-ink:#f5efe5] [[data-theme='dark']_&]:[--now-paper-muted:rgba(245,239,229,0.64)] sm:px-9 sm:py-8"
         style={paperStyle}
         aria-label={`Now update written on ${displayDate} from ${location}`}>
         <header className="mt-6 mb-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-xs leading-snug text-[var(--now-paper-muted)]">
