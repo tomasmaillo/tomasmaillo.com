@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
-import StripeIcon from '@/public/experience/stripe.svg'
 import ExternalLink from '../ExternalLink'
 
 export const CarouselImage = ({
@@ -94,11 +93,10 @@ export const Projects = () => {
         role="list"
         className="flex gap-4 px-4 md:px-[max(1rem,calc((100vw-34rem)/2))]">
         <CarouselSlide footer="Software engineer at Stripe · 2025–present">
-          <StripeIcon
-            aria-label="Stripe"
-            className="stripe-carousel-logo h-10 w-10"
-            draggable={false}
-            viewBox="0 0 512 512"
+          <CarouselImage
+            src="/experience/stripe-carousel.png"
+            alt="Stripe logo on a colourful gradient"
+            className="rounded-none object-cover"
           />
         </CarouselSlide>
         <CarouselSlide
