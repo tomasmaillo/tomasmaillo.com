@@ -1,4 +1,4 @@
-import Links from '@/components/Links'
+import StickyLinks from '@/components/StickyLinks'
 import LinkTo from '@/components/LinkTo'
 import { Projects } from '@/components/Projects/Projects'
 import FanIcon from '@/public/pixel-arts/fan.svg'
@@ -14,33 +14,34 @@ import MugIcon from '@/public/pixel-arts/mug.svg'
 import TimelineIcon from '@/public/pixel-arts/timeline.svg'
 import RaytracerIcon from '@/public/pixel-arts/raytracer.svg'
 import DitheredAurora from '@/components/DitheredAurora'
+import HomeSections from '@/components/HomeSections'
 
 export default function Home() {
   return (
     <div className="flex flex-col gap-16">
+      <StickyLinks />
       <div className="relative isolate -mx-4 px-4">
         <DitheredAurora />
 
         <div className="relative z-10 flex flex-col gap-2">
-          <h1 className="text-3xl mt-4 mb-2 font-editorialNew">
+          <h1 className="mt-4 mb-2 pr-40 font-editorialNew text-3xl">
             Tomas Maillo
           </h1>
 
           <p className="text-muted text-sm">
-            Software engineer at Stripe, making thoughtful and useful products.
+            Software engineer making thoughtful and useful products.
+            <br />
             A collection of projects, writing and lessons picked up along the
             way.
           </p>
 
-          <div className="my-8">
-            <Links />
-          </div>
         </div>
       </div>
 
-      <Projects />
-
-      <div className="mt-8 mb-8">
+      <HomeSections
+        experience={<Projects />}
+        blog={
+      <div className="mb-8">
         <div>
           <LinkTo
             Icon={TimelineIcon}
@@ -139,7 +140,8 @@ export default function Home() {
           />
         </div>
       </div>
-
+        }
+      />
     </div>
   )
 }

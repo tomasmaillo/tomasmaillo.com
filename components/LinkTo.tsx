@@ -18,9 +18,9 @@ const LinkTo = ({
     return (
       <Link
         href={link}
-        className="group flex min-h-14 items-center gap-3 rounded-md px-2 py-2 text-foreground !no-underline hover:bg-card hover:!no-underline">
+        className="group -mx-4 flex min-h-14 items-center gap-3 rounded-md px-4 py-2 text-foreground !no-underline hover:bg-card hover:!no-underline">
         <Icon className="h-7 w-7 shrink-0 fill-current text-foreground overflow-visible" />
-        <span className="min-w-0 flex-1 truncate text-sm group-hover:underline">
+        <span className="min-w-0 flex-1 truncate text-sm">
           {displayText}
         </span>
         {sideText && (

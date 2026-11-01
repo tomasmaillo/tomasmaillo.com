@@ -64,6 +64,10 @@ const config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
+        'section-reveal': {
+          from: { opacity: '0', filter: 'blur(6px)' },
+          to: { opacity: '1', filter: 'blur(0)' },
+        },
         'accordion-down': {
           from: { height: '0' },
           to: { height: 'var(--radix-accordion-content-height)' },
@@ -74,6 +78,7 @@ const config = {
         },
       },
       animation: {
+        'section-reveal': 'section-reveal 380ms ease-out',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },

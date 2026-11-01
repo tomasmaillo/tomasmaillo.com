@@ -51,8 +51,17 @@ const editorialNew = localFont({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://tomasmaillo.com'),
   title: 'Tomas Maillo',
-  description: 'Tomas Maillo Portfolio: Software Engineer',
+  description: 'Software engineer at Stripe, making thoughtful and useful products. Projects, writing and lessons picked up along the way.',
+  openGraph: {
+    type: 'website',
+    siteName: 'Tomas Maillo',
+    locale: 'en_GB',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 }
 
 export const viewport: Viewport = {

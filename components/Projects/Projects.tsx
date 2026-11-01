@@ -65,20 +65,24 @@ export const CarouselVideo = ({
 const CarouselSlide = ({
   children,
   footer,
+  description,
+  date,
 }: {
   children: React.ReactNode
   footer: React.ReactNode
+  description: string
+  date?: string
 }) => (
-  <div
-    role="listitem"
-    className="flex w-[calc(100vw-3.5rem)] shrink-0 flex-col md:w-[34rem]">
-    <div className="flex h-80 w-full items-center justify-center overflow-hidden rounded-lg bg-card">
-      {children}
-    </div>
-    <div className="relative h-11 pr-3 text-xs text-muted">
-      <div className="sticky left-4 flex h-full w-fit max-w-[calc(100%-1.75rem)] items-center whitespace-nowrap">
-        {footer}
+  <div role="listitem" className="relative flex w-full flex-col">
+    <div className="w-full min-w-0">
+      <div className="flex h-80 w-full items-center justify-center overflow-hidden rounded-lg bg-card">
+        {children}
       </div>
+    </div>
+    <div className="pt-4 pb-4 xl:pt-0 xl:absolute xl:left-full xl:top-1/2 xl:ml-8 xl:w-56 xl:-translate-y-1/2">
+      <div className="mb-2 text-xs text-muted">{footer}</div>
+      <p className="text-sm leading-relaxed text-muted">{description}</p>
+      {date && <p className="mt-2 text-xs text-muted">{date}</p>}
     </div>
   </div>
 )
@@ -88,18 +92,73 @@ export const Projects = () => {
     <div
       aria-label="Selected projects"
       role="region"
-      className="relative left-1/2 w-screen -translate-x-1/2 select-none overflow-x-auto no-scrollbar overscroll-x-none">
+      className="w-full">
       <div
         role="list"
-        className="flex gap-4 px-4 md:px-[max(1rem,calc((100vw-34rem)/2))]">
-        <CarouselSlide footer="Software engineer at Stripe · 2025–present">
-          <CarouselImage
-            src="/experience/stripe-carousel.png"
+        className="flex flex-col gap-4">
+        <CarouselSlide
+          footer="Software engineer at Stripe"
+          date="2025–present"
+          description="Helping increase the GDP of the internet, working on Stripe Treasury.">
+          <Image
+            src="/experience/stripe-carousel.webp"
             alt="Stripe logo on a colourful gradient"
-            className="rounded-none object-cover"
+            width={1363}
+            height={767}
+            className="h-full w-full object-cover"
+            unoptimized
+            draggable={false}
           />
         </CarouselSlide>
         <CarouselSlide
+          description="A living screen for the home, displaying a collection of animations."
+          footer={
+            <ExternalLink
+              href="https://raster.tomasmaillo.com"
+              target="_blank"
+              rel="noopener"
+              className="border-b border-dotted border-accent text-foreground !no-underline">
+              Raster ↗
+            </ExternalLink>
+          }>
+          <div className="flex h-full w-full justify-center bg-[#e0e0e0]">
+            <CarouselVideo
+              src="/raster-flower.mp4"
+              className="w-auto max-w-full scale-[1.2] rounded-none bg-transparent object-contain [mask-image:linear-gradient(to_right,transparent,black_30%,black_70%,transparent)]"
+            />
+          </div>
+        </CarouselSlide>
+        <CarouselSlide
+          description="A personal log of Apple locations, with social features for sharing visits."
+          footer={
+            <ExternalLink
+              href="https://store-log.tomasmaillo.com"
+              target="_blank"
+              rel="noopener"
+              className="border-b border-dotted border-accent text-foreground !no-underline">
+              iLog ↗
+            </ExternalLink>
+          }>
+          <div className="flex h-full w-full items-center justify-evenly gap-2 p-4">
+            {[
+              { src: '/store-log/welcome.webp', alt: 'iLog welcome screen' },
+              { src: '/store-log/profile.webp', alt: 'iLog profile' },
+              { src: '/store-log/leaderboard.webp', alt: 'iLog leaderboard' },
+            ].map(({ src, alt }) => (
+              <Image
+                key={src}
+                src={src}
+                alt={alt}
+                width={700}
+                height={1436}
+                className="min-w-0 h-full w-1/3 object-contain"
+                draggable={false}
+              />
+            ))}
+          </div>
+        </CarouselSlide>
+        <CarouselSlide
+          description="A fan that uses AI vision to respond to its surroundings."
           footer={
             <>
               AI fan prototype ·&nbsp;
@@ -112,7 +171,7 @@ export const Projects = () => {
           }>
           <CarouselVideo src="/zf-video.mp4" className="rounded-none" />
         </CarouselSlide>
-        <CarouselSlide footer="Engineering intern at Spotify · Summer 2022">
+        <CarouselSlide footer="Engineering intern at Spotify" description="Worked on finance and royalties at Spotify.">
           <Image
             className="h-10 w-10"
             src="/experience/spotify.svg"
@@ -123,17 +182,15 @@ export const Projects = () => {
           />
         </CarouselSlide>
         <CarouselSlide
+          description="A community for student builders to share projects and meet one another."
           footer={
-            <>
-              Student builder community ·&nbsp;
-              <ExternalLink
+            <ExternalLink
                 href="https://projectshare.comp-soc.com"
                 target="_blank"
                 rel="noopener"
                 className="border-b border-dotted border-accent text-foreground !no-underline">
-                Visit site ↗
-              </ExternalLink>
-            </>
+              Project Share ↗
+            </ExternalLink>
           }>
           <CarouselImage
             src="/ps-browser.png"
@@ -142,15 +199,13 @@ export const Projects = () => {
           />
         </CarouselSlide>
         <CarouselSlide
+          description="A tool for gathering audience feedback during lectures."
           footer={
-            <>
-              Live lecture engagement ·&nbsp;
-              <Link
-                href="/vibe-check"
-                className="border-b border-dotted border-accent text-foreground !no-underline">
-                Write-up
-              </Link>
-            </>
+            <Link
+              href="/vibe-check"
+              className="border-b border-dotted border-accent text-foreground !no-underline">
+              vibe-check
+            </Link>
           }>
           <CarouselImage
             src="/vc-phone.png"
@@ -160,6 +215,7 @@ export const Projects = () => {
           />
         </CarouselSlide>
         <CarouselSlide
+          description="A raytracer built in C++ to explore light, materials and rendering."
           footer={
             <>
               C++ raytracer ·&nbsp;
@@ -175,10 +231,6 @@ export const Projects = () => {
             className="rounded-none"
           />
         </CarouselSlide>
-        <div
-          aria-hidden="true"
-          className="-ml-4 w-4 shrink-0 md:w-[max(1rem,calc((100vw-34rem)/2))]"
-        />
       </div>
     </div>
   )

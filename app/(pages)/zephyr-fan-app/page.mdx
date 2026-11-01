@@ -1,6 +1,5 @@
 import BackLink from '@/components/BackLink'
 import Image from 'next/image'
-import Link from 'next/link'
 import Spacing from '@/components/Spacing'
 import PostTitle from '@/components/PostTitle'
 import FanIcon from '@/public/pixel-arts/fan.svg'
@@ -13,15 +12,7 @@ export const metadata = {
 <BackLink />
 <Spacing lines={2} />
 
-<div className="flex justify-between items-center">
-  <PostTitle Icon={FanIcon}>App: Zephyr Fan</PostTitle>
-  <Link
-    className={`bg-accent text-white px-4 py-2 rounded-md transition-all active:scale-95 h-min`}
-    href="https://zephyrfan.netlify.app/"
-    target="_blank"
-    rel="noopener"
-    referrerPolicy="strict-origin-when-cross-origin">Demo ↗</Link>
-</div>
+<PostTitle Icon={FanIcon}>App: Zephyr Fan</PostTitle>
 
 An autonomous smart fan that tracks people and can be controlled with hand gestures. The system uses computer vision to rotate towards users and interpret gestures for speed and mode control, with a real-time app interface to monitor and override behaviour.
 
