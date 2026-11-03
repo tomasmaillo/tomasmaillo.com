@@ -183,7 +183,7 @@ export const ALL_ANNOTATIONS: TimelineAnnotation[] = [
     ),
     at: '2025-05-01',
     media: {
-      src: '/edin.png',
+      src: '/edin.webp',
       alt: 'Graduation at the University of Edinburgh',
       width: 120,
       height: 120,

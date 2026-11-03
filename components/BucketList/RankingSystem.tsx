@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   getBucketListItems,
   supabase,
@@ -14,13 +14,42 @@ const choiceClassName =
   'h-32 w-full min-w-0 whitespace-normal break-words rounded-md border border-input bg-card p-4 text-left text-foreground'
 
 export default function RankingSystem() {
-  const [items, setItems] = useState<BucketListItem[]>([])
   const [currentPair, setCurrentPair] = useState<
     [BucketListItem, BucketListItem] | null
   >(null)
   const [loading, setLoading] = useState(true)
   const [isUpdating, setIsUpdating] = useState(false)
   const [totalVotes, setTotalVotes] = useState(0)
+
+  const fetchItems = useCallback(async () => {
+    try {
+      const data = await getBucketListItems()
+      setLoading(false)
+      const activeItems = data.filter((item) => !item.completed)
+      if (activeItems.length < 2) {
+        setCurrentPair(null)
+      } else {
+        const shuffled = [...activeItems].sort(() => 0.5 - Math.random())
+        setCurrentPair([shuffled[0], shuffled[1]])
+      }
+    } catch (error) {
+      console.error('Error fetching items:', error)
+      toast.error('Failed to load bucket list items')
+    }
+  }, [])
+
+  const fetchTotalVotes = useCallback(async () => {
+    try {
+      const { count, error } = await supabase
+        .from('votes')
+        .select('*', { count: 'exact', head: true })
+
+      if (error) throw error
+      setTotalVotes(count || 0)
+    } catch (error) {
+      console.error('Error fetching vote count:', error)
+    }
+  }, [])
 
   useEffect(() => {
     fetchItems()
@@ -45,45 +74,7 @@ export default function RankingSystem() {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [])
-
-  const fetchItems = async () => {
-    try {
-      const data = await getBucketListItems()
-      setItems(data)
-      setLoading(false)
-      if (data.length > 0) {
-        selectRandomPair(data)
-      }
-    } catch (error) {
-      console.error('Error fetching items:', error)
-      toast.error('Failed to load bucket list items')
-    }
-  }
-
-  const fetchTotalVotes = async () => {
-    try {
-      const { count, error } = await supabase
-        .from('votes')
-        .select('*', { count: 'exact', head: true })
-
-      if (error) throw error
-      setTotalVotes(count || 0)
-    } catch (error) {
-      console.error('Error fetching vote count:', error)
-    }
-  }
-
-  const selectRandomPair = (itemsList: BucketListItem[] = items) => {
-    const activeItems = itemsList.filter((item) => !item.completed)
-    if (activeItems.length < 2) {
-      setCurrentPair(null)
-      return
-    }
-
-    const shuffled = [...activeItems].sort(() => 0.5 - Math.random())
-    setCurrentPair([shuffled[0], shuffled[1]])
-  }
+  }, [fetchItems, fetchTotalVotes])
 
   const handleChoice = async (
     winner: BucketListItem,

@@ -35,7 +35,6 @@ export default function Drawing({
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isDrawing, setIsDrawing] = useState(false)
   const [color, setColor] = useState('#000000')
-  const [brushSize] = useState(4)
   const [lastX, setLastX] = useState(0)
   const [lastY, setLastY] = useState(0)
   const [history, setHistory] = useState<ImageData[]>([])
@@ -62,13 +61,13 @@ export default function Drawing({
 
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
-    ctx.lineWidth = brushSize
-    ctx.strokeStyle = color
+    ctx.lineWidth = 4
 
     ctx.fillStyle = '#ffffff'
     ctx.fillRect(0, 0, width, height)
 
-    saveState()
+    setHistory([ctx.getImageData(0, 0, width, height)])
+    setCurrentStep(0)
   }, [width, height])
 
   useEffect(() => {
@@ -79,7 +78,7 @@ export default function Drawing({
     if (!ctx) return
 
     ctx.strokeStyle = color
-  }, [color])
+  }, [color, width, height])
 
   const saveState = () => {
     const canvas = canvasRef.current

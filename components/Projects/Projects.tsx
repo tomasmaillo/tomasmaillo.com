@@ -193,7 +193,7 @@ export const Projects = () => {
             </ExternalLink>
           }>
           <CarouselImage
-            src="/ps-browser.png"
+            src="/ps-browser.webp"
             alt="Project Share website homepage showing upcoming student meetups"
             className="rounded-none"
           />

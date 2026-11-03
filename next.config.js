@@ -1,5 +1,4 @@
 const withMDX = require('@next/mdx')()
-const { withSentryConfig } = require('@sentry/nextjs')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -69,11 +68,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withSentryConfig(withMDX(nextConfig), {
-  org: process.env.SENTRY_ORG,
-  project: process.env.SENTRY_PROJECT,
-  authToken: process.env.SENTRY_AUTH_TOKEN,
-  widenClientFileUpload: true,
-  tunnelRoute: '/monitoring',
-  silent: !process.env.CI,
-})
+module.exports = withMDX(nextConfig)
