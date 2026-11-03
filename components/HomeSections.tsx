@@ -1,14 +1,18 @@
 'use client'
 
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useHomeSection } from '@/components/HomeSectionProvider'
+
+type HomeSectionsProps = {
+  experience: ReactNode
+  blog: ReactNode
+}
 
 export default function HomeSections({
   experience,
   blog,
-}: {
-  experience: ReactNode
-  blog: ReactNode
-}) {
+}: HomeSectionsProps) {
+  const { section, setSection } = useHomeSection()
   const sectionRef = useRef<HTMLDivElement>(null)
   const scrollFrame = useRef(0)
   const [isSticky, setIsSticky] = useState(false)
@@ -50,7 +54,6 @@ export default function HomeSections({
     }
     scrollFrame.current = requestAnimationFrame(animate)
   }
-  const [section, setSection] = useState<'experience' | 'blog'>('experience')
   const [hasSwitched, setHasSwitched] = useState(false)
 
   return (

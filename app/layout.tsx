@@ -11,6 +11,7 @@ import { VercelSpeedInsights } from '@/lib/speed-insights'
 import { VercelAnalytics } from '@/lib/analytics'
 import { PostHogProvider } from './providers'
 import ReducedMotionMedia from '@/components/ReducedMotionMedia'
+import { HomeSectionProvider } from '@/components/HomeSectionProvider'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -89,7 +90,7 @@ export default function RootLayout({
         <ReducedMotionMedia />
         <PostHogProvider>
           <ThemeProvider defaultTheme="system" enableSystem>
-            {children}
+            <HomeSectionProvider>{children}</HomeSectionProvider>
             <VercelSpeedInsights />
             <VercelAnalytics />
             <Toaster />

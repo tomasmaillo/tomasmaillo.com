@@ -75,6 +75,32 @@ body {
   @apply text-foreground;
 }
 
+.blog-card {
+  background: hsl(var(--background));
+  box-shadow: 0 2px 3px -2px rgb(0 0 0 / 0.08),
+    0 5px 16px -6px rgb(0 0 0 / 0.08);
+  transition: box-shadow 200ms ease;
+}
+
+[data-theme='dark'] .blog-card {
+  background: hsl(var(--card));
+  box-shadow: 0 2px 3px -2px rgb(0 0 0 / 0.3),
+    0 5px 16px -6px rgb(0 0 0 / 0.3);
+}
+
+@media (hover: hover) {
+  .blog-card:hover {
+    box-shadow: 0 3px 5px -3px rgb(0 0 0 / 0.12),
+      0 10px 24px -8px rgb(0 0 0 / 0.14);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-card {
+    transition: none;
+  }
+}
+
 .dithered-aurora {
   position: absolute;
   z-index: -1;

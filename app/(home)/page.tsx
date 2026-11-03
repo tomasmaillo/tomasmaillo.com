@@ -42,12 +42,11 @@ export default function Home() {
         experience={<Projects />}
         blog={
       <div className="mb-8">
-        <div>
+        <div className="flex flex-col gap-3">
           <LinkTo
             Icon={TimelineIcon}
             displayText="Timeline"
             link="/timeline"
-            sideText="3 min read"
             supportText="A visual history of projects, progress and notable moments"
           />
 
@@ -55,15 +54,13 @@ export default function Home() {
             Icon={FanIcon}
             displayText="AI Fan App"
             link="/zephyr-fan-app"
-            sideText="3 min read"
-            supportText="Project writeup of a fan using AI vision"
+            supportText="An autonomous smart fan that tracks people and can be controlled with hand gestures. The system uses computer vision to rotate towards users and interpret gestures for speed and mode control, with a real-time app interface to monitor and override behaviour."
           />
 
           <LinkTo
             Icon={ToolsIcon}
             displayText="What I use"
             link="/what-i-use"
-            sideText="2 min read"
             supportText="A list of tools I use and recommend"
           />
 
@@ -71,7 +68,6 @@ export default function Home() {
             Icon={ClockIcon}
             displayText="Now"
             link="/now"
-            sideText="1 min read"
             supportText="What I'm focused on at the moment"
           />
 
@@ -79,31 +75,27 @@ export default function Home() {
             Icon={PageIcon}
             displayText="About this website"
             link="/about-this-website"
-            sideText="3 min read"
-            supportText="Behind the scenes look at this website and the ones before it"
+            supportText="Yes, the very website you are looking at right now! My portfolio website. I have re-made it about ~7 times now since 2017. It works out to once a year (ish)."
           />
 
           <LinkTo
             Icon={RaytracerIcon}
             displayText="Making a raytracer"
             link="/raytracer"
-            sideText="2 min read"
-            supportText="A visual tour through light, glass, texture and motion"
+            supportText="At uni, I chose to take a course in computer-generated graphics. A big part of it was making a raytracer from scratch in C++. It was a very welcome assignment after so many less practical ones. Here is the final result:"
           />
 
           <LinkTo
             Icon={VibeCheckIcon}
             displayText="vibe-check"
             link="/vibe-check"
-            sideText="5 min read"
-            supportText="A project writeup of a tool I built to help lecturers"
+            supportText="Making lectures more interactive with live reactions and feedback"
           />
 
           <LinkTo
             Icon={BucketIcon}
             displayText="Bucket List"
             link="/bucket-list"
-            sideText="1 min read"
             supportText="A list of things I want to do before I kick the bucket"
           />
 
@@ -111,7 +103,6 @@ export default function Home() {
             Icon={CurlIcon}
             displayText="Paper: Towards Safer Curl"
             link="/curl"
-            sideText="1 min read"
             supportText="Research into using deep learning to make strength training safer"
           />
 
@@ -119,7 +110,6 @@ export default function Home() {
             Icon={BooksIcon}
             displayText="Books"
             link="/books"
-            sideText="1 min read"
             supportText="A list of books I've read and recommend"
           />
 
@@ -127,16 +117,14 @@ export default function Home() {
             Icon={MarkedIcon}
             displayText="Paper: Enhancing peer feedback in MarkEd"
             link="/marked"
-            sideText="∞ min read"
-            supportText="Story behind my dissertation and how it became a paper"
+            supportText="After a semester spent marking second-year students' essays, I proposed a dissertation project aimed at improving assessment practices in education."
           />
 
           <LinkTo
             Icon={MugIcon}
             displayText="Internships 102"
             link="/internships-102"
-            sideText="5 min read"
-            supportText="...or rather, things I wish I knew before I started applying"
+            supportText="I'm probably not the most qualified person to write about this, as I'm only just starting my career. Still, for some reason, I've been asked multiple times to share my experiences with applying for internships, interviewing, and landing jobs. I've given a few talks on this topic and spoken with countless people about it, so I thought I'd finally write my thoughts down."
           />
         </div>
       </div>
