@@ -46,8 +46,8 @@ export default function AvatarSelector({
   )
 
   return (
-    <div className="flex items-center">
-      <div className="relative h-8 w-8 rounded-full overflow-hidden border border-border bg-card">
+    <div className="flex min-w-0 max-w-full items-center">
+      <div className="relative h-8 w-8 shrink-0 rounded-full overflow-hidden border border-input bg-card">
         {avatarUrl ? (
           <Image
             src={avatarUrl}
@@ -61,18 +61,18 @@ export default function AvatarSelector({
           </div>
         )}
       </div>
-      <div className="flex ml-2">
+      <div className="flex min-w-0 ml-2">
         <Select value={selectedPlatform} onValueChange={setSelectedPlatform}>
-          <SelectTrigger className="w-[65px] rounded-r-none border-r-0">
+          <SelectTrigger aria-label="Social platform" className="w-[65px] shrink-0 rounded-r-none border-r-0 bg-card focus:ring-accent">
             {selectedPlatformData ? (
               <selectedPlatformData.icon className="w-4 h-4" />
             ) : (
               <SelectValue placeholder="Platform" />
             )}
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="border-input bg-card text-foreground">
             {SOCIAL_PLATFORMS.map((platform) => (
-              <SelectItem key={platform.id} value={platform.id}>
+              <SelectItem key={platform.id} value={platform.id} className="focus:bg-background focus:text-accent">
                 <div className="flex items-center gap-2">
                   <platform.icon className="w-4 h-4" />
                   <span>{platform.name}</span>
@@ -82,10 +82,11 @@ export default function AvatarSelector({
           </SelectContent>
         </Select>
         <Input
+          aria-label="Social username"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="rounded-l-none flex-1"
+          className="min-w-0 rounded-l-none flex-1 bg-card focus-visible:ring-accent"
         />
       </div>
     </div>

@@ -10,6 +10,9 @@ import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { Skeleton } from '@/components/ui/skeleton'
 
+const choiceClassName =
+  'h-32 w-full min-w-0 whitespace-normal break-words rounded-md border border-input bg-card p-4 text-left text-foreground'
+
 export default function RankingSystem() {
   const [items, setItems] = useState<BucketListItem[]>([])
   const [currentPair, setCurrentPair] = useState<
@@ -113,53 +116,49 @@ export default function RankingSystem() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="space-y-4">
-        <div className="flex items-center space-x-2">
-          <Skeleton className="h-6 w-[200px]" />
-          <Skeleton className="h-4 w-[100px]" />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Skeleton className="h-32 w-full" />
-          <Skeleton className="h-32 w-full" />
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div>
-      <h2 className="mb-4">
-        Which should Tomas prioritise?
-        <span className="text-xs opacity-50 ml-2 select-none">
-          Total votes: {totalVotes}
+    <section aria-labelledby="bucket-ranking-heading" aria-busy={loading}>
+      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h2 id="bucket-ranking-heading" className="text-base font-medium">
+          Which should Tomas prioritise?
+        </h2>
+        <span className="flex items-center gap-1 text-xs text-muted-foreground tabular-nums">
+          Total votes:{' '}
+          {loading ? (
+            <Skeleton aria-hidden="true" className="h-3 w-8 rounded-sm bg-foreground/10 motion-reduce:animate-none" />
+          ) : totalVotes}
         </span>
-      </h2>
-      {!currentPair ? (
+      </div>
+      {loading && (
+        <span role="status" className="sr-only">Loading choices…</span>
+      )}
+      {!loading && !currentPair ? (
         <div className="text-center py-8 text-muted-foreground">
           No more items to compare!
         </div>
       ) : (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {loading ? (
+            [0, 1].map((index) => (
+              <div
+                key={index}
+                className={`${choiceClassName} flex items-center justify-center`}
+                aria-hidden="true">
+                <Skeleton className="h-4 w-3/4 rounded-sm bg-foreground/10 motion-reduce:animate-none" />
+              </div>
+            ))
+          ) : currentPair?.map((item, index) => (
             <Button
+              key={item.id}
               variant="outline"
-              className="h-32 p-4 whitespace-normal text-left"
-              onClick={() => handleChoice(currentPair[0], currentPair[1])}
+              className={`${choiceClassName} hover:border-accent hover:text-accent hover:no-underline focus-visible:ring-accent`}
+              onClick={() => handleChoice(item, currentPair[index === 0 ? 1 : 0])}
               disabled={isUpdating}>
-              {isUpdating ? 'Updating...' : currentPair[0].title}
+              {isUpdating ? 'Updating...' : item.title}
             </Button>
-            <Button
-              variant="outline"
-              className="h-32 p-4 whitespace-normal text-left"
-              onClick={() => handleChoice(currentPair[1], currentPair[0])}
-              disabled={isUpdating}>
-              {isUpdating ? 'Updating...' : currentPair[1].title}
-            </Button>
-          </div>
+          ))}
         </div>
       )}
-    </div>
+    </section>
   )
 }

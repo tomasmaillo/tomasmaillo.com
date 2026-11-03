@@ -232,6 +232,8 @@ export default function AddBucketListItem() {
     <div className="space-y-4">
       <div className="flex gap-2">
         <Input
+          aria-label="Bucket list idea"
+          className="bg-card focus-visible:ring-accent"
           placeholder={placeholderText}
           value={itemTitle}
           onChange={(e) => setItemTitle(e.target.value)}
@@ -240,8 +242,8 @@ export default function AddBucketListItem() {
         />
       </div>
 
-      <div className="flex items-center justify-end gap-2">
-        <span className="text-xs text-muted-foreground">Added by</span>
+      <div className="flex flex-wrap items-center justify-end gap-2">
+        <span className="shrink-0 text-xs text-muted-foreground">Added by</span>
         <AvatarSelector onAvatarChange={setAvatarUrl} />
       </div>
 
@@ -254,7 +256,7 @@ export default function AddBucketListItem() {
             !itemTitle.trim() ||
             !hasEstimateForCurrentInput
           }
-          className="w-full">
+          className="w-full border border-input bg-card text-accent hover:border-accent hover:bg-card focus-visible:ring-accent">
           {isLoading ? (
             'Adding...'
           ) : isEstimating ? (
@@ -276,7 +278,7 @@ export default function AddBucketListItem() {
         {estimatedValue && hasEstimateForCurrentInput && (
           <Button
             variant="link"
-            className="w-full text-xs text-muted-foreground hover:text-foreground"
+            className="h-auto w-full whitespace-normal text-xs text-muted-foreground hover:text-accent focus-visible:ring-accent"
             onClick={() => setShowDisclaimer(true)}>
             By proceeding, you agree to the terms and conditions
           </Button>
@@ -284,40 +286,45 @@ export default function AddBucketListItem() {
       </div>
 
       <Dialog open={showDisclaimer} onOpenChange={setShowDisclaimer}>
-        <DialogContent>
+        <DialogContent className="border-input">
           <DialogHeader>
             <DialogTitle>Disclaimer</DialogTitle>
-            <DialogDescription className="space-y-4">
-              <p className="mt-4">
-                By proceeding with this purchase, you acknowledge and agree to
-                the following terms:
-              </p>
-              <ul className="list-disc pl-4 space-y-2">
-                <li>
-                  This purchase is intended to add the item{' '}
-                  <code>{`"${itemTitle}"`}</code> to the bucket list and
-                  contribute towards achieving this goal.
-                </li>
-                <li>
-                  There is no guarantee of completion or success in achieving
-                  the listed item, but I will be trying my hardest. The funds
-                  will be used towards the goal, but may not cover the full cost
-                  of completion.
-                </li>
-                <li>
-                  I reserve the right to remove or modify any content from the
-                  bucket list at any time.
-                </li>
-                <li>All purchases are final and non-refundable.</li>
-                <li>
-                  If you included your username, it will be displayed along with
-                  the bucket list item.
-                </li>
-              </ul>
+            <DialogDescription asChild>
+              <div className="space-y-4">
+                <p className="mt-4">
+                  By proceeding with this purchase, you acknowledge and agree to
+                  the following terms:
+                </p>
+                <ul className="list-disc pl-4 space-y-2">
+                  <li>
+                    This purchase is intended to add the item{' '}
+                    <code>{`"${itemTitle}"`}</code> to the bucket list and
+                    contribute towards achieving this goal.
+                  </li>
+                  <li>
+                    There is no guarantee of completion or success in achieving
+                    the listed item, but I will be trying my hardest. The funds
+                    will be used towards the goal, but may not cover the full cost
+                    of completion.
+                  </li>
+                  <li>
+                    I reserve the right to remove or modify any content from the
+                    bucket list at any time.
+                  </li>
+                  <li>All purchases are final and non-refundable.</li>
+                  <li>
+                    If you included your username, it will be displayed along with
+                    the bucket list item.
+                  </li>
+                </ul>
+              </div>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowDisclaimer(false)}>
+            <Button
+              variant="outline"
+              className="border border-input text-accent hover:border-accent hover:text-accent hover:no-underline focus-visible:ring-accent"
+              onClick={() => setShowDisclaimer(false)}>
               Close
             </Button>
           </DialogFooter>

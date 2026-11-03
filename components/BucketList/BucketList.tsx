@@ -11,6 +11,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'next/image'
 import { UserIcon } from 'lucide-react'
 
+const rowClassName =
+  'grid min-h-6 grid-cols-[5ch_minmax(0,1fr)] items-center gap-x-4'
+const skeletonWidths = ['w-3/4', 'w-1/2', 'w-5/6', 'w-2/3', 'w-1/2']
+
 export default function BucketList() {
   const [items, setItems] = useState<BucketListItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -54,51 +58,47 @@ export default function BucketList() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="space-y-4">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="flex items-center space-x-4">
-            <Skeleton className="h-4 w-4" />
-            <Skeleton className="h-4 w-[250px]" />
-          </div>
-        ))}
-      </div>
-    )
-  }
-
   return (
-    <div className="my-8">
-      <div className="flex items-center gap-4 mb-2 ml-6 text-sm font-medium text-muted-foreground">
+    <div className="my-8 text-sm" aria-busy={loading} aria-label="Bucket list">
+      <div className={`${rowClassName} mb-2 font-medium text-muted-foreground`}>
         <span
           className="cursor-help"
           title="Elo score represents the relative priority of items. Higher numbers indicate higher priority.">
           Elo
         </span>
-        <span>Item Description</span>
+        <span>Item description</span>
       </div>
-      <ol className="list-none pl-4 text-sm">
-        {items
+      {loading && (
+        <span role="status" className="sr-only">Loading bucket list…</span>
+      )}
+      <ol className="m-0 list-none space-y-2 p-0">
+        {loading ? (
+          skeletonWidths.map((width, i) => (
+            <li key={i} className={rowClassName} aria-hidden="true">
+              <Skeleton className="h-3 w-full rounded-sm bg-foreground/10 motion-reduce:animate-none" />
+              <Skeleton className={`h-4 ${width} rounded-sm bg-foreground/10 motion-reduce:animate-none`} />
+            </li>
+          ))
+        ) : [...items]
           .sort((a, b) =>
             a.completed === b.completed ? 0 : a.completed ? 1 : -1
           )
           .map((item) => (
-            <li key={item.id} className="my-2 text-sm">
-              <div className="flex items-center gap-2 group">
-                <span className="text-muted-foreground font-mono tabular-nums text-xs mr-2 inline-block">
-                  {item.completed
-                    ? '0000'
-                    : item.elo_score.toString().padStart(4, '0')}
-                  :
-                </span>
-                <span
-                  className={item.completed ? 'line-through opacity-50' : ''}>
+            <li key={item.id} className={`${rowClassName} group`}>
+              <span className="self-start pt-1 text-muted-foreground font-mono tabular-nums text-xs">
+                {item.completed
+                  ? '0000'
+                  : item.elo_score.toString().padStart(4, '0')}
+                :
+              </span>
+              <div className="flex min-h-6 min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+                <span className={`min-w-0 break-words ${item.completed ? 'line-through text-muted-foreground' : ''}`}>
                   {item.title}
                 </span>
 
                 {item.suggested_by && (
                   <div className="flex items-center gap-1 overflow-hidden">
-                    <span className="text-xs text-muted-foreground whitespace-nowrap max-w-0 opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 transition-all duration-300 ease-in-out">
+                    <span className="text-xs text-muted-foreground whitespace-nowrap max-w-0 opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-focus-within:max-w-[200px] group-focus-within:opacity-100 transition-all duration-300 ease-in-out motion-reduce:transition-none">
                       Added by
                     </span>
                     <a
@@ -106,7 +106,7 @@ export default function BucketList() {
                       target="_blank"
                       rel="noopener"
                       referrerPolicy="strict-origin-when-cross-origin"
-                      className="h-6 w-6 rounded-full overflow-hidden border border-border bg-card shrink-0 hover:opacity-80 transition-opacity">
+                      className="h-6 w-6 rounded-full overflow-hidden border border-input bg-card shrink-0 hover:opacity-80 transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
                       {item.suggested_by_avatar ? (
                         <div className="relative h-full w-full">
                           <Image
@@ -123,7 +123,7 @@ export default function BucketList() {
                         </div>
                       )}
                     </a>
-                    <span className="text-xs text-muted-foreground whitespace-nowrap max-w-0 group-hover:max-w-[200px] transition-all duration-200">
+                    <span className="text-xs text-muted-foreground whitespace-nowrap max-w-0 group-hover:max-w-[200px] group-focus-within:max-w-[200px] transition-all duration-200 motion-reduce:transition-none">
                       {item.price && ` for $${item.price.toLocaleString()}`}
                     </span>
                   </div>
