@@ -76,14 +76,12 @@ body {
 }
 
 .blog-card {
-  background: hsl(var(--background));
   box-shadow: 0 2px 3px -2px rgb(0 0 0 / 0.08),
     0 5px 16px -6px rgb(0 0 0 / 0.08);
   transition: box-shadow 200ms ease;
 }
 
 [data-theme='dark'] .blog-card {
-  background: hsl(var(--card));
   box-shadow: 0 2px 3px -2px rgb(0 0 0 / 0.3),
     0 5px 16px -6px rgb(0 0 0 / 0.3);
 }
