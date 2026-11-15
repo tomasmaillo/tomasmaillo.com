@@ -132,18 +132,18 @@ export const Projects = () => {
           description="A personal log of Apple locations, with social features for sharing visits."
           footer={
             <ExternalLink
-              href="https://store-log.tomasmaillo.com"
+              href="https://find-my-store.tomasmaillo.com/"
               target="_blank"
               rel="noopener"
               className="border-b border-dotted border-accent text-foreground !no-underline">
-              iLog ↗
+              Find My Store ↗
             </ExternalLink>
           }>
           <div className="flex h-full w-full items-center justify-evenly gap-2 p-4">
             {[
-              { src: '/store-log/welcome.webp', alt: 'iLog welcome screen' },
-              { src: '/store-log/profile.webp', alt: 'iLog profile' },
-              { src: '/store-log/leaderboard.webp', alt: 'iLog leaderboard' },
+              { src: '/store-log/welcome.webp', alt: 'Find My Store welcome screen' },
+              { src: '/store-log/profile.webp', alt: 'Find My Store profile' },
+              { src: '/store-log/leaderboard.webp', alt: 'Find My Store leaderboard' },
             ].map(({ src, alt }) => (
               <Image
                 key={src}
