@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import ExternalLink from '../ExternalLink'
+import RaytracerReel from '../RaytracerReel'
 
 export const CarouselImage = ({
   src,
@@ -67,15 +68,17 @@ const CarouselSlide = ({
   footer,
   description,
   date,
+  mediaClassName,
 }: {
   children: React.ReactNode
   footer: React.ReactNode
   description: string
   date?: string
+  mediaClassName?: string
 }) => (
   <div role="listitem" className="relative flex w-full flex-col">
     <div className="w-full min-w-0">
-      <div className="flex h-80 w-full items-center justify-center overflow-hidden rounded-lg bg-card">
+      <div className={cn('flex h-80 w-full items-center justify-center overflow-hidden rounded-lg bg-card', mediaClassName)}>
         {children}
       </div>
     </div>
@@ -216,6 +219,7 @@ export const Projects = () => {
         </CarouselSlide>
         <CarouselSlide
           description="A raytracer built in C++ to explore light, materials and rendering."
+          mediaClassName="aspect-[4/3] h-auto max-h-80"
           footer={
             <>
               C++ raytracer ·&nbsp;
@@ -226,10 +230,7 @@ export const Projects = () => {
               </Link>
             </>
           }>
-          <CarouselVideo
-            src="/raytracer/glass-sphere-loop.mp4"
-            className="rounded-none"
-          />
+          <RaytracerReel className="h-full w-full object-cover" />
         </CarouselSlide>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import BackLink from '@/components/BackLink'
 import PostTitle from '@/components/PostTitle'
+import RaytracerReel from '@/components/RaytracerReel'
 import Spacing from '@/components/Spacing'
 import RaytracerIcon from '@/public/pixel-arts/raytracer.svg'
 
@@ -17,17 +18,8 @@ export const metadata = {
 At uni, I chose to take a course in computer-generated graphics. A big part of it was making a raytracer from scratch in C++. It was a very welcome assignment after so many less practical ones. Here is the final result:
 
 <figure className="my-10">
-  <video
-    src="/raytracer/glass-sphere-loop.mp4"
-    className="aspect-video w-full rounded-lg bg-black object-cover"
-    aria-label="A glass sphere refracting coloured stripes in a raytraced animation"
-    autoPlay
-    muted
-    loop
-    playsInline
-    preload="metadata"
-  />
-  <figcaption className="mt-2 text-center text-sm text-muted">A glass sphere with smooth lighting, shadows and refraction.</figcaption>
+  <RaytracerReel className="w-full rounded-lg" />
+  <figcaption className="mt-2 text-center text-sm text-muted">Watch the focus move from the copper cube to the silver ring. On the knight, the red line marks where the plane meets the mesh.</figcaption>
 </figure>
 
 But this wasn't my first raytracer. When I first started working with React, I had the (not so) brilliant idea of building one in React.
